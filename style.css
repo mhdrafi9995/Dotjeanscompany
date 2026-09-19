@@ -961,7 +961,7 @@ main {
 .size-box {
     width: 48px;
     height: 40px;
-    border: 1px solid #083982;
+    border: 1px solid #d1d5db;
     display: flex;
     align-items: center;
     justify-content: center;
