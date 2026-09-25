@@ -11,57 +11,8 @@
 </head>
 <body>
 
-<!-- ===== NAVBAR ===== -->
-<header class="ct-header" id="ct-header">
-    <div class="ct-header-inner">
-        <a href="index.html" class="ct-logo">
-            <span class="ct-logo-dot">DOT<sup>®</sup></span>
-            <span class="ct-logo-sub">JEANS CO.</span>
-        </a>
-        <nav class="ct-nav" id="ct-nav">
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="#">Products</a></li>
-                <li class="ct-nav-dropdown">
-                    <a href="#">Categories <i class="fa-solid fa-chevron-down" style="font-size:10px;margin-left:4px"></i></a>
-                    <div class="ct-dropdown-menu">
-                        <a href="category-jeans.html">Jeans</a>
-                        <a href="category-linen.html">Linen Pants</a>
-                        <a href="category-cargo.html">Cargo Pants</a>
-                        <a href="category-shorts.html">Shorts</a>
-                        <a href="category-kids.html">Kids Wear</a>
-                    </div>
-                </li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="ct-header-icons">
-            <div class="ct-search-wrap">
-                <input type="text" placeholder="Search products..." class="ct-search-input" id="ctSearchInput">
-                <i class="fa-solid fa-magnifying-glass ct-search-icon"></i>
-            </div>
-            <a href="#" aria-label="Account"><i class="fa-regular fa-user"></i></a>
-            <a href="cart.html" class="ct-cart-link" aria-label="Cart" id="cartIconLink">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span class="ct-cart-badge" id="cartBadge">0</span>
-            </a>
-        </div>
-        <button class="ct-hamburger" id="ct-hamburger" aria-label="Toggle menu">
-            <span></span><span></span><span></span>
-        </button>
-    </div>
-</header>
-
-<!-- Mobile Nav -->
-<div class="ct-mobile-nav" id="ctMobileNav">
-    <button class="ct-mobile-nav-close" id="ctMobileNavClose">&times;</button>
-    <a href="index.html">Home</a>
-    <a href="#">Products</a>
-    <a href="about.html">About</a>
-    <a href="#">Gallery</a>
-    <a href="#">Contact</a>
-</div>
+    <dot-navbar></dot-navbar>
+    <script src="navbar.js"></script>
 
 <!-- ===== MAIN ===== -->
 <main class="ct-main">
@@ -697,24 +648,6 @@ function showToast(msg) {
     toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-/* ──────────────────────────────────────────────────────────────
-   HAMBURGER MENU
-   ────────────────────────────────────────────────────────────── */
-document.getElementById('ct-hamburger').addEventListener('click', () => {
-    document.getElementById('ctMobileNav').classList.add('open');
-    document.body.style.overflow = 'hidden';
-});
-document.getElementById('ctMobileNavClose').addEventListener('click', () => {
-    document.getElementById('ctMobileNav').classList.remove('open');
-    document.body.style.overflow = '';
-});
-
-/* ──────────────────────────────────────────────────────────────
-   HEADER SCROLL EFFECT
-   ────────────────────────────────────────────────────────────── */
-window.addEventListener('scroll', () => {
-    document.getElementById('ct-header').classList.toggle('scrolled', window.scrollY > 30);
-});
 
 /* ──────────────────────────────────────────────────────────────
    INIT

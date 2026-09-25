@@ -12,45 +12,88 @@
 </head>
 
 <body>
+    <!-- SPLASH SCREEN -->
+    <style>
+        .dot-splash-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #fafafa;
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        .dot-splash-logo-container {
+            position: relative;
+            width: 280px;
+            height: 138px;
+        }
+        .splash-img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: auto;
+            opacity: 0;
+        }
+        
+        .splash-icon {
+            clip-path: inset(0 62% 0 0);
+            animation: splashRevealIcon 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.2s forwards;
+        }
+        
+        .splash-dot {
+            clip-path: inset(0 0 45% 38%);
+            animation: splashRevealText 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.8s forwards;
+            transform: translateX(-15px);
+        }
+        
+        .splash-jeans {
+            clip-path: inset(55% 0 0 38%);
+            animation: splashRevealText 0.6s cubic-bezier(0.25, 1, 0.5, 1) 1.2s forwards;
+            transform: translateX(-15px);
+        }
 
-    <header class="transparent-header">
-        <div class="logo-text new-logo">
-            <span class="dot">DOT<sup style="font-size: 10px; font-weight: normal;">&reg;</sup></span>
-            <span class="company">JEANS COMPANY</span>
-        </div>
-        <nav class="new-nav">
-            <ul>
-                <li><a href="#" class="active">Home</a></li>
-                <li><a href="#">Shop</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="#">Gallery</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="header-icons new-icons">
-            <a href="#"><i class="fa-solid fa-magnifying-glass"></i></a>
-            <a href="#"><i class="fa-regular fa-user"></i></a>
-            <a href="cart.html" class="cart-icon"><i class="fa-solid fa-cart-shopping"></i><span class="cart-badge">0</span></a>
-        </div>
-        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle menu">
-            <span></span><span></span><span></span>
-        </button>
-    </header>
+        @keyframes splashRevealIcon {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes splashRevealText {
+            0% { opacity: 0; transform: translateX(-15px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        body.splash-active {
+            overflow: hidden !important;
+        }
+    </style>
 
-    <!-- Mobile Nav Overlay -->
-    <div class="mobile-nav-overlay" id="mobileNavOverlay">
-        <button class="mobile-nav-close" id="mobileNavClose">&times;</button>
-        <a href="#" class="active">Home</a>
-        <a href="#">Shop</a>
-        <a href="about.html">About</a>
-        <a href="#">Gallery</a>
-        <a href="#">Contact</a>
-        <div class="mobile-nav-icons">
-            <a href="#"><i class="fa-solid fa-magnifying-glass"></i> Search</a>
-            <a href="#"><i class="fa-regular fa-user"></i> Account</a>
-            <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
+    <div id="dotSplashScreen" class="dot-splash-screen">
+        <div class="dot-splash-logo-container">
+            <img src="asses/logo.png" alt="Icon" class="splash-img splash-icon" />
+            <img src="asses/logo.png" alt="DOT" class="splash-img splash-dot" />
+            <img src="asses/logo.png" alt="JEANS COMPANY" class="splash-img splash-jeans" />
         </div>
     </div>
+
+    <script>
+        document.body.classList.add('splash-active');
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('dotSplashScreen');
+                if (splash) {
+                    splash.style.opacity = '0';
+                    splash.style.visibility = 'hidden';
+                    setTimeout(() => {
+                        splash.remove();
+                        document.body.classList.remove('splash-active');
+                    }, 600);
+                }
+            }, 2400); // 2.4s total duration before fade out
+        });
+    </script>
+    <!-- END SPLASH SCREEN -->
+
+    <dot-navbar></dot-navbar>
+    <script src="navbar.js"></script>
 
     <main>
         <section class="hero full-hero">
@@ -62,13 +105,27 @@
             </div>
 
             <div class="hero-content new-hero-content">
-                <p class="subtitle new-subtitle">PREMIUM DENIM WEAR</p>
-                <h1 class="new-h1">BUILT FOR<br>REAL MOMENTS</h1>
+                <p class="subtitle new-subtitle">WHOLESALE DENIM</p>
+
+                <h1 class="new-h1">
+                    WHOLESALE DENIM<br>
+                    FOR YOUR BUSINESS
+                </h1>
+
                 <p class="description new-desc">
-                    Timeless styles. Everyday comfort.<br>
-                    That's <strong>DOT.</strong>
+                    Premium Jeans & Pants | Bulk Packs | All India Shipping
                 </p>
-                <a href="#" class="btn-outline">SHOP NOW &nbsp; &rarr;</a>
+
+                <!-- <div class="hero-buttons">
+                    <a href="#collection" class="hero-btn primary-btn">
+                        EXPLORE COLLECTION
+                    </a>
+
+                    <a href="#enquiry" class="hero-btn secondary-btn">
+                        SEND ENQUIRY
+                    </a>
+                </div> -->
+
             </div>
 
             <div class="hero-bottom-left">
@@ -78,19 +135,20 @@
             </div>
 
             <div class="hero-bottom-right">
-                <span>SCROLL</span>
-                <i class="fa-solid fa-arrow-down-long"></i>
+                <a href="#featuresSection" class="hero-scroll-btn" aria-label="Scroll down">
+                    <i class="fa-solid fa-arrow-down-long"></i>
+                </a>
             </div>
         </section>
 
-        <section class="features">
+        <section class="features" id="featuresSection">
             <div class="feature">
                 <div class="feature-icon">
                     <i class="fa-solid fa-truck-fast"></i>
                 </div>
                 <div class="feature-text">
-                    <h3>Free Shipping</h3>
-                    <p>For order over $350</p>
+                    <h3>All India Delivery</h3>
+                    <p>Across the Country</p>
                 </div>
             </div>
             <div class="feature-divider"></div>
@@ -99,8 +157,8 @@
                     <i class="fa-solid fa-arrow-rotate-left"></i>
                 </div>
                 <div class="feature-text">
-                    <h3>Easy Returns</h3>
-                    <p>Hassle Free 7 days</p>
+                    <h3>Fixed Pack System</h3>
+                    <p>No Piece Breaking</p>
                 </div>
             </div>
             <div class="feature-divider"></div>
@@ -109,8 +167,8 @@
                     <i class="fa-solid fa-money-bill-1-wave"></i>
                 </div>
                 <div class="feature-text">
-                    <h3>Secure Payment</h3>
-                    <p>100% safe & secure</p>
+                    <h3>Bulk Order Support</h3>
+                    <p>Ready to Ship Stock</p>
                 </div>
             </div>
             <div class="feature-divider"></div>
@@ -119,8 +177,8 @@
                     <i class="fa-solid fa-headset"></i>
                 </div>
                 <div class="feature-text">
-                    <h3>24/7 Support</h3>
-                    <p>We are here to help</p>
+                    <h3>Wholesale Only</h3>
+                    <p>Trusted Since 2009</p>
                 </div>
             </div>
         </section>
@@ -258,7 +316,8 @@
                     </div>
                 </div>
                 <!-- Product 2 -->
-                <div class="product-card" onclick="window.location.href='linen-product-details.html'" style="cursor: pointer;">
+                <div class="product-card" onclick="window.location.href='linen-product-details.html'"
+                    style="cursor: pointer;">
                     <div class="prod-image">
                         <span class="badge">Wholesale Only</span>
                         <button class="wishlist-btn"><i class="fa-regular fa-heart"></i></button>
@@ -438,16 +497,8 @@
             setInterval(nextSlide, 5000); // Change image every 5 seconds
         });
 
-        // Hamburger mobile nav toggle
-        document.getElementById('hamburgerBtn').addEventListener('click', function() {
-            document.getElementById('mobileNavOverlay').classList.add('open');
-            document.body.style.overflow = 'hidden';
-        });
-        document.getElementById('mobileNavClose').addEventListener('click', function() {
-            document.getElementById('mobileNavOverlay').classList.remove('open');
-            document.body.style.overflow = '';
-        });
     </script>
+
 </body>
 
 </html>

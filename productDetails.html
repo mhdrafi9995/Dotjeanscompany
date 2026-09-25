@@ -11,45 +11,8 @@
 </head>
 <body>
 
-<!-- ===== NAVBAR ===== -->
-<header class="dp-header" id="dp-header">
-    <div class="dp-header-inner">
-        <a href="index.html" class="dp-logo">
-            <span class="dp-logo-dot">DOT<sup>®</sup></span>
-            <span class="dp-logo-sub">JEANS CO.</span>
-        </a>
-        <nav class="dp-nav" id="dp-nav">
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="#" class="dp-nav-active">Shop</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="#">Gallery</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="dp-header-icons">
-            <a href="#" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></a>
-            <a href="#" aria-label="Account"><i class="fa-regular fa-user"></i></a>
-            <a href="cart.html" class="dp-cart-link" aria-label="Cart" id="cartIconLink">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span class="dp-cart-badge" id="cartBadge">0</span>
-            </a>
-        </div>
-        <button class="dp-hamburger" id="dp-hamburger" aria-label="Toggle menu">
-            <span></span><span></span><span></span>
-        </button>
-    </div>
-</header>
-
-<!-- Mobile Nav -->
-<div class="dp-mobile-nav" id="dpMobileNav">
-    <button class="dp-mobile-nav-close" id="dpMobileNavClose">&times;</button>
-    <a href="index.html">Home</a>
-    <a href="#">Shop</a>
-    <a href="about.html">About</a>
-    <a href="#">Gallery</a>
-    <a href="#">Contact</a>
-</div>
+    <dot-navbar></dot-navbar>
+    <script src="navbar.js"></script>
 
 <!-- ===== MAIN ===== -->
 <main class="dp-main">
@@ -1237,18 +1200,6 @@ document.querySelectorAll('.dp-tab').forEach(tab => {
         const panel = document.getElementById('panel-' + this.dataset.tab);
         if (panel) panel.classList.add('dp-tab-panel-active');
     });
-});
-
-/* ──────────────────────────────────────────────────────────────
-   HAMBURGER
-   ────────────────────────────────────────────────────────────── */
-document.getElementById('dp-hamburger').addEventListener('click', () => {
-    document.getElementById('dpMobileNav').classList.add('open');
-    document.body.style.overflow = 'hidden';
-});
-document.getElementById('dpMobileNavClose').addEventListener('click', () => {
-    document.getElementById('dpMobileNav').classList.remove('open');
-    document.body.style.overflow = '';
 });
 
 /* ──────────────────────────────────────────────────────────────

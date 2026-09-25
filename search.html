@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results | DOT Jeans Co. — Wholesale Fashion</title>
+    <meta name="description" content="Search for premium wholesale fashion at DOT Jeans Co.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="category.css">
+    <style>
+        .search-header {
+            padding: 120px 20px 40px;
+            background: #fff;
+            text-align: center;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .search-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 12px;
+        }
+        .search-subtitle {
+            font-size: 15px;
+            color: #666;
+        }
+        .cat-hero { display: none; }
+        .cat-breadcrumb { margin-top: 0; padding-top: 20px; background: #fff; }
+
+        @media (min-width: 1025px) {
+            .product-grid-cat {
+                grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+            }
+        }
+        
+        /* Empty State */
+        .search-no-results {
+            text-align: center;
+            padding: 60px 20px;
+            grid-column: 1 / -1;
+        }
+        .search-no-results h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #111;
+        }
+        .search-no-results p {
+            color: #666;
+            margin-bottom: 24px;
+        }
+        .search-suggestions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+        .search-suggestions a {
+            padding: 8px 16px;
+            background: #f5f5f5;
+            color: #333;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .search-suggestions a:hover {
+            background: #e0e0e0;
+        }
+        .clear-search-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #111;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+        .clear-search-btn:hover {
+            background: #333;
+        }
+
+        /* Pulse Animation for Skeletons */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <dot-navbar></dot-navbar>
+    <script src="navbar.js"></script>
+
+    <div class="search-header">
+        <h1 class="search-title" id="searchTitle">Search Results</h1>
+        <p class="search-subtitle" id="searchSubtitle">Loading...</p>
+    </div>
+
+    <nav class="cat-breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html"><i class="fa-solid fa-house" style="font-size:11px"></i></a>
+        <span class="sep">/</span>
+        <a href="search.html">Search</a>
+        <span class="sep">/</span>
+        <span class="current" id="breadcrumbCurrent">Results</span>
+    </nav>
+
+    <div class="cat-toolbar">
+        <div class="cat-product-count" id="productCount"><strong>0</strong> Products</div>
+        <div class="cat-sort-wrap">
+            <span class="cat-sort-label">Sort by:</span>
+            <select class="cat-sort-select" id="sortSelect">
+                <option value="relevance">Relevance</option>
+                <option value="newest">Newest</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="name-asc">Name A–Z</option>
+            </select>
+        </div>
+        <div class="cat-mobile-controls">
+            <button class="cat-filter-btn" id="filterBtn"><i class="fa-solid fa-sliders"></i> Filter</button>
+            <button class="cat-sort-btn-mobile" id="sortBtnMobile">
+                <i class="fa-solid fa-arrow-up-wide-short"></i>
+                <span id="sortLabelMobile">Relevance</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="cat-layout">
+        <aside class="cat-sidebar" id="desktopSidebar">
+            <div class="filter-section">
+                <div class="filter-title">Category <span class="ti">▾</span></div>
+                <div class="filter-options">
+                    <label class="filter-label"><input type="checkbox" class="filter-cat" value="Jeans"> Jeans</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-cat" value="Linen Pants"> Linen Pants</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-cat" value="Cargo Pants"> Cargo Pants</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-cat" value="Shorts"> Shorts</label>
+                </div>
+            </div>
+            
+            <div class="filter-section">
+                <div class="filter-title">Brand <span class="ti">▾</span></div>
+                <div class="filter-options">
+                    <label class="filter-label"><input type="checkbox" class="filter-brand" value="Cross Country"> Cross Country</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-brand" value="Armani"> Armani</label>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-title">Size <span class="ti">▾</span></div>
+                <div class="filter-options">
+                    <label class="filter-label"><input type="checkbox" class="filter-size" value="28"> 28</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-size" value="30"> 30</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-size" value="32"> 32</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-size" value="34"> 34</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-size" value="36"> 36</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-size" value="38"> 38</label>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-title">Colour <span class="ti">▾</span></div>
+                <div class="filter-options">
+                    <label class="filter-label"><input type="checkbox" class="filter-colour" value="Blue"> Blue</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-colour" value="Black"> Black</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-colour" value="Grey"> Grey</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-colour" value="Beige"> Beige</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-colour" value="Olive"> Olive</label>
+                </div>
+            </div>
+            
+            <div class="filter-section">
+                <div class="filter-title">Material <span class="ti">▾</span></div>
+                <div class="filter-options">
+                    <label class="filter-label"><input type="radio" name="filter-lycra" value="" checked> All</label>
+                    <label class="filter-label"><input type="radio" name="filter-lycra" value="true"> Lycra</label>
+                    <label class="filter-label"><input type="radio" name="filter-lycra" value="false"> Non-Lycra</label>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-title">Price <span class="ti">▾</span></div>
+                <div class="filter-options">
+                    <div class="price-range-wrap">
+                        <input type="range" class="price-range-input" id="priceRange" min="500" max="3000" value="3000">
+                    </div>
+                    <div class="price-values">
+                        <span>₹500</span>
+                        <span id="priceMaxLabel">₹3000</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <div class="cat-products">
+            <div class="product-grid-cat" id="productGrid">
+                <!-- dynamically populated -->
+            </div>
+            <div class="pagination" id="pagination">
+                <!-- dynamic pagination -->
+            </div>
+        </div>
+    </div>
+
+    <div class="filter-drawer-overlay" id="filterDrawerOverlay"></div>
+    <div class="filter-drawer" id="filterDrawer">
+        <div class="filter-drawer-header">
+            <h3>Filter</h3>
+            <button class="filter-drawer-close" id="filterDrawerClose">&times;</button>
+        </div>
+        
+        <div class="filter-section">
+            <div class="filter-title">Category <span class="ti">▾</span></div>
+            <div class="filter-options">
+                <label class="filter-label"><input type="checkbox" class="filter-cat" value="Jeans"> Jeans</label>
+                <label class="filter-label"><input type="checkbox" class="filter-cat" value="Linen Pants"> Linen Pants</label>
+                <label class="filter-label"><input type="checkbox" class="filter-cat" value="Cargo Pants"> Cargo Pants</label>
+                <label class="filter-label"><input type="checkbox" class="filter-cat" value="Shorts"> Shorts</label>
+            </div>
+        </div>
+        
+        <div class="filter-section">
+            <div class="filter-title">Brand <span class="ti">▾</span></div>
+            <div class="filter-options">
+                <label class="filter-label"><input type="checkbox" class="filter-brand" value="Cross Country"> Cross Country</label>
+                <label class="filter-label"><input type="checkbox" class="filter-brand" value="Armani"> Armani</label>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <div class="filter-title">Size <span class="ti">▾</span></div>
+            <div class="filter-options">
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="28"> 28</label>
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="30"> 30</label>
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="32"> 32</label>
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="34"> 34</label>
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="36"> 36</label>
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="38"> 38</label>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <div class="filter-title">Colour <span class="ti">▾</span></div>
+            <div class="filter-options">
+                <label class="filter-label"><input type="checkbox" class="filter-colour" value="Blue"> Blue</label>
+                <label class="filter-label"><input type="checkbox" class="filter-colour" value="Black"> Black</label>
+                <label class="filter-label"><input type="checkbox" class="filter-colour" value="Grey"> Grey</label>
+                <label class="filter-label"><input type="checkbox" class="filter-colour" value="Beige"> Beige</label>
+                <label class="filter-label"><input type="checkbox" class="filter-colour" value="Olive"> Olive</label>
+            </div>
+        </div>
+        
+        <div class="filter-section">
+            <div class="filter-title">Material <span class="ti">▾</span></div>
+            <div class="filter-options">
+                <label class="filter-label"><input type="radio" name="m_filter-lycra" value="" checked> All</label>
+                <label class="filter-label"><input type="radio" name="m_filter-lycra" value="true"> Lycra</label>
+                <label class="filter-label"><input type="radio" name="m_filter-lycra" value="false"> Non-Lycra</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="sort-drawer-overlay" id="sortDrawerOverlay"></div>
+    <div class="sort-drawer" id="sortDrawer">
+        <div class="sort-drawer-header">
+            <h3>Sort By</h3>
+            <button class="sort-drawer-close" id="sortDrawerClose">&times;</button>
+        </div>
+        <div class="sort-option active" data-sort="relevance">Relevance <span class="check-icon"><i class="fa-solid fa-check"></i></span></div>
+        <div class="sort-option" data-sort="newest">Newest <span class="check-icon"><i class="fa-solid fa-check"></i></span></div>
+        <div class="sort-option" data-sort="price-asc">Price: Low to High <span class="check-icon"><i class="fa-solid fa-check"></i></span></div>
+        <div class="sort-option" data-sort="price-desc">Price: High to Low <span class="check-icon"><i class="fa-solid fa-check"></i></span></div>
+        <div class="sort-option" data-sort="name-asc">Name A–Z <span class="check-icon"><i class="fa-solid fa-check"></i></span></div>
+    </div>
+
+    <script src="category.js"></script>
+    <script>
+        // Generate Skeletons
+        function getSkeletonHTML() {
+            let html = '';
+            for (let i = 0; i < 8; i++) {
+                html += `
+                <div class="pcard" style="pointer-events: none;">
+                    <div class="pcard-img-wrap" style="background:#f0f0f0; min-height:280px; animation: pulse 1.5s infinite;"></div>
+                    <div class="pcard-info" style="padding:16px;">
+                        <div style="height:12px; background:#e0e0e0; width:40%; margin-bottom:8px; animation: pulse 1.5s infinite;"></div>
+                        <div style="height:16px; background:#e0e0e0; width:80%; margin-bottom:8px; animation: pulse 1.5s infinite;"></div>
+                        <div style="height:14px; background:#e0e0e0; width:30%; animation: pulse 1.5s infinite;"></div>
+                    </div>
+                </div>`;
+            }
+            return html;
+        }
+
+        // Wait for category.js to load, then override initialization to handle search
+        document.addEventListener('DOMContentLoaded', () => {
+            const grid = document.getElementById('productGrid');
+            if(grid) grid.innerHTML = getSkeletonHTML();
+            
+            setTimeout(() => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const query = urlParams.get('q');
+                const brand = urlParams.get('brand');
+                const cat = urlParams.get('category');
+                
+                const titleEl = document.getElementById('searchTitle');
+                const subEl = document.getElementById('searchSubtitle');
+                const breadEl = document.getElementById('breadcrumbCurrent');
+                
+                let results = window.DOT_DATA.products || [];
+                
+                if (query) {
+                    titleEl.textContent = 'Search Results for "' + query + '"';
+                    breadEl.textContent = '"' + query + '"';
+                    const q = query.toLowerCase().trim();
+                    const words = q.split(/\\s+/);
+                    results = results.filter(p => {
+                        const sizeStr = p.sizes ? p.sizes.map(s => 'size ' + s).join(' ') : '';
+                        const lycraStr = p.isLycra ? 'lycra stretch' : 'non-lycra non lycra rigid';
+                        const matchText = (p.name + ' ' + p.keywords + ' ' + p.brand + ' ' + p.category + ' ' + p.colours.join(' ') + ' ' + sizeStr + ' ' + lycraStr).toLowerCase();
+                        return words.every(w => matchText.includes(w));
+                    });
+                    
+                    // Score relevance for default sort
+                    results.forEach(p => {
+                        let score = 0;
+                        const matchText = (p.name + ' ' + p.keywords + ' ' + p.brand + ' ' + p.category).toLowerCase();
+                        if (matchText.includes(q)) score += 10;
+                        if (p.name.toLowerCase().includes(q)) score += 20;
+                        words.forEach(w => {
+                            if (p.name.toLowerCase().includes(w)) score += 5;
+                            if (p.brand.toLowerCase() === w) score += 15;
+                            if (p.category.toLowerCase().includes(w)) score += 10;
+                        });
+                        p._relevance = score;
+                    });
+                    
+                } else if (brand) {
+                    titleEl.textContent = brand;
+                    subEl.textContent = 'Explore our collection by ' + brand;
+                    breadEl.textContent = brand;
+                    results = results.filter(p => p.brand.toLowerCase() === brand.toLowerCase());
+                } else if (cat) {
+                    titleEl.textContent = cat;
+                    subEl.textContent = 'Explore ' + cat;
+                    breadEl.textContent = cat;
+                    results = results.filter(p => p.category.toLowerCase() === cat.toLowerCase());
+                } else {
+                    titleEl.textContent = 'All Products';
+                    breadEl.textContent = 'All Products';
+                }
+                
+                subEl.textContent = results.length + ' products found';
+                
+                // Override ALLPRODUCTS array from category.js
+                allProducts = results;
+                
+                // Add activeFilters for new search filters
+                activeFilters.cats = [];
+                activeFilters.brands = [];
+                activeFilters.lycra = '';
+                
+                
+                // Override renderPage if results are 0
+                const origRenderPage = renderPage;
+                window.renderPage = function(page) {
+                    const grid = document.getElementById('productGrid');
+                    if (filteredList.length === 0 && grid) {
+                        grid.innerHTML = `
+                          <div class="search-no-results">
+                            <h2>No products found for "${query || cat || brand || 'your search'}"</h2>
+                            <p>Try searching for:</p>
+                            <div class="search-suggestions">
+                                <a href="search.html?q=Wide+Leg+Jeans">Wide Leg Jeans</a>
+                                <a href="search.html?q=Baggy+Jeans">Baggy Jeans</a>
+                                <a href="search.html?q=Straight+Fit+Jeans">Straight Fit Jeans</a>
+                                <a href="search.html?q=Linen+Pants">Linen Pants</a>
+                            </div>
+                            <a href="search.html" class="clear-search-btn">Clear Search</a>
+                          </div>`;
+                        const pagination = document.getElementById('pagination');
+                        if (pagination) pagination.innerHTML = '';
+                        document.getElementById('productCount').innerHTML = `<strong>0</strong> Products`;
+                        return;
+                    }
+                    origRenderPage(page);
+                };
+
+                // Override filter function to include new filters
+                const origFilter = filterProducts;
+                window.filterProducts = function(list) {
+                    const baseFiltered = origFilter(list);
+                    return baseFiltered.filter(p => {
+                        const catOk = activeFilters.cats.length === 0 || activeFilters.cats.includes(p.category);
+                        const brandOk = activeFilters.brands.length === 0 || activeFilters.brands.includes(p.brand);
+                        const lycraOk = activeFilters.lycra === '' || (activeFilters.lycra === 'true' && p.isLycra) || (activeFilters.lycra === 'false' && !p.isLycra);
+                        return catOk && brandOk && lycraOk;
+                    });
+                };
+                
+                // Override sort function for relevance
+                const origSort = sortProducts;
+                window.sortProducts = function(list) {
+                    if (currentSort === 'relevance') {
+                        return [...list].sort((a, b) => (b._relevance || 0) - (a._relevance || 0));
+                    }
+                    return origSort(list);
+                };
+                
+                // Set default sort
+                currentSort = query ? 'relevance' : 'newest';
+                document.getElementById('sortSelect').value = currentSort;
+                
+                // Re-bind new filters
+                document.querySelectorAll('.filter-cat').forEach(cb => cb.addEventListener('change', (e) => {
+                    if (e.target.checked) activeFilters.cats.push(e.target.value);
+                    else activeFilters.cats = activeFilters.cats.filter(v => v !== e.target.value);
+                    applyAndRender();
+                }));
+                document.querySelectorAll('.filter-brand').forEach(cb => cb.addEventListener('change', (e) => {
+                    if (e.target.checked) activeFilters.brands.push(e.target.value);
+                    else activeFilters.brands = activeFilters.brands.filter(v => v !== e.target.value);
+                    applyAndRender();
+                }));
+                document.querySelectorAll('input[name="filter-lycra"]').forEach(r => r.addEventListener('change', (e) => {
+                    activeFilters.lycra = e.target.value;
+                    applyAndRender();
+                }));
+                
+                applyAndRender();
+            }, 100);
+        });
+    </script>
+</body>
+</html>
