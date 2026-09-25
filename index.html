@@ -32,7 +32,25 @@
             <a href="#"><i class="fa-regular fa-user"></i></a>
             <a href="cart.html" class="cart-icon"><i class="fa-solid fa-cart-shopping"></i><span class="cart-badge">0</span></a>
         </div>
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
     </header>
+
+    <!-- Mobile Nav Overlay -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay">
+        <button class="mobile-nav-close" id="mobileNavClose">&times;</button>
+        <a href="#" class="active">Home</a>
+        <a href="#">Shop</a>
+        <a href="about.html">About</a>
+        <a href="#">Gallery</a>
+        <a href="#">Contact</a>
+        <div class="mobile-nav-icons">
+            <a href="#"><i class="fa-solid fa-magnifying-glass"></i> Search</a>
+            <a href="#"><i class="fa-regular fa-user"></i> Account</a>
+            <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
+        </div>
+    </div>
 
     <main>
         <section class="hero full-hero">
@@ -418,6 +436,16 @@
             }
 
             setInterval(nextSlide, 5000); // Change image every 5 seconds
+        });
+
+        // Hamburger mobile nav toggle
+        document.getElementById('hamburgerBtn').addEventListener('click', function() {
+            document.getElementById('mobileNavOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        });
+        document.getElementById('mobileNavClose').addEventListener('click', function() {
+            document.getElementById('mobileNavOverlay').classList.remove('open');
+            document.body.style.overflow = '';
         });
     </script>
 </body>
