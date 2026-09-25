@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOT Jeans Co. | Product</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="enquary_style.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <a class="brand" href="#"><strong>DOT<sup>®</sup></strong><span>JEANS CO.</span></a>
+        <nav><a href="#">Home</a><a href="#">Shop</a><a href="#">About</a><a href="#">Gallery</a><a href="#">Contact</a>
+        </nav>
+        <div class="header-actions"><button aria-label="Search">⌕</button><button aria-label="Account">♙</button><button
+                class="cart" aria-label="Cart">🛒<i>0</i></button></div>
+    </header>
+
+    <main class="product-page">
+        <div class="crumbs">Home <span>/</span> Men <span>/</span> Jeans <span>/</span> Men Baggy Wide Leg Jeans</div>
+        <section class="product-grid">
+            <div class="gallery">
+                <div class="tag">NEW</div>
+                <button class="gallery-arrow left">‹</button><button class="gallery-arrow right">›</button>
+                <div class="jeans-art">
+                    <div class="waist"></div>
+                    <div class="leg left-leg"></div>
+                    <div class="leg right-leg"></div>
+                </div>
+                <div class="thumbs"><button class="active mini-jeans"></button><button class="fabric"></button><button
+                        class="fabric dark"></button></div>
+            </div>
+            <article class="product-info">
+                <p class="eyebrow">MEN JEANS COLLECTION</p>
+                <h1>Men Baggy Wide Leg Jeans</h1>
+                <div class="rating"><b>★★★★★</b><strong>4.8</strong><span>(124 reviews)</span><a href="#">Write a
+                        review</a></div>
+                <div class="perks"><span>♟&nbsp; Trendy Fit</span><span>♟&nbsp; Premium Fabric</span><span>⬟&nbsp;
+                        Durable &amp; Comfortable</span></div>
+                <div class="price">₹450.00 <del>₹750.00</del><em>40% OFF</em></div><small>Inclusive of all taxes</small>
+                <p class="description">A modern take on classic style. Our baggy wide leg jeans offer a relaxed fit,
+                    premium quality fabric and all-day comfort. Perfect for casual outings, streetwear looks and
+                    everyday wear.</p>
+                <div class="quantity"><b>Quantity:</b><button>−</button><span>1</span><button>+</button></div>
+                <div class="sizes"><b>Select Size:</b>
+                    <div><button>Size 28 : 2 Pic</button><button>Size 30 : 2 Pic</button><button>Size 32 : 2
+                            Pic</button><button>Size 34 : 2 Pic</button><button>Size 36 : 2 Pic</button></div>
+                </div>
+                <div class="colors"><b>Color:</b><label><i class="black"></i>Black</label><label><i
+                            class="white"></i>Off White</label><label><i class="brown"></i>Brown</label></div>
+                <div class="buy-actions"><button class="primary">🛒 &nbsp; Add to Cart</button><button class="outline"
+                        id="openEnquiry">Enquiry</button></div>
+                <p class="b2b">ⓘ &nbsp; For wholesale / B2B enquiries only</p>
+            </article>
+        </section>
+    </main>
+
+    <div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-labelledby="enquiryTitle">
+        <section class="modal-card">
+            <button class="close" id="closeEnquiry" aria-label="Close">×</button>
+            <a class="brand modal-brand" href="#"><strong>DOT<sup>®</sup></strong><span>JEANS CO.</span></a>
+            <h2 id="enquiryTitle">Wholesale Enquiry</h2>
+            <p class="intro">Send your requirements and our sales team will contact you.</p>
+            <div class="selected-product">
+                <div class="tiny-pants"><span></span><i></i></div>
+                <div><b>Black Line Pant</b><small>SKU : LINEN-001</small><strong>₹450.00 <em>/ Per Pic.</em></strong>
+                </div>
+            </div>
+            <form id="enquiryForm">
+                <div class="form-grid">
+                    <label>Business / Shop Name <mark>*</mark><input required name="business"
+                            placeholder="Enter your business or shop name" /></label>
+                    <label>Contact Person <mark>*</mark><input required name="person"
+                            placeholder="Enter contact person name" /></label>
+                    <label>WhatsApp Number <mark>*</mark>
+                        <div class="input-icon">◉<input required name="phone" type="tel"
+                                placeholder="+91 98765 43210" /></div>
+                    </label>
+                    <label>Email Address <mark>*</mark>
+                        <div class="input-icon">✉<input required name="email" type="email"
+                                placeholder="your@email.com" /></div>
+                    </label>
+                    <label>Quantity / Sets <mark>*</mark><input required name="quantity" type="number" min="1"
+                            placeholder="Enter quantity (e.g. 10, 20, 50)" /></label>
+                    <label>Select Size <mark>*</mark><select required name="size">
+                            <option value="">Choose size</option>
+                            <option>28</option>
+                            <option>30</option>
+                            <option>32</option>
+                            <option>34</option>
+                            <option>36</option>
+                        </select></label>
+                </div>
+                <label>Select Color <mark>*</mark><select required name="color">
+                        <option value="">Choose color</option>
+                        <option>Black</option>
+                        <option>Off White</option>
+                        <option>Brown</option>
+                    </select></label>
+                <label>Delivery Location <mark>*</mark>
+                    <div class="input-icon">⌖<input required name="location"
+                            placeholder="Enter your city / state / area" /></div>
+                </label>
+                <label>Message / Requirements<textarea name="message"
+                        placeholder="Any special requirements, preferences or additional details..."></textarea></label>
+                <div class="form-actions"><button class="primary" type="submit">➤ &nbsp; Send Enquiry</button><button
+                        class="outline" id="cancel" type="button">Cancel</button></div>
+            </form>
+            <p class="modal-note">ⓘ &nbsp; For wholesale / B2B enquiries only</p>
+        </section>
+    </div>
+    <div class="toast" id="toast" role="status">Thanks! Your wholesale enquiry has been sent.</div>
+    <script src="app.js"></script>
+
+</body>
+<!-- <script>
+    const modal = document.getElementById("modal");
+    const openEnquiry = document.getElementById("openEnquiry");
+    const closeEnquiry = document.getElementById("closeEnquiry");
+    const cancel = document.getElementById("cancel");
+    const enquiryForm = document.getElementById("enquiryForm");
+
+    /* OPEN */
+    openEnquiry.addEventListener("click", function () {
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
+    });
+
+    /* CLOSE FUNCTION */
+    function closePopup() {
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+    }
+
+    /* CLOSE BUTTON */
+    closeEnquiry.addEventListener("click", closePopup);
+
+    /* CANCEL */
+    cancel.addEventListener("click", closePopup);
+
+    /* CLICK OUTSIDE */
+    modal.addEventListener("click", function (event) {
+        if (event.target === modal) {
+            closePopup();
+        }
+    });
+
+    /* ESC KEY */
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            closePopup();
+        }
+    });
+
+    /* FORM SUBMIT */
+    enquiryForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        closePopup();
+
+        const toast = document.getElementById("toast");
+
+        toast.classList.add("show");
+
+        setTimeout(function () {
+            toast.classList.remove("show");
+        }, 3500);
+    });
+</script> -->
+
+<script>
+    const modal = document.querySelector('#modal');
+
+    const openModal = () => {
+        modal.classList.add('active');
+    };
+
+    const closeModal = () => {
+        modal.classList.remove('active');
+    };
+
+    document.querySelector('#openEnquiry').addEventListener('click', openModal);
+
+    document.querySelector('#closeEnquiry').addEventListener('click', closeModal);
+
+    document.querySelector('#cancel').addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            closeModal();
+        }
+    });
+
+    document.querySelector('#enquiryForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        closeModal();
+
+        const toast = document.querySelector('#toast');
+
+        toast.classList.add('show');
+
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3500);
+    });
+</script>
+
+</html>

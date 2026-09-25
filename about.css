@@ -1377,7 +1377,10 @@
 
  /* Footer */
  footer {
-     background: var(--navy);
+     background:
+         linear-gradient(90deg,
+             rgba(2, 19, 29, 0.98),
+             rgba(3, 25, 37, 0.94));
      color: #c6ccd3;
      padding: 56px 0 0;
  }

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kids Wear | DOT Jeans Co. — Wholesale Fashion</title>
+    <meta name="description" content="Shop premium Kids Wear at DOT Jeans Co. Comfort for their every adventure. Wholesale pricing available for bulk orders.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="category.css">
+</head>
+<body>
+
+<header class="cat-header">
+    <a href="index.html" class="cat-logo">
+        <span class="dot-mark">DOT<sup style="font-size:9px;font-weight:400">®</sup></span>
+        <span class="co-mark">JEANS COMPANY</span>
+    </a>
+    <nav class="cat-nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#" class="active">Shop</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="#">Gallery</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+    <div class="cat-header-icons">
+        <a href="#" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></a>
+        <a href="#" aria-label="Account"><i class="fa-regular fa-user"></i></a>
+        <a href="cart.html" class="cat-cart-link" aria-label="Cart">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="cat-cart-badge">0</span>
+        </a>
+    </div>
+    <button class="cat-hamburger" id="catHamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+</header>
+
+<div class="cat-mobile-nav" id="catMobileNav">
+    <button class="cat-mobile-close" id="catMobileClose">&times;</button>
+    <a href="index.html">Home</a>
+    <a href="#">Shop</a>
+    <a href="about.html">About</a>
+    <a href="#">Gallery</a>
+    <a href="#">Contact</a>
+</div>
+
+<section class="cat-hero">
+    <img src="asses/kids.png" alt="Kids Wear" class="cat-hero-img">
+    <div class="cat-hero-overlay"></div>
+    <div class="cat-hero-content">
+        <h1>Kids Wear</h1>
+        <p>Comfort for their every adventure.</p>
+    </div>
+</section>
+
+<nav class="cat-breadcrumb" aria-label="Breadcrumb">
+    <a href="index.html"><i class="fa-solid fa-house" style="font-size:11px"></i></a>
+    <span class="sep">/</span>
+    <a href="#">Shop</a>
+    <span class="sep">/</span>
+    <span class="current">Kids Wear</span>
+</nav>
+
+<div class="cat-toolbar">
+    <div class="cat-product-count" id="productCount"><strong>10</strong> Products</div>
+    <div class="cat-sort-wrap">
+        <span class="cat-sort-label">Sort by:</span>
+        <select class="cat-sort-select" id="sortSelect">
+            <option value="newest">Newest</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="name-asc">Name A–Z</option>
+        </select>
+    </div>
+    <div class="cat-mobile-controls">
+        <button class="cat-filter-btn" id="filterBtn"><i class="fa-solid fa-sliders"></i> Filter</button>
+        <button class="cat-sort-btn-mobile" id="sortBtnMobile">
+            <i class="fa-solid fa-arrow-up-wide-short"></i>
+            <span id="sortLabelMobile">Newest</span>
+        </button>
+    </div>
+</div>
+
+<div class="cat-layout">
+    <aside class="cat-sidebar" id="desktopSidebar">
+
+        <div class="filter-section">
+            <div class="filter-title">Category <span class="ti">▾</span></div>
+            <div class="filter-options">
+                <label class="filter-label"><input type="radio" name="cat_fit" class="filter-fit" value=""> All Kids</label>
+                <label class="filter-label"><input type="radio" name="cat_fit" class="filter-fit" value="Jeans"> Kids Jeans</label>
+                <label class="filter-label"><input type="radio" name="cat_fit" class="filter-fit" value="Cargo"> Kids Cargo</label>
+                <label class="filter-label"><input type="radio" name="cat_fit" class="filter-fit" value="Shorts"> Kids Shorts</label>
+                <label class="filter-label"><input type="radio" name="cat_fit" class="filter-fit" value="Track"> Track Pants</label>
+                <label class="filter-label"><input type="radio" name="cat_fit" class="filter-fit" value="Others"> Others</label>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <div class="filter-title">Age/Size <span class="ti">▾</span></div>
+            <div class="filter-options">
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="2-3Y"> 2-3Y</label>
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="4-5Y"> 4-5Y</label>
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="6-7Y"> 6-7Y</label>
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="8-9Y"> 8-9Y</label>
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="10-11Y"> 10-11Y</label>
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="12-13Y"> 12-13Y</label>
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="14-15Y"> 14-15Y</label>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <div class="filter-title">Colour <span class="ti">▾</span></div>
+            <div class="filter-options">
+                <label class="filter-label"><input type="checkbox" class="filter-colour" value="Black"> Black</label>
+                <label class="filter-label"><input type="checkbox" class="filter-colour" value="Beige"> Beige</label>
+                <label class="filter-label"><input type="checkbox" class="filter-colour" value="Blue"> Blue</label>
+                <label class="filter-label"><input type="checkbox" class="filter-colour" value="Grey"> Grey</label>
+                <label class="filter-label"><input type="checkbox" class="filter-colour" value="Olive"> Olive</label>
+                <label class="filter-label"><input type="checkbox" class="filter-colour" value="White"> White</label>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <div class="filter-title">Price <span class="ti">▾</span></div>
+            <div class="filter-options">
+                <div class="price-range-wrap">
+                    <input type="range" class="price-range-input" id="priceRange" min="200" max="1500" value="1500">
+                    <div class="price-range-labels"><span>₹200</span><span id="priceMax">₹1,500</span></div>
+                </div>
+            </div>
+        </div>
+
+    </aside>
+
+    <div class="cat-products-area">
+        <div class="product-grid-cat" id="productGrid"></div>
+        <div class="cat-pagination" id="pagination"></div>
+    </div>
+</div>
+
+<div class="filter-drawer-overlay" id="filterDrawerOverlay"></div>
+<div class="filter-drawer" id="filterDrawer">
+    <div class="filter-drawer-header">
+        <h3>Filter</h3>
+        <button class="filter-drawer-close" id="filterDrawerClose">&times;</button>
+    </div>
+    <div class="filter-section">
+        <div class="filter-title">Age/Size <span class="ti">▾</span></div>
+        <div class="filter-options">
+            <label class="filter-label"><input type="checkbox" class="filter-size" value="2-3Y"> 2-3Y</label>
+            <label class="filter-label"><input type="checkbox" class="filter-size" value="4-5Y"> 4-5Y</label>
+            <label class="filter-label"><input type="checkbox" class="filter-size" value="6-7Y"> 6-7Y</label>
+            <label class="filter-label"><input type="checkbox" class="filter-size" value="8-9Y"> 8-9Y</label>
+            <label class="filter-label"><input type="checkbox" class="filter-size" value="10-11Y"> 10-11Y</label>
+            <label class="filter-label"><input type="checkbox" class="filter-size" value="12-13Y"> 12-13Y</label>
+        </div>
+    </div>
+    <div class="filter-section">
+        <div class="filter-title">Colour <span class="ti">▾</span></div>
+        <div class="filter-options">
+            <label class="filter-label"><input type="checkbox" class="filter-colour" value="Black"> Black</label>
+            <label class="filter-label"><input type="checkbox" class="filter-colour" value="Beige"> Beige</label>
+            <label class="filter-label"><input type="checkbox" class="filter-colour" value="Blue"> Blue</label>
+            <label class="filter-label"><input type="checkbox" class="filter-colour" value="Grey"> Grey</label>
+            <label class="filter-label"><input type="checkbox" class="filter-colour" value="Olive"> Olive</label>
+        </div>
+    </div>
+</div>
+
+<div class="sort-drawer-overlay" id="sortDrawerOverlay"></div>
+<div class="sort-drawer" id="sortDrawer">
+    <div class="sort-drawer-header">
+        <h3>Sort By</h3>
+        <button class="sort-drawer-close" id="sortDrawerClose">&times;</button>
+    </div>
+    <div class="sort-option active" data-sort="newest">Newest <span class="check-icon"><i class="fa-solid fa-check"></i></span></div>
+    <div class="sort-option" data-sort="price-asc">Price: Low to High <span class="check-icon"><i class="fa-solid fa-check"></i></span></div>
+    <div class="sort-option" data-sort="price-desc">Price: High to Low <span class="check-icon"><i class="fa-solid fa-check"></i></span></div>
+    <div class="sort-option" data-sort="name-asc">Name A–Z <span class="check-icon"><i class="fa-solid fa-check"></i></span></div>
+</div>
+
+<footer class="cat-footer">
+    <div class="cat-footer-top">
+        <div class="cat-footer-col cat-footer-brand">
+            <div class="cat-footer-logo">
+                <span class="dot-mark">DOT<sup style="font-size:8px;font-weight:400">®</sup></span>
+                <span class="co-mark">JEANS CO.</span>
+            </div>
+            <p class="cat-footer-tagline">Quality Denim <span class="sep">|</span> Wholesale Partner <span class="sep">|</span> All India Shipping</p>
+        </div>
+        <div class="cat-footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">Shop</a></li>
+                <li><a href="#">Categories</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+        <div class="cat-footer-col">
+            <h4>Customer Support</h4>
+            <ul>
+                <li><a href="#">Bulk Order Inquiry</a></li>
+                <li><a href="#">Shipping Policy</a></li>
+                <li><a href="#">Return &amp; Refund</a></li>
+                <li><a href="#">FAQs</a></li>
+                <li><a href="#">Terms &amp; Conditions</a></li>
+            </ul>
+        </div>
+        <div class="cat-footer-col">
+            <h4>Follow Us</h4>
+            <div class="cat-social">
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+            <p class="cat-newsletter-label">Get updates on new arrivals</p>
+            <form class="cat-newsletter-form" onsubmit="return false;">
+                <input type="email" placeholder="Enter your email">
+                <button type="submit"><i class="fa-solid fa-arrow-right"></i></button>
+            </form>
+        </div>
+    </div>
+    <div class="cat-footer-bottom">
+        <p>&copy; 2026 DOT Jeans Co. All rights reserved.</p>
+        <p>Made for Business <span style="margin:0 4px;color:rgba(255,255,255,0.2)">|</span> Built for Growth</p>
+    </div>
+</footer>
+
+<script>
+const CATEGORY_PRODUCTS = [
+    { id: 301, name: 'Kids Cargo Pant – Olive', price: 699, image: 'asses/kids.png', sizes: ['4-5Y','6-7Y','8-9Y','10-11Y'], colours: ['Olive'], colourHex: ['#7a8c60'], fit: 'Cargo', detailsUrl: 'productDetails.html' },
+    { id: 302, name: 'Kids Cargo Pant – Beige', price: 649, image: 'asses/kids.png', sizes: ['4-5Y','6-7Y','8-9Y'], colours: ['Beige'], colourHex: ['#d8c9a8'], fit: 'Cargo', detailsUrl: 'productDetails.html' },
+    { id: 303, name: 'Kids Denim Jeans – Blue', price: 749, image: 'asses/kids.png', sizes: ['6-7Y','8-9Y','10-11Y','12-13Y'], colours: ['Blue'], colourHex: ['#4a6fa5'], fit: 'Jeans', detailsUrl: 'productDetails.html' },
+    { id: 304, name: 'Kids Shorts – Black', price: 499, image: 'asses/kids.png', sizes: ['2-3Y','4-5Y','6-7Y','8-9Y'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Shorts', detailsUrl: 'productDetails.html' },
+    { id: 305, name: 'Kids Shorts – Beige', price: 450, image: 'asses/kids.png', sizes: ['2-3Y','4-5Y','6-7Y'], colours: ['Beige'], colourHex: ['#c8b898'], fit: 'Shorts', detailsUrl: 'productDetails.html' },
+    { id: 306, name: 'Kids Track Pant – Grey', price: 399, image: 'asses/kids.png', sizes: ['4-5Y','6-7Y','8-9Y','10-11Y','12-13Y'], colours: ['Grey'], colourHex: ['#8a8a8a'], fit: 'Track', detailsUrl: 'productDetails.html' },
+    { id: 307, name: 'Kids Jeans – Black', price: 699, image: 'asses/kids.png', sizes: ['6-7Y','8-9Y','10-11Y','12-13Y','14-15Y'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Jeans', detailsUrl: 'productDetails.html' },
+    { id: 308, name: 'Kids Cargo – Navy', price: 729, image: 'asses/kids.png', sizes: ['4-5Y','6-7Y','8-9Y','10-11Y'], colours: ['Blue'], colourHex: ['#1e2b45'], fit: 'Cargo', detailsUrl: 'productDetails.html' },
+    { id: 309, name: 'Kids Linen Pant – White', price: 549, image: 'asses/kids.png', sizes: ['2-3Y','4-5Y','6-7Y','8-9Y'], colours: ['White'], colourHex: ['#f0ece4'], fit: 'Others', detailsUrl: 'productDetails.html' },
+    { id: 310, name: 'Kids Denim – Light Blue', price: 679, image: 'asses/kids.png', sizes: ['6-7Y','8-9Y','10-11Y','12-13Y'], colours: ['Blue'], colourHex: ['#7ba7c8'], fit: 'Jeans', detailsUrl: 'productDetails.html' },
+];
+</script>
+<script src="category.js"></script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargo Pants | DOT Jeans Co. — Wholesale Fashion</title>
+    <meta name="description" content="Shop premium Cargo Pants at DOT Jeans Co. Durable, functional, everyday wear. Wholesale pricing available for bulk orders.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="category.css">
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<header class="cat-header">
+    <a href="index.html" class="cat-logo">
+        <span class="dot-mark">DOT<sup style="font-size:9px;font-weight:400">®</sup></span>
+        <span class="co-mark">JEANS COMPANY</span>
+    </a>
+    <nav class="cat-nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#" class="active">Shop</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="#">Gallery</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+    <div class="cat-header-icons">
+        <a href="#" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></a>
+        <a href="#" aria-label="Account"><i class="fa-regular fa-user"></i></a>
+        <a href="cart.html" class="cat-cart-link" aria-label="Cart">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="cat-cart-badge">0</span>
+        </a>
+    </div>
+    <button class="cat-hamburger" id="catHamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+</header>
+
+<!-- Mobile Nav -->
+<div class="cat-mobile-nav" id="catMobileNav">
+    <button class="cat-mobile-close" id="catMobileClose">&times;</button>
+    <a href="index.html">Home</a>
+    <a href="#">Shop</a>
+    <a href="about.html">About</a>
+    <a href="#">Gallery</a>
+    <a href="#">Contact</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="cat-hero">
+    <img src="asses/cargo.jpg" alt="Cargo Pants" class="cat-hero-img">
+    <div class="cat-hero-overlay"></div>
+    <div class="cat-hero-content">
+        <h1>Cargo Pants</h1>
+        <p>Durable. Functional. Everyday.</p>
+    </div>
+</section>
+
+<!-- ===== BREADCRUMB ===== -->
+<nav class="cat-breadcrumb" aria-label="Breadcrumb">
+    <a href="index.html"><i class="fa-solid fa-house" style="font-size:11px"></i></a>
+    <span class="sep">/</span>
+    <a href="#">Shop</a>
+    <span class="sep">/</span>
+    <span class="current">Cargo Pants</span>
+</nav>
+
+<!-- ===== TOOLBAR ===== -->
+<div class="cat-toolbar">
+    <div class="cat-product-count" id="productCount"><strong>12</strong> Products</div>
+    <div class="cat-sort-wrap">
+        <span class="cat-sort-label">Sort by:</span>
+        <select class="cat-sort-select" id="sortSelect">
+            <option value="newest">Newest</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="name-asc">Name A–Z</option>
+        </select>
+    </div>
+    <div class="cat-mobile-controls">
+        <button class="cat-filter-btn" id="filterBtn">
+            <i class="fa-solid fa-sliders"></i> Filter
+        </button>
+        <button class="cat-sort-btn-mobile" id="sortBtnMobile">
+            <i class="fa-solid fa-arrow-up-wide-short"></i>
+            <span id="sortLabelMobile">Newest</span>
+        </button>
+    </div>
+</div>
+
+<!-- ===== MAIN LAYOUT ===== -->
+<div class="cat-layout">
+
+    <!-- SIDEBAR FILTERS -->
+    <aside class="cat-sidebar" id="desktopSidebar">
+
+        <!-- Category -->
+        <div class="filter-section">
+            <div class="filter-title">Category <span class="ti">▾</span></div>
+            <div class="filter-options">
+                <label class="filter-label">
+                    <input type="radio" name="cat_fit" class="filter-fit" value=""> All Cargo
+                </label>
+                <label class="filter-label">
+                    <input type="radio" name="cat_fit" class="filter-fit" value="Regular"> Regular Fit
+                </label>
+                <label class="filter-label">
+                    <input type="radio" name="cat_fit" class="filter-fit" value="Relaxed"> Relaxed Fit
+                </label>
+                <label class="filter-label">
+                    <input type="radio" name="cat_fit" class="filter-fit" value="Slim"> Slim Fit
+                </label>
+                <label class="filter-label">
+                    <input type="radio" name="cat_fit" class="filter-fit" value="Baggy"> Baggy
+                </label>
+                <label class="filter-label">
+                    <input type="radio" name="cat_fit" class="filter-fit" value="Shorts"> Shorts
+                </label>
+                <label class="filter-label">
+                    <input type="radio" name="cat_fit" class="filter-fit" value="Track"> Track
+                </label>
+                <label class="filter-label">
+                    <input type="radio" name="cat_fit" class="filter-fit" value="Others"> Others
+                </label>
+            </div>
+        </div>
+
+        <!-- Size -->
+        <div class="filter-section">
+            <div class="filter-title">Size <span class="ti">▾</span></div>
+            <div class="filter-options">
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="28"> 28</label>
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="30"> 30</label>
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="32"> 32</label>
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="34"> 34</label>
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="36"> 36</label>
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="38"> 38</label>
+                <label class="filter-label"><input type="checkbox" class="filter-size" value="40"> 40</label>
+            </div>
+        </div>
+
+        <!-- Colour -->
+        <div class="filter-section">
+            <div class="filter-title">Colour <span class="ti">▾</span></div>
+            <div class="filter-options">
+                <label class="filter-label"><input type="checkbox" class="filter-colour" value="Black"> Black</label>
+                <label class="filter-label"><input type="checkbox" class="filter-colour" value="Olive"> Olive</label>
+                <label class="filter-label"><input type="checkbox" class="filter-colour" value="Beige"> Beige</label>
+                <label class="filter-label"><input type="checkbox" class="filter-colour" value="Grey"> Grey</label>
+                <label class="filter-label"><input type="checkbox" class="filter-colour" value="Sand"> Sand</label>
+                <label class="filter-label"><input type="checkbox" class="filter-colour" value="Dark Olive"> Dark Olive</label>
+            </div>
+        </div>
+
+        <!-- Price -->
+        <div class="filter-section">
+            <div class="filter-title">Price <span class="ti">▾</span></div>
+            <div class="filter-options">
+                <div class="price-range-wrap">
+                    <input type="range" class="price-range-input" id="priceRange" min="500" max="3000" value="3000">
+                    <div class="price-range-labels">
+                        <span>₹500</span>
+                        <span id="priceMax">₹3,000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </aside>
+
+    <!-- PRODUCT GRID -->
+    <div class="cat-products-area">
+        <div class="product-grid-cat" id="productGrid">
+            <!-- Injected by category.js -->
+        </div>
+        <div class="cat-pagination" id="pagination"></div>
+    </div>
+</div>
+
+<!-- ===== FILTER DRAWER (mobile) ===== -->
+<div class="filter-drawer-overlay" id="filterDrawerOverlay"></div>
+<div class="filter-drawer" id="filterDrawer">
+    <div class="filter-drawer-header">
+        <h3>Filter</h3>
+        <button class="filter-drawer-close" id="filterDrawerClose">&times;</button>
+    </div>
+    <!-- Same filters duplicated for mobile drawer -->
+    <div class="filter-section">
+        <div class="filter-title">Size <span class="ti">▾</span></div>
+        <div class="filter-options">
+            <label class="filter-label"><input type="checkbox" class="filter-size" value="28"> 28</label>
+            <label class="filter-label"><input type="checkbox" class="filter-size" value="30"> 30</label>
+            <label class="filter-label"><input type="checkbox" class="filter-size" value="32"> 32</label>
+            <label class="filter-label"><input type="checkbox" class="filter-size" value="34"> 34</label>
+            <label class="filter-label"><input type="checkbox" class="filter-size" value="36"> 36</label>
+            <label class="filter-label"><input type="checkbox" class="filter-size" value="38"> 38</label>
+            <label class="filter-label"><input type="checkbox" class="filter-size" value="40"> 40</label>
+        </div>
+    </div>
+    <div class="filter-section">
+        <div class="filter-title">Colour <span class="ti">▾</span></div>
+        <div class="filter-options">
+            <label class="filter-label"><input type="checkbox" class="filter-colour" value="Black"> Black</label>
+            <label class="filter-label"><input type="checkbox" class="filter-colour" value="Olive"> Olive</label>
+            <label class="filter-label"><input type="checkbox" class="filter-colour" value="Beige"> Beige</label>
+            <label class="filter-label"><input type="checkbox" class="filter-colour" value="Grey"> Grey</label>
+            <label class="filter-label"><input type="checkbox" class="filter-colour" value="Sand"> Sand</label>
+            <label class="filter-label"><input type="checkbox" class="filter-colour" value="Dark Olive"> Dark Olive</label>
+        </div>
+    </div>
+    <div class="filter-section">
+        <div class="filter-title">Price <span class="ti">▾</span></div>
+        <div class="price-range-wrap">
+            <input type="range" class="price-range-input" id="priceRangeMobile" min="500" max="3000" value="3000">
+            <div class="price-range-labels"><span>₹500</span><span id="priceMaxMobile">₹3,000</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SORT DRAWER (mobile) ===== -->
+<div class="sort-drawer-overlay" id="sortDrawerOverlay"></div>
+<div class="sort-drawer" id="sortDrawer">
+    <div class="sort-drawer-header">
+        <h3>Sort By</h3>
+        <button class="sort-drawer-close" id="sortDrawerClose">&times;</button>
+    </div>
+    <div class="sort-option active" data-sort="newest">Newest <span class="check-icon"><i class="fa-solid fa-check"></i></span></div>
+    <div class="sort-option" data-sort="price-asc">Price: Low to High <span class="check-icon"><i class="fa-solid fa-check"></i></span></div>
+    <div class="sort-option" data-sort="price-desc">Price: High to Low <span class="check-icon"><i class="fa-solid fa-check"></i></span></div>
+    <div class="sort-option" data-sort="name-asc">Name A–Z <span class="check-icon"><i class="fa-solid fa-check"></i></span></div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="cat-footer">
+    <div class="cat-footer-top">
+        <div class="cat-footer-col cat-footer-brand">
+            <div class="cat-footer-logo">
+                <span class="dot-mark">DOT<sup style="font-size:8px;font-weight:400">®</sup></span>
+                <span class="co-mark">JEANS CO.</span>
+            </div>
+            <p class="cat-footer-tagline">Quality Denim <span class="sep">|</span> Wholesale Partner <span class="sep">|</span> All India Shipping</p>
+        </div>
+        <div class="cat-footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">Shop</a></li>
+                <li><a href="#">Categories</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+        <div class="cat-footer-col">
+            <h4>Customer Support</h4>
+            <ul>
+                <li><a href="#">Bulk Order Inquiry</a></li>
+                <li><a href="#">Shipping Policy</a></li>
+                <li><a href="#">Return &amp; Refund</a></li>
+                <li><a href="#">FAQs</a></li>
+                <li><a href="#">Terms &amp; Conditions</a></li>
+            </ul>
+        </div>
+        <div class="cat-footer-col">
+            <h4>Follow Us</h4>
+            <div class="cat-social">
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+            <p class="cat-newsletter-label">Get updates on new arrivals</p>
+            <form class="cat-newsletter-form" onsubmit="return false;">
+                <input type="email" placeholder="Enter your email">
+                <button type="submit"><i class="fa-solid fa-arrow-right"></i></button>
+            </form>
+        </div>
+    </div>
+    <div class="cat-footer-bottom">
+        <p>&copy; 2026 DOT Jeans Co. All rights reserved.</p>
+        <p>Made for Business <span style="margin:0 4px;color:rgba(255,255,255,0.2)">|</span> Built for Growth</p>
+    </div>
+</footer>
+
+<!-- ===== PRODUCT DATA ===== -->
+<script>
+/**
+ * CATEGORY_PRODUCTS — Cargo Pants
+ * Replace with Supabase fetch when ready.
+ * Fields: id, name, price, image, sizes[], colours[], colourHex[], fit, detailsUrl
+ */
+const CATEGORY_PRODUCTS = [
+    { id: 101, name: 'Cargo Pant – Beige', price: 1399, image: 'asses/cargo.jpg', sizes: ['30','32','34','36'], colours: ['Beige'], colourHex: ['#d8cbb4'], fit: 'Regular', detailsUrl: 'productDetails.html' },
+    { id: 102, name: 'Cargo Pant – Olive', price: 1499, image: 'asses/cargo.jpg', sizes: ['30','32','34','36','38'], colours: ['Olive'], colourHex: ['#6b7c52'], fit: 'Regular', detailsUrl: 'productDetails.html' },
+    { id: 103, name: 'Cargo Pant – Black', price: 1549, image: 'asses/cargo.jpg', sizes: ['30','32','34','36'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Regular', detailsUrl: 'productDetails.html' },
+    { id: 104, name: 'Cargo Pant – Grey', price: 1349, image: 'asses/cargo.jpg', sizes: ['30','32','34'], colours: ['Grey'], colourHex: ['#8a8a8a'], fit: 'Relaxed', detailsUrl: 'productDetails.html' },
+    { id: 105, name: 'Cargo Pant – Sand', price: 1299, image: 'asses/cargo.jpg', sizes: ['30','32','34','36'], colours: ['Sand'], colourHex: ['#c9ae87'], fit: 'Relaxed', detailsUrl: 'productDetails.html' },
+    { id: 106, name: 'Cargo Pant – Dark Olive', price: 1599, image: 'asses/cargo.jpg', sizes: ['32','34','36','38','40'], colours: ['Dark Olive'], colourHex: ['#4a5438'], fit: 'Baggy', detailsUrl: 'productDetails.html' },
+    { id: 107, name: 'Cargo Pant – Cream', price: 1249, image: 'asses/cargo.jpg', sizes: ['30','32','34'], colours: ['Beige'], colourHex: ['#e8dfc8'], fit: 'Slim', detailsUrl: 'productDetails.html' },
+    { id: 108, name: 'Cargo Pant – Charcoal', price: 1449, image: 'asses/cargo.jpg', sizes: ['30','32','34','36'], colours: ['Grey'], colourHex: ['#555555'], fit: 'Regular', detailsUrl: 'productDetails.html' },
+    { id: 109, name: 'Cargo Pant – Khaki', price: 1379, image: 'asses/cargo.jpg', sizes: ['32','34','36'], colours: ['Beige'], colourHex: ['#b8a882'], fit: 'Regular', detailsUrl: 'productDetails.html' },
+    { id: 110, name: 'Cargo Pant – Forest Green', price: 1529, image: 'asses/cargo.jpg', sizes: ['30','32','34','36','38'], colours: ['Olive'], colourHex: ['#3a5244'], fit: 'Baggy', detailsUrl: 'productDetails.html' },
+    { id: 111, name: 'Cargo Pant – Navy', price: 1459, image: 'asses/cargo.jpg', sizes: ['30','32','34','36'], colours: ['Black'], colourHex: ['#1e2b45'], fit: 'Slim', detailsUrl: 'productDetails.html' },
+    { id: 112, name: 'Cargo Pant – Stone', price: 1319, image: 'asses/cargo.jpg', sizes: ['32','34','36'], colours: ['Grey'], colourHex: ['#a09888'], fit: 'Relaxed', detailsUrl: 'productDetails.html' },
+];
+</script>
+<script src="category.js"></script>
+</body>
+</html>

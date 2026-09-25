@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wide Leg Jeans | Wholesale</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="category-wideleg.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <style>
+        .enquiry-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(8, 20, 30, 0.55);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .enquiry-modal {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-sizing: border-box;
+            background: #fff;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, .25);
+            animation: enquiryOpen .25s ease;
+        }
+
+        @keyframes enquiryOpen {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .close-enquiry {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            width: 35px;
+            height: 35px;
+            border: 0;
+            border-radius: 50%;
+            background: #f3f5f6;
+            color: #53616c;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        .enquiry-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .enquiry-icon {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #071c2b;
+            color: #fff;
+            border-radius: 10px;
+        }
+
+        .enquiry-header h2 {
+            margin: 0;
+            color: #102a3c;
+            font-size: 21px;
+        }
+
+        .enquiry-header p {
+            margin: 4px 0 0;
+            color: #7b8790;
+            font-size: 13px;
+        }
+
+        .enquiry-product {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: #f7f8f9;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .enquiry-product img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .enquiry-product h3 {
+            margin: 0 0 5px;
+            font-size: 14px;
+            color: #172b3a;
+        }
+
+        .enquiry-product p {
+            margin: 0 0 5px;
+            color: #7b8790;
+            font-size: 12px;
+        }
+
+        .enquiry-product strong {
+            font-size: 15px;
+            color: #071c2b;
+        }
+
+        .enquiry-field {
+            margin-bottom: 15px;
+        }
+
+        .enquiry-field label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #344054;
+        }
+
+        .enquiry-field input,
+        .enquiry-field textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 11px 12px;
+            border: 1px solid #d8e0e5;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+            font-family: inherit;
+            background: #fff;
+        }
+
+        .enquiry-field input:focus,
+        .enquiry-field textarea:focus {
+            border-color: #071c2b;
+        }
+
+        .enquiry-field textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .enquiry-row {
+            display: flex;
+            gap: 14px;
+        }
+
+        .enquiry-row .enquiry-field {
+            flex: 1;
+        }
+
+        .size-options {
+            display: flex;
+            gap: 8px;
+        }
+
+        .size-options button {
+            width: 48px;
+            height: 38px;
+            border: 1px solid #d8e0e5;
+            background: #fff;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #344054;
+        }
+
+        .size-options button:hover,
+        .size-options button.active {
+            background: #071c2b;
+            color: #fff;
+            border-color: #071c2b;
+        }
+
+        .quantity-box {
+            display: flex;
+            width: 130px;
+            height: 40px;
+            border: 1px solid #d8e0e5;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .quantity-box button {
+            width: 40px;
+            border: 0;
+            background: #f3f5f6;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .quantity-box input {
+            width: 50px;
+            border: 0;
+            text-align: center;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .send-enquiry {
+            width: 100%;
+            padding: 13px;
+            border: 0;
+            border-radius: 8px;
+            background: #071c2b;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .send-enquiry:hover {
+            background: #102f44;
+        }
+
+        @media (max-width: 600px) {
+            .enquiry-overlay {
+                padding: 12px;
+            }
+
+            .enquiry-modal {
+                padding: 20px;
+                max-height: 92vh;
+                border-radius: 14px;
+            }
+
+            .enquiry-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .enquiry-header h2 {
+                font-size: 18px;
+            }
+
+            .enquiry-product img {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+
+
+    <style>
+        .required-star {
+            color: #d92d20;
+        }
+
+        .field-error {
+            display: block;
+            margin-top: 5px;
+            color: #d92d20;
+            font-size: 11px;
+        }
+
+        .input-error {
+            border-color: #d92d20 !important;
+            background: #fff8f7 !important;
+        }
+
+        .size-options.input-error {
+            border: 1px solid #d92d20;
+            border-radius: 8px;
+            padding: 5px;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 35px 15px 15px;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .enquiry-modal.submitted>*:not(.success-message) {
+            display: none;
+        }
+
+        .success-icon {
+            width: 58px;
+            height: 58px;
+            margin: 0 auto 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #e9f8ef;
+            color: #16803c;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .success-message h3 {
+            margin: 0 0 7px;
+            color: #102a3c;
+            font-size: 20px;
+        }
+
+        .success-message p {
+            margin: 0 0 20px;
+            color: #7b8790;
+            font-size: 13px;
+        }
+
+        .success-message button {
+            border: 0;
+            border-radius: 8px;
+            background: #071c2b;
+            color: #fff;
+            padding: 11px 28px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="shop-page">
+        <header class="topbar">
+            <div class="crumbs">
+                <a href="index.html">Home</a>
+                <b>/</b>
+                <a href="jeans.html">Jeans Pant</a>
+                <b>/</b>
+                <span>Wide Leg</span>
+            </div>
+            <div class="page-heading">
+                <div>
+                    <h1>Wide Leg Jeans</h1>
+                    <p>Comfortable fit. Bigger style. Perfect for wholesale.</p>
+                </div>
+                <button class="sort-button">Sort by: <strong>Newest</strong><span>⌄</span></button>
+            </div>
+        </header>
+
+        <div class="catalog-layout">
+            <aside class="filters">
+                <section class="filter-group category">
+                    <h2>Category</h2>
+                    <label><input type="radio" name="fit" /> <span>Jeans Pant</span></label>
+                    <label class="selected"><input type="radio" name="fit" checked /> <span>Wide Leg</span></label>
+                    <label><input type="radio" name="fit" /> <span>Straight Fit</span></label>
+                    <label><input type="radio" name="fit" /> <span>Baggy</span></label>
+                    <label><input type="radio" name="fit" /> <span>Regular Fit</span></label>
+                </section>
+
+                <section class="filter-group">
+                    <h2>Size <button>⌃</button></h2>
+                    <label><input type="checkbox" /> <span>30</span></label>
+                    <label><input type="checkbox" /> <span>32</span></label>
+                    <label><input type="checkbox" /> <span>34</span></label>
+                    <label><input type="checkbox" /> <span>36</span></label>
+                </section>
+
+                <section class="filter-group color-filter">
+                    <h2>Color <button>⌃</button></h2>
+                    <div class="swatches" aria-label="Color choices">
+                        <button class="swatch navy" aria-label="Navy"></button><button class="swatch blue"
+                            aria-label="Blue"></button><button class="swatch slate" aria-label="Slate"></button><button
+                            class="swatch black" aria-label="Black"></button><button class="swatch cream"
+                            aria-label="Cream"></button>
+                    </div>
+                </section>
+
+                <section class="filter-group price-filter">
+                    <h2>Price Range <button>⌃</button></h2>
+                    <input type="range" min="500" max="1500" value="1500" aria-label="Maximum price" />
+                    <div><span>₹500</span><span>₹1,500</span></div>
+                </section>
+            </aside>
+
+            <section class="products" aria-label="Wide leg jeans products">
+                <article class="product-card">
+                    <div class="product-image blue-jeans"><span>Wholesale Only</span><img
+                            src="https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=650&q=85"
+                            alt="Light blue wide leg jeans" /></div>
+                    <div class="product-info">
+                        <h3>Wide Leg Jeans - Light Blue</h3>
+                        <p>Code: DJ-001</p>
+                        <p>Sizes: <b>30</b> &nbsp;32&nbsp; 34&nbsp; 36</p><strong class="price">₹ 650 / pcs</strong>
+                        <div class="card-actions"><button type="button" onclick="openEnquiry(this)">Add
+                                Enquiry</button><button class="heart" aria-label="Add to favourites">♡</button></div>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image black-jeans"><span>Wholesale Only</span><img
+                            src="https://images.unsplash.com/photo-1506629905607-d4055a5ca968?auto=format&fit=crop&w=650&q=85"
+                            alt="Black wide leg jeans" /></div>
+                    <div class="product-info">
+                        <h3>Wide Leg Jeans - Black</h3>
+                        <p>Code: DJ-002</p>
+                        <p>Sizes: <b>30</b> &nbsp;32&nbsp; 34&nbsp; 36</p><strong class="price">₹ 680 / pcs</strong>
+                        <div class="card-actions">
+                            <button type="button" onclick="openEnquiry(this)">Add Enquiry</button>
+
+
+                            <button class="heart" aria-label="Add to favourites">♡</button>
+                        </div>
+
+
+
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image grey-jeans"><span>Wholesale Only</span><img
+                            src="https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=650&q=85"
+                            alt="Grey wide leg jeans" /></div>
+                    <div class="product-info">
+                        <h3>Wide Leg Jeans - Grey</h3>
+                        <p>Code: DJ-003</p>
+                        <p>Sizes: <b>30</b> &nbsp;32&nbsp; 34&nbsp; 36</p><strong class="price">₹ 650 / pcs</strong>
+                        <div class="card-actions"><button type="button" onclick="openEnquiry(this)">Add
+                                Enquiry</button><button class="heart" aria-label="Add to favourites">♡</button></div>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image offwhite-jeans"><span>Wholesale Only</span><img
+                            src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=650&q=85"
+                            alt="Off white wide leg jeans" /></div>
+                    <div class="product-info">
+                        <h3>Wide Leg Jeans - Off White</h3>
+                        <p>Code: DJ-004</p>
+                        <p>Sizes: <b>30</b> &nbsp;32&nbsp; 34&nbsp; 36</p><strong class="price">₹ 670 / pcs</strong>
+                        <div class="card-actions"><button type="button" onclick="openEnquiry(this)">Add
+                                Enquiry</button><button class="heart" aria-label="Add to favourites">♡</button></div>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image denim-jeans"><span>Wholesale Only</span><img
+                            src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=650&q=85"
+                            alt="Denim blue wide leg jeans" /></div>
+                    <div class="product-info">
+                        <h3>Wide Leg Jeans - Denim Blue</h3>
+                        <p>Code: DJ-005</p>
+                        <p>Sizes: <b>30</b> &nbsp;32&nbsp; 34&nbsp; 36</p><strong class="price">₹ 680 / pcs</strong>
+                        <div class="card-actions"><button type="button" onclick="openEnquiry(this)">Add
+                                Enquiry</button><button class="heart" aria-label="Add to favourites">♡</button></div>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image dark-jeans"><span>Wholesale Only</span><img
+                            src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=650&q=85"
+                            alt="Dark wash wide leg jeans" /></div>
+                    <div class="product-info">
+                        <h3>Wide Leg Jeans - Dark Wash</h3>
+                        <p>Code: DJ-006</p>
+                        <p>Sizes: <b>30</b> &nbsp;32&nbsp; 34&nbsp; 36</p><strong class="price">₹ 700 / pcs</strong>
+                        <div class="card-actions"><button type="button" onclick="openEnquiry(this)">Add
+                                Enquiry</button><button class="heart" aria-label="Add to favourites">♡</button></div>
+                    </div>
+                </article>
+            </section>
+        </div>
+        <!-- ENQUIRY POPUP -->
+        <div class="enquiry-overlay" id="enquiryPopup">
+
+            <div class="enquiry-modal">
+
+                <button class="close-enquiry" onclick="closeEnquiry()">
+                    &times;
+                </button>
+
+                <div class="enquiry-header">
+                    <div class="enquiry-icon">
+                        <i class="fa-regular fa-paper-plane"></i>
+                    </div>
+
+                    <div>
+                        <h2>Product Enquiry</h2>
+                        <p>Send us your requirements</p>
+                    </div>
+                </div>
+
+
+                <!-- Product Information -->
+                <div class="enquiry-product">
+
+                    <img id="enquiryProductImage" src="asses/jeans.jpg" alt="Wide Leg Jeans">
+
+                    <div>
+                        <h3 id="enquiryProductName">Wide Leg Jeans - Light Blue</h3>
+                        <p id="enquiryProductCode">Code: DJ-001</p>
+                        <strong id="enquiryProductPrice">₹650 / pcs</strong>
+                    </div>
+
+                </div>
+
+
+                <!-- Size -->
+                <div class="enquiry-field">
+                    <label>Select Size <span class="required-star">*</span></label>
+
+                    <div class="size-options" id="sizeOptions">
+                        <button type="button">30</button>
+                        <button type="button">32</button>
+                        <button type="button">34</button>
+                        <button type="button">36</button>
+                    </div>
+                </div>
+
+
+                <!-- Quantity -->
+                <div class="enquiry-field">
+
+                    <label>Quantity</label>
+
+                    <div class="quantity-box">
+
+                        <button type="button" onclick="decreaseQty()">−</button>
+
+                        <input type="number" id="quantity" value="1" min="1" required>
+
+                        <button type="button" onclick="increaseQty()">+</button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Company + Name -->
+                <div class="enquiry-row">
+
+                    <div class="enquiry-field">
+                        <label>Company Name</label>
+                        <input type="text" id="companyName" placeholder="Enter company name" required>
+                    </div>
+
+                    <div class="enquiry-field">
+                        <label>Your Name</label>
+                        <input type="text" id="yourName" placeholder="Enter your name" required>
+                    </div>
+
+                </div>
+
+
+                <!-- Phone + Email -->
+                <div class="enquiry-row">
+
+                    <div class="enquiry-field">
+                        <label>Phone Number</label>
+                        <input type="tel" id="phoneNumber" placeholder="+91 Enter phone number" required>
+                    </div>
+
+                    <div class="enquiry-field">
+                        <label>Email</label>
+                        <input type="email" id="emailAddress" placeholder="Enter email" required>
+                    </div>
+
+                </div>
+
+
+                <!-- Message -->
+                <div class="enquiry-field">
+
+                    <label>Message</label>
+
+                    <textarea id="message" placeholder="Enter your requirements..." required></textarea>
+
+                </div>
+
+
+                <!-- Submit -->
+                <button type="button" class="send-enquiry" onclick="submitEnquiry()">
+                    Send Enquiry
+                    <i class="fa-regular fa-paper-plane"></i>
+                </button>
+
+                <div class="success-message" id="successMessage">
+                    <div class="success-icon">✓</div>
+                    <h3>Enquiry Sent Successfully!</h3>
+                    <p>Thank you. We will contact you shortly.</p>
+                    <button type="button" onclick="closeSuccess()">Done</button>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        function openEnquiry(button) {
+            const card = button.closest(".product-card");
+
+            const name = card?.querySelector(".product-info h3")?.textContent.trim() || "Product";
+            const details = card?.querySelectorAll(".product-info p");
+            const code = details?.[0]?.textContent.trim() || "";
+            const price = card?.querySelector(".price")?.textContent.trim() || "";
+            const image = card?.querySelector(".product-image img")?.src || "";
+
+            document.getElementById("enquiryProductName").textContent = name;
+            document.getElementById("enquiryProductCode").textContent = code;
+            document.getElementById("enquiryProductPrice").textContent = price;
+
+            if (image) {
+                document.getElementById("enquiryProductImage").src = image;
+            }
+
+            document.getElementById("enquiryPopup").style.display = "flex";
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeEnquiry() {
+            document.getElementById("enquiryPopup").style.display = "none";
+            document.body.style.overflow = "";
+        }
+
+        function increaseQty() {
+            const quantity = document.getElementById("quantity");
+            quantity.value = parseInt(quantity.value || 1, 10) + 1;
+        }
+
+        function decreaseQty() {
+            const quantity = document.getElementById("quantity");
+            const current = parseInt(quantity.value || 1, 10);
+
+            if (current > 1) {
+                quantity.value = current - 1;
+            }
+        }
+
+        // Size selection
+        document.querySelectorAll(".size-options button").forEach(button => {
+            button.addEventListener("click", function () {
+                document.querySelectorAll(".size-options button").forEach(btn => btn.classList.remove("active"));
+                this.classList.add("active");
+                clearFieldError(document.getElementById("sizeOptions"));
+            });
+        });
+
+        function showFieldError(element, message) {
+            clearFieldError(element);
+            element.classList.add("input-error");
+            const error = document.createElement("small");
+            error.className = "field-error";
+            error.textContent = message;
+            element.parentElement.appendChild(error);
+        }
+
+        function clearFieldError(element) {
+            if (!element) return;
+            element.classList.remove("input-error");
+            const oldError = element.parentElement.querySelector(".field-error");
+            if (oldError) oldError.remove();
+        }
+
+        function submitEnquiry() {
+            const company = document.getElementById("companyName");
+            const name = document.getElementById("yourName");
+            const phone = document.getElementById("phoneNumber");
+            const email = document.getElementById("emailAddress");
+            const quantity = document.getElementById("quantity");
+            const message = document.getElementById("message");
+            const sizeOptions = document.getElementById("sizeOptions");
+            const selectedSize = sizeOptions.querySelector(".active");
+
+            [company, name, phone, email, quantity, message].forEach(clearFieldError);
+            clearFieldError(sizeOptions);
+
+            let valid = true;
+
+            if (!company.value.trim()) { showFieldError(company, "Company name is required."); valid = false; }
+            if (!name.value.trim()) { showFieldError(name, "Your name is required."); valid = false; }
+            if (!phone.value.trim()) { showFieldError(phone, "Phone number is required."); valid = false; }
+            else if (!/^[+0-9][0-9\s-]{7,14}$/.test(phone.value.trim())) { showFieldError(phone, "Enter a valid phone number."); valid = false; }
+            if (!email.value.trim()) { showFieldError(email, "Email is required."); valid = false; }
+            else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) { showFieldError(email, "Enter a valid email address."); valid = false; }
+            if (!selectedSize) { showFieldError(sizeOptions, "Please select a size."); valid = false; }
+            if (!quantity.value || Number(quantity.value) < 1) { showFieldError(quantity, "Enter a quantity of at least 1."); valid = false; }
+            if (!message.value.trim()) { showFieldError(message, "Please enter your requirements."); valid = false; }
+
+            if (!valid) return;
+
+            document.querySelector(".enquiry-modal").classList.add("submitted");
+            document.getElementById("successMessage").classList.add("show");
+        }
+
+        function closeSuccess() {
+            document.getElementById("successMessage").classList.remove("show");
+            document.querySelector(".enquiry-modal").classList.remove("submitted");
+            closeEnquiry();
+        }
+
+        // Close when clicking outside the popup
+        document.getElementById("enquiryPopup").addEventListener("click", function (event) {
+            if (event.target === this) closeEnquiry();
+        });
+
+        // Close with Escape key
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") closeEnquiry();
+        });
+
+        // Remove validation message as user types
+        document.querySelectorAll(".enquiry-field input, .enquiry-field textarea").forEach(field => {
+            field.addEventListener("input", function () { clearFieldError(this); });
+        });
+    </script>
+
+</body>
+
+</html>

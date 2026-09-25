@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart — DOT Jeans Co. | B2B Wholesale</title>
+    <meta name="description" content="Review your wholesale cart items at DOT Jeans Co. Pack-based ordering for B2B buyers.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="cartstyle.css">
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<header class="ct-header" id="ct-header">
+    <div class="ct-header-inner">
+        <a href="index.html" class="ct-logo">
+            <span class="ct-logo-dot">DOT<sup>®</sup></span>
+            <span class="ct-logo-sub">JEANS CO.</span>
+        </a>
+        <nav class="ct-nav" id="ct-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">Products</a></li>
+                <li class="ct-nav-dropdown">
+                    <a href="#">Categories <i class="fa-solid fa-chevron-down" style="font-size:10px;margin-left:4px"></i></a>
+                    <div class="ct-dropdown-menu">
+                        <a href="category-jeans.html">Jeans</a>
+                        <a href="category-linen.html">Linen Pants</a>
+                        <a href="category-cargo.html">Cargo Pants</a>
+                        <a href="category-shorts.html">Shorts</a>
+                        <a href="category-kids.html">Kids Wear</a>
+                    </div>
+                </li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="ct-header-icons">
+            <div class="ct-search-wrap">
+                <input type="text" placeholder="Search products..." class="ct-search-input" id="ctSearchInput">
+                <i class="fa-solid fa-magnifying-glass ct-search-icon"></i>
+            </div>
+            <a href="#" aria-label="Account"><i class="fa-regular fa-user"></i></a>
+            <a href="cart.html" class="ct-cart-link" aria-label="Cart" id="cartIconLink">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="ct-cart-badge" id="cartBadge">0</span>
+            </a>
+        </div>
+        <button class="ct-hamburger" id="ct-hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</header>
+
+<!-- Mobile Nav -->
+<div class="ct-mobile-nav" id="ctMobileNav">
+    <button class="ct-mobile-nav-close" id="ctMobileNavClose">&times;</button>
+    <a href="index.html">Home</a>
+    <a href="#">Products</a>
+    <a href="about.html">About</a>
+    <a href="#">Gallery</a>
+    <a href="#">Contact</a>
+</div>
+
+<!-- ===== MAIN ===== -->
+<main class="ct-main">
+
+    <!-- BREADCRUMB -->
+    <nav class="ct-breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="ct-bc-sep">&rsaquo;</span>
+        <span class="ct-bc-current">Cart</span>
+    </nav>
+
+    <!-- CART HEADING -->
+    <div class="ct-cart-heading">
+        <div class="ct-cart-heading-left">
+            <h1>Shopping Cart</h1>
+            <p>Review your items and proceed to checkout.</p>
+        </div>
+        <div class="ct-cart-count-badge" id="cartCountBadge">
+            <i class="fa-solid fa-cube"></i>
+            <span id="cartCountText">0 Products in Cart</span>
+        </div>
+    </div>
+
+    <!-- CART LAYOUT -->
+    <div class="ct-cart-layout">
+
+        <!-- LEFT: CART ITEMS -->
+        <div class="ct-cart-items-wrap">
+
+            <!-- Table header (desktop) -->
+            <div class="ct-table-head">
+                <span class="ct-th-product">Product</span>
+                <span class="ct-th-details">Details</span>
+                <span class="ct-th-pack">Pack Quantity</span>
+                <span class="ct-th-pieces">Total Pieces</span>
+                <span class="ct-th-actions">Actions</span>
+            </div>
+
+            <!-- Cart items container -->
+            <div id="cartItemsContainer">
+                <!-- Rendered by JS -->
+            </div>
+
+            <!-- Wholesale Notice -->
+            <div class="ct-wholesale-notice" id="wholesaleNotice">
+                <i class="fa-solid fa-boxes-stacked"></i>
+                <span>Wholesale orders only. Products are sold in predefined packs.</span>
+            </div>
+        </div>
+
+        <!-- RIGHT: CART SUMMARY -->
+        <aside class="ct-cart-summary" id="cartSummary">
+            <h3>Cart Summary</h3>
+            <div class="ct-summary-rows">
+                <div class="ct-summary-row">
+                    <span>Total Products</span>
+                    <strong id="summaryProducts">0</strong>
+                </div>
+                <div class="ct-summary-row">
+                    <span>Total Pieces</span>
+                    <strong id="summaryPieces">0</strong>
+                </div>
+            </div>
+
+            <div class="ct-summary-divider"></div>
+
+            <div class="ct-summary-rows ct-summary-tax-rows">
+                <div class="ct-summary-row">
+                    <span>Total (Ex. Tax)</span>
+                    <span class="ct-summary-dash">—</span>
+                </div>
+                <div class="ct-summary-row">
+                    <span>Tax</span>
+                    <span class="ct-summary-dash">—</span>
+                </div>
+            </div>
+
+            <div class="ct-summary-divider"></div>
+
+            <div class="ct-grand-total-row">
+                <span>Grand Total</span>
+                <strong class="ct-summary-dash">—</strong>
+            </div>
+
+            <!-- Checkout Button -->
+            <button class="ct-btn-checkout" id="btnCheckout">
+                <i class="fa-solid fa-cart-shopping"></i>
+                Proceed to Checkout →
+            </button>
+
+            <!-- WhatsApp Button -->
+            <button class="ct-btn-whatsapp" id="btnWhatsApp">
+                <i class="fa-brands fa-whatsapp"></i>
+                Continue on WhatsApp
+            </button>
+
+            <!-- Trust Row -->
+            <div class="ct-trust-row">
+                <div class="ct-trust-item">
+                    <div class="ct-trust-icon"><i class="fa-solid fa-lock"></i></div>
+                    <span>Secure<br>Payment</span>
+                </div>
+                <div class="ct-trust-item">
+                    <div class="ct-trust-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                    <span>Fast<br>Delivery</span>
+                </div>
+                <div class="ct-trust-item">
+                    <div class="ct-trust-icon"><i class="fa-solid fa-headset"></i></div>
+                    <span>B2B<br>Support</span>
+                </div>
+                <div class="ct-trust-item">
+                    <div class="ct-trust-icon"><i class="fa-solid fa-tags"></i></div>
+                    <span>Best<br>Prices</span>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="ct-footer">
+    <div class="ct-footer-inner">
+        <div class="ct-footer-col ct-footer-brand">
+            <div class="ct-footer-logo">
+                <span class="ct-footer-logo-dot">DOT<sup style="font-size:9px;font-weight:400">®</sup></span>
+                <span class="ct-footer-logo-sub">JEANS CO.</span>
+            </div>
+            <p class="ct-footer-tagline">Premium quality denim for your business.</p>
+        </div>
+        <div class="ct-footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Categories</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+        <div class="ct-footer-col">
+            <h4>Categories</h4>
+            <ul>
+                <li><a href="category-jeans.html">Jeans</a></li>
+                <li><a href="category-linen.html">Linen Pants</a></li>
+                <li><a href="category-shorts.html">Shorts</a></li>
+                <li><a href="category-cargo.html">Track Pants</a></li>
+                <li><a href="category-kids.html">Kids Wear</a></li>
+            </ul>
+        </div>
+        <div class="ct-footer-col">
+            <h4>Customer Support</h4>
+            <ul>
+                <li><a href="tel:+919747710360"><i class="fa-solid fa-phone"></i> +91 9747710360</a></li>
+                <li><a href="#"><i class="fa-brands fa-whatsapp"></i> WhatsApp Chat</a></li>
+                <li><a href="enquary_btn.html"><i class="fa-solid fa-envelope"></i> Enquiry Form</a></li>
+                <li><a href="mailto:support@dotjeansco.com"><i class="fa-solid fa-at"></i> support@dotjeansco.com</a></li>
+            </ul>
+        </div>
+        <div class="ct-footer-col ct-footer-newsletter">
+            <h4>Stay Updated</h4>
+            <p>Get the latest styles and wholesale offers.</p>
+            <form class="ct-newsletter-form" onsubmit="return false;">
+                <input type="email" placeholder="Enter your email" aria-label="Email">
+                <button type="submit"><i class="fa-solid fa-arrow-right"></i></button>
+            </form>
+            <div class="ct-payment-icons">
+                <span class="ct-pay-icon">VISA</span>
+                <span class="ct-pay-icon ct-pay-mc"><i class="fa-brands fa-cc-mastercard"></i></span>
+                <span class="ct-pay-icon">UPI</span>
+                <span class="ct-pay-badge">B2B Only</span>
+            </div>
+        </div>
+    </div>
+    <div class="ct-footer-bottom">
+        <p>&copy; 2026 DOT Jeans Co. All rights reserved.</p>
+        <div class="ct-footer-legal">
+            <a href="#">Privacy Policy</a>
+            <span>|</span>
+            <a href="#">Terms &amp; Conditions</a>
+        </div>
+    </div>
+</footer>
+
+<!-- Toast -->
+<div class="ct-toast" id="toast" role="status"></div>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+/* ──────────────────────────────────────────────────────────────
+   PRODUCT CATALOGUE (same as productDetails.html)
+   Required to look up product data for cart items
+   ────────────────────────────────────────────────────────────── */
+const PRODUCTS = [
+    {
+        id: 'WLJ-001',
+        name: 'Wide Leg Jeans',
+        brand: 'DOT JEANS COLLECTION',
+        category: 'Jeans',
+        subcategory: 'Wide Leg Jeans',
+        fit: 'Relaxed Fit',
+        material: 'Premium Denim',
+        description: 'Classic wide leg jeans with a relaxed fit, premium denim fabric and modern style.',
+        pricePerPiece: 460,
+        oldPrice: null,
+        badge: 'NEW',
+        images: ['asses/wideleg.jpg', 'asses/detail image/rope.png', 'asses/detail image/fabric.png'],
+        colours: [
+            { name: 'Blue',  hex: '#4a6fa5', images: ['asses/wideleg.jpg'] },
+            { name: 'Black', hex: '#1a1a1a', images: ['asses/wideleg.jpg'] },
+            { name: 'Grey',  hex: '#8a8a8a', images: ['asses/wideleg.jpg'] },
+            { name: 'Beige', hex: '#d4c9a8', images: ['asses/wideleg.jpg'] },
+        ],
+        pack: {
+            piecesPerPack: 15,
+            sizeBreakdown: [
+                { size: '28', qty: 2 },
+                { size: '30', qty: 2 },
+                { size: '32', qty: 4 },
+                { size: '34', qty: 2 },
+                { size: '36', qty: 1 },
+                { size: '38', qty: 1 },
+                { size: '40', qty: 3 },
+            ]
+        },
+        stock: 10,
+        related: ['CP-001','LP-001','KW-001','SH-001'],
+    },
+    {
+        id: 'CP-001',
+        name: 'Cargo Pant — Olive',
+        brand: 'DOT JEANS COLLECTION',
+        category: 'Cargo Pants',
+        subcategory: 'Cargo Pants',
+        fit: 'Regular Fit',
+        material: 'Premium Cotton',
+        description: 'Durable cargo pants with multiple utility pockets.',
+        pricePerPiece: 499,
+        oldPrice: null,
+        badge: 'NEW',
+        images: ['asses/cargo.jpg'],
+        colours: [
+            { name: 'Olive', hex: '#7a8c60', images: ['asses/cargo.jpg'] },
+            { name: 'Black', hex: '#1a1a1a', images: ['asses/cargo.jpg'] },
+            { name: 'Beige', hex: '#d8c9a8', images: ['asses/cargo.jpg'] },
+        ],
+        pack: {
+            piecesPerPack: 12,
+            sizeBreakdown: [
+                { size: '30', qty: 2 },
+                { size: '32', qty: 3 },
+                { size: '34', qty: 3 },
+                { size: '36', qty: 2 },
+                { size: '38', qty: 2 },
+            ]
+        },
+        stock: 8,
+        related: ['WLJ-001','LP-001','SH-001'],
+    },
+    {
+        id: 'LP-001',
+        name: 'Linen Pant — Beige',
+        brand: 'DOT JEANS COLLECTION',
+        category: 'Linen Pants',
+        subcategory: 'Linen Pants',
+        fit: 'Relaxed Fit',
+        material: 'Premium Linen',
+        description: 'Lightweight, breathable linen pants.',
+        pricePerPiece: 430,
+        oldPrice: null,
+        badge: null,
+        images: ['asses/linen.jpg'],
+        colours: [
+            { name: 'Beige', hex: '#d8c9a8', images: ['asses/linen.jpg'] },
+            { name: 'White', hex: '#f0ece4', images: ['asses/linen.jpg'] },
+            { name: 'Olive', hex: '#7a8c60', images: ['asses/linen.jpg'] },
+        ],
+        pack: {
+            piecesPerPack: 12,
+            sizeBreakdown: [
+                { size: '28', qty: 2 },
+                { size: '30', qty: 2 },
+                { size: '32', qty: 3 },
+                { size: '34', qty: 3 },
+                { size: '36', qty: 2 },
+            ]
+        },
+        stock: 12,
+        related: ['WLJ-001','CP-001','SH-001'],
+    },
+    {
+        id: 'KW-001',
+        name: 'Kids Cargo Pant — Olive',
+        brand: 'DOT JEANS COLLECTION',
+        category: 'Kids Wear',
+        subcategory: 'Kids Cargo',
+        fit: 'Regular Fit',
+        material: 'Cotton Blend',
+        description: 'Comfortable and durable kids cargo pants.',
+        pricePerPiece: 299,
+        oldPrice: null,
+        badge: 'NEW',
+        images: ['asses/kids.png'],
+        colours: [
+            { name: 'Olive', hex: '#7a8c60', images: ['asses/kids.png'] },
+            { name: 'Black', hex: '#1a1a1a', images: ['asses/kids.png'] },
+            { name: 'Beige', hex: '#d8c9a8', images: ['asses/kids.png'] },
+        ],
+        pack: {
+            piecesPerPack: 10,
+            sizeBreakdown: [
+                { size: '4-5Y',  qty: 2 },
+                { size: '6-7Y',  qty: 3 },
+                { size: '8-9Y',  qty: 3 },
+                { size: '10-11Y',qty: 2 },
+            ]
+        },
+        stock: 15,
+        related: ['WLJ-001','CP-001','SH-001'],
+    },
+    {
+        id: 'SH-001',
+        name: 'Classic Shorts — Black',
+        brand: 'DOT JEANS COLLECTION',
+        category: 'Shorts',
+        subcategory: 'Cotton Shorts',
+        fit: 'Regular Fit',
+        material: 'Premium Cotton',
+        description: 'Cool and comfortable cotton shorts.',
+        pricePerPiece: 299,
+        oldPrice: null,
+        badge: null,
+        images: ['asses/shorts.jpg'],
+        colours: [
+            { name: 'Black', hex: '#1a1a1a', images: ['asses/shorts.jpg'] },
+            { name: 'Olive', hex: '#7a8c60', images: ['asses/shorts.jpg'] },
+            { name: 'Beige', hex: '#d8c9a8', images: ['asses/shorts.jpg'] },
+        ],
+        pack: {
+            piecesPerPack: 12,
+            sizeBreakdown: [
+                { size: '30', qty: 2 },
+                { size: '32', qty: 3 },
+                { size: '34', qty: 3 },
+                { size: '36', qty: 2 },
+                { size: '38', qty: 2 },
+            ]
+        },
+        stock: 20,
+        related: ['WLJ-001','CP-001','LP-001'],
+    },
+];
+
+/* ──────────────────────────────────────────────────────────────
+   STATE
+   ────────────────────────────────────────────────────────────── */
+let cart = JSON.parse(localStorage.getItem('dot_cart') || '[]');
+let wishlist = new Set(JSON.parse(localStorage.getItem('dot_wishlist') || '[]'));
+
+/* ──────────────────────────────────────────────────────────────
+   HELPERS
+   ────────────────────────────────────────────────────────────── */
+function getProductData(productId) {
+    return PRODUCTS.find(p => p.id === productId) || null;
+}
+
+function saveCart() {
+    localStorage.setItem('dot_cart', JSON.stringify(cart));
+}
+
+function saveWishlist() {
+    localStorage.setItem('dot_wishlist', JSON.stringify([...wishlist]));
+}
+
+/* ──────────────────────────────────────────────────────────────
+   UPDATE CART BADGE
+   ────────────────────────────────────────────────────────────── */
+function updateCartBadge() {
+    const total = cart.length;
+    const badge = document.getElementById('cartBadge');
+    badge.textContent = total;
+    badge.style.display = total > 0 ? 'flex' : 'none';
+}
+
+/* ──────────────────────────────────────────────────────────────
+   UPDATE SUMMARY
+   ────────────────────────────────────────────────────────────── */
+function updateSummary() {
+    const totalProducts = cart.length;
+    const totalPacks = cart.reduce((sum, item) => sum + item.packs, 0);
+    const totalPieces = cart.reduce((sum, item) => sum + item.totalPieces, 0);
+
+    document.getElementById('summaryProducts').textContent = totalProducts;
+    document.getElementById('summaryPieces').textContent = totalPieces;
+    document.getElementById('cartCountText').textContent = `${totalProducts} Product${totalProducts !== 1 ? 's' : ''} in Cart`;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   BUILD SIZE SET STRING
+   ────────────────────────────────────────────────────────────── */
+function buildSizeSetString(sizeBreakdown, packs) {
+    return sizeBreakdown.map(s => `${s.size}: ${s.qty * packs}`).join(' | ');
+}
+
+/* ──────────────────────────────────────────────────────────────
+   RENDER CART ITEMS
+   ────────────────────────────────────────────────────────────── */
+function renderCart() {
+    const container = document.getElementById('cartItemsContainer');
+    const notice = document.getElementById('wholesaleNotice');
+
+    if (cart.length === 0) {
+        container.innerHTML = `
+            <div class="ct-empty-cart">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <h2>Your cart is empty</h2>
+                <p>Start adding products to your wholesale cart.</p>
+                <a href="productDetails.html" class="ct-btn-continue">
+                    <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+                </a>
+            </div>`;
+        notice.style.display = 'none';
+        updateSummary();
+        updateCartBadge();
+        return;
+    }
+
+    notice.style.display = 'flex';
+
+    container.innerHTML = cart.map((item, index) => {
+        // Look up product data for colour swatches
+        const product = getProductData(item.productId);
+        const sizeBreakdown = item.sizeBreakdown || (product ? product.pack.sizeBreakdown : []);
+        const piecesPerPack = item.piecesPerPack;
+        const packs = item.packs;
+        const totalPieces = piecesPerPack * packs;
+
+        // Build size set string
+        const sizeSet = sizeBreakdown.map(s => `${s.size}: ${s.qty}`).join(' | ');
+
+        // Colour swatches from product
+        const allColours = product ? product.colours : [];
+        const swatchesHTML = allColours.map(c =>
+            `<span class="ct-swatch${c.name === item.colour ? ' active' : ''}" style="background:${c.hex}" title="${c.name}"></span>`
+        ).join('');
+
+        // Pack options
+        const maxPacks = product ? product.stock : 10;
+        let packOptions = '';
+        for (let i = 1; i <= maxPacks; i++) {
+            const pieces = piecesPerPack * i;
+            packOptions += `<option value="${i}"${i === packs ? ' selected' : ''}>${i} Pack${i > 1 ? 's' : ''} (${pieces} pcs)</option>`;
+        }
+
+        // Wishlist state
+        const inWishlist = wishlist.has(item.productId);
+
+        return `
+        <article class="ct-cart-item" data-index="${index}">
+            <!-- Product Image -->
+            <div class="ct-item-image">
+                <span class="ct-b2b-tag">B2B</span>
+                <img src="${item.image}" alt="${item.name}" loading="lazy">
+            </div>
+
+            <!-- Details -->
+            <div class="ct-item-details">
+                <p class="ct-item-brand">${item.brand || 'CROSS COUNTRY'}</p>
+                <h3 class="ct-item-name">${item.name}</h3>
+                <p class="ct-item-sku">SKU : ${item.sku || item.productId}</p>
+                <p class="ct-item-sizes">Size Set : ${sizeSet}</p>
+                <div class="ct-item-colour-row">
+                    <div class="ct-swatches">${swatchesHTML}</div>
+                    <span class="ct-colour-label">${item.colour}</span>
+                </div>
+            </div>
+
+            <!-- Pack Quantity -->
+            <div class="ct-item-pack">
+                <div class="ct-pack-select-wrap">
+                    <select class="ct-pack-select" data-index="${index}" onchange="changePackQty(this)">
+                        ${packOptions}
+                    </select>
+                    <i class="fa-solid fa-chevron-down ct-pack-chevron"></i>
+                </div>
+            </div>
+
+            <!-- Total Pieces -->
+            <div class="ct-item-pieces">
+                <span class="ct-pieces-number">${totalPieces}</span>
+                <span class="ct-pieces-label">Pieces</span>
+            </div>
+
+            <!-- Actions -->
+            <div class="ct-item-actions">
+                <button class="ct-action-btn ct-wishlist-btn${inWishlist ? ' active' : ''}" data-index="${index}" onclick="toggleCartWishlist(this)" aria-label="Wishlist">
+                    <i class="fa-${inWishlist ? 'solid' : 'regular'} fa-heart"></i>
+                </button>
+                <button class="ct-action-btn ct-remove-btn" data-index="${index}" onclick="removeCartItem(this)" aria-label="Remove">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+            </div>
+        </article>`;
+    }).join('');
+
+    updateSummary();
+    updateCartBadge();
+}
+
+/* ──────────────────────────────────────────────────────────────
+   CHANGE PACK QUANTITY
+   ────────────────────────────────────────────────────────────── */
+function changePackQty(selectEl) {
+    const index = parseInt(selectEl.dataset.index);
+    const newPacks = parseInt(selectEl.value);
+    const item = cart[index];
+
+    if (!item) return;
+
+    item.packs = newPacks;
+    item.totalPieces = item.piecesPerPack * newPacks;
+    if (item.pricePerPiece) {
+        item.totalPrice = item.pricePerPiece * item.totalPieces;
+    }
+
+    saveCart();
+    renderCart();
+}
+
+/* ──────────────────────────────────────────────────────────────
+   REMOVE CART ITEM
+   ────────────────────────────────────────────────────────────── */
+function removeCartItem(btn) {
+    const index = parseInt(btn.dataset.index);
+
+    // Animate removal
+    const article = btn.closest('.ct-cart-item');
+    if (article) {
+        article.style.transition = 'opacity 0.3s, transform 0.3s';
+        article.style.opacity = '0';
+        article.style.transform = 'translateX(-20px)';
+    }
+
+    setTimeout(() => {
+        cart.splice(index, 1);
+        saveCart();
+        renderCart();
+        showToast('Item removed from cart');
+    }, 300);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   TOGGLE WISHLIST
+   ────────────────────────────────────────────────────────────── */
+function toggleCartWishlist(btn) {
+    const index = parseInt(btn.dataset.index);
+    const item = cart[index];
+    if (!item) return;
+
+    const productId = item.productId;
+    const icon = btn.querySelector('i');
+
+    if (wishlist.has(productId)) {
+        wishlist.delete(productId);
+        icon.className = 'fa-regular fa-heart';
+        btn.classList.remove('active');
+        showToast('Removed from wishlist');
+    } else {
+        wishlist.add(productId);
+        icon.className = 'fa-solid fa-heart';
+        btn.classList.add('active');
+        showToast('Added to wishlist');
+    }
+    saveWishlist();
+}
+
+/* ──────────────────────────────────────────────────────────────
+   WHATSAPP MESSAGE
+   ────────────────────────────────────────────────────────────── */
+function buildWhatsAppMessage() {
+    if (cart.length === 0) return '';
+
+    let msg = 'Hello, I would like to enquire about the following wholesale products:\n\n';
+
+    cart.forEach((item, i) => {
+        const totalPieces = item.piecesPerPack * item.packs;
+        msg += `${i + 1}. ${item.brand || 'CROSS COUNTRY'} - ${item.name}\n`;
+        msg += `   Colour: ${item.colour}\n`;
+        msg += `   ${item.packs} Pack${item.packs > 1 ? 's' : ''}\n`;
+        msg += `   ${totalPieces} Pieces\n\n`;
+    });
+
+    const totalPacks = cart.reduce((s, i) => s + i.packs, 0);
+    const totalPieces = cart.reduce((s, i) => s + (i.piecesPerPack * i.packs), 0);
+
+    msg += `Total:\n${totalPacks} Pack${totalPacks > 1 ? 's' : ''}\n${totalPieces} Pieces`;
+
+    return msg;
+}
+
+document.getElementById('btnWhatsApp').addEventListener('click', () => {
+    if (cart.length === 0) {
+        showToast('Your cart is empty');
+        return;
+    }
+    const msg = buildWhatsAppMessage();
+    const url = `https://wa.me/919747710360?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+});
+
+/* ──────────────────────────────────────────────────────────────
+   CHECKOUT
+   ────────────────────────────────────────────────────────────── */
+document.getElementById('btnCheckout').addEventListener('click', () => {
+    if (cart.length === 0) {
+        showToast('Your cart is empty');
+        return;
+    }
+    showToast('Proceeding to checkout...');
+});
+
+/* ──────────────────────────────────────────────────────────────
+   TOAST
+   ────────────────────────────────────────────────────────────── */
+let toastTimer;
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   HAMBURGER MENU
+   ────────────────────────────────────────────────────────────── */
+document.getElementById('ct-hamburger').addEventListener('click', () => {
+    document.getElementById('ctMobileNav').classList.add('open');
+    document.body.style.overflow = 'hidden';
+});
+document.getElementById('ctMobileNavClose').addEventListener('click', () => {
+    document.getElementById('ctMobileNav').classList.remove('open');
+    document.body.style.overflow = '';
+});
+
+/* ──────────────────────────────────────────────────────────────
+   HEADER SCROLL EFFECT
+   ────────────────────────────────────────────────────────────── */
+window.addEventListener('scroll', () => {
+    document.getElementById('ct-header').classList.toggle('scrolled', window.scrollY > 30);
+});
+
+/* ──────────────────────────────────────────────────────────────
+   INIT
+   ────────────────────────────────────────────────────────────── */
+renderCart();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shopping Cart</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="cartstyle.css">
+
+
+</head>
+
+<body>
+
+    <main class="page-shell">
+
+        <!-- ================= HEADER ================= -->
+
+        <header class="cart-header">
+
+            <div class="title-lockup">
+
+                <svg class="cart-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M2.8 4.5h2.5l1.8 9.1a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 1.9-1.4l1.3-5.7H7.1" />
+                    <circle cx="9.2" cy="19.2" r="1" />
+                    <circle cx="17.2" cy="19.2" r="1" />
+                </svg>
+
+                <div>
+                    <h1>SHOPPING CART</h1>
+                    <p>Review your items and proceed to checkout</p>
+                </div>
+
+            </div>
+
+            <div class="cart-count">
+                <span class="package">◇</span>
+                Your shopping cart contains:
+                <strong id="count">0</strong> products
+            </div>
+
+        </header>
+
+
+        <!-- ================= CART ITEMS ================= -->
+
+        <section class="cart-card" aria-label="Shopping cart items">
+
+            <div class="table-head">
+
+                <span>PRODUCT</span>
+                <span>DESCRIPTION</span>
+                <span>AVAILABILITY</span>
+                <span>UNIT PRICE</span>
+                <span>TOTAL SET PRICE</span>
+                <span>QTY</span>
+                <span>TOTAL</span>
+                <span>ACTION</span>
+
+            </div>
+
+            <div id="cart-items"></div>
+
+        </section>
+
+
+        <!-- ================= BOTTOM SECTION ================= -->
+
+        <section class="bottom-row">
+
+            <button class="continue-btn" id="continue" type="button">
+                <span>←</span>
+                Continue Shopping
+            </button>
+
+
+            <!-- SUMMARY -->
+
+            <aside class="summary-card" aria-label="Cart summary">
+
+                <div class="grand-total">
+
+                    <span>Grand Total</span>
+
+                    <strong id="grand-total">
+                        ₹0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-lines">
+
+                    <p>
+                        <span>▧ &nbsp; Total Shipping</span>
+                        <b class="free">Free Shipping!</b>
+                    </p>
+
+                    <p>
+                        <span>% &nbsp; Total (tax excl.)</span>
+                        <b id="subtotal">₹0.00</b>
+                    </p>
+
+                    <p>
+                        <span>▣ &nbsp; Tax</span>
+                        <b id="tax">₹0.00</b>
+                    </p>
+
+                </div>
+
+
+                <button class="checkout-btn" id="checkout" type="button">
+
+                    <span>🛒</span>
+                    Proceed to Checkout
+                    <i>→</i>
+
+                </button>
+
+            </aside>
+
+        </section>
+
+    </main>
+
+
+    <!-- Toast Message -->
+
+    <div class="toast" id="toast" role="status">
+    </div>
+
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        /* ================= PRODUCTS ================= */
+
+        const items = [
+
+            {
+                id: 1,
+                name: "Men Regular Jeans",
+                sku: "BB26-20",
+                price: 640,
+                pack: 30,
+                quantity: 1,
+
+                image:
+                    "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=260&q=85",
+
+                sizes:
+                    "Size 28 : 5 Pic, Size 30 : 5 Pic, Size 32 : 5 Pic, Size 34 : 5 Pic, Size 36 : 5 Pic, Size 38 : 5 Pic",
+
+                favorite: false
+            },
+
+
+            {
+                id: 2,
+                name: "Men Regular Jeans",
+                sku: "BB26-15",
+                price: 650,
+                pack: 10,
+                quantity: 3,
+
+                image:
+                    "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=260&q=85",
+
+                sizes:
+                    "Size 28 : 2 Pic, Size 30 : 2 Pic, Size 32 : 2 Pic, Size 34 : 2 Pic, Size 36 : 2 Pic",
+
+                favorite: false
+            }
+
+        ];
+
+
+
+        /* ================= MONEY FORMAT ================= */
+
+        const money = (number) => {
+
+            return `₹${number.toLocaleString("en-IN", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })}`;
+
+        };
+
+
+
+        /* ================= ITEM TOTAL ================= */
+
+        const itemTotal = (item) => {
+
+            return item.price * item.pack * item.quantity;
+
+        };
+
+
+
+        const cartItems = document.querySelector("#cart-items");
+
+
+
+        /* ================= RENDER CART ================= */
+
+        function render() {
+
+            if (items.length === 0) {
+
+                cartItems.innerHTML = `
+                    <div class="empty-cart">
+                        Your cart is empty.
+                    </div>
+                `;
+
+                updateTotals();
+
+                return;
+            }
+
+
+            cartItems.innerHTML = items.map(item => `
+
+                <article class="cart-item">
+
+
+                    <!-- PRODUCT IMAGE -->
+
+                    <img
+                        class="product-photo"
+                        src="${item.image}"
+                        alt="${item.name}"
+                    >
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="description">
+
+                        <h2>${item.name}</h2>
+
+                        <p class="sku">
+                            SKU : ${item.sku}
+                        </p>
+
+                        <div class="sizes">
+                            ${item.sizes}
+                        </div>
+
+                    </div>
+
+
+                    <!-- STOCK -->
+
+                    <span class="status">
+                        In Stock
+                    </span>
+
+
+                    <!-- UNIT PRICE -->
+
+                    <div class="price">
+
+                        ${money(item.price)}
+
+                        <span>
+                            / Per Pic.
+                        </span>
+
+                    </div>
+
+
+                    <!-- SET PRICE -->
+
+                    <div class="set-price">
+
+                        <span>
+                            ${money(item.price)} × ${item.pack}
+                        </span>
+
+                        <b>
+                            ${money(item.price * item.pack)}
+                        </b>
+
+                    </div>
+
+
+                    <!-- QUANTITY -->
+
+                    <div class="qty">
+
+                        <button
+                            type="button"
+                            aria-label="Decrease quantity"
+                            data-change="-1"
+                            data-id="${item.id}">
+                            −
+                        </button>
+
+
+                        <span>
+                            ${item.quantity}
+                        </span>
+
+
+                        <button
+                            type="button"
+                            aria-label="Increase quantity"
+                            data-change="1"
+                            data-id="${item.id}">
+                            +
+                        </button>
+
+                    </div>
+
+
+                    <!-- TOTAL -->
+
+                    <div class="line-total">
+
+                        ${money(itemTotal(item))}
+
+                    </div>
+
+
+                    <!-- ACTIONS -->
+
+                    <div class="actions">
+
+
+                        <!-- DELETE -->
+
+                        <button
+                            class="trash"
+                            type="button"
+                            aria-label="Delete item"
+                            data-remove="${item.id}">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true">
+
+                                <path
+                                    d="M4 7h16
+                                    M9 7V4h6v3
+                                    m-8 0 1 13h8l1-13
+                                    M10 11v5
+                                    m4-5v5" />
+
+                            </svg>
+
+                            <span>Delete</span>
+
+                        </button>
+
+
+                        <!-- FAVORITE -->
+
+                        <button
+                            class="heart ${item.favorite ? "active" : ""}"
+                            type="button"
+                            aria-label="Save item"
+                            data-favorite="${item.id}">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true">
+
+                                <path
+                                    d="M20.8 8.5c0 5-8.8 10.3-8.8 10.3S3.2 13.5 3.2 8.5A4.4 4.4 0 0 1 12 7.1a4.4 4.4 0 0 1 8.8 1.4Z" />
+
+                            </svg>
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+            `).join("");
+
+
+            updateTotals();
+
+        }
+
+
+
+        /* ================= UPDATE TOTALS ================= */
+
+        function updateTotals() {
+
+            const subtotal = items.reduce(
+                (sum, item) => sum + itemTotal(item),
+                0
+            );
+
+
+            const tax = subtotal * 0.05;
+
+            const grandTotal = subtotal + tax;
+
+
+            document.querySelector("#subtotal").textContent =
+                money(subtotal);
+
+
+            document.querySelector("#tax").textContent =
+                money(tax);
+
+
+            document.querySelector("#grand-total").textContent =
+                money(grandTotal);
+
+
+            document.querySelector("#count").textContent =
+                items.reduce(
+                    (sum, item) => sum + item.quantity,
+                    0
+                );
+
+        }
+
+
+
+        /* ================= CART BUTTON ACTIONS ================= */
+
+        cartItems.addEventListener("click", (event) => {
+
+            const control =
+                event.target.closest("button");
+
+
+            if (!control) return;
+
+
+            const id = Number(
+                control.dataset.id ||
+                control.dataset.remove ||
+                control.dataset.favorite
+            );
+
+
+            const item =
+                items.find(product => product.id === id);
+
+
+            if (!item) return;
+
+
+
+            /* INCREASE / DECREASE */
+
+            if (control.dataset.change) {
+
+                item.quantity = Math.max(
+                    1,
+                    item.quantity +
+                    Number(control.dataset.change)
+                );
+
+            }
+
+
+
+            /* DELETE */
+
+            if (control.dataset.remove) {
+
+                const index =
+                    items.indexOf(item);
+
+                items.splice(index, 1);
+
+                toast("Item removed from your cart");
+
+            }
+
+
+
+            /* FAVORITE */
+
+            if (control.dataset.favorite) {
+
+                item.favorite =
+                    !item.favorite;
+
+
+                if (item.favorite) {
+
+                    toast(
+                        "Saved to your wishlist"
+                    );
+
+                } else {
+
+                    toast(
+                        "Removed from your wishlist"
+                    );
+
+                }
+
+            }
+
+
+            render();
+
+        });
+
+
+
+        /* ================= TOAST ================= */
+
+        let toastTimer;
+
+
+        function toast(message) {
+
+            const element =
+                document.querySelector("#toast");
+
+
+            element.textContent = message;
+
+            element.classList.add("show");
+
+
+            clearTimeout(toastTimer);
+
+
+            toastTimer = setTimeout(() => {
+
+                element.classList.remove("show");
+
+            }, 2400);
+
+        }
+
+
+
+        /* ================= CONTINUE SHOPPING ================= */
+
+        document
+            .querySelector("#continue")
+            .addEventListener("click", () => {
+
+                window.location.href =
+                    "shop.html";
+
+            });
+
+
+
+        /* ================= CHECKOUT ================= */
+
+        document
+            .querySelector("#checkout")
+            .addEventListener("click", () => {
+
+                if (items.length === 0) {
+
+                    toast(
+                        "Your cart is empty"
+                    );
+
+                    return;
+
+                }
+
+
+                const total =
+                    document.querySelector(
+                        "#grand-total"
+                    ).textContent;
+
+
+                toast(
+                    `Checkout started — ${total}`
+                );
+
+            });
+
+
+
+        /* ================= INITIAL LOAD ================= */
+
+        render();
+
+    </script>
+
+</body>
+
+</html>
