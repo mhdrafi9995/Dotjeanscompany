@@ -8,6 +8,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="product_details.css">
+    <style>
+        .dp-stock-badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: #fff;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+    </style>
 </head>
 <body>
 
@@ -65,6 +76,8 @@
                 <span class="dp-fit-tag">Premium Denim</span>
                 <span class="dp-fit-sep">|</span>
                 <span class="dp-wholesale-badge">Wholesale Only</span>
+                <span class="dp-fit-sep">|</span>
+                <span id="dpStockStatusBadge" class="dp-stock-badge">IN STOCK</span>
             </div>
 
             <!-- Rating -->
@@ -699,6 +712,46 @@ function renderProduct() {
     const badge = document.getElementById('dpBadgeLabel');
     if (p.badge) { badge.textContent = p.badge; badge.style.display = 'block'; }
     else badge.style.display = 'none';
+    
+    // Stock Status
+    const stockBadge = document.getElementById('dpStockStatusBadge');
+    const addToCartBtn = document.getElementById('dpAddToCart');
+    const enquiryBtn = document.getElementById('dpEnquiryBtn');
+    
+    let isOutOfStock = false;
+    if (p.stock === undefined || p.stock > 10) {
+        stockBadge.textContent = 'IN STOCK';
+        stockBadge.style.background = '#16a34a';
+    } else if (p.stock === 0) {
+        stockBadge.textContent = 'OUT OF STOCK';
+        stockBadge.style.background = '#dc2626';
+        isOutOfStock = true;
+    } else if (p.stock > 0 && p.stock <= 10) {
+        stockBadge.textContent = 'LOW STOCK';
+        stockBadge.style.background = '#ea580c';
+    } else {
+        stockBadge.textContent = 'COMING SOON';
+        stockBadge.style.background = '#6b7280';
+        isOutOfStock = true;
+    }
+    
+    if (isOutOfStock) {
+        addToCartBtn.disabled = true;
+        addToCartBtn.innerHTML = '<i class="fa-solid fa-ban"></i> Out of Stock';
+        addToCartBtn.style.background = '#f3f4f6';
+        addToCartBtn.style.color = '#9ca3af';
+        addToCartBtn.style.cursor = 'not-allowed';
+        
+        enquiryBtn.innerHTML = '<i class="fa-regular fa-envelope"></i> Enquire About Availability';
+    } else {
+        addToCartBtn.disabled = false;
+        addToCartBtn.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> Add to Cart';
+        addToCartBtn.style.background = '';
+        addToCartBtn.style.color = '';
+        addToCartBtn.style.cursor = '';
+        
+        enquiryBtn.innerHTML = '<i class="fa-regular fa-envelope"></i> Enquiry';
+    }
 
     // Breadcrumb
     document.getElementById('bc-category').textContent = p.category;
@@ -1022,7 +1075,7 @@ document.getElementById('dpQtyMinus').addEventListener('click', () => {
     }
 });
 document.getElementById('dpQtyPlus').addEventListener('click', () => {
-    if (packQty < PRODUCT.stock) {
+    if (PRODUCT.stock === 0 || packQty < PRODUCT.stock) {
         packQty++;
         updateQtyDisplay();
     } else {
@@ -1033,7 +1086,7 @@ document.getElementById('dpQtyPlus').addEventListener('click', () => {
 function updateQtyDisplay() {
     document.getElementById('dpQtyDisplay').textContent = packQty;
     document.getElementById('dpQtyMinus').disabled = packQty <= 1;
-    document.getElementById('dpQtyPlus').disabled = packQty >= PRODUCT.stock;
+    document.getElementById('dpQtyPlus').disabled = PRODUCT.stock !== 0 && packQty >= PRODUCT.stock;
     renderSizeChips();
     renderPriceBreakdown();
 }

@@ -534,18 +534,18 @@ class DotNavbar extends HTMLElement {
 
             window.DOT_DATA = {
                 products: [
-                    { id: 501, name: 'Wide Leg Jeans – Blue', price: 1499, oldPrice: 1999, image: 'asses/wideleg.jpg', link: 'productDetails.html', keywords: 'jeans wide leg baggy blue', category: 'Jeans', brand: 'Cross Country', fit: 'Wide Leg', sizes: ['28','30','32','34','36'], colours: ['Blue'], isLycra: false },
-                    { id: 502, name: 'Wide Leg Jeans – Black', price: 1549, oldPrice: 1999, image: 'asses/wideleg.jpg', link: 'productDetails.html', keywords: 'jeans wide leg baggy black', category: 'Jeans', brand: 'Cross Country', fit: 'Wide Leg', sizes: ['30','32','34','36'], colours: ['Black'], isLycra: false },
-                    { id: 509, name: 'Straight Fit Jeans – Blue', price: 1299, oldPrice: 1699, image: 'asses/wideleg.jpg', link: 'productDetails.html', keywords: 'jeans straight fit blue', category: 'Jeans', brand: 'Armani', fit: 'Straight', sizes: ['28','30','32','34','36'], colours: ['Blue'], isLycra: true },
-                    { id: 508, name: 'Baggy Jeans – Black', price: 1699, oldPrice: 2199, image: 'asses/wideleg.jpg', link: 'productDetails.html', keywords: 'jeans baggy black', category: 'Jeans', brand: 'Cross Country', fit: 'Baggy', sizes: ['30','32','34','36','38'], colours: ['Black'], isLycra: false },
-                    { id: 201, name: 'Linen Pant – Beige', price: 1299, oldPrice: 1899, image: 'asses/linen.jpg', link: 'linen-product-details.html', keywords: 'linen pant pants beige casual', category: 'Linen Pants', brand: 'Cross Country', fit: 'Regular', sizes: ['28','30','32','34','36'], colours: ['Beige'], isLycra: false },
-                    { id: 203, name: 'Linen Pant – Olive', price: 1349, oldPrice: 1899, image: 'asses/linen.jpg', link: 'linen-product-details.html', keywords: 'linen pant pants olive green', category: 'Linen Pants', brand: 'Armani', fit: 'Relaxed', sizes: ['30','32','34','36','38'], colours: ['Olive'], isLycra: false },
-                    { id: 206, name: 'Linen Pant – Black', price: 1399, oldPrice: 1899, image: 'asses/linen.jpg', link: 'linen-product-details.html', keywords: 'linen pant pants black', category: 'Linen Pants', brand: 'Cross Country', fit: 'Regular', sizes: ['30','32','34','36','38'], colours: ['Black'], isLycra: false },
-                    { id: 401, name: 'Classic Shorts – Black', price: 899, oldPrice: 1299, image: 'asses/shorts.jpg', link: 'productDetails.html', keywords: 'shorts classic black cotton', category: 'Shorts', brand: 'Armani', fit: 'Cotton', sizes: ['28','30','32','34','36'], colours: ['Black'], isLycra: false },
-                    { id: 404, name: 'Cargo Shorts – Olive', price: 1099, oldPrice: 1499, image: 'asses/shorts.jpg', link: 'productDetails.html', keywords: 'shorts cargo olive green', category: 'Shorts', brand: 'Cross Country', fit: 'Cargo', sizes: ['30','32','34','36'], colours: ['Olive'], isLycra: false },
-                    { id: 407, name: 'Denim Shorts – Blue', price: 1149, oldPrice: 1599, image: 'asses/shorts.jpg', link: 'productDetails.html', keywords: 'shorts denim blue', category: 'Shorts', brand: 'Cross Country', fit: 'Denim', sizes: ['30','32','34','36'], colours: ['Blue'], isLycra: false },
-                    { id: 301, name: 'Cargo Pants – Olive', price: 1699, oldPrice: 2299, image: 'asses/cargo.jpg', link: 'productDetails.html', keywords: 'cargo pants olive green', category: 'Cargo Pants', brand: 'Cross Country', fit: 'Cargo', sizes: ['30','32','34','36','38'], colours: ['Olive'], isLycra: false },
-                    { id: 302, name: 'Cargo Pants – Black', price: 1599, oldPrice: 2199, image: 'asses/cargo.jpg', link: 'productDetails.html', keywords: 'cargo pants black', category: 'Cargo Pants', brand: 'Armani', fit: 'Cargo', sizes: ['30','32','34','36'], colours: ['Black'], isLycra: false },
+                    { id: 501, name: 'Wide Leg Jeans – Blue', price: 1499, oldPrice: 1999, image: 'asses/wideleg.jpg', link: 'productDetails.html', keywords: 'jeans wide leg baggy blue', category: 'Jeans', brand: 'Cross Country', fit: 'Wide Leg', sizes: ['28','30','32','34','36'], colours: ['Blue'], isLycra: false, stock: 50 },
+                    { id: 502, name: 'Wide Leg Jeans – Black', price: 1549, oldPrice: 1999, image: 'asses/wideleg.jpg', link: 'productDetails.html', keywords: 'jeans wide leg baggy black', category: 'Jeans', brand: 'Cross Country', fit: 'Wide Leg', sizes: ['30','32','34','36'], colours: ['Black'], isLycra: false, stock: 0 },
+                    { id: 509, name: 'Straight Fit Jeans – Blue', price: 1299, oldPrice: 1699, image: 'asses/wideleg.jpg', link: 'productDetails.html', keywords: 'jeans straight fit blue', category: 'Jeans', brand: 'Armani', fit: 'Straight', sizes: ['28','30','32','34','36'], colours: ['Blue'], isLycra: true, stock: 2 },
+                    { id: 508, name: 'Baggy Jeans – Black', price: 1699, oldPrice: 2199, image: 'asses/wideleg.jpg', link: 'productDetails.html', keywords: 'jeans baggy black', category: 'Jeans', brand: 'Cross Country', fit: 'Baggy', sizes: ['30','32','34','36','38'], colours: ['Black'], isLycra: false, stock: 45 },
+                    { id: 201, name: 'Linen Pant – Beige', price: 1299, oldPrice: 1899, image: 'asses/linen.jpg', link: 'linen-product-details.html', keywords: 'linen pant pants beige casual', category: 'Linen Pants', brand: 'Cross Country', fit: 'Regular', sizes: ['28','30','32','34','36'], colours: ['Beige'], isLycra: false, stock: 15 },
+                    { id: 203, name: 'Linen Pant – Olive', price: 1349, oldPrice: 1899, image: 'asses/linen.jpg', link: 'linen-product-details.html', keywords: 'linen pant pants olive green', category: 'Linen Pants', brand: 'Armani', fit: 'Relaxed', sizes: ['30','32','34','36','38'], colours: ['Olive'], isLycra: false, stock: 0 },
+                    { id: 206, name: 'Linen Pant – Black', price: 1399, oldPrice: 1899, image: 'asses/linen.jpg', link: 'linen-product-details.html', keywords: 'linen pant pants black', category: 'Linen Pants', brand: 'Cross Country', fit: 'Regular', sizes: ['30','32','34','36','38'], colours: ['Black'], isLycra: false, stock: 8 },
+                    { id: 401, name: 'Classic Shorts – Black', price: 899, oldPrice: 1299, image: 'asses/shorts.jpg', link: 'productDetails.html', keywords: 'shorts classic black cotton', category: 'Shorts', brand: 'Armani', fit: 'Cotton', sizes: ['28','30','32','34','36'], colours: ['Black'], isLycra: false, stock: -1 },
+                    { id: 404, name: 'Cargo Shorts – Olive', price: 1099, oldPrice: 1499, image: 'asses/shorts.jpg', link: 'productDetails.html', keywords: 'shorts cargo olive green', category: 'Shorts', brand: 'Cross Country', fit: 'Cargo', sizes: ['30','32','34','36'], colours: ['Olive'], isLycra: false, stock: 20 },
+                    { id: 407, name: 'Denim Shorts – Blue', price: 1149, oldPrice: 1599, image: 'asses/shorts.jpg', link: 'productDetails.html', keywords: 'shorts denim blue', category: 'Shorts', brand: 'Cross Country', fit: 'Denim', sizes: ['30','32','34','36'], colours: ['Blue'], isLycra: false, stock: 0 },
+                    { id: 301, name: 'Cargo Pants – Olive', price: 1699, oldPrice: 2299, image: 'asses/cargo.jpg', link: 'productDetails.html', keywords: 'cargo pants olive green', category: 'Cargo Pants', brand: 'Cross Country', fit: 'Cargo', sizes: ['30','32','34','36','38'], colours: ['Olive'], isLycra: false, stock: 3 },
+                    { id: 302, name: 'Cargo Pants – Black', price: 1599, oldPrice: 2199, image: 'asses/cargo.jpg', link: 'productDetails.html', keywords: 'cargo pants black', category: 'Cargo Pants', brand: 'Armani', fit: 'Cargo', sizes: ['30','32','34','36'], colours: ['Black'], isLycra: false, stock: 100 },
                 ],
                 categories: [
                     { name: 'Jeans', link: 'category-jeans.html' },
@@ -621,11 +621,18 @@ class DotNavbar extends HTMLElement {
                 if (prodMatch.length > 0) {
                     html += '<div class="ct-search-group-title">Products</div>';
                     prodMatch.forEach(p => {
+                        let outOfStockBadge = '';
+                        let opacityStyle = '';
+                        if (p.stock === 0) {
+                            outOfStockBadge = '<span style="color:#dc2626;font-size:10px;font-weight:700;margin-left:8px;background:#fee2e2;padding:2px 6px;border-radius:4px;">OUT OF STOCK</span>';
+                            opacityStyle = 'opacity: 0.6;';
+                        }
+                        
                         html += `
-                        <a href="${p.link}" class="ct-search-item">
+                        <a href="${p.link}" class="ct-search-item" style="${opacityStyle}">
                             <img src="${p.image}" alt="${p.name}" class="ct-search-img" onerror="this.src='asses/wideleg.jpg'">
                             <div class="ct-search-info">
-                                <span class="ct-search-title">${p.name}</span>
+                                <span class="ct-search-title">${p.name}${outOfStockBadge}</span>
                                 <span class="ct-search-price">₹${p.price.toLocaleString('en-IN')}</span>
                             </div>
                         </a>`;

@@ -105,15 +105,26 @@ function renderPage(page) {
     });
 }
 
+function getStockStatus(stockQuantity) {
+    if (stockQuantity === undefined || stockQuantity > 10) return { label: 'IN STOCK', class: 'in-stock', isOut: false };
+    if (stockQuantity === 0) return { label: 'OUT OF STOCK', class: 'out-stock', isOut: true };
+    if (stockQuantity > 0 && stockQuantity <= 10) return { label: 'LOW STOCK', class: 'low-stock', isOut: false };
+    return { label: 'COMING SOON', class: 'coming-soon', isOut: true };
+}
+
 function productCardHTML(p) {
     const inWish = wishlist.has(String(p.id));
     const swatches = (p.colourHex || []).map(hex =>
         `<span class="pcard-swatch" style="background:${hex}" title="${hex}"></span>`
     ).join('');
+    
+    const stockStatus = getStockStatus(p.stock);
+    const outOfStockStyle = stockStatus.isOut ? 'opacity: 0.6;' : '';
+    
     return `
-      <div class="pcard" data-href="${p.detailsUrl || 'productDetails.html'}" data-product-id="${p.id}">
-        <div class="pcard-img-wrap">
-          <span class="pcard-badge">Wholesale Only</span>
+      <div class="pcard" data-href="${p.detailsUrl || 'productDetails.html'}" data-product-id="${p.id}" ${stockStatus.isOut ? '' : ''}>
+        <div class="pcard-img-wrap" style="${outOfStockStyle}">
+          <span class="pcard-badge ${stockStatus.class}">${stockStatus.label}</span>
           <button class="pcard-wishlist ${inWish ? 'active' : ''}" data-id="${p.id}" aria-label="Wishlist">
             <i class="fa-${inWish ? 'solid' : 'regular'} fa-heart"></i>
           </button>
@@ -124,6 +135,7 @@ function productCardHTML(p) {
           <div class="pcard-price">₹${p.price.toLocaleString('en-IN')}<span class="per"> / piece</span></div>
           <div class="pcard-sizes">Sizes: ${p.sizes.join(', ')}</div>
           <div class="pcard-colors">${swatches}</div>
+          ${stockStatus.isOut ? `<button class="pcard-out-btn" disabled>Out of Stock</button>` : ''}
         </div>
       </div>`;
 }

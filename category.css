@@ -529,6 +529,26 @@ body {
     z-index: 2;
 }
 
+.pcard-badge.out-stock { background: #dc2626; color: white; }
+.pcard-badge.low-stock { background: #ea580c; color: white; }
+.pcard-badge.coming-soon { background: #6b7280; color: white; }
+.pcard-badge.in-stock { background: #16a34a; color: white; }
+
+.pcard-out-btn {
+    margin-top: 8px;
+    width: 100%;
+    padding: 8px 0;
+    font-size: 11px;
+    font-weight: 600;
+    color: #9ca3af;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    cursor: not-allowed;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 .pcard-wishlist {
     position: absolute;
     top: 10px;
