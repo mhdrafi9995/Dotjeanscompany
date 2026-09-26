@@ -409,7 +409,7 @@ const navbarHTML = `
                 <i class="fa-solid fa-magnifying-glass ct-search-icon" id="ctSearchIcon"></i>
                 <div class="ct-search-results" id="ctSearchResults"></div>
             </div>
-            <a href="#" aria-label="Account"><i class="fa-regular fa-user"></i></a>
+            <a href="javascript:void(0)" aria-label="Account" id="navAccountBtn"><i class="fa-regular fa-user"></i></a>
             <a href="cart.html" class="ct-cart-link" aria-label="Cart" id="cartIconLink">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span class="ct-cart-badge" id="cartBadge">0</span>
@@ -435,6 +435,11 @@ const navbarHTML = `
 const style = document.createElement('style');
 style.textContent = navbarCSS;
 document.head.appendChild(style);
+
+// Inject Auth Modal script
+const authScript = document.createElement('script');
+authScript.src = 'auth-modal.js';
+document.head.appendChild(authScript);
 
 class DotNavbar extends HTMLElement {
     connectedCallback() {
@@ -475,6 +480,21 @@ class DotNavbar extends HTMLElement {
                     } catch (e) { }
                 } else {
                     cartBadge.style.display = 'none';
+                }
+            }
+            
+            // Update profile icon if logged in
+            const navAccountBtn = this.querySelector('#navAccountBtn');
+            if (navAccountBtn) {
+                const userStored = localStorage.getItem('dot_user');
+                if (userStored) {
+                    try {
+                        const userObj = JSON.parse(userStored);
+                        if (userObj && userObj.name) {
+                            const avatarUrl = userObj.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(userObj.name) + '&background=0f1d2f&color=fff';
+                            navAccountBtn.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width:24px; height:24px; border-radius:50%; object-fit:cover; display:block;">`;
+                        }
+                    } catch (e) {}
                 }
             }
 

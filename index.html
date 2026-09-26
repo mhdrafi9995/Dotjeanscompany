@@ -12,6 +12,20 @@
 </head>
 
 <body>
+    <!-- Auth Routing Script: Hide content immediately -->
+    <script>
+        const storedUser = localStorage.getItem('dot_user');
+        if (!storedUser) {
+            document.body.classList.add('auth-hidden-content');
+        }
+    </script>
+    <style>
+        body.auth-hidden-content main, 
+        body.auth-hidden-content footer { 
+            display: none !important; 
+        }
+    </style>
+
     <!-- SPLASH SCREEN -->
     <style>
         .dot-splash-screen {
@@ -76,7 +90,7 @@
 
     <script>
         document.body.classList.add('splash-active');
-        window.addEventListener('load', () => {
+        document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 const splash = document.getElementById('dotSplashScreen');
                 if (splash) {
@@ -85,9 +99,20 @@
                     setTimeout(() => {
                         splash.remove();
                         document.body.classList.remove('splash-active');
+                        
+                        // Check if user is logged in, else force login
+                        const user = localStorage.getItem('dot_user');
+                        if (!user) {
+                            const checkAndOpen = setInterval(() => {
+                                if (typeof window.openAuthModal === 'function') {
+                                    clearInterval(checkAndOpen);
+                                    window.openAuthModal({ force: true });
+                                }
+                            }, 100);
+                        }
                     }, 600);
                 }
-            }, 2400); // 2.4s total duration before fade out
+            }, 1500); // 1.5s duration before fade out
         });
     </script>
     <!-- END SPLASH SCREEN -->

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile — DOT Jeans Co.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .profile-container {
+            max-width: 1100px;
+            margin: 120px auto 60px;
+            padding: 0 20px;
+            display: flex;
+            gap: 30px;
+        }
+        .profile-sidebar {
+            width: 260px;
+            flex-shrink: 0;
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .profile-user-info {
+            text-align: center;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 24px;
+        }
+        .profile-avatar-wrap {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 16px;
+        }
+        .profile-avatar {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #f1f5f9;
+        }
+        .profile-avatar-edit {
+            position: absolute;
+            bottom: 0; right: 0;
+            background: #0f1d2f; color: #fff;
+            width: 26px; height: 26px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 10px; cursor: pointer; border: 2px solid #fff;
+        }
+        .profile-name-sidebar {
+            font-size: 16px; font-weight: 700; color: #0f1d2f; margin-bottom: 4px;
+        }
+        .profile-phone-sidebar {
+            font-size: 13px; color: #64748b;
+        }
+        .profile-nav {
+            display: flex; flex-direction: column; gap: 8px;
+        }
+        .profile-nav a {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: #64748b; text-decoration: none; font-size: 14px; font-weight: 500;
+            transition: all 0.2s;
+        }
+        .profile-nav a i { font-size: 16px; width: 20px; text-align: center; }
+        .profile-nav a:hover, .profile-nav a.active {
+            background: #f8fafc; color: #0f1d2f;
+        }
+        .profile-nav a.active {
+            background: #e2e8f0; font-weight: 600;
+        }
+        
+        .profile-main {
+            flex: 1;
+            background: #fff;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+        .profile-heading {
+            font-size: 24px; font-weight: 700; color: #0f1d2f; margin-bottom: 8px;
+        }
+        .profile-sub {
+            font-size: 14px; color: #64748b; margin-bottom: 40px;
+        }
+        
+        .profile-content-grid {
+            display: flex;
+            gap: 60px;
+            align-items: flex-start;
+        }
+        
+        .profile-photo-col {
+            display: flex; flex-direction: column; align-items: center; gap: 20px;
+        }
+        .profile-main-avatar {
+            width: 140px; height: 140px; border-radius: 50%; object-fit: cover;
+            border: 4px solid #f8fafc; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+        .btn-change-photo {
+            background: transparent; border: 1px solid #cbd5e1;
+            padding: 10px 20px; border-radius: 6px; font-size: 13px; font-weight: 600;
+            color: #0f1d2f; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-change-photo:hover { background: #f8fafc; border-color: #0f1d2f; }
+        
+        .profile-form-col {
+            flex: 1;
+        }
+        .form-group {
+            margin-bottom: 24px;
+        }
+        .form-group label {
+            display: block; font-size: 13px; font-weight: 600; color: #64748b; margin-bottom: 8px;
+        }
+        .form-group input {
+            width: 100%; height: 48px; border: 1px solid #cbd5e1; border-radius: 6px;
+            padding: 0 16px; font-size: 14px; color: #0f1d2f; font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+        .form-group input:focus {
+            border-color: #0f1d2f; outline: none; box-shadow: 0 0 0 3px rgba(15, 29, 47, 0.1);
+        }
+        
+        .btn-save {
+            background: #0f1d2f; color: #fff; border: none;
+            padding: 0 32px; height: 48px; border-radius: 6px; font-size: 14px; font-weight: 600;
+            cursor: pointer; transition: background 0.2s; float: right; margin-top: 20px;
+        }
+        .btn-save:hover { background: #1e293b; }
+        
+        @media(max-width: 768px) {
+            .profile-container { flex-direction: column; margin-top: 90px; }
+            .profile-sidebar { width: 100%; }
+            .profile-content-grid { flex-direction: column; gap: 40px; }
+            .profile-photo-col { width: 100%; }
+            .btn-save { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <dot-navbar></dot-navbar>
+    <script src="navbar.js"></script>
+    
+    <main class="profile-container">
+        <aside class="profile-sidebar">
+            <div class="profile-user-info">
+                <div class="profile-avatar-wrap">
+                    <img src="" id="sidebarAvatar" class="profile-avatar" onerror="this.src='https://ui-avatars.com/api/?name=User&background=0f1d2f&color=fff'">
+                    <label class="profile-avatar-edit" for="photoUpload">
+                        <i class="fa-solid fa-camera"></i>
+                    </label>
+                </div>
+                <div class="profile-name-sidebar" id="sidebarName">User Name</div>
+                <div class="profile-phone-sidebar" id="sidebarPhone">+91 98765 43210</div>
+            </div>
+            
+            <nav class="profile-nav">
+                <a href="profile.html" class="active"><i class="fa-regular fa-user"></i> My Profile</a>
+                <a href="#"><i class="fa-solid fa-box"></i> My Orders</a>
+                <a href="#"><i class="fa-regular fa-heart"></i> Wishlist</a>
+                <a href="#"><i class="fa-solid fa-location-dot"></i> Addresses</a>
+                <a href="javascript:void(0)" id="logoutBtn" style="color: #ef4444; margin-top: 10px;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+            </nav>
+        </aside>
+        
+        <section class="profile-main">
+            <div class="profile-heading">My Profile</div>
+            <div class="profile-sub">Manage your personal information.</div>
+            
+            <div class="profile-content-grid">
+                <div class="profile-photo-col">
+                    <img src="" id="mainAvatar" class="profile-main-avatar" onerror="this.src='https://ui-avatars.com/api/?name=User&background=0f1d2f&color=fff'">
+                    <input type="file" id="photoUpload" style="display:none" accept="image/*">
+                    <button class="btn-change-photo" onclick="document.getElementById('photoUpload').click()">Change Photo</button>
+                </div>
+                
+                <div class="profile-form-col">
+                    <form id="profileForm">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="profileName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Mobile Number</label>
+                            <input type="tel" id="profilePhone" disabled style="background:#f8fafc; color:#64748b; cursor:not-allowed;">
+                            <small style="display:block; margin-top:6px; color:#94a3b8; font-size:11px;">Mobile number cannot be changed.</small>
+                        </div>
+                        
+                        <button type="submit" class="btn-save" id="saveBtn">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userStr = localStorage.getItem('dot_user');
+            if (!userStr) {
+                // If the user somehow bypassed auth modal, send back home
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            const user = JSON.parse(userStr);
+            const avatarUrl = user.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name) + '&background=0f1d2f&color=fff';
+            
+            document.getElementById('sidebarName').textContent = user.name;
+            document.getElementById('sidebarPhone').textContent = '+91 ' + user.phone;
+            document.getElementById('profileName').value = user.name;
+            document.getElementById('profilePhone').value = '+91 ' + user.phone;
+            
+            document.getElementById('sidebarAvatar').src = avatarUrl;
+            document.getElementById('mainAvatar').src = avatarUrl;
+            
+            // Photo Upload
+            document.getElementById('photoUpload').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        const newAvatar = evt.target.result;
+                        document.getElementById('sidebarAvatar').src = newAvatar;
+                        document.getElementById('mainAvatar').src = newAvatar;
+                        
+                        // Update local storage
+                        user.avatar = newAvatar;
+                        localStorage.setItem('dot_user', JSON.stringify(user));
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Save Profile
+            document.getElementById('profileForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const btn = document.getElementById('saveBtn');
+                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Saving...';
+                btn.disabled = true;
+                
+                setTimeout(() => {
+                    user.name = document.getElementById('profileName').value;
+                    localStorage.setItem('dot_user', JSON.stringify(user));
+                    
+                    document.getElementById('sidebarName').textContent = user.name;
+                    
+                    btn.innerHTML = 'Save Changes';
+                    btn.disabled = false;
+                    
+                    // Show a toast or simple alert
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = 'Saved Successfully!';
+                    btn.style.background = '#10b981';
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.style.background = '';
+                    }, 2000);
+                }, 800);
+            });
+            
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                localStorage.removeItem('dot_user');
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>
