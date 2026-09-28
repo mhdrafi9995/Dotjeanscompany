@@ -485,17 +485,13 @@ window.verifyOtp = function() {
                 openEnquiryModal();
             }
         } else {
-            // Redirect to home page, or just reveal it if already on home
-            if (window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/')) {
-                const navBtn = document.getElementById('navAccountBtn');
-                if (navBtn) {
-                    const avatarUrl = user.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name) + '&background=0f1d2f&color=fff';
-                    navBtn.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width:24px; height:24px; border-radius:50%; object-fit:cover; display:block;">`;
-                }
-                window.closeAuthModal();
-            } else {
-                window.location.href = 'index.html';
+            // Just close the modal and update the UI, no need to redirect to index.html from other pages
+            const navBtn = document.getElementById('navAccountBtn');
+            if (navBtn) {
+                const avatarUrl = user.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name) + '&background=0f1d2f&color=fff';
+                navBtn.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width:24px; height:24px; border-radius:50%; object-fit:cover; display:block;">`;
             }
+            window.closeAuthModal();
         }
     }, 1200);
 };

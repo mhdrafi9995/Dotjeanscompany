@@ -204,6 +204,22 @@ const navbarCSS = `
     letter-spacing: 0.3px;
     text-decoration: none;
     font-family: 'Inter', sans-serif;
+    position: relative;
+    padding-bottom: 4px;
+}
+.ct-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #fff;
+    transition: width 0.3s ease;
+}
+.ct-nav a:hover::after,
+.ct-nav a.ct-nav-active::after {
+    width: 100%;
 }
 .ct-nav a:hover,
 .ct-nav a.ct-nav-active { color: #fff; }
@@ -497,6 +513,18 @@ class DotNavbar extends HTMLElement {
                     } catch (e) {}
                 }
             }
+
+            // Set active nav link based on current URL
+            const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = this.querySelectorAll('.ct-nav a');
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute('href');
+                if (linkPath === currentPath || (currentPath === '' && linkPath === 'index.html')) {
+                    link.classList.add('ct-nav-active');
+                } else {
+                    link.classList.remove('ct-nav-active');
+                }
+            });
 
             // Header scroll effect and hero detection
             const header = this.querySelector('#ct-header');
