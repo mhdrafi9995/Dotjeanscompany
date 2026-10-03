@@ -1921,3 +1921,14 @@ main {
         padding-top: 90px;
     }
 }
+
+/* Hide product prices globally */
+.price, .current-price, .per-piece {
+    display: none !important;
+}
+
+/* Disable colour selection interactions */
+.color-swatch {
+    pointer-events: none !important;
+    cursor: default !important;
+}

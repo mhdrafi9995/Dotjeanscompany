@@ -678,3 +678,19 @@ body {
     .dp-size-chip { min-width: 44px; padding: 6px 10px; }
     .dp-pack-table { font-size: 11.5px; }
 }
+
+/* Hide product prices */
+.dp-pricing, .dp-price-breakdown, .dp-card-price-row {
+    display: none !important;
+}
+
+/* Hide old price, discount, and modal price */
+#dp-old-price, #dp-discount, #modalProductPrice, strong:has(#modalProductPrice) {
+    display: none !important;
+}
+
+/* Disable colour selection */
+.dp-colour-btn, .dp-pack-swatch {
+    pointer-events: none !important;
+    cursor: default !important;
+}

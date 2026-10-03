@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOT Jeans Co. — Admin Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin-login.css">
+</head>
+<body>
+
+    <!-- Auth View -->
+    <div id="authView" class="auth-container">
+        <h2 style="margin-top:0">Admin Login</h2>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="loginEmail" placeholder="admin@dotjeans.com">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" placeholder="••••••••">
+        </div>
+        <button class="btn" style="width:100%" onclick="login()">Login</button>
+        <p style="text-align:center; margin-top:1rem;"><a href="#" onclick="showForgotPassword()" style="font-size:14px; color:var(--secondary)">Forgot Password?</a></p>
+        <p id="loginError" style="color:red; font-size:12px; margin-top:10px"></p>
+    </div>
+
+    <!-- Forgot Password View -->
+    <div id="forgotPasswordView" class="auth-container" style="display:none">
+        <h2 style="margin-top:0">Reset Password</h2>
+        <p style="font-size:14px; color:var(--secondary); margin-bottom:1rem">Enter your admin email to receive a secure reset link.</p>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="resetEmail" placeholder="admin@dotjeans.com">
+        </div>
+        <button class="btn" style="width:100%" onclick="sendPasswordReset()">Send Reset Link</button>
+        <p style="text-align:center; margin-top:1rem;"><a href="#" onclick="showLogin()" style="font-size:14px; color:var(--secondary)">Back to Login</a></p>
+        <p id="resetMessage" style="font-size:12px; margin-top:10px"></p>
+    </div>
+
+    <!-- Update Password View (After clicking email link) -->
+    <div id="updatePasswordView" class="auth-container" style="display:none">
+        <h2 style="margin-top:0">Set New Password</h2>
+        <div class="form-group">
+            <label>New Password</label>
+            <input type="password" id="newPassword" placeholder="••••••••">
+        </div>
+        <button class="btn" style="width:100%" onclick="updatePassword()">Update Password</button>
+        <p id="updateMessage" style="font-size:12px; margin-top:10px"></p>
+    </div>
+
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase.js"></script>
+    <script src="admin-login.js"></script>
+</body>
+</html>

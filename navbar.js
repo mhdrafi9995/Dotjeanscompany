@@ -310,7 +310,7 @@ const navbarCSS = `
     position: absolute;
     top: -8px;
     right: -10px;
-    background: #3b82f6;
+    background: #f97316;
     color: #fff;
     font-size: 10px;
     font-weight: 700;
@@ -321,6 +321,123 @@ const navbarCSS = `
     align-items: center;
     justify-content: center;
     font-family: 'Inter', sans-serif;
+}
+
+/* Profile Dropdown */
+.ct-profile-dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.ct-profile-menu {
+    position: absolute;
+    top: 100%;
+    right: -10px;
+    width: 260px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+    margin-top: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1002;
+    overflow: visible;
+    color: #111;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+.ct-profile-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+.ct-profile-menu::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    right: 24px;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    transform: rotate(45deg);
+    border-top: 1px solid rgba(0,0,0,0.05);
+    border-left: 1px solid rgba(0,0,0,0.05);
+    z-index: -1;
+}
+.ct-profile-header {
+    padding: 20px 20px 16px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+    background: #fff;
+    border-radius: 12px 12px 0 0;
+}
+.ct-profile-img-wrap-small {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 16px;
+    background: #e2e8f0;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #475569;
+    font-size: 20px;
+}
+.ct-profile-img-wrap-small img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.ct-profile-info {
+    display: flex;
+    flex-direction: column;
+}
+.ct-profile-shop {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111;
+    font-family: 'Inter', sans-serif;
+}
+.ct-profile-name {
+    font-size: 13px;
+    color: #666;
+    font-family: 'Inter', sans-serif;
+    margin-top: 2px;
+}
+.ct-profile-links {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0;
+}
+.ct-plink {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.2s;
+}
+.ct-plink:hover, .ct-plink:focus {
+    background: #f4f5f7;
+}
+.ct-plink i:first-child {
+    font-size: 16px;
+    margin-right: 16px;
+    color: #111;
+    width: 20px;
+    text-align: center;
+}
+.ct-plink-arrow {
+    margin-left: auto;
+    font-size: 12px !important;
+    color: #999 !important;
 }
 
 /* Hamburger */
@@ -392,6 +509,46 @@ const navbarCSS = `
     .ct-search-wrap { display: none; }
     .ct-header-inner { height: 56px; padding: 0 16px; }
 }
+
+/* WhatsApp Floating Button */
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 34px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.15);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    animation: pulse-wa 2s infinite;
+    transition: background-color 0.3s;
+}
+.whatsapp-float:hover {
+    background-color: #1ebd5c;
+    color: #FFF;
+}
+@keyframes pulse-wa {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+@media (max-width: 768px) {
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 28px;
+    }
+}
 `;
 
 const navbarHTML = `
@@ -425,7 +582,38 @@ const navbarHTML = `
                 <i class="fa-solid fa-magnifying-glass ct-search-icon" id="ctSearchIcon"></i>
                 <div class="ct-search-results" id="ctSearchResults"></div>
             </div>
-            <a href="javascript:void(0)" aria-label="Account" id="navAccountBtn"><i class="fa-regular fa-user"></i></a>
+            <div class="ct-profile-dropdown" id="navAccountWrap">
+                <a href="javascript:void(0)" aria-label="Account" id="navAccountBtn"><i class="fa-regular fa-user"></i></a>
+                <i class="fa-solid fa-chevron-down" style="font-size:10px; margin-left:6px; color:#c8d2dc; cursor:pointer;" id="navAccountChevron"></i>
+                <div class="ct-profile-menu" id="navProfileMenu">
+                    <div class="ct-profile-header">
+                        <div class="ct-profile-img-wrap-small">
+                            <img src="https://ui-avatars.com/api/?name=User&background=e2e8f0&color=475569" alt="Profile" id="ctProfileImage">
+                        </div>
+                        <div class="ct-profile-info">
+                            <div class="ct-profile-shop" id="ctDisplayShopName">My Shop</div>
+                            <div class="ct-profile-name" id="ctDisplayName">John Doe</div>
+                        </div>
+                    </div>
+                    <div class="ct-profile-links">
+                        <a href="profile.html" class="ct-plink">
+                            <i class="fa-regular fa-user"></i>
+                            <span>Profile</span>
+                            <i class="fa-solid fa-chevron-right ct-plink-arrow"></i>
+                        </a>
+                        <a href="profile.html" class="ct-plink">
+                            <i class="fa-solid fa-gear"></i>
+                            <span>Account</span>
+                            <i class="fa-solid fa-chevron-right ct-plink-arrow"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="ct-plink" onclick="if(window.supabase) supabase.auth.signOut(); localStorage.removeItem('dot_user'); window.location.href='index.html';">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            <span>Logout</span>
+                            <i class="fa-solid fa-chevron-right ct-plink-arrow"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
             <a href="cart.html" class="ct-cart-link" aria-label="Cart" id="cartIconLink">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span class="ct-cart-badge" id="cartBadge">0</span>
@@ -445,6 +633,10 @@ const navbarHTML = `
     <a href="#">Gallery</a>
     <a href="#">Contact</a>
 </div>
+
+<a href="https://wa.me/919747710360" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+</a>
 `;
 
 // Inject CSS
@@ -452,10 +644,30 @@ const style = document.createElement('style');
 style.textContent = navbarCSS;
 document.head.appendChild(style);
 
-// Inject Auth Modal script
-const authScript = document.createElement('script');
-authScript.src = 'auth-modal.js';
-document.head.appendChild(authScript);
+// Inject Supabase CDN (if not already loaded by the page)
+if (!window.supabase) {
+    const supabaseCdn = document.createElement('script');
+    supabaseCdn.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+    supabaseCdn.onload = function() {
+        // After CDN loads, inject supabase-config.js
+        const supabaseConfig = document.createElement('script');
+        supabaseConfig.src = 'supabase-config.js';
+        supabaseConfig.onload = function() {
+            // After config loads, inject auth-modal.js
+            const authScript = document.createElement('script');
+            authScript.src = 'auth-modal.js';
+            document.head.appendChild(authScript);
+        };
+        document.head.appendChild(supabaseConfig);
+    };
+    document.head.appendChild(supabaseCdn);
+} else {
+    // Supabase already loaded by the page, just inject auth-modal
+    const authScript = document.createElement('script');
+    authScript.src = 'auth-modal.js';
+    document.head.appendChild(authScript);
+}
+
 
 class DotNavbar extends HTMLElement {
     connectedCallback() {
@@ -499,19 +711,34 @@ class DotNavbar extends HTMLElement {
                 }
             }
             
-            // Update profile icon if logged in
+            // Update profile icon if logged in (real Supabase session)
             const navAccountBtn = this.querySelector('#navAccountBtn');
             if (navAccountBtn) {
-                const userStored = localStorage.getItem('dot_user');
-                if (userStored) {
+                // Use async IIFE so we don't block the rest of navbar setup
+                (async () => {
                     try {
-                        const userObj = JSON.parse(userStored);
-                        if (userObj && userObj.name) {
-                            const avatarUrl = userObj.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(userObj.name) + '&background=0f1d2f&color=fff';
+                        let retries = 0;
+                        while (typeof supabase === 'undefined' && retries < 50) {
+                            await new Promise(r => setTimeout(r, 100));
+                            retries++;
+                        }
+                        if (typeof supabase === 'undefined') return;
+
+                        const { data: { session } } = await supabase.auth.getSession();
+                        if (session) {
+                            const { data: profile } = await supabase
+                                .from('profiles')
+                                .select('full_name')
+                                .eq('id', session.user.id)
+                                .single();
+                            const displayName = profile?.full_name || session.user.phone || 'User';
+                            const avatarUrl = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(displayName) + '&background=0f1d2f&color=fff';
                             navAccountBtn.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width:24px; height:24px; border-radius:50%; object-fit:cover; display:block;">`;
                         }
-                    } catch (e) {}
-                }
+                    } catch (e) {
+                        // supabase may not be available on non-product pages; silently ignore
+                    }
+                })();
             }
 
             // Set active nav link based on current URL
@@ -566,9 +793,9 @@ class DotNavbar extends HTMLElement {
                     { id: 502, name: 'Wide Leg Jeans – Black', price: 1549, oldPrice: 1999, image: 'asses/wideleg.jpg', link: 'productDetails.html', keywords: 'jeans wide leg baggy black', category: 'Jeans', brand: 'Cross Country', fit: 'Wide Leg', sizes: ['30','32','34','36'], colours: ['Black'], isLycra: false, stock: 0 },
                     { id: 509, name: 'Straight Fit Jeans – Blue', price: 1299, oldPrice: 1699, image: 'asses/wideleg.jpg', link: 'productDetails.html', keywords: 'jeans straight fit blue', category: 'Jeans', brand: 'Armani', fit: 'Straight', sizes: ['28','30','32','34','36'], colours: ['Blue'], isLycra: true, stock: 2 },
                     { id: 508, name: 'Baggy Jeans – Black', price: 1699, oldPrice: 2199, image: 'asses/wideleg.jpg', link: 'productDetails.html', keywords: 'jeans baggy black', category: 'Jeans', brand: 'Cross Country', fit: 'Baggy', sizes: ['30','32','34','36','38'], colours: ['Black'], isLycra: false, stock: 45 },
-                    { id: 201, name: 'Linen Pant – Beige', price: 1299, oldPrice: 1899, image: 'asses/linen.jpg', link: 'linen-product-details.html', keywords: 'linen pant pants beige casual', category: 'Linen Pants', brand: 'Cross Country', fit: 'Regular', sizes: ['28','30','32','34','36'], colours: ['Beige'], isLycra: false, stock: 15 },
-                    { id: 203, name: 'Linen Pant – Olive', price: 1349, oldPrice: 1899, image: 'asses/linen.jpg', link: 'linen-product-details.html', keywords: 'linen pant pants olive green', category: 'Linen Pants', brand: 'Armani', fit: 'Relaxed', sizes: ['30','32','34','36','38'], colours: ['Olive'], isLycra: false, stock: 0 },
-                    { id: 206, name: 'Linen Pant – Black', price: 1399, oldPrice: 1899, image: 'asses/linen.jpg', link: 'linen-product-details.html', keywords: 'linen pant pants black', category: 'Linen Pants', brand: 'Cross Country', fit: 'Regular', sizes: ['30','32','34','36','38'], colours: ['Black'], isLycra: false, stock: 8 },
+                    { id: 201, name: 'Linen Pant – Beige', price: 1299, oldPrice: 1899, image: 'asses/linen pant/1.jpg', link: 'linen-product-details.html', keywords: 'linen pant pants beige casual', category: 'Linen Pants', brand: 'Cross Country', fit: 'Regular', sizes: ['28','30','32','34','36'], colours: ['Beige'], isLycra: false, stock: 15 },
+                    { id: 203, name: 'Linen Pant – Olive', price: 1349, oldPrice: 1899, image: 'asses/linen pant/3.jpg', link: 'linen-product-details.html', keywords: 'linen pant pants olive green', category: 'Linen Pants', brand: 'Armani', fit: 'Relaxed', sizes: ['30','32','34','36','38'], colours: ['Olive'], isLycra: false, stock: 0 },
+                    { id: 206, name: 'Linen Pant – Black', price: 1399, oldPrice: 1899, image: 'asses/linen pant/4.jpg', link: 'linen-product-details.html', keywords: 'linen pant pants black', category: 'Linen Pants', brand: 'Cross Country', fit: 'Regular', sizes: ['30','32','34','36','38'], colours: ['Black'], isLycra: false, stock: 8 },
                     { id: 401, name: 'Classic Shorts – Black', price: 899, oldPrice: 1299, image: 'asses/shorts.jpg', link: 'productDetails.html', keywords: 'shorts classic black cotton', category: 'Shorts', brand: 'Armani', fit: 'Cotton', sizes: ['28','30','32','34','36'], colours: ['Black'], isLycra: false, stock: -1 },
                     { id: 404, name: 'Cargo Shorts – Olive', price: 1099, oldPrice: 1499, image: 'asses/shorts.jpg', link: 'productDetails.html', keywords: 'shorts cargo olive green', category: 'Shorts', brand: 'Cross Country', fit: 'Cargo', sizes: ['30','32','34','36'], colours: ['Olive'], isLycra: false, stock: 20 },
                     { id: 407, name: 'Denim Shorts – Blue', price: 1149, oldPrice: 1599, image: 'asses/shorts.jpg', link: 'productDetails.html', keywords: 'shorts denim blue', category: 'Shorts', brand: 'Cross Country', fit: 'Denim', sizes: ['30','32','34','36'], colours: ['Blue'], isLycra: false, stock: 0 },
@@ -701,6 +928,39 @@ class DotNavbar extends HTMLElement {
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') closeSearch();
                 });
+            }
+
+            // --- PROFILE DROPDOWN SYSTEM ---
+            const accountBtn = this.querySelector('#navAccountBtn');
+            const accountChevron = this.querySelector('#navAccountChevron');
+            const profileMenu = this.querySelector('#navProfileMenu');
+            const accountWrap = this.querySelector('#navAccountWrap');
+            const profileImage = this.querySelector('#ctProfileImage');
+            const displayShopName = this.querySelector('#ctDisplayShopName');
+            const displayName = this.querySelector('#ctDisplayName');
+
+            if (accountBtn && profileMenu) {
+                const toggleMenu = (e) => {
+                    e.stopPropagation();
+                    profileMenu.classList.toggle('show');
+                };
+                accountBtn.addEventListener('click', toggleMenu);
+                if (accountChevron) accountChevron.addEventListener('click', toggleMenu);
+                
+                document.addEventListener('click', (e) => {
+                    if (!accountWrap.contains(e.target)) {
+                        profileMenu.classList.remove('show');
+                    }
+                });
+
+                // Load saved data for display
+                const savedShopName = localStorage.getItem('dot_shop_name');
+                const savedUserName = localStorage.getItem('dot_user_name');
+                const savedPhoto = localStorage.getItem('dot_user_photo');
+
+                if (savedShopName && displayShopName) displayShopName.textContent = savedShopName;
+                if (savedUserName && displayName) displayName.textContent = savedUserName;
+                if (savedPhoto && profileImage) profileImage.src = savedPhoto;
             }
 
         }, 0);

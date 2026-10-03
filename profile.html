@@ -4,270 +4,259 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile — DOT Jeans Co.</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .profile-container {
-            max-width: 1100px;
-            margin: 120px auto 60px;
-            padding: 0 20px;
-            display: flex;
-            gap: 30px;
-        }
-        .profile-sidebar {
-            width: 260px;
-            flex-shrink: 0;
-            background: #fff;
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-        .profile-user-info {
-            text-align: center;
-            border-bottom: 1px solid #f1f5f9;
-            padding-bottom: 24px;
-        }
-        .profile-avatar-wrap {
-            position: relative;
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 16px;
-        }
-        .profile-avatar {
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #f1f5f9;
-        }
-        .profile-avatar-edit {
-            position: absolute;
-            bottom: 0; right: 0;
-            background: #0f1d2f; color: #fff;
-            width: 26px; height: 26px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 10px; cursor: pointer; border: 2px solid #fff;
-        }
-        .profile-name-sidebar {
-            font-size: 16px; font-weight: 700; color: #0f1d2f; margin-bottom: 4px;
-        }
-        .profile-phone-sidebar {
-            font-size: 13px; color: #64748b;
-        }
-        .profile-nav {
-            display: flex; flex-direction: column; gap: 8px;
-        }
-        .profile-nav a {
-            display: flex; align-items: center; gap: 12px;
-            padding: 12px 16px;
-            border-radius: 8px;
-            color: #64748b; text-decoration: none; font-size: 14px; font-weight: 500;
-            transition: all 0.2s;
-        }
-        .profile-nav a i { font-size: 16px; width: 20px; text-align: center; }
-        .profile-nav a:hover, .profile-nav a.active {
-            background: #f8fafc; color: #0f1d2f;
-        }
-        .profile-nav a.active {
-            background: #e2e8f0; font-weight: 600;
-        }
+        :root { --orange:#ff750b; --ink:#101218; --muted:#686d75; --line:#e9e9eb; --wash:#fafafa; }
+        body { margin:0; background:var(--wash); color:var(--ink); font-family:"DM Sans",Arial,sans-serif; }
+        button,input { font:inherit; }
+
+        .layout { max-width:1405px; margin:120px auto 40px; padding:0 22px; display:grid; grid-template-columns:350px 1fr; gap:28px; }
+        .sidebar,.panel { background:white; box-shadow:0 3px 16px #00000005; border-radius: 12px; }
+        .sidebar { padding:26px 0; min-height:775px; }
+        .side-head { display:flex; gap:19px; align-items:center; padding:0 31px 29px; }
+        .side-avatar { width:58px; height:58px; border-radius:50%; background:#edf0f1; display:grid; place-items:center; font-size:30px; overflow:hidden; }
+        .side-avatar img { width:100%; height:100%; object-fit:cover; display:none; }
+        .side-head strong { font-size:25px; display:block; }
+        .side-head span { color:var(--muted); font-size:16px; }
         
-        .profile-main {
-            flex: 1;
-            background: #fff;
-            border-radius: 12px;
-            padding: 40px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-        }
-        .profile-heading {
-            font-size: 24px; font-weight: 700; color: #0f1d2f; margin-bottom: 8px;
-        }
-        .profile-sub {
-            font-size: 14px; color: #64748b; margin-bottom: 40px;
-        }
+        .side-link { height:72px; display:flex; align-items:center; gap:27px; padding-left:31px; color:#34383e; font-size:20px; text-decoration:none; border-left:4px solid transparent; }
+        .side-link span { width:32px; font-size:28px; text-align:center; }
+        .side-link.active { background:#fff4eb; color:var(--orange); border-left-color:var(--orange); }
         
-        .profile-content-grid {
-            display: flex;
-            gap: 60px;
-            align-items: flex-start;
-        }
+        .panel { padding:41px 33px 32px; }
+        .summary { display:flex; align-items:center; gap:38px; padding:0 5px 40px; border-bottom:1px solid var(--line); }
+        .photo { width:193px; height:193px; border-radius:50%; background:linear-gradient(140deg,#d5d9da,#85898c); display:grid; place-items:center; overflow:visible; flex-shrink:0; position:relative; }
+        .photo img { width:100%; height:100%; border-radius:50%; object-fit:cover; position:absolute; inset:0; z-index:1; display:none; }
+        .photo .silhouette { color:white; opacity:.9; font-size:103px; transform:translateY(15px); position:relative; z-index:0; }
+        .camera { position:absolute; bottom:7px; right:2px; width:55px; height:55px; background:#191d21; color:white; border:4px solid white; border-radius:50%; display:grid; place-items:center; font-size:25px; z-index:2; cursor:pointer; }
+        .summary-label,.field-label { color:var(--muted); font-size:18px; margin-bottom:9px; }
+        .summary-value { font-weight:700; font-size:31px; margin-bottom:28px; }
+        .summary-value:last-child { margin-bottom:0; }
         
-        .profile-photo-col {
-            display: flex; flex-direction: column; align-items: center; gap: 20px;
-        }
-        .profile-main-avatar {
-            width: 140px; height: 140px; border-radius: 50%; object-fit: cover;
-            border: 4px solid #f8fafc; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-        }
-        .btn-change-photo {
-            background: transparent; border: 1px solid #cbd5e1;
-            padding: 10px 20px; border-radius: 6px; font-size: 13px; font-weight: 600;
-            color: #0f1d2f; cursor: pointer; transition: all 0.2s;
-        }
-        .btn-change-photo:hover { background: #f8fafc; border-color: #0f1d2f; }
+        form { padding-top:35px; display:grid; gap:32px; }
+        .field { height:83px; border:1px solid #e5e5e7; border-radius:15px; display:flex; align-items:center; padding:0 27px; gap:25px; background:#fff; }
+        .field-icon { color:#3d444c; font-size:27px; width:30px; text-align:center; }
+        .field-info { flex:1; display: flex; flex-direction: column; }
+        .field-label { margin:0 0 5px; font-size:16px; }
+        input { border:0; outline:0; padding:0; width:100%; color:#15171b; font-size:20px; background:transparent; }
         
-        .profile-form-col {
-            flex: 1;
-        }
-        .form-group {
-            margin-bottom: 24px;
-        }
-        .form-group label {
-            display: block; font-size: 13px; font-weight: 600; color: #64748b; margin-bottom: 8px;
-        }
-        .form-group input {
-            width: 100%; height: 48px; border: 1px solid #cbd5e1; border-radius: 6px;
-            padding: 0 16px; font-size: 14px; color: #0f1d2f; font-family: 'Inter', sans-serif;
-            transition: all 0.2s;
-        }
-        .form-group input:focus {
-            border-color: #0f1d2f; outline: none; box-shadow: 0 0 0 3px rgba(15, 29, 47, 0.1);
-        }
+        .photo-field { color:#565b61; font-size:17px; }
+        .photo-field span:not(.field-icon) { flex:1; }
+        .change { border:1px solid #ededee; border-radius:14px; color:#33383e; background:white; padding:13px 22px; cursor:pointer; font-size:17px; margin-left:auto; }
         
-        .btn-save {
-            background: #0f1d2f; color: #fff; border: none;
-            padding: 0 32px; height: 48px; border-radius: 6px; font-size: 14px; font-weight: 600;
-            cursor: pointer; transition: background 0.2s; float: right; margin-top: 20px;
-        }
-        .btn-save:hover { background: #1e293b; }
+        .save { height:70px; border:0; border-radius:14px; background:var(--orange); color:white; font-size:23px; font-weight:600; cursor:pointer; box-shadow:0 3px 5px #ff750b35; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; margin-top: 10px; }
+        .save:active { transform:translateY(1px); }
         
-        @media(max-width: 768px) {
-            .profile-container { flex-direction: column; margin-top: 90px; }
-            .profile-sidebar { width: 100%; }
-            .profile-content-grid { flex-direction: column; gap: 40px; }
-            .profile-photo-col { width: 100%; }
-            .btn-save { width: 100%; }
+        @media (max-width:900px) {
+            .layout { grid-template-columns:1fr; margin-top:100px; padding: 0 15px; } 
+            .sidebar { min-height:0; } 
+            .panel { padding:28px 20px; } 
+        }
+        @media (max-width:560px) { 
+            .summary { align-items:flex-start; gap:20px; flex-direction:column; } 
+            .photo { width:108px; height:108px; } 
+            .photo .silhouette { font-size:60px; transform:translateY(8px); } 
+            .camera { transform:scale(.7); transform-origin:bottom right; bottom:2px; right:-2px; } 
+            .summary-value { font-size:23px; margin-bottom: 15px; } 
+            .field { padding:0 16px; gap:12px; height:70px; } 
+            .change { padding:10px; font-size:14px; } 
+            form { gap: 20px; }
         }
     </style>
 </head>
 <body>
     <dot-navbar></dot-navbar>
     <script src="navbar.js"></script>
-    
-    <main class="profile-container">
-        <aside class="profile-sidebar">
-            <div class="profile-user-info">
-                <div class="profile-avatar-wrap">
-                    <img src="" id="sidebarAvatar" class="profile-avatar" onerror="this.src='https://ui-avatars.com/api/?name=User&background=0f1d2f&color=fff'">
-                    <label class="profile-avatar-edit" for="photoUpload">
-                        <i class="fa-solid fa-camera"></i>
-                    </label>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="side-head">
+                <div class="side-avatar">
+                    <img src="" id="sidebarImg">
+                    <span id="sidebarFallback">👤</span>
                 </div>
-                <div class="profile-name-sidebar" id="sidebarName">User Name</div>
-                <div class="profile-phone-sidebar" id="sidebarPhone">+91 98765 43210</div>
+                <div>
+                    <strong>Profile</strong>
+                    <span>Manage your account</span>
+                </div>
             </div>
-            
-            <nav class="profile-nav">
-                <a href="profile.html" class="active"><i class="fa-regular fa-user"></i> My Profile</a>
-                <a href="#"><i class="fa-solid fa-box"></i> My Orders</a>
-                <a href="#"><i class="fa-regular fa-heart"></i> Wishlist</a>
-                <a href="#"><i class="fa-solid fa-location-dot"></i> Addresses</a>
-                <a href="javascript:void(0)" id="logoutBtn" style="color: #ef4444; margin-top: 10px;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
-            </nav>
+            <a href="profile.html" class="side-link active">
+                <span>👤</span> Profile
+            </a>
+            <a href="profile.html" class="side-link">
+                <span>⚙️</span> Account
+            </a>
+            <a href="javascript:void(0)" class="side-link" id="logoutBtn">
+                <span>🚪</span> Logout
+            </a>
         </aside>
-        
-        <section class="profile-main">
-            <div class="profile-heading">My Profile</div>
-            <div class="profile-sub">Manage your personal information.</div>
-            
-            <div class="profile-content-grid">
-                <div class="profile-photo-col">
-                    <img src="" id="mainAvatar" class="profile-main-avatar" onerror="this.src='https://ui-avatars.com/api/?name=User&background=0f1d2f&color=fff'">
-                    <input type="file" id="photoUpload" style="display:none" accept="image/*">
-                    <button class="btn-change-photo" onclick="document.getElementById('photoUpload').click()">Change Photo</button>
+
+        <section class="panel">
+            <div class="summary">
+                <div class="photo">
+                    <img src="" id="mainImg">
+                    <span class="silhouette" id="mainFallback">♟</span>
+                    <label class="camera" for="photoUpload">▣</label>
                 </div>
-                
-                <div class="profile-form-col">
-                    <form id="profileForm">
-                        <div class="form-group">
-                            <label>Full Name</label>
-                            <input type="text" id="profileName" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Mobile Number</label>
-                            <input type="tel" id="profilePhone" disabled style="background:#f8fafc; color:#64748b; cursor:not-allowed;">
-                            <small style="display:block; margin-top:6px; color:#94a3b8; font-size:11px;">Mobile number cannot be changed.</small>
-                        </div>
-                        
-                        <button type="submit" class="btn-save" id="saveBtn">Save Changes</button>
-                    </form>
+                <div>
+                    <div class="summary-label">Shop Name</div>
+                    <div class="summary-value" id="dispShop">Dot Jeans</div>
+                    <div class="summary-label">Name</div>
+                    <div class="summary-value" id="dispName">Muhammed Rafi</div>
                 </div>
             </div>
+            <form id="profileForm">
+                <label class="field">
+                    <span class="field-icon">♜</span>
+                    <span class="field-info">
+                        <span class="field-label">Shop Name</span>
+                        <input id="inpShop" value="Dot Jeans" aria-label="Shop Name" required>
+                    </span>
+                </label>
+                <label class="field">
+                    <span class="field-icon">♙</span>
+                    <span class="field-info">
+                        <span class="field-label">Name</span>
+                        <input id="inpName" value="Muhammed Rafi" aria-label="Name" required>
+                    </span>
+                </label>
+                <div class="field photo-field">
+                    <span class="field-icon">▧</span>
+                    <span>Profile Photo</span>
+                    <input type="file" id="photoUpload" style="display:none" accept="image/*">
+                    <button type="button" class="change" onclick="document.getElementById('photoUpload').click()">Change Photo</button>
+                </div>
+                <button class="save" type="submit" id="saveBtn">▣ &nbsp; Save</button>
+            </form>
         </section>
-    </main>
+    </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const userStr = localStorage.getItem('dot_user');
-            if (!userStr) {
-                // If the user somehow bypassed auth modal, send back home
-                window.location.href = 'index.html';
-                return;
+        // Authentication & Profile Logic
+        document.addEventListener('DOMContentLoaded', async () => {
+            let userSession = null;
+            let userId = null;
+            
+            if (window.supabase) {
+                try {
+                    const { data: { session } } = await supabase.auth.getSession();
+                    userSession = session;
+                    if (session) userId = session.user.id;
+                } catch(e) {}
             }
             
-            const user = JSON.parse(userStr);
-            const avatarUrl = user.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name) + '&background=0f1d2f&color=fff';
+            let localUserStr = localStorage.getItem('dot_user');
+            let localUser = localUserStr ? JSON.parse(localUserStr) : {
+                name: 'Muhammed Rafi',
+                shopName: 'Dot Jeans',
+                avatar: ''
+            };
+
+            const updateUI = (name, shopName, avatarUrl) => {
+                const dName = name || 'Muhammed Rafi';
+                const dShop = shopName || 'Dot Jeans';
+                
+                document.getElementById('dispShop').textContent = dShop;
+                document.getElementById('dispName').textContent = dName;
+                document.getElementById('inpShop').value = dShop;
+                document.getElementById('inpName').value = dName;
+                
+                if (avatarUrl) {
+                    document.getElementById('mainImg').src = avatarUrl;
+                    document.getElementById('mainImg').style.display = 'block';
+                    document.getElementById('mainFallback').style.display = 'none';
+                    
+                    document.getElementById('sidebarImg').src = avatarUrl;
+                    document.getElementById('sidebarImg').style.display = 'block';
+                    document.getElementById('sidebarFallback').style.display = 'none';
+                }
+            };
             
-            document.getElementById('sidebarName').textContent = user.name;
-            document.getElementById('sidebarPhone').textContent = '+91 ' + user.phone;
-            document.getElementById('profileName').value = user.name;
-            document.getElementById('profilePhone').value = '+91 ' + user.phone;
+            let currentAvatar = localUser.avatar;
+            updateUI(localUser.name, localUser.shopName, localUser.avatar);
             
-            document.getElementById('sidebarAvatar').src = avatarUrl;
-            document.getElementById('mainAvatar').src = avatarUrl;
-            
-            // Photo Upload
+            if (userSession && window.supabase) {
+                try {
+                    const { data: profile } = await supabase
+                        .from('profiles')
+                        .select('full_name, shop_name, avatar_url')
+                        .eq('id', userId)
+                        .single();
+                        
+                    if (profile) {
+                        localUser.name = profile.full_name || localUser.name;
+                        localUser.shopName = profile.shop_name || localUser.shopName;
+                        localUser.avatar = profile.avatar_url || localUser.avatar;
+                        currentAvatar = localUser.avatar;
+                        updateUI(localUser.name, localUser.shopName, localUser.avatar);
+                    }
+                } catch(e) {}
+            }
+
             document.getElementById('photoUpload').addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = function(evt) {
-                        const newAvatar = evt.target.result;
-                        document.getElementById('sidebarAvatar').src = newAvatar;
-                        document.getElementById('mainAvatar').src = newAvatar;
+                        currentAvatar = evt.target.result;
+                        document.getElementById('mainImg').src = currentAvatar;
+                        document.getElementById('mainImg').style.display = 'block';
+                        document.getElementById('mainFallback').style.display = 'none';
                         
-                        // Update local storage
-                        user.avatar = newAvatar;
-                        localStorage.setItem('dot_user', JSON.stringify(user));
+                        document.getElementById('sidebarImg').src = currentAvatar;
+                        document.getElementById('sidebarImg').style.display = 'block';
+                        document.getElementById('sidebarFallback').style.display = 'none';
                     };
                     reader.readAsDataURL(file);
                 }
             });
             
-            // Save Profile
-            document.getElementById('profileForm').addEventListener('submit', (e) => {
+            document.getElementById('profileForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const btn = document.getElementById('saveBtn');
-                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Saving...';
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = '↻ Saving...';
                 btn.disabled = true;
                 
+                const newName = document.getElementById('inpName').value;
+                const newShopName = document.getElementById('inpShop').value;
+                
+                localUser.name = newName;
+                localUser.shopName = newShopName;
+                localUser.avatar = currentAvatar;
+                localStorage.setItem('dot_user', JSON.stringify(localUser));
+                
+                localStorage.setItem('dot_shop_name', newShopName);
+                localStorage.setItem('dot_user_name', newName);
+                localStorage.setItem('dot_user_photo', currentAvatar);
+                
+                if (userSession && window.supabase) {
+                    try {
+                        await supabase
+                            .from('profiles')
+                            .update({ full_name: newName, shop_name: newShopName, avatar_url: currentAvatar })
+                            .eq('id', userId);
+                    } catch (e) {}
+                }
+                
+                updateUI(newName, newShopName, currentAvatar);
+                
                 setTimeout(() => {
-                    user.name = document.getElementById('profileName').value;
-                    localStorage.setItem('dot_user', JSON.stringify(user));
-                    
-                    document.getElementById('sidebarName').textContent = user.name;
-                    
-                    btn.innerHTML = 'Save Changes';
-                    btn.disabled = false;
-                    
-                    // Show a toast or simple alert
-                    const originalText = btn.innerHTML;
-                    btn.innerHTML = 'Saved Successfully!';
-                    btn.style.background = '#10b981';
+                    btn.innerHTML = '✓ Saved';
                     setTimeout(() => {
-                        btn.innerHTML = originalText;
-                        btn.style.background = '';
+                        btn.innerHTML = originalHtml;
+                        btn.disabled = false;
                     }, 2000);
-                }, 800);
+                }, 500);
             });
             
-            // Logout
-            document.getElementById('logoutBtn').addEventListener('click', () => {
+            document.getElementById('logoutBtn').addEventListener('click', async () => {
+                if (window.supabase) await supabase.auth.signOut();
                 localStorage.removeItem('dot_user');
+                localStorage.removeItem('dot_user_name');
+                localStorage.removeItem('dot_shop_name');
+                localStorage.removeItem('dot_user_photo');
                 window.location.href = 'index.html';
             });
         });

@@ -370,6 +370,42 @@ let currentPhone = '';
 let currentName = '';
 let timerInterval = null;
 
+// ── Cached session: populated async on load, kept in sync by onAuthStateChange.
+// The capture-phase click handler MUST be synchronous (async handlers cannot
+// reliably call e.preventDefault()), so we cache the session here.
+let _dotCurrentSession = null;
+
+(async () => {
+    try {
+        const { data: { session } } = await supabase.auth.getSession();
+        _dotCurrentSession = session;
+        if (session) _restoreNavAvatar(session);
+    } catch(e) {}
+})();
+
+supabase.auth.onAuthStateChange(async (event, session) => {
+    _dotCurrentSession = session;
+    if (event === 'SIGNED_IN' && session) {
+        _restoreNavAvatar(session);
+    }
+});
+
+async function _restoreNavAvatar(session) {
+    try {
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('full_name')
+            .eq('id', session.user.id)
+            .single();
+        const displayName = profile?.full_name || session.user.phone || 'User';
+        const navBtn = document.getElementById('navAccountBtn');
+        if (navBtn) {
+            const avatarUrl = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(displayName) + '&background=0f1d2f&color=fff';
+            navBtn.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width:24px; height:24px; border-radius:50%; object-fit:cover; display:block;">`;
+        }
+    } catch(e) {}
+}
+
 window.openAuthModal = function(options = {}) {
     document.getElementById('dotAuthOverlay').classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -417,84 +453,161 @@ window.switchAuthStep = function(step) {
     }
 };
 
-window.sendOtp = function(flow) {
+window.sendOtp = async function(flow) {
     currentFlow = flow;
-    const btn = flow === 'login' ? document.querySelector('#authLoginForm .auth-btn') : document.querySelector('#authSignupForm .auth-btn');
-    
+    const btn = flow === 'login'
+        ? document.querySelector('#authLoginForm .auth-btn')
+        : document.querySelector('#authSignupForm .auth-btn');
+
     if (flow === 'login') {
-        currentPhone = document.getElementById('loginPhone').value;
-        // In real app, we'd fetch the name or show generic
-        currentName = 'User'; 
+        currentPhone = document.getElementById('loginPhone').value.trim();
+        currentName = 'User'; // Will be fetched from profiles after login if exists
     } else {
-        currentPhone = document.getElementById('signupPhone').value;
-        currentName = document.getElementById('signupName').value;
+        currentPhone = document.getElementById('signupPhone').value.trim();
+        currentName = document.getElementById('signupName').value.trim();
     }
-    
+
+    if (!currentPhone || currentPhone.length !== 10 || !/^\d{10}$/.test(currentPhone)) {
+        alert('Please enter a valid 10-digit Indian mobile number.');
+        return;
+    }
+
+    const formattedPhone = '+91' + currentPhone;
     document.getElementById('otpPhoneDisplay').textContent = '+91 ' + currentPhone.replace(/(\d{5})(\d{5})/, '$1 $2');
-    
-    // Simulate API call
+
     btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending...';
     btn.disabled = true;
-    
-    setTimeout(() => {
-        btn.innerHTML = 'Send OTP';
-        btn.disabled = false;
-        window.switchAuthStep('otp');
-    }, 1000);
+
+    // ── REAL Supabase Phone OTP ──
+    const { error } = await supabase.auth.signInWithOtp({
+        phone: formattedPhone,
+        options: {
+            channel: 'sms'
+        }
+    });
+
+    btn.innerHTML = 'Send OTP';
+    btn.disabled = false;
+
+    if (error) {
+        alert('Failed to send OTP: ' + error.message);
+        return;
+    }
+
+    window.switchAuthStep('otp');
 };
 
-window.resendOtp = function() {
+window.resendOtp = async function() {
     const action = document.getElementById('resendAction');
     action.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending...';
-    setTimeout(() => {
-        startTimer();
-    }, 1000);
+
+    const formattedPhone = '+91' + currentPhone;
+    const { error } = await supabase.auth.signInWithOtp({
+        phone: formattedPhone,
+        options: { channel: 'sms' }
+    });
+
+    if (error) {
+        action.innerHTML = `<span style="color:red">Error: ${error.message}</span>`;
+        return;
+    }
+
+    startTimer();
 };
 
-window.verifyOtp = function() {
+window.verifyOtp = async function() {
     const btn = document.getElementById('verifyOtpBtn');
+    const inputs = document.querySelectorAll('.otp-input');
+    const otpCode = Array.from(inputs).map(i => i.value.trim()).join('');
+
+    if (otpCode.length !== 6) {
+        alert('Please enter the complete 6-digit OTP.');
+        return;
+    }
+
     btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Verifying...';
     btn.disabled = true;
-    
-    setTimeout(() => {
+
+    const formattedPhone = '+91' + currentPhone;
+
+    // ── REAL Supabase OTP verification ──
+    const { data, error } = await supabase.auth.verifyOtp({
+        phone: formattedPhone,
+        token: otpCode,
+        type: 'sms'
+    });
+
+    if (error) {
         btn.innerHTML = 'Verify';
         btn.disabled = false;
-        
-        // Success
-        const user = {
-            name: currentName,
-            phone: currentPhone,
-            avatar: ''
-        };
-        localStorage.setItem('dot_user', JSON.stringify(user));
-        
-        // Close modal
-        window.closeAuthModal();
-        
-        // Check if there's a pending enquiry
-        if (localStorage.getItem('dot_pending_enquiry') === 'true') {
-            localStorage.removeItem('dot_pending_enquiry');
-            
-            const navBtn = document.getElementById('navAccountBtn');
-            if (navBtn) {
-                const avatarUrl = user.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name) + '&background=0f1d2f&color=fff';
-                navBtn.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width:24px; height:24px; border-radius:50%; object-fit:cover; display:block;">`;
-            }
 
-            if (typeof openEnquiryModal === 'function') {
-                openEnquiryModal();
-            }
+        if (error.message.includes('expired')) {
+            alert('OTP has expired. Please request a new one.');
+        } else if (error.message.includes('invalid')) {
+            alert('Invalid OTP. Please check the code and try again.');
         } else {
-            // Just close the modal and update the UI, no need to redirect to index.html from other pages
-            const navBtn = document.getElementById('navAccountBtn');
-            if (navBtn) {
-                const avatarUrl = user.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name) + '&background=0f1d2f&color=fff';
-                navBtn.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width:24px; height:24px; border-radius:50%; object-fit:cover; display:block;">`;
-            }
-            window.closeAuthModal();
+            alert('Verification failed: ' + error.message);
         }
-    }, 1200);
+        return;
+    }
+
+    const userId = data.user?.id;
+
+    // ── Save/Update profile in Supabase `profiles` table ──
+    if (userId) {
+        const profileData = {
+            id: userId,
+            phone: formattedPhone,
+            updated_at: new Date().toISOString()
+        };
+        // Only set full_name on signup or if it's not 'User'
+        if (currentFlow === 'signup' && currentName && currentName !== 'User') {
+            profileData.full_name = currentName;
+        }
+
+        const { error: profileErr } = await supabase
+            .from('profiles')
+            .upsert(profileData, { onConflict: 'id' });
+
+        if (profileErr) {
+            console.warn('Profile upsert warning:', profileErr.message);
+        }
+
+        // Fetch the profile to get the stored name (needed for login flow)
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('full_name')
+            .eq('id', userId)
+            .single();
+
+        if (profile?.full_name) currentName = profile.full_name;
+    }
+
+    // ── Update cached session immediately (onAuthStateChange fires async) ──
+    _dotCurrentSession = data.session || data;
+
+    btn.innerHTML = 'Verify';
+    btn.disabled = false;
+
+    // ── Update navbar avatar ──
+    const navBtn = document.getElementById('navAccountBtn');
+    if (navBtn && currentName) {
+        const avatarUrl = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentName) + '&background=0f1d2f&color=fff';
+        navBtn.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width:24px; height:24px; border-radius:50%; object-fit:cover; display:block;">`;
+    }
+
+    // ── Close modal and open enquiry if pending ──
+    window.closeAuthModal();
+
+    if (localStorage.getItem('dot_pending_enquiry') === 'true') {
+        localStorage.removeItem('dot_pending_enquiry');
+        if (typeof openEnquiryModal === 'function') {
+            openEnquiryModal();
+        }
+    }
 };
+
+
 
 function startTimer() {
     clearInterval(timerInterval);
@@ -555,31 +668,38 @@ otpInputs.forEach((input, index) => {
 // Bind Event Listeners
 document.getElementById('dotAuthClose').addEventListener('click', window.closeAuthModal);
 
-// Intercept Enquiry Clicks
+// ── Enquiry Button Intercept ─────────────────────────────────────────────────
+// MUST be synchronous — async capture-phase handlers cannot call preventDefault()
+// reliably because the browser processes the event before the await resolves.
+// We use the cached _dotCurrentSession instead.
 document.addEventListener('click', function(e) {
-    const enqBtn = e.target.closest('#dpEnquiryBtn') || e.target.closest('#dpMobileEnquiryBtn') || e.target.closest('#dpEnquiryBtnTab');
-    if (enqBtn) {
-        const user = localStorage.getItem('dot_user');
-        if (!user) {
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-            localStorage.setItem('dot_pending_enquiry', 'true');
-            window.openAuthModal();
-        }
-    }
-}, true); // Capture phase
+    const enqBtn = e.target.closest('#dpEnquiryBtn')
+        || e.target.closest('#dpMobileEnquiryBtn')
+        || e.target.closest('#dpEnquiryBtnTab')
+        || e.target.closest('#openEnquiry');
+    if (!enqBtn) return;
 
-// Handle Nav Account Button Click using event delegation
-document.addEventListener('click', function(e) {
-    const navAccountBtn = e.target.closest('#navAccountBtn') || e.target.closest('[aria-label="Account"]');
-    if (navAccountBtn) {
+    if (!_dotCurrentSession) {
+        // Not logged in → intercept click, show login modal
         e.preventDefault();
-        const user = localStorage.getItem('dot_user');
-        if (user) {
-            window.location.href = 'profile.html';
-        } else {
-            window.openAuthModal();
-        }
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        localStorage.setItem('dot_pending_enquiry', 'true');
+        window.openAuthModal();
+    }
+    // If session exists, click propagates normally → openEnquiryModal() runs
+}, true); // Capture phase — runs before any other handler
+
+// ── Nav Account Button ───────────────────────────────────────────────────────
+document.addEventListener('click', function(e) {
+    const navAccountBtn = e.target.closest('#navAccountBtn')
+        || e.target.closest('[aria-label="Account"]');
+    if (!navAccountBtn) return;
+
+    e.preventDefault();
+    if (_dotCurrentSession) {
+        window.location.href = 'profile.html';
+    } else {
+        window.openAuthModal();
     }
 });
