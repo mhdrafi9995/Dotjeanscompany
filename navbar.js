@@ -486,7 +486,8 @@ const navbarCSS = `
     text-decoration: none;
     font-family: 'Inter', sans-serif;
 }
-.ct-mobile-nav a:hover { color: #fff; }
+.ct-mobile-nav a:hover,
+.ct-mobile-nav a.ct-nav-active { color: #fff; }
 .ct-mobile-nav-close {
     position: absolute;
     top: 18px;
@@ -500,6 +501,9 @@ const navbarCSS = `
 }
 
 /* Responsive */
+@media (max-width: 1200px) {
+    .ct-nav ul { gap: 24px; }
+}
 @media (max-width: 1100px) {
     .ct-header-inner { padding: 0 20px; }
 }
@@ -510,43 +514,270 @@ const navbarCSS = `
     .ct-header-inner { height: 56px; padding: 0 16px; }
 }
 
-/* WhatsApp Floating Button */
-.whatsapp-float {
+/* Customer Support Floating Chat Widget */
+.ct-whatsapp-widget {
     position: fixed;
-    width: 60px;
-    height: 60px;
-    bottom: 40px;
-    right: 40px;
-    background-color: #25d366;
-    color: #FFF;
-    border-radius: 50px;
-    text-align: center;
-    font-size: 34px;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.15);
+    bottom: 32px;
+    right: 32px;
     z-index: 9999;
     display: flex;
-    justify-content: center;
     align-items: center;
+    gap: 14px;
+    pointer-events: none;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+.ct-whatsapp-widget > * {
+    pointer-events: auto;
+}
+
+/* Support Chat Popup Card */
+.ct-support-popup {
+    position: relative;
+    display: inline-flex;
+    align-items: stretch;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 16px 36px -4px rgba(15, 29, 47, 0.16), 0 6px 16px -2px rgba(15, 29, 47, 0.08);
+    border: 1px solid rgba(15, 29, 47, 0.08);
     text-decoration: none;
-    animation: pulse-wa 2s infinite;
-    transition: background-color 0.3s;
+    color: #0f1d2f;
+    opacity: 0;
+    transform: translateX(18px) scale(0.92);
+    animation: supportPopupSlideIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, opacity 0.3s ease;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
 }
-.whatsapp-float:hover {
-    background-color: #1ebd5c;
-    color: #FFF;
+.ct-support-popup:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 42px -4px rgba(15, 29, 47, 0.2), 0 8px 20px -2px rgba(15, 29, 47, 0.1);
+    color: #0f1d2f;
 }
-@keyframes pulse-wa {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-    70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+.ct-support-popup-body {
+    padding: 12px 18px 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-width: 250px;
 }
+.ct-support-popup-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.ct-support-live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+.ct-support-pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #10b981;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+    animation: supportPulse 2s infinite;
+    flex-shrink: 0;
+}
+@keyframes supportPulse {
+    0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+    70% { box-shadow: 0 0 0 7px rgba(16, 185, 129, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+.ct-support-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0f1d2f;
+    letter-spacing: -0.1px;
+    line-height: 1.2;
+}
+.ct-support-popup-msg {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 500;
+    color: #64748b;
+    line-height: 1.35;
+    white-space: normal;
+}
+.ct-support-close-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    color: #94a3b8;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s, color 0.2s;
+    margin-right: -4px;
+}
+.ct-support-close-btn:hover {
+    background: rgba(15, 29, 47, 0.08);
+    color: #0f1d2f;
+}
+.ct-support-popup-tail {
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 12px;
+    height: 12px;
+    background: #ffffff;
+    border-right: 1px solid rgba(15, 29, 47, 0.08);
+    border-top: 1px solid rgba(15, 29, 47, 0.08);
+    pointer-events: none;
+}
+.ct-support-popup.ct-popup-dismissed {
+    opacity: 0 !important;
+    transform: translateX(12px) scale(0.9) !important;
+    pointer-events: none !important;
+}
+@keyframes supportPopupSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(20px) scale(0.92);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+/* Professional Customer Support Representative Avatar Button */
+.ct-support-avatar-btn {
+    position: relative;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+    box-shadow: 0 10px 28px rgba(15, 29, 47, 0.18), 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 2.5px solid #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    flex-shrink: 0;
+    cursor: pointer;
+    overflow: visible;
+    animation: supportAvatarEntry 0.75s cubic-bezier(0.34, 1.35, 0.64, 1) 0.2s both;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+}
+.ct-support-avatar-btn:hover {
+    transform: scale(1.06) translateY(-2px);
+    box-shadow: 0 16px 36px rgba(15, 29, 47, 0.24), 0 0 0 3px rgba(37, 99, 235, 0.25);
+}
+.ct-support-avatar-btn:active {
+    transform: scale(0.96);
+}
+
+/* Support Male Avatar Vector & Idle Animation */
+.ct-support-vector {
+    width: 52px;
+    height: 52px;
+    display: block;
+    pointer-events: none;
+    animation: supportAvatarIdle 4s ease-in-out infinite 0.95s;
+    transform-origin: center bottom;
+}
+
+/* Online Indicator Dot */
+.ct-support-online-dot {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 14px;
+    height: 14px;
+    background-color: #10b981;
+    border: 2.5px solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(16, 185, 129, 0.4);
+}
+
+/* Animations: Entry Fade-in + Slide-up + Bounce */
+@keyframes supportAvatarEntry {
+    0% {
+        opacity: 0;
+        transform: translateY(32px) scale(0.75);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(-5px) scale(1.05);
+    }
+    80% {
+        transform: translateY(2px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Animations: Subtle Idle Floating / Breathing */
+@keyframes supportAvatarIdle {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-3.5px) scale(1.015);
+    }
+}
+
 @media (max-width: 768px) {
-    .whatsapp-float {
-        width: 50px;
-        height: 50px;
+    .ct-whatsapp-widget {
         bottom: 20px;
-        right: 20px;
-        font-size: 28px;
+        right: 18px;
+        gap: 10px;
+    }
+    .ct-support-avatar-btn {
+        width: 54px;
+        height: 54px;
+    }
+    .ct-support-vector {
+        width: 44px;
+        height: 44px;
+    }
+    .ct-support-online-dot {
+        width: 12px;
+        height: 12px;
+        bottom: 1px;
+        right: 1px;
+        border-width: 2px;
+    }
+    .ct-support-popup-body {
+        padding: 10px 14px 10px 12px;
+        max-width: 210px;
+    }
+    .ct-support-title {
+        font-size: 12.5px;
+    }
+    .ct-support-popup-msg {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 420px) {
+    .ct-whatsapp-widget {
+        bottom: 16px;
+        right: 14px;
+        gap: 8px;
+    }
+    .ct-support-popup-body {
+        max-width: 180px;
+        padding: 8px 12px 8px 10px;
+    }
+    .ct-support-title {
+        font-size: 12px;
+    }
+    .ct-support-popup-msg {
+        font-size: 10.5px;
     }
 }
 `;
@@ -573,6 +804,7 @@ const navbarHTML = `
                     </div>
                 </li>
                 <li><a href="about.html">About Us</a></li>
+                <li><a href="profile.html">Profile</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
         </nav>
@@ -630,13 +862,79 @@ const navbarHTML = `
     <a href="index.html">Home</a>
     <a href="#">Products</a>
     <a href="about.html">About</a>
+    <a href="profile.html">Profile</a>
     <a href="#">Gallery</a>
     <a href="#">Contact</a>
 </div>
 
-<a href="https://wa.me/919747710360" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
-    <i class="fa-brands fa-whatsapp"></i>
-</a>
+<div class="ct-whatsapp-widget" id="ctWhatsAppWidget">
+    <a href="https://wa.me/919747710360?text=Hello%20DOT%20Jeans%20Co.%2C%20I%20have%20an%20enquiry" class="ct-support-popup" id="ctWhatsAppPopup" target="_blank" rel="noopener noreferrer" aria-label="Chat With Us on WhatsApp">
+        <div class="ct-support-popup-body">
+            <div class="ct-support-popup-header">
+                <span class="ct-support-live-indicator">
+                    <span class="ct-support-pulse-dot"></span>
+                    <strong class="ct-support-title">Chat With Us</strong>
+                </span>
+                <button type="button" class="ct-support-close-btn" id="ctWhatsAppClose" aria-label="Close chat prompt" onclick="event.preventDefault(); event.stopPropagation(); document.getElementById('ctWhatsAppPopup').classList.add('ct-popup-dismissed');">&times;</button>
+            </div>
+            <p class="ct-support-popup-msg">Need help? We're here to assist you.</p>
+        </div>
+        <div class="ct-support-popup-tail"></div>
+    </a>
+    <a href="https://wa.me/919747710360?text=Hello%20DOT%20Jeans%20Co.%2C%20I%20have%20an%20enquiry" class="ct-support-avatar-btn" id="ctWhatsAppBtn" target="_blank" rel="noopener noreferrer" aria-label="Chat With Customer Support">
+        <svg class="ct-support-vector" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- Broad Male Shoulders / Blazer -->
+            <path d="M12 64C12 50 19 44 26 43L38 43C45 44 52 50 52 64Z" fill="#0F1D2F"/>
+            <!-- Suit Lapels -->
+            <path d="M22 43L28 56L25 64L17 52Z" fill="#1E293B"/>
+            <path d="M42 43L36 56L39 64L47 52Z" fill="#1E293B"/>
+            <!-- Crisp White Shirt -->
+            <path d="M26 43L32 54L38 43Z" fill="#FFFFFF"/>
+            <!-- Collar Points -->
+            <path d="M25 43L30 48L32 43Z" fill="#E2E8F0"/>
+            <path d="M39 43L34 48L32 43Z" fill="#E2E8F0"/>
+            <!-- Necktie -->
+            <path d="M30.5 47H33.5L34 58L32 61L30 58Z" fill="#2563EB"/>
+            <path d="M30.2 45.5H33.8L33.2 48H30.8Z" fill="#1D4ED8"/>
+            <!-- Sturdy Neck -->
+            <path d="M28 36H36V44H28Z" fill="#F0C69E"/>
+            <path d="M28 36H36V39C36 40.5 34 42 32 42C30 42 28 40.5 28 39Z" fill="#E2B488"/>
+            <!-- Ears -->
+            <circle cx="21" cy="27" r="3.2" fill="#FDDCB8"/>
+            <circle cx="43" cy="27" r="3.2" fill="#FDDCB8"/>
+            <circle cx="21" cy="27" r="1.5" fill="#E2B488"/>
+            <circle cx="43" cy="27" r="1.5" fill="#E2B488"/>
+            <!-- Head & Strong Male Jawline -->
+            <path d="M22 25C22 18 26.5 15 32 15C37.5 15 42 18 42 25C42 32 37.5 38.5 32 38.5C26.5 38.5 22 32 22 25Z" fill="#FDDCB8"/>
+            <!-- Short Male Haircut (Clean taper, side part, short back and sides) -->
+            <path d="M19.5 23C19 17 24 11.5 32 11.5C39.5 11.5 44 15.5 44.5 21C42 18.5 38 17.5 33.5 18C29 18.5 25 20.5 20 23.5L19.5 23Z" fill="#1E293B"/>
+            <path d="M20 22.5V26L22.5 25V22Z" fill="#1E293B"/>
+            <path d="M44 22V26L41.5 25V21Z" fill="#1E293B"/>
+            <path d="M22 18.5C24.5 14.5 28.5 12.5 34 13C38.5 13.5 42 15.5 43.5 19C40.5 16.5 36.5 16 32 16.5C27.5 17 24 18 22 18.5Z" fill="#0F172A"/>
+            <!-- Strong Male Eyebrows -->
+            <path d="M24.5 23C26.5 22 29 22 30.5 23" stroke="#0F172A" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M33.5 23C35 22 37.5 22 39.5 23" stroke="#0F172A" stroke-width="1.8" stroke-linecap="round"/>
+            <!-- Eyes (Alert, Confident Male Eyes) -->
+            <circle cx="27.5" cy="27" r="1.8" fill="#0F172A"/>
+            <circle cx="36.5" cy="27" r="1.8" fill="#0F172A"/>
+            <circle cx="28" cy="26.6" r="0.6" fill="#FFFFFF"/>
+            <circle cx="37" cy="26.6" r="0.6" fill="#FFFFFF"/>
+            <!-- Male Nose -->
+            <path d="M32 26.5V30H33.5" stroke="#D99B6A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Friendly Confident Smile (Natural mouth tone, clean masculine look) -->
+            <path d="M29 33.5C30.5 35 33.5 35 35 33.5" stroke="#8A4B38" stroke-width="1.6" stroke-linecap="round"/>
+            <!-- Customer Support Headset -->
+            <path d="M19 26C19 16.5 24 10 32 10C40 10 45 16.5 45 26" stroke="#64748B" stroke-width="2.2" stroke-linecap="round"/>
+            <rect x="17" y="23.5" width="4" height="7" rx="2" fill="#334155"/>
+            <rect x="43" y="23.5" width="4" height="7" rx="2" fill="#334155"/>
+            <!-- Mic Boom & Microphone with Active Indicator -->
+            <path d="M19 28C19 33.5 22.5 36.5 27 36" stroke="#475569" stroke-width="1.6" stroke-linecap="round"/>
+            <rect x="27" y="34.8" width="3.8" height="2.4" rx="1.2" fill="#0F172A"/>
+            <circle cx="28.8" cy="36" r="0.8" fill="#10B981"/>
+        </svg>
+        <span class="ct-support-online-dot"></span>
+    </a>
+</div>
 `;
 
 // Inject CSS
@@ -644,29 +942,62 @@ const style = document.createElement('style');
 style.textContent = navbarCSS;
 document.head.appendChild(style);
 
-// Inject Supabase CDN (if not already loaded by the page)
-if (!window.supabase) {
-    const supabaseCdn = document.createElement('script');
-    supabaseCdn.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
-    supabaseCdn.onload = function() {
-        // After CDN loads, inject supabase-config.js
-        const supabaseConfig = document.createElement('script');
-        supabaseConfig.src = 'supabase-config.js';
-        supabaseConfig.onload = function() {
-            // After config loads, inject auth-modal.js
+// Inject Supabase CDN & Config (if not already loaded by the page)
+(function initSupabaseAuthFlow() {
+    function injectAuthModal() {
+        if (!document.querySelector('script[src*="auth-modal.js"]')) {
             const authScript = document.createElement('script');
             authScript.src = 'auth-modal.js';
             document.head.appendChild(authScript);
-        };
-        document.head.appendChild(supabaseConfig);
-    };
-    document.head.appendChild(supabaseCdn);
-} else {
-    // Supabase already loaded by the page, just inject auth-modal
-    const authScript = document.createElement('script');
-    authScript.src = 'auth-modal.js';
-    document.head.appendChild(authScript);
-}
+        }
+    }
+
+    function injectConfig() {
+        if (window.supabase && window.supabase.auth) {
+            injectAuthModal();
+            return;
+        }
+        if (!document.querySelector('script[src*="supabase-config.js"]')) {
+            const supabaseConfig = document.createElement('script');
+            supabaseConfig.src = 'supabase-config.js';
+            supabaseConfig.onload = injectAuthModal;
+            document.head.appendChild(supabaseConfig);
+        } else {
+            const timer = setInterval(() => {
+                if (window.supabase && window.supabase.auth) {
+                    clearInterval(timer);
+                    injectAuthModal();
+                }
+            }, 50);
+        }
+    }
+
+    // 1. If Supabase client is already initialized
+    if (window.supabase && window.supabase.auth) {
+        injectAuthModal();
+        return;
+    }
+
+    // 2. If Supabase CDN is not yet loaded
+    if (!window.supabase) {
+        if (!document.querySelector('script[src*="supabase-js"]')) {
+            const supabaseCdn = document.createElement('script');
+            supabaseCdn.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+            supabaseCdn.onload = injectConfig;
+            document.head.appendChild(supabaseCdn);
+        } else {
+            const timer = setInterval(() => {
+                if (window.supabase) {
+                    clearInterval(timer);
+                    injectConfig();
+                }
+            }, 50);
+        }
+    } else {
+        // CDN is loaded, but client is not initialized yet
+        injectConfig();
+    }
+})();
 
 
 class DotNavbar extends HTMLElement {
@@ -718,11 +1049,11 @@ class DotNavbar extends HTMLElement {
                 (async () => {
                     try {
                         let retries = 0;
-                        while (typeof supabase === 'undefined' && retries < 50) {
+                        while ((typeof supabase === 'undefined' || !supabase.auth) && retries < 50) {
                             await new Promise(r => setTimeout(r, 100));
                             retries++;
                         }
-                        if (typeof supabase === 'undefined') return;
+                        if (typeof supabase === 'undefined' || !supabase.auth) return;
 
                         const { data: { session } } = await supabase.auth.getSession();
                         if (session) {
@@ -743,7 +1074,7 @@ class DotNavbar extends HTMLElement {
 
             // Set active nav link based on current URL
             const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-            const navLinks = this.querySelectorAll('.ct-nav a');
+            const navLinks = this.querySelectorAll('.ct-nav a, .ct-mobile-nav a');
             navLinks.forEach(link => {
                 const linkPath = link.getAttribute('href');
                 if (linkPath === currentPath || (currentPath === '' && linkPath === 'index.html')) {

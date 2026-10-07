@@ -1,149 +1,135 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOT Jeans Co. — Admin Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root { --primary: #0f172a; --secondary: #334155; --bg: #f8fafc; --surface: #ffffff; --border: #e2e8f0; --text: #1e293b; --danger: #ef4444; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
-        .admin-nav { background: var(--surface); padding: 1rem 2rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-        .admin-nav h1 { margin: 0; font-size: 1.25rem; font-weight: 700; color: var(--primary); }
-        .admin-nav button { background: var(--primary); color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; }
-        .admin-container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
-        .admin-tabs { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
-        .admin-tabs button { background: var(--surface); border: 1px solid var(--border); padding: 0.75rem 1.5rem; border-radius: 4px; cursor: pointer; font-weight: 500; }
-        .admin-tabs button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-        .admin-panel { display: none; background: var(--surface); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border); }
-        .admin-panel.active { display: block; }
-        .form-group { margin-bottom: 1rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.875rem; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 4px; font-family: inherit; box-sizing: border-box; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .btn { background: var(--primary); color: #fff; border: none; padding: 0.75rem 1.5rem; border-radius: 4px; cursor: pointer; font-weight: 500; }
-        .btn-danger { background: var(--danger); }
-        .data-table { width: 100%; border-collapse: collapse; }
-        .data-table th, .data-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
-        .data-table th { font-weight: 600; color: var(--secondary); background: #f1f5f9; }
-        .colour-row, .size-row { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; align-items: center; }
-        .colour-row input, .size-row input { flex: 1; }
-    </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DOT — B2B Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
 </head>
+
 <body>
-
-    <div id="app">
-        <nav class="admin-nav">
-            <h1>DOT Jeans Co. Admin</h1>
-            <button onclick="logout()">Logout</button>
+    <aside class="sidebar">
+        <a class="brand" href="#"><strong>DOT</strong><span>Jeans Co.</span></a>
+        <nav>
+            <a href="#"><i>⌂</i>Dashboard</a><a class="active" href="#products"><i>▣</i>Products</a><a
+                href="#"><i>▤</i>Orders</a><a href="#"><i>♙</i>Customers</a><a href="#"><i>▦</i>Inventory</a><a
+                href="#"><i>⌘</i>Deals / B2B</a><a href="#"><i>⚙</i>Settings</a>
         </nav>
-        <div class="admin-container">
-            <div class="admin-tabs">
-                <button class="tab-btn active" onclick="switchTab('products')">Products</button>
-                <button class="tab-btn" onclick="switchTab('addProduct')">Add Product</button>
-                <button class="tab-btn" onclick="switchTab('enquiries')">Enquiries</button>
+        <div class="profile">
+            <div class="avatar">R</div>
+            <div><b>Rafi</b><small>Admin</small></div><span>···</span>
+        </div>
+    </aside>
+    <main>
+        <header><label class="search">⌕ <input placeholder="Search products, categories..." /></label>
+            <div class="header-right"><button class="bell">♧</button>
+                <div class="avatar">R</div>
+                <div><b>Rafi</b><small>Admin</small></div><span>⌄</span>
             </div>
-
-            <!-- Products List -->
-            <div id="productsTab" class="admin-panel active">
-                <h2>Manage Products</h2>
-                <table class="data-table">
+        </header>
+        <section id="products" class="view products-view">
+            <div class="heading">
+                <div>
+                    <h1>Products</h1>
+                    <p>Manage your products, inventory and pricing.</p>
+                </div>
+                <div class="actions"><button class="outline">↥ &nbsp; Export</button><button class="primary"
+                        id="addProduct">＋ &nbsp; Add Product</button></div>
+            </div>
+            <div class="tabs"><button class="selected">All Products <em>48</em></button><button>Active
+                    <em>42</em></button><button>New <em>6</em></button><button>Best Seller
+                    <em>8</em></button><button>Out of Stock <em>2</em></button></div>
+            <div class="table-card">
+                <table>
                     <thead>
                         <tr>
-                            <th>Image</th>
-                            <th>Brand</th>
+                            <th>Product</th>
                             <th>Name</th>
+                            <th>Category</th>
+                            <th>Colours</th>
+                            <th>Sizes</th>
+                            <th>Total Stock</th>
+                            <th>Wholesale Price</th>
+                            <th>MOQ</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="productsTableBody">
-                        <!-- Loaded via JS -->
-                    </tbody>
+                    <tbody id="productsTable"></tbody>
                 </table>
             </div>
-
-            <!-- Add/Edit Product -->
-            <div id="addProductTab" class="admin-panel">
-                <h2 id="formTitle">Add New Product</h2>
-                <form id="productForm" onsubmit="saveProduct(event)">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Brand</label>
-                            <input type="text" id="pBrand" required value="CROSS COUNTRY">
-                        </div>
-                        <div class="form-group">
-                            <label>Product Name / Fit</label>
-                            <input type="text" id="pName" required placeholder="e.g. Straight Fit">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Description</label>
-                        <textarea id="pDesc" rows="4" required></textarea>
-                    </div>
-
-                    <!-- Images -->
-                    <h3>Product Images (Existing Bucket: "Product Images")</h3>
-                    <div class="form-group">
-                        <label>Main Image (1 required)</label>
-                        <input type="file" id="pMainImg" accept="image/*">
-                    </div>
-                    <div class="form-group">
-                        <label>Detail Images (Select up to 2)</label>
-                        <input type="file" id="pDetailImgs" accept="image/*" multiple>
-                    </div>
-
-                    <!-- Colours -->
-                    <h3>Colours (Up to 7)</h3>
-                    <div id="coloursContainer">
-                        <div class="colour-row">
-                            <input type="text" class="c-name" placeholder="Colour Name (e.g. Blue)">
-                            <input type="color" class="c-hex" value="#0000ff">
-                        </div>
-                    </div>
-                    <button type="button" onclick="addColourRow()" style="margin-bottom:1rem">+ Add Colour</button>
-
-                    <!-- Sizes & Stock -->
-                    <h3>Sizes & Stock</h3>
-                    <div id="sizesContainer">
-                        <div class="size-row">
-                            <input type="text" class="s-size" placeholder="Size (e.g. 28)" required>
-                            <input type="number" class="s-qty" placeholder="Stock Qty (e.g. 3)" min="0" required>
-                        </div>
-                    </div>
-                    <button type="button" onclick="addSizeRow()" style="margin-bottom:1rem">+ Add Size</button>
-
-                    <hr style="border:0;border-top:1px solid var(--border);margin:1.5rem 0">
-                    <button type="submit" class="btn">Save Product</button>
-                    <p id="saveMessage" style="color:green; font-size:14px"></p>
-                </form>
+        </section>
+        <section id="add-view" class="view form-view hidden">
+            <div class="form-heading"><button id="back" class="back">←</button>
+                <div>
+                    <h1>Add Product</h1>
+                    <p>Fill in the details to add a new product.</p>
+                </div>
+                <div class="actions"><button class="outline" id="cancel">Cancel</button><button class="primary"
+                        id="save">Save Product</button></div>
             </div>
-
-            <!-- Enquiries -->
-            <div id="enquiriesTab" class="admin-panel">
-                <h2>Wholesale Enquiries</h2>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Business</th>
-                            <th>Contact</th>
-                            <th>Product</th>
-                            <th>Req (Qty)</th>
-                        </tr>
-                    </thead>
-                    <tbody id="enquiriesTableBody">
-                        <!-- Loaded via JS -->
-                    </tbody>
-                </table>
+            <div class="form-grid">
+                <div class="form-column">
+                    <article class="card"><label>Product Images <b>*</b></label>
+                        <div class="image-row">
+                            <div class="product-preview">👖</div>
+                            <div class="product-preview muted">👖</div>
+                            <div class="product-preview muted">👖</div><button class="upload" id="upload">＋<span>Upload
+                                    Images<br><small>JPEG, PNG · Max 5MB</small></span></button><input id="file"
+                                type="file" accept="image/*" hidden>
+                        </div>
+                    </article>
+                    <article class="card fields"><label>Product Name <b>*</b><input id="productName"
+                                value="Armani Bootcut" /></label><label>Category <b>*</b><select>
+                                <option>Jeans Pant</option>
+                                <option>Cargo Pant</option>
+                                <option>Shorts</option>
+                            </select></label><label>Description <b>*</b>
+                            <div class="editor">
+                                <div>𝐁　<i>𝘐</i>　<u>U</u>　☷　☷　↔</div>
+                                <textarea>Premium quality Armani bootcut jeans. Comfortable fit with stylish look. Perfect for both casual and formal wear.</textarea>
+                            </div>
+                        </label></article>
+                    <article class="card"><label>Product Status</label>
+                        <div class="status-pick"><button class="tag green">New</button><button class="tag yellow">Best
+                                Seller</button><button class="tag red">Out of Stock</button><button
+                                class="tag blue selected-status">Active</button><button class="tag gray">Hidden</button>
+                        </div>
+                    </article>
+                </div>
+                <div class="form-column">
+                    <article class="card"><label>Colours <b>*</b></label>
+                        <div class="colours"><button class="swatch navy"></button><button
+                                class="swatch beige"></button><button class="swatch black"></button><button
+                                class="swatch sand"></button><button class="swatch olive"></button><button
+                                class="add-colour">⊙ &nbsp; Add Colour</button></div><label class="sizes-title">Sizes &
+                            Quantity <b>*</b></label>
+                        <div id="sizes" class="sizes"></div><button class="add-size" id="addSize">＋ &nbsp; Add
+                            Size</button>
+                    </article>
+                    <article class="card wholesale">
+                        <h3>B2B / Wholesale Details</h3>
+                        <div class="two"><label>Wholesale Price (₹) <b>*</b><input value="650" /></label><label>Dealer
+                                Price (₹)<input value="750" /></label><label>Customer Price (₹)<input
+                                    value="999" /></label><label>MOQ (Minimum Order Quantity) <b>*</b><input
+                                    value="10" /></label></div>
+                        <div class="toggle-row"><button class="toggle on" id="toggle"><i></i></button>
+                            <div><b>Wholesale Only</b><small>Allow only wholesale orders</small></div>
+                        </div><label>Stock Availability<select>
+                                <option>In Stock</option>
+                                <option>Out of Stock</option>
+                            </select></label>
+                    </article>
+                </div>
             </div>
-
-        </div>
-    </div>
-
-    <!-- Supabase Client -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../js/supabase.js"></script>
-    <script src="../admin.js"></script>
+        </section>
+    </main>
+    <div class="toast" id="toast">Product saved successfully!</div>
+    <script src="app.js"></script>
 </body>
+
 </html>

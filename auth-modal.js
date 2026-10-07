@@ -376,19 +376,28 @@ let timerInterval = null;
 let _dotCurrentSession = null;
 
 (async () => {
+    let client = window.supabase || (typeof supabase !== 'undefined' ? supabase : null);
+    let retries = 0;
+    while ((!client || !client.auth) && retries < 50) {
+        await new Promise(r => setTimeout(r, 100));
+        client = window.supabase || (typeof supabase !== 'undefined' ? supabase : null);
+        retries++;
+    }
+    if (!client || !client.auth) return;
+
     try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data: { session } } = await client.auth.getSession();
         _dotCurrentSession = session;
         if (session) _restoreNavAvatar(session);
     } catch(e) {}
-})();
 
-supabase.auth.onAuthStateChange(async (event, session) => {
-    _dotCurrentSession = session;
-    if (event === 'SIGNED_IN' && session) {
-        _restoreNavAvatar(session);
-    }
-});
+    client.auth.onAuthStateChange(async (event, session) => {
+        _dotCurrentSession = session;
+        if (event === 'SIGNED_IN' && session) {
+            _restoreNavAvatar(session);
+        }
+    });
+})();
 
 async function _restoreNavAvatar(session) {
     try {

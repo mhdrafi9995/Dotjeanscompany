@@ -64,6 +64,9 @@
             form { gap: 20px; }
         }
     </style>
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
 </head>
 <body>
     <dot-navbar></dot-navbar>
@@ -138,7 +141,14 @@
             let userSession = null;
             let userId = null;
             
-            if (window.supabase) {
+            // Wait for Supabase to be ready if still initializing
+            let retries = 0;
+            while ((typeof supabase === 'undefined' || !supabase.auth) && retries < 50) {
+                await new Promise(r => setTimeout(r, 100));
+                retries++;
+            }
+            
+            if (typeof supabase !== 'undefined' && supabase.auth) {
                 try {
                     const { data: { session } } = await supabase.auth.getSession();
                     userSession = session;
@@ -176,7 +186,7 @@
             let currentAvatar = localUser.avatar;
             updateUI(localUser.name, localUser.shopName, localUser.avatar);
             
-            if (userSession && window.supabase) {
+            if (userSession && typeof supabase !== 'undefined' && supabase.auth) {
                 try {
                     const { data: profile } = await supabase
                         .from('profiles')
@@ -231,7 +241,7 @@
                 localStorage.setItem('dot_user_name', newName);
                 localStorage.setItem('dot_user_photo', currentAvatar);
                 
-                if (userSession && window.supabase) {
+                if (userSession && typeof supabase !== 'undefined' && supabase.auth) {
                     try {
                         await supabase
                             .from('profiles')
@@ -252,7 +262,7 @@
             });
             
             document.getElementById('logoutBtn').addEventListener('click', async () => {
-                if (window.supabase) await supabase.auth.signOut();
+                if (typeof supabase !== 'undefined' && supabase.auth) await supabase.auth.signOut();
                 localStorage.removeItem('dot_user');
                 localStorage.removeItem('dot_user_name');
                 localStorage.removeItem('dot_shop_name');

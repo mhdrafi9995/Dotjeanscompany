@@ -17,7 +17,10 @@
     <style>
         .dot-splash-screen {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             background-color: #fafafa;
             z-index: 999999;
             display: flex;
@@ -25,29 +28,33 @@
             justify-content: center;
             transition: opacity 0.6s ease, visibility 0.6s ease;
         }
+
         .dot-splash-logo-container {
             position: relative;
             width: 280px;
             height: 138px;
         }
+
         .splash-img {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: auto;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
             opacity: 0;
         }
-        
+
         .splash-icon {
             clip-path: inset(0 62% 0 0);
             animation: splashRevealIcon 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.2s forwards;
         }
-        
+
         .splash-dot {
             clip-path: inset(0 0 45% 38%);
             animation: splashRevealText 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.8s forwards;
             transform: translateX(-15px);
         }
-        
+
         .splash-jeans {
             clip-path: inset(55% 0 0 38%);
             animation: splashRevealText 0.6s cubic-bezier(0.25, 1, 0.5, 1) 1.2s forwards;
@@ -55,13 +62,29 @@
         }
 
         @keyframes splashRevealIcon {
-            0% { opacity: 0; transform: scale(0.9); }
-            100% { opacity: 1; transform: scale(1); }
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
+
         @keyframes splashRevealText {
-            0% { opacity: 0; transform: translateX(-15px); }
-            100% { opacity: 1; transform: translateX(0); }
+            0% {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
+
         body.splash-active {
             overflow: hidden !important;
         }
@@ -86,7 +109,7 @@
         if (!sessionStorage.getItem('splashShown')) {
             document.body.classList.add('splash-active');
             sessionStorage.setItem('splashShown', 'true');
-            
+
             document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     const splash = document.getElementById('dotSplashScreen');
@@ -333,7 +356,9 @@
                             <span class="color-swatch" style="background-color: #8c766b;"></span>
                             <span class="color-swatch" style="background-color: #3b5066;"></span>
                         </div>
-                        <button class="pcard-out-btn" disabled style="margin-top: 8px; width: 100%; padding: 8px 0; font-size: 11px; font-weight: 600; color: #9ca3af; background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 4px; cursor: not-allowed; text-transform: uppercase; letter-spacing: 0.5px;">Out of Stock</button>
+                        <button class="pcard-out-btn" disabled
+                            style="margin-top: 8px; width: 100%; padding: 8px 0; font-size: 11px; font-weight: 600; color: #9ca3af; background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 4px; cursor: not-allowed; text-transform: uppercase; letter-spacing: 0.5px;">Out
+                            of Stock</button>
                     </div>
                 </div>
                 <!-- Product 2 -->
@@ -356,6 +381,7 @@
                             <span class="color-swatch" style="background-color: #2b3952;"></span>
                             <span class="color-swatch" style="background-color: #d6d2c4;"></span>
                         </div>
+
                     </div>
                 </div>
                 <!-- Product 3 -->
