@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Our Brands | DOT Jeans Co. — Wholesale Fashion</title>
+    <meta name="description" content="Explore exclusive wholesale denim brands at DOT Jeans Co. Featuring KOCOA and CROSS COUNTRY collections for bulk orders.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="category.css">
+    <link rel="stylesheet" href="brand.css">
+</head>
+<body>
+
+    <!-- Shared Navigation Bar -->
+    <dot-navbar></dot-navbar>
+    <script src="navbar.js"></script>
+
+    <!-- Supabase Client Setup -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+
+    <!-- ===== BRAND HERO BANNER ===== -->
+    <section class="brand-hero" id="brandHero">
+        <img src="asses/kocoa-banner.jpg" alt="Brand Banner" class="brand-hero-bg" id="brandHeroBg">
+        <div class="brand-hero-overlay"></div>
+        <div class="brand-hero-content">
+            <span class="brand-hero-badge badge-kocoa" id="brandHeroBadge">
+                <i class="fa-solid fa-fire"></i> <span id="brandBadgeText">URBAN STREETWEAR &amp; DENIM</span>
+            </span>
+            <h1 class="brand-hero-title" id="brandHeroTitle">KOCOA</h1>
+            <p class="brand-hero-desc" id="brandHeroDesc">
+                Contemporary cuts, relaxed skater fits, and modern washed denim engineered for youth retail appeal.
+            </p>
+            <div class="brand-switch-bar">
+                <button class="brand-switch-btn active" id="btnSwitchKocoa" data-brand="KOCOA">
+                    <i class="fa-solid fa-tag"></i> KOCOA
+                </button>
+                <button class="brand-switch-btn" id="btnSwitchCrossCountry" data-brand="CROSS COUNTRY">
+                    <i class="fa-solid fa-gem"></i> CROSS COUNTRY
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== BREADCRUMB ===== -->
+    <nav class="cat-breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html"><i class="fa-solid fa-house" style="font-size:11px"></i> Home</a>
+        <span class="sep">/</span>
+        <a href="index.html#ourBrandsSection">Brands</a>
+        <span class="sep">/</span>
+        <span class="current" id="brandBreadcrumb">KOCOA</span>
+    </nav>
+
+    <!-- ===== TOOLBAR ===== -->
+    <div class="cat-toolbar">
+        <div class="brand-toolbar-left">
+            <div class="cat-product-count" id="productCount"><strong>0</strong> Products</div>
+            <div class="brand-current-badge" id="brandStatusBadge">
+                <i class="fa-solid fa-circle-check" style="color:#10b981; font-size:11px;"></i>
+                <span id="brandStatusText">Brand: KOCOA</span>
+            </div>
+        </div>
+        <div class="brand-toolbar-right">
+            <!-- View All Products Button -->
+            <a href="category-jeans.html" class="view-all-products-btn" id="viewAllProductsBtn">
+                <i class="fa-solid fa-arrow-left"></i> View All Products
+            </a>
+            <div class="cat-sort-wrap">
+                <span class="cat-sort-label">Sort:</span>
+                <select class="cat-sort-select" id="sortSelect">
+                    <option value="newest">Newest</option>
+                    <option value="name-asc">Name A–Z</option>
+                    <option value="name-desc">Name Z–A</option>
+                </select>
+            </div>
+            <div class="cat-mobile-controls">
+                <button class="cat-filter-btn" id="filterBtn"><i class="fa-solid fa-sliders"></i> Filter</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MAIN LAYOUT ===== -->
+    <div class="cat-layout">
+        <!-- Desktop Sidebar -->
+        <aside class="cat-sidebar" id="desktopSidebar">
+            <div class="filter-section">
+                <div class="filter-title">Category <span class="ti">▾</span></div>
+                <div class="filter-options">
+                    <label class="filter-label"><input type="radio" name="cat_filter" class="filter-category" value="" checked> All Categories</label>
+                    <label class="filter-label"><input type="radio" name="cat_filter" class="filter-category" value="Jeans"> Jeans</label>
+                    <label class="filter-label"><input type="radio" name="cat_filter" class="filter-category" value="Cargo Pants"> Cargo Pants</label>
+                    <label class="filter-label"><input type="radio" name="cat_filter" class="filter-category" value="Linen Pants"> Linen Pants</label>
+                    <label class="filter-label"><input type="radio" name="cat_filter" class="filter-category" value="Shorts"> Shorts</label>
+                    <label class="filter-label"><input type="radio" name="cat_filter" class="filter-category" value="Kids Wear"> Kids Wear</label>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-title">Fit <span class="ti">▾</span></div>
+                <div class="filter-options">
+                    <label class="filter-label"><input type="radio" name="fit_filter" class="filter-fit" value="" checked> All Fits</label>
+                    <label class="filter-label"><input type="radio" name="fit_filter" class="filter-fit" value="Wide Leg"> Wide Leg</label>
+                    <label class="filter-label"><input type="radio" name="fit_filter" class="filter-fit" value="Baggy Fit"> Baggy Fit</label>
+                    <label class="filter-label"><input type="radio" name="fit_filter" class="filter-fit" value="Regular Fit"> Regular Fit</label>
+                    <label class="filter-label"><input type="radio" name="fit_filter" class="filter-fit" value="Relaxed Fit"> Relaxed Fit</label>
+                    <label class="filter-label"><input type="radio" name="fit_filter" class="filter-fit" value="Cargo"> Cargo</label>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-title">Size <span class="ti">▾</span></div>
+                <div class="filter-options">
+                    <label class="filter-label"><input type="checkbox" class="filter-size" value="28"> 28</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-size" value="30"> 30</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-size" value="32"> 32</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-size" value="34"> 34</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-size" value="36"> 36</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-size" value="38"> 38</label>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-title">Colour <span class="ti">▾</span></div>
+                <div class="filter-options">
+                    <label class="filter-label"><input type="checkbox" class="filter-colour" value="Blue"> Blue / Indigo</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-colour" value="Black"> Black / Charcoal</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-colour" value="Grey"> Grey</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-colour" value="Olive"> Olive</label>
+                    <label class="filter-label"><input type="checkbox" class="filter-colour" value="Beige"> Beige / Off White</label>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Products Area -->
+        <div class="cat-products-area">
+            <div class="product-grid-cat" id="brandProductGrid">
+                <!-- Injected via JavaScript from Supabase / Brand Catalog -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MOBILE FILTER DRAWER ===== -->
+    <div class="filter-drawer-overlay" id="filterDrawerOverlay"></div>
+    <div class="filter-drawer" id="filterDrawer">
+        <div class="filter-drawer-header">
+            <h3>Filter Products</h3>
+            <button class="filter-drawer-close" id="filterDrawerClose">&times;</button>
+        </div>
+        <div style="padding: 20px;">
+            <div class="filter-section">
+                <div class="filter-title">Category</div>
+                <div class="filter-options">
+                    <label class="filter-label"><input type="radio" name="m_cat_filter" class="m-filter-category" value="" checked> All Categories</label>
+                    <label class="filter-label"><input type="radio" name="m_cat_filter" class="m-filter-category" value="Jeans"> Jeans</label>
+                    <label class="filter-label"><input type="radio" name="m_cat_filter" class="m-filter-category" value="Cargo Pants"> Cargo Pants</label>
+                    <label class="filter-label"><input type="radio" name="m_cat_filter" class="m-filter-category" value="Linen Pants"> Linen Pants</label>
+                    <label class="filter-label"><input type="radio" name="m_cat_filter" class="m-filter-category" value="Shorts"> Shorts</label>
+                </div>
+            </div>
+            <div class="filter-section">
+                <div class="filter-title">Fit</div>
+                <div class="filter-options">
+                    <label class="filter-label"><input type="radio" name="m_fit_filter" class="m-filter-fit" value="" checked> All Fits</label>
+                    <label class="filter-label"><input type="radio" name="m_fit_filter" class="m-filter-fit" value="Wide Leg"> Wide Leg</label>
+                    <label class="filter-label"><input type="radio" name="m_fit_filter" class="m-filter-fit" value="Baggy Fit"> Baggy Fit</label>
+                    <label class="filter-label"><input type="radio" name="m_fit_filter" class="m-filter-fit" value="Regular Fit"> Regular Fit</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== WHOLESALE ENQUIRY MODAL ===== -->
+    <div class="enquiry-modal-backdrop" id="enquiryModal" role="dialog" aria-modal="true" aria-labelledby="enquiryModalTitle">
+        <section class="enquiry-modal-card">
+            <div class="enquiry-modal-header">
+                <h3 id="enquiryModalTitle"><i class="fa-solid fa-boxes-packing"></i> Wholesale Product Enquiry</h3>
+                <button type="button" class="enquiry-modal-close" id="closeEnquiryModal" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="enquiry-modal-body">
+                <!-- Selected Product Preview -->
+                <div class="enquiry-selected-product">
+                    <img src="" alt="Selected Product" class="enquiry-prod-thumb" id="modalProdThumb">
+                    <div class="enquiry-prod-meta">
+                        <div class="enquiry-prod-brand" id="modalProdBrand">KOCOA</div>
+                        <h4 class="enquiry-prod-name" id="modalProdName">Product Name</h4>
+                        <div class="enquiry-prod-tag" id="modalProdCategory">Wholesale B2B • Pack Distribution</div>
+                    </div>
+                </div>
+
+                <form id="brandEnquiryForm">
+                    <div class="enquiry-form-grid">
+                        <div class="enquiry-field">
+                            <label>Business / Shop Name <mark>*</mark></label>
+                            <input type="text" name="business_name" id="eqBusiness" placeholder="e.g. Royal Fashion Store" required>
+                        </div>
+                        <div class="enquiry-field">
+                            <label>Contact Person <mark>*</mark></label>
+                            <input type="text" name="contact_person" id="eqPerson" placeholder="Full name" required>
+                        </div>
+                        <div class="enquiry-field">
+                            <label>WhatsApp / Mobile No. <mark>*</mark></label>
+                            <input type="tel" name="phone" id="eqPhone" placeholder="+91 98765 43210" required>
+                        </div>
+                        <div class="enquiry-field">
+                            <label>Email Address <mark>*</mark></label>
+                            <input type="email" name="email" id="eqEmail" placeholder="yourname@business.com" required>
+                        </div>
+                        <div class="enquiry-field">
+                            <label>Requirement Quantity (Pcs/Packs) <mark>*</mark></label>
+                            <input type="number" name="quantity" id="eqQty" min="1" value="20" required>
+                        </div>
+                        <div class="enquiry-field">
+                            <label>Select Size</label>
+                            <select name="selected_size" id="eqSize">
+                                <option value="Assorted Pack (30-36)">Assorted Pack (30–36)</option>
+                                <option value="Size 28">Size 28</option>
+                                <option value="Size 30">Size 30</option>
+                                <option value="Size 32">Size 32</option>
+                                <option value="Size 34">Size 34</option>
+                                <option value="Size 36">Size 36</option>
+                                <option value="Size 38">Size 38</option>
+                            </select>
+                        </div>
+                        <div class="enquiry-field full-span">
+                            <label>Preferred Colour / Variant</label>
+                            <select name="selected_colour" id="eqColour">
+                                <option value="All Colours / Mix Assorted">All Colours / Mix Assorted</option>
+                                <option value="Indigo Blue">Indigo Blue</option>
+                                <option value="Black">Black</option>
+                                <option value="Light Blue">Light Blue</option>
+                                <option value="Grey">Grey</option>
+                            </select>
+                        </div>
+                        <div class="enquiry-field full-span">
+                            <label>Additional Notes / City &amp; State</label>
+                            <textarea name="notes" id="eqNotes" placeholder="Provide store location, delivery timeline, or questions..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="enquiry-submit-row">
+                        <button type="submit" class="enquiry-btn-primary" id="btnSubmitEnquiry">
+                            <i class="fa-solid fa-paper-plane"></i> Submit Wholesale Enquiry
+                        </button>
+                        <a href="#" target="_blank" rel="noopener noreferrer" class="enquiry-btn-wa" id="btnWaDirect">
+                            <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="brand-toast" id="brandToast">
+        <i class="fa-solid fa-circle-check" style="color:#10b981"></i>
+        <span id="toastMessage">Enquiry received successfully!</span>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="cat-footer">
+        <div class="cat-footer-top">
+            <div class="cat-footer-col cat-footer-brand">
+                <div class="cat-footer-logo">
+                    <span class="dot-mark">DOT<sup style="font-size:8px;font-weight:400">®</sup></span>
+                    <span class="co-mark">JEANS CO.</span>
+                </div>
+                <p class="cat-footer-tagline">Quality Denim <span class="sep">|</span> Wholesale Partner <span class="sep">|</span> All India Shipping</p>
+            </div>
+            <div class="cat-footer-col">
+                <h4>Our Brands</h4>
+                <ul>
+                    <li><a href="brand.html?brand=KOCOA">KOCOA</a></li>
+                    <li><a href="brand.html?brand=CROSS+COUNTRY">CROSS COUNTRY</a></li>
+                    <li><a href="category-jeans.html">All Products</a></li>
+                </ul>
+            </div>
+            <div class="cat-footer-col">
+                <h4>Customer Support</h4>
+                <ul>
+                    <li><a href="https://wa.me/919747710360" target="_blank">Bulk Order WhatsApp</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Terms &amp; Conditions</a></li>
+                </ul>
+            </div>
+            <div class="cat-footer-col">
+                <h4>Follow Us</h4>
+                <div class="cat-social">
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://wa.me/919747710360"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="cat-footer-bottom">
+            <p>&copy; 2026 DOT Jeans Co. All rights reserved.</p>
+            <p>Made for Business <span style="margin:0 4px;color:rgba(255,255,255,0.2)">|</span> Built for Growth</p>
+        </div>
+    </footer>
+
+    <!-- ===== BRAND SYSTEM JAVASCRIPT ===== -->
+    <script>
+        /* ─── Curated Fallback Brand Products ────────────────────────
+           Used if Supabase table is empty or while seeding.
+           Strictly segmented: KOCOA products ONLY show when KOCOA is selected;
+           CROSS COUNTRY products ONLY show when CROSS COUNTRY is selected!
+        ────────────────────────────────────────────────────────────── */
+        const FALLBACK_BRAND_PRODUCTS = [
+            // --- KOCOA PRODUCTS ---
+            {
+                id: 'kocoa-101',
+                brand: 'KOCOA',
+                name: 'KOCOA Baggy Fit Jeans – Washed Indigo',
+                category: 'Jeans',
+                fit: 'Baggy Fit',
+                image: 'asses/kocoa-baggy.jpg',
+                sizes: ['30', '32', '34', '36'],
+                colours: ['Washed Blue', 'Dark Indigo'],
+                colourHex: ['#4a6fa5', '#1e2b45'],
+                stockStatus: 'IN STOCK',
+                stockClass: 'in-stock',
+                moq: '10 Pcs Pack',
+                detailsUrl: 'productDetails.html?id=kocoa-101'
+            },
+            {
+                id: 'kocoa-102',
+                brand: 'KOCOA',
+                name: 'KOCOA Skater Wide Leg Jeans – Vintage Black',
+                category: 'Jeans',
+                fit: 'Wide Leg',
+                image: 'asses/kocoa-black.jpg',
+                sizes: ['28', '30', '32', '34', '36'],
+                colours: ['Vintage Black', 'Charcoal'],
+                colourHex: ['#1c1c1c', '#3d3d3d'],
+                stockStatus: 'IN STOCK',
+                stockClass: 'in-stock',
+                moq: '10 Pcs Pack',
+                detailsUrl: 'productDetails.html?id=kocoa-102'
+            },
+            {
+                id: 'kocoa-103',
+                brand: 'KOCOA',
+                name: 'KOCOA Street Relaxed Denim – Light Ice Wash',
+                category: 'Jeans',
+                fit: 'Relaxed Fit',
+                image: 'asses/kocoa-baggy.jpg',
+                sizes: ['30', '32', '34', '36', '38'],
+                colours: ['Ice Blue', 'Light Indigo'],
+                colourHex: ['#7ba7c8', '#597fa6'],
+                stockStatus: 'LOW STOCK',
+                stockClass: 'low-stock',
+                moq: '12 Pcs Pack',
+                detailsUrl: 'productDetails.html?id=kocoa-103'
+            },
+            {
+                id: 'kocoa-104',
+                brand: 'KOCOA',
+                name: 'KOCOA Urban Utility Cargo Pants – Shadow Grey',
+                category: 'Cargo Pants',
+                fit: 'Cargo',
+                image: 'asses/cargo.jpg',
+                sizes: ['30', '32', '34', '36'],
+                colours: ['Shadow Grey', 'Onyx Black'],
+                colourHex: ['#4b5563', '#111827'],
+                stockStatus: 'IN STOCK',
+                stockClass: 'in-stock',
+                moq: '10 Pcs Pack',
+                detailsUrl: 'productDetails.html?id=kocoa-104'
+            },
+
+            // --- CROSS COUNTRY PRODUCTS ---
+            {
+                id: 'cc-201',
+                brand: 'CROSS COUNTRY',
+                name: "CROSS COUNTRY Men's Wide Leg Jeans",
+                category: 'Jeans',
+                fit: 'Wide Leg',
+                image: 'asses/wideleg.jpg',
+                sizes: ['30', '32', '34', '36'],
+                colours: ['Indigo Blue', 'Midnight Black'],
+                colourHex: ['#31538a', '#1a1a1a'],
+                stockStatus: 'IN STOCK',
+                stockClass: 'in-stock',
+                moq: '10 Pcs Pack',
+                detailsUrl: 'productDetails.html?id=cc-201'
+            },
+            {
+                id: 'cc-202',
+                brand: 'CROSS COUNTRY',
+                name: "CROSS COUNTRY Men's Regular Fit Jeans",
+                category: 'Jeans',
+                fit: 'Regular Fit',
+                image: 'asses/regular.jpg',
+                sizes: ['28', '30', '32', '34', '36'],
+                colours: ['Classic Blue', 'Dark Blue'],
+                colourHex: ['#2e4975', '#162847'],
+                stockStatus: 'IN STOCK',
+                stockClass: 'in-stock',
+                moq: '10 Pcs Pack',
+                detailsUrl: 'productDetails.html?id=cc-202'
+            },
+            {
+                id: 'cc-203',
+                brand: 'CROSS COUNTRY',
+                name: 'CROSS COUNTRY Heavyweight Tactical Cargo Pants',
+                category: 'Cargo Pants',
+                fit: 'Cargo',
+                image: 'asses/cargo.jpg',
+                sizes: ['30', '32', '34', '36', '38'],
+                colours: ['Olive Green', 'Desert Khaki'],
+                colourHex: ['#556b2f', '#c2b280'],
+                stockStatus: 'IN STOCK',
+                stockClass: 'in-stock',
+                moq: '10 Pcs Pack',
+                detailsUrl: 'productDetails.html?id=cc-203'
+            },
+            {
+                id: 'cc-204',
+                brand: 'CROSS COUNTRY',
+                name: 'CROSS COUNTRY Regular Linen Pants',
+                category: 'Linen Pants',
+                fit: 'Regular Fit',
+                image: 'asses/linen.jpg',
+                sizes: ['30', '32', '34', '36'],
+                colours: ['Beige', 'Navy Blue', 'Off White'],
+                colourHex: ['#d6d2c4', '#2b3952', '#f5f5f0'],
+                stockStatus: 'IN STOCK',
+                stockClass: 'in-stock',
+                moq: '12 Pcs Pack',
+                detailsUrl: 'productDetails.html?id=cc-204'
+            },
+            {
+                id: 'cc-205',
+                brand: 'CROSS COUNTRY',
+                name: 'CROSS COUNTRY Classic Denim Shorts',
+                category: 'Shorts',
+                fit: 'Regular Fit',
+                image: 'asses/shorts.jpg',
+                sizes: ['30', '32', '34', '36'],
+                colours: ['Washed Blue', 'Smokey Black'],
+                colourHex: ['#596168', '#2b3952'],
+                stockStatus: 'IN STOCK',
+                stockClass: 'in-stock',
+                moq: '15 Pcs Pack',
+                detailsUrl: 'productDetails.html?id=cc-205'
+            },
+            {
+                id: 'cc-206',
+                brand: 'CROSS COUNTRY',
+                name: 'CROSS COUNTRY Kids Cargo Denim Pants',
+                category: 'Kids Wear',
+                fit: 'Regular Fit',
+                image: 'asses/kids.png',
+                sizes: ['24', '26', '28', '30'],
+                colours: ['Olive', 'Navy Blue'],
+                colourHex: ['#7d8471', '#2e302f'],
+                stockStatus: 'IN STOCK',
+                stockClass: 'in-stock',
+                moq: '20 Pcs Pack',
+                detailsUrl: 'productDetails.html?id=cc-206'
+            }
+        ];
+
+        /* ─── Brand Metadata Configuration ────────────────────────── */
+        const BRAND_CONFIG = {
+            'KOCOA': {
+                name: 'KOCOA',
+                title: 'KOCOA',
+                badgeText: 'URBAN STREETWEAR & DENIM',
+                badgeClass: 'badge-kocoa',
+                desc: 'Contemporary cuts, relaxed skater fits, and modern washed denim engineered for youth retail appeal.',
+                bannerImg: 'asses/kocoa-banner.jpg',
+                whatsappPrefix: 'Hello DOT Jeans Co., I have a wholesale enquiry for KOCOA brand products:'
+            },
+            'CROSS COUNTRY': {
+                name: 'CROSS COUNTRY',
+                title: 'CROSS COUNTRY',
+                badgeText: 'SIGNATURE HERITAGE DENIM',
+                badgeClass: 'badge-crosscountry',
+                desc: 'Heavyweight denim, rugged cargo pants, and timeless regular & bootcut fits built for durability and everyday wholesale demand.',
+                bannerImg: 'asses/cross-country-banner.jpg',
+                whatsappPrefix: 'Hello DOT Jeans Co., I have a wholesale enquiry for CROSS COUNTRY brand products:'
+            }
+        };
+
+        /* ─── State Management ────────────────────────────────────── */
+        let currentBrand = 'KOCOA';
+        let rawBrandProducts = [];
+        let filteredBrandProducts = [];
+        let activeFilters = { category: '', fit: '', sizes: [], colours: [] };
+        let activeSort = 'newest';
+        let wishlist = new Set(JSON.parse(localStorage.getItem('dot_wishlist') || '[]'));
+        let selectedProductForEnquiry = null;
+
+        /* ─── Initialization ──────────────────────────────────────── */
+        document.addEventListener('DOMContentLoaded', async () => {
+            // 1. Determine active brand from URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const brandParam = urlParams.get('brand');
+            
+            if (brandParam) {
+                const clean = brandParam.trim().toUpperCase();
+                if (clean === 'CROSS COUNTRY' || clean === 'CROSSCOUNTRY' || clean === 'CROSS-COUNTRY') {
+                    currentBrand = 'CROSS COUNTRY';
+                } else if (clean === 'KOCOA') {
+                    currentBrand = 'KOCOA';
+                }
+            }
+
+            // 2. Setup UI listeners
+            initBrandSwitchers();
+            initFilterListeners();
+            initSortListener();
+            initEnquiryModalEvents();
+            initMobileDrawer();
+
+            // 3. Load Brand View
+            await loadBrand(currentBrand);
+        });
+
+        /* ─── Load Brand View ─────────────────────────────────────── */
+        async function loadBrand(brandName) {
+            currentBrand = brandName;
+            const config = BRAND_CONFIG[brandName] || BRAND_CONFIG['KOCOA'];
+
+            // Update Page Meta & Breadcrumbs
+            document.title = `${config.title} | DOT Jeans Co. — Wholesale Fashion`;
+            document.getElementById('brandHeroTitle').textContent = config.title;
+            document.getElementById('brandHeroDesc').textContent = config.desc;
+            document.getElementById('brandBadgeText').textContent = config.badgeText;
+            document.getElementById('brandHeroBg').src = config.bannerImg;
+            document.getElementById('brandBreadcrumb').textContent = config.title;
+            document.getElementById('brandStatusText').textContent = `Brand: ${config.title}`;
+            
+            const badgeEl = document.getElementById('brandHeroBadge');
+            badgeEl.className = `brand-hero-badge ${config.badgeClass}`;
+
+            // Update Switcher Buttons
+            document.querySelectorAll('.brand-switch-btn').forEach(btn => {
+                if (btn.dataset.brand === brandName) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Update URL without full page reload
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('brand', brandName);
+            window.history.replaceState({}, '', newUrl);
+
+            // Show Loading Skeleton
+            renderSkeletons();
+
+            // Query Supabase dynamically (SELECT * FROM products WHERE brand = ...)
+            rawBrandProducts = await fetchProductsFromSupabase(brandName);
+
+            // Apply Filters & Render
+            applyFiltersAndRender();
+        }
+
+        /* ─── Dynamic Supabase Fetch ────────────────────────────────
+           Executes: SELECT * FROM products WHERE brand = 'KOCOA'
+           or: SELECT * FROM products WHERE brand = 'CROSS COUNTRY'
+        ────────────────────────────────────────────────────────────── */
+        async function fetchProductsFromSupabase(brandName) {
+            let products = [];
+
+            // Wait briefly for Supabase client if initializing
+            let client = window.supabase;
+            let retries = 0;
+            while ((!client || !client.from) && retries < 25) {
+                await new Promise(r => setTimeout(r, 60));
+                client = window.supabase;
+                retries++;
+            }
+
+            if (client && typeof client.from === 'function') {
+                try {
+                    // Dynamic query to Supabase products table filtered by brand
+                    let { data, error } = await client
+                        .from('products')
+                        .select('*, product_images(*), product_colours(*), product_sizes(*)')
+                        .ilike('brand', brandName);
+
+                    // Fallback to 'brand_name' column if 'brand' does not exist
+                    if (error && error.message && error.message.includes('brand')) {
+                        const fallbackRes = await client
+                            .from('products')
+                            .select('*, product_images(*), product_colours(*), product_sizes(*)')
+                            .ilike('brand_name', brandName);
+                        data = fallbackRes.data;
+                        error = fallbackRes.error;
+                    }
+
+                    if (!error && data && data.length > 0) {
+                        products = data.map(p => ({
+                            id: p.id,
+                            brand: p.brand || p.brand_name || brandName,
+                            name: p.name || p.item_name || `${brandName} Denim`,
+                            category: p.category || 'Jeans',
+                            fit: p.fit || 'Regular Fit',
+                            image: (p.product_images && p.product_images.length > 0) 
+                                ? (p.product_images.find(i => i.is_primary)?.image_url || p.product_images[0].image_url) 
+                                : (p.image_url || 'asses/wideleg.jpg'),
+                            sizes: (p.product_sizes && p.product_sizes.length > 0) 
+                                ? p.product_sizes.map(s => String(s.size)) 
+                                : ['30', '32', '34', '36'],
+                            colours: (p.product_colours && p.product_colours.length > 0) 
+                                ? p.product_colours.map(c => c.name || c.colour_name || 'Standard') 
+                                : ['Standard'],
+                            colourHex: (p.product_colours && p.product_colours.length > 0) 
+                                ? p.product_colours.map(c => c.hex_code || '#2b3952') 
+                                : ['#2b3952'],
+                            stockStatus: 'IN STOCK',
+                            stockClass: 'in-stock',
+                            moq: '10 Pcs Pack',
+                            detailsUrl: `productDetails.html?id=${p.id}`
+                        }));
+                    }
+                } catch (err) {
+                    console.warn("Supabase fetch notice:", err);
+                }
+            }
+
+            // If Supabase returned 0 products (or DB not populated yet),
+            // strictly load only fallback products belonging to this brand!
+            if (products.length === 0) {
+                products = FALLBACK_BRAND_PRODUCTS.filter(p => 
+                    p.brand.toUpperCase() === brandName.toUpperCase()
+                );
+            } else {
+                // Ensure strictly filtered by brand
+                products = products.filter(p => p.brand.toUpperCase() === brandName.toUpperCase());
+            }
+
+            return products;
+        }
+
+        /* ─── Render Pipeline ─────────────────────────────────────── */
+        function applyFiltersAndRender() {
+            // 1. Strict Brand Filter + Category / Fit / Size / Colour Filters
+            filteredBrandProducts = rawBrandProducts.filter(p => {
+                // Strict Brand match
+                if (p.brand.toUpperCase() !== currentBrand.toUpperCase()) return false;
+
+                // Category filter
+                if (activeFilters.category && p.category !== activeFilters.category) return false;
+
+                // Fit filter
+                if (activeFilters.fit && p.fit !== activeFilters.fit) return false;
+
+                // Size filter
+                if (activeFilters.sizes.length > 0) {
+                    const hasSize = p.sizes.some(s => activeFilters.sizes.includes(s));
+                    if (!hasSize) return false;
+                }
+
+                // Colour filter
+                if (activeFilters.colours.length > 0) {
+                    const hasColour = p.colours.some(c => 
+                        activeFilters.colours.some(selected => c.toLowerCase().includes(selected.toLowerCase()))
+                    );
+                    if (!hasColour) return false;
+                }
+
+                return true;
+            });
+
+            // 2. Sorting
+            if (activeSort === 'name-asc') {
+                filteredBrandProducts.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (activeSort === 'name-desc') {
+                filteredBrandProducts.sort((a, b) => b.name.localeCompare(a.name));
+            }
+
+            // 3. Update count label
+            document.getElementById('productCount').innerHTML = `<strong>${filteredBrandProducts.length}</strong> Products`;
+
+            // 4. Render Cards
+            const grid = document.getElementById('brandProductGrid');
+            if (!grid) return;
+
+            if (filteredBrandProducts.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: #ffffff; border-radius: 16px; border: 1px dashed #cbd5e1;">
+                        <i class="fa-solid fa-box-open" style="font-size: 38px; color: #94a3b8; margin-bottom: 14px;"></i>
+                        <h3 style="color: #0f1d2f; margin-bottom: 8px;">No ${currentBrand} products match your filter</h3>
+                        <p style="color: #64748b; margin-bottom: 20px; font-size: 14px;">Try clearing filters or view all products in the collection.</p>
+                        <button onclick="resetAllFilters()" style="padding: 10px 20px; background: #0f1d2f; color: #fff; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                            Reset Filters
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filteredBrandProducts.map(p => productCardHTML(p)).join('');
+
+            // Attach Card Actions
+            attachCardActions();
+        }
+
+        /* ─── Product Card HTML (STRICTLY NO PRICE) ────────────────── */
+        function productCardHTML(p) {
+            const isWish = wishlist.has(String(p.id));
+            const swatches = (p.colourHex || []).map(hex => 
+                `<span class="pcard-swatch" style="background:${hex}" title="${hex}"></span>`
+            ).join('');
+
+            return `
+                <div class="pcard" data-product-id="${p.id}" data-brand="${p.brand}">
+                    <div class="pcard-img-wrap" onclick="window.location.href='${p.detailsUrl || 'productDetails.html'}'">
+                        <span class="pcard-badge ${p.stockClass || 'in-stock'}">${p.stockStatus || 'IN STOCK'}</span>
+                        <span class="pcard-brand-tag">${p.brand}</span>
+                        <button type="button" class="pcard-wishlist ${isWish ? 'active' : ''}" data-id="${p.id}" aria-label="Add to wishlist" onclick="event.stopPropagation(); toggleWishlist('${p.id}', this)">
+                            <i class="fa-${isWish ? 'solid' : 'regular'} fa-heart"></i>
+                        </button>
+                        <img src="${p.image}" alt="${p.name}" loading="lazy">
+                    </div>
+                    <div class="pcard-info">
+                        <h3 class="pcard-name" onclick="window.location.href='${p.detailsUrl || 'productDetails.html'}'" style="cursor:pointer;">${p.name}</h3>
+                        
+                        <!-- STRICTLY NO PRICE IS SHOWN HERE -->
+                        <div class="pcard-wholesale-pill">
+                            <i class="fa-solid fa-boxes-stacked"></i> Wholesale Only • MOQ: ${p.moq || '10 Pcs'}
+                        </div>
+
+                        <div class="pcard-sizes">Sizes: <strong>${p.sizes.join(', ')}</strong></div>
+                        <div class="pcard-colors">${swatches}</div>
+
+                        <div class="pcard-action-row">
+                            <button type="button" class="pcard-enquiry-btn btn-trigger-enquiry" data-id="${p.id}">
+                                <i class="fa-solid fa-paper-plane"></i> Send Enquiry
+                            </button>
+                            <a href="${p.detailsUrl || 'productDetails.html'}" class="pcard-details-btn">
+                                <i class="fa-solid fa-eye"></i> Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        /* ─── Skeletons for Loading State ───────────────────────────── */
+        function renderSkeletons() {
+            const grid = document.getElementById('brandProductGrid');
+            if (!grid) return;
+            let html = '';
+            for (let i = 0; i < 6; i++) {
+                html += `
+                    <div class="skeleton-card">
+                        <div class="skeleton-img"></div>
+                        <div class="skeleton-body">
+                            <div class="skeleton-line" style="width: 35%;"></div>
+                            <div class="skeleton-line" style="width: 85%;"></div>
+                            <div class="skeleton-line" style="width: 50%;"></div>
+                            <div class="skeleton-line" style="width: 100%; height: 36px; margin-top: 8px;"></div>
+                        </div>
+                    </div>
+                `;
+            }
+            grid.innerHTML = html;
+        }
+
+        /* ─── Attach Card Action Handlers ─────────────────────────── */
+        function attachCardActions() {
+            document.querySelectorAll('.btn-trigger-enquiry').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const prodId = btn.dataset.id;
+                    const prod = rawBrandProducts.find(p => String(p.id) === String(prodId));
+                    if (prod) openEnquiryModal(prod);
+                });
+            });
+        }
+
+        /* ─── Switcher Buttons (KOCOA vs CROSS COUNTRY) ────────────── */
+        function initBrandSwitchers() {
+            document.getElementById('btnSwitchKocoa')?.addEventListener('click', () => loadBrand('KOCOA'));
+            document.getElementById('btnSwitchCrossCountry')?.addEventListener('click', () => loadBrand('CROSS COUNTRY'));
+        }
+
+        /* ─── Filters & Sorting ───────────────────────────────────── */
+        function initFilterListeners() {
+            // Category
+            document.querySelectorAll('.filter-category, .m-filter-category').forEach(el => {
+                el.addEventListener('change', (e) => {
+                    activeFilters.category = e.target.value;
+                    applyFiltersAndRender();
+                });
+            });
+
+            // Fit
+            document.querySelectorAll('.filter-fit, .m-filter-fit').forEach(el => {
+                el.addEventListener('change', (e) => {
+                    activeFilters.fit = e.target.value;
+                    applyFiltersAndRender();
+                });
+            });
+
+            // Sizes
+            document.querySelectorAll('.filter-size').forEach(el => {
+                el.addEventListener('change', () => {
+                    activeFilters.sizes = Array.from(document.querySelectorAll('.filter-size:checked')).map(cb => cb.value);
+                    applyFiltersAndRender();
+                });
+            });
+
+            // Colours
+            document.querySelectorAll('.filter-colour').forEach(el => {
+                el.addEventListener('change', () => {
+                    activeFilters.colours = Array.from(document.querySelectorAll('.filter-colour:checked')).map(cb => cb.value);
+                    applyFiltersAndRender();
+                });
+            });
+        }
+
+        function initSortListener() {
+            document.getElementById('sortSelect')?.addEventListener('change', (e) => {
+                activeSort = e.target.value;
+                applyFiltersAndRender();
+            });
+        }
+
+        window.resetAllFilters = function() {
+            activeFilters = { category: '', fit: '', sizes: [], colours: [] };
+            document.querySelectorAll('.filter-category[value=""], .m-filter-category[value=""]').forEach(r => r.checked = true);
+            document.querySelectorAll('.filter-fit[value=""], .m-filter-fit[value=""]').forEach(r => r.checked = true);
+            document.querySelectorAll('.filter-size, .filter-colour').forEach(c => c.checked = false);
+            applyFiltersAndRender();
+            showToast('Filters cleared');
+        };
+
+        /* ─── Wishlist Toggle ─────────────────────────────────────── */
+        window.toggleWishlist = function(pid, btn) {
+            if (wishlist.has(pid)) {
+                wishlist.delete(pid);
+                btn.classList.remove('active');
+                btn.innerHTML = '<i class="fa-regular fa-heart"></i>';
+                showToast('Removed from wishlist');
+            } else {
+                wishlist.add(pid);
+                btn.classList.add('active');
+                btn.innerHTML = '<i class="fa-solid fa-heart" style="color:#ef4444"></i>';
+                showToast('Added to wishlist');
+            }
+            localStorage.setItem('dot_wishlist', JSON.stringify([...wishlist]));
+        };
+
+        /* ─── Wholesale Enquiry Modal Handling ─────────────────────── */
+        function initEnquiryModalEvents() {
+            const modal = document.getElementById('enquiryModal');
+            const closeBtn = document.getElementById('closeEnquiryModal');
+            const form = document.getElementById('brandEnquiryForm');
+
+            closeBtn?.addEventListener('click', closeEnquiryModal);
+            modal?.addEventListener('click', (e) => {
+                if (e.target === modal) closeEnquiryModal();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal?.classList.contains('open')) closeEnquiryModal();
+            });
+
+            form?.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await submitEnquiryForm();
+            });
+        }
+
+        function openEnquiryModal(product) {
+            selectedProductForEnquiry = product;
+            const modal = document.getElementById('enquiryModal');
+            if (!modal || !product) return;
+
+            document.getElementById('modalProdThumb').src = product.image;
+            document.getElementById('modalProdBrand').textContent = product.brand;
+            document.getElementById('modalProdName').textContent = product.name;
+            document.getElementById('modalProdCategory').textContent = `${product.category} • Wholesale MOQ ${product.moq || '10 Pcs'}`;
+
+            // Populate Size dropdown
+            const sizeSelect = document.getElementById('eqSize');
+            if (sizeSelect && product.sizes) {
+                sizeSelect.innerHTML = `<option value="Assorted Pack (${product.sizes[0]}-${product.sizes.at(-1)})">Assorted Pack (${product.sizes[0]}–${product.sizes.at(-1)})</option>` +
+                    product.sizes.map(s => `<option value="Size ${s}">Size ${s}</option>`).join('');
+            }
+
+            // Populate Colour dropdown
+            const colourSelect = document.getElementById('eqColour');
+            if (colourSelect && product.colours) {
+                colourSelect.innerHTML = '<option value="All Colours / Mix Assorted">All Colours / Mix Assorted</option>' +
+                    product.colours.map(c => `<option value="${c}">${c}</option>`).join('');
+            }
+
+            // Update Direct WhatsApp button link
+            updateWhatsAppDirectLink(product);
+
+            modal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeEnquiryModal() {
+            const modal = document.getElementById('enquiryModal');
+            if (modal) modal.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function updateWhatsAppDirectLink(product) {
+            const waBtn = document.getElementById('btnWaDirect');
+            if (!waBtn) return;
+            const text = `Hello DOT Jeans Co., I am interested in wholesale order for:\n*Brand:* ${product.brand}\n*Product:* ${product.name}\n*MOQ:* ${product.moq || '10 Pcs'}\n\nPlease share catalog and wholesale details.`;
+            waBtn.href = `https://wa.me/919747710360?text=${encodeURIComponent(text)}`;
+        }
+
+        async function submitEnquiryForm() {
+            const btn = document.getElementById('btnSubmitEnquiry');
+            if (btn) btn.disabled = true;
+
+            const payload = {
+                business_name: document.getElementById('eqBusiness').value,
+                contact_person: document.getElementById('eqPerson').value,
+                phone: document.getElementById('eqPhone').value,
+                email: document.getElementById('eqEmail').value,
+                quantity: parseInt(document.getElementById('eqQty').value) || 1,
+                selected_size: document.getElementById('eqSize').value,
+                selected_colour: document.getElementById('eqColour').value,
+                notes: document.getElementById('eqNotes').value,
+                product_id: String(selectedProductForEnquiry?.id || ''),
+                product_name: selectedProductForEnquiry?.name || '',
+                brand: selectedProductForEnquiry?.brand || currentBrand
+            };
+
+            // Attempt saving to Supabase 'enquiries' table
+            if (window.supabase && typeof window.supabase.from === 'function') {
+                try {
+                    await window.supabase.from('enquiries').insert([payload]);
+                } catch (err) {
+                    console.warn("Supabase enquiry insert notice:", err);
+                }
+            }
+
+            // Prepare WhatsApp notification link
+            const waMsg = `*Wholesale Enquiry - ${payload.brand}*\nProduct: ${payload.product_name}\nBusiness: ${payload.business_name}\nContact: ${payload.contact_person} (${payload.phone})\nQty: ${payload.quantity} Pcs\nSize: ${payload.selected_size}\nColour: ${payload.selected_colour}\nNotes: ${payload.notes || 'None'}`;
+            const waUrl = `https://wa.me/919747710360?text=${encodeURIComponent(waMsg)}`;
+
+            closeEnquiryModal();
+            document.getElementById('brandEnquiryForm').reset();
+            if (btn) btn.disabled = false;
+
+            showToast("Wholesale enquiry sent! Connecting on WhatsApp...");
+            
+            // Open WhatsApp with prefilled message in a moment
+            setTimeout(() => {
+                window.open(waUrl, '_blank');
+            }, 600);
+        }
+
+        /* ─── Toast Feedback ──────────────────────────────────────── */
+        function showToast(msg) {
+            const toast = document.getElementById('brandToast');
+            const msgEl = document.getElementById('toastMessage');
+            if (!toast || !msgEl) return;
+            msgEl.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3500);
+        }
+
+        /* ─── Mobile Filter Drawer ────────────────────────────────── */
+        function initMobileDrawer() {
+            const filterBtn = document.getElementById('filterBtn');
+            const drawer = document.getElementById('filterDrawer');
+            const overlay = document.getElementById('filterDrawerOverlay');
+            const closeBtn = document.getElementById('filterDrawerClose');
+
+            filterBtn?.addEventListener('click', () => {
+                drawer?.classList.add('open');
+                overlay?.classList.add('open');
+            });
+
+            closeBtn?.addEventListener('click', () => {
+                drawer?.classList.remove('open');
+                overlay?.classList.remove('open');
+            });
+
+            overlay?.addEventListener('click', () => {
+                drawer?.classList.remove('open');
+                overlay?.classList.remove('open');
+            });
+        }
+    </script>
+</body>
+</html>

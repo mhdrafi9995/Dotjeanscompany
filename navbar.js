@@ -189,14 +189,14 @@ const navbarCSS = `
 }
 
 /* Nav */
-.ct-nav ul {
+.ct-nav > ul {
     display: flex;
     gap: 34px;
     align-items: center;
     list-style: none;
     margin: 0; padding: 0;
 }
-.ct-nav a {
+.ct-nav > ul > li > a {
     color: #c8d2dc;
     font-size: 13.5px;
     font-weight: 500;
@@ -206,8 +206,9 @@ const navbarCSS = `
     font-family: 'Inter', sans-serif;
     position: relative;
     padding-bottom: 4px;
+    cursor: pointer;
 }
-.ct-nav a::after {
+.ct-nav > ul > li > a::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -217,45 +218,101 @@ const navbarCSS = `
     background-color: #fff;
     transition: width 0.3s ease;
 }
-.ct-nav a:hover::after,
-.ct-nav a.ct-nav-active::after {
+.ct-nav > ul > li > a:hover::after,
+.ct-nav > ul > li > a.ct-nav-active::after {
     width: 100%;
 }
-.ct-nav a:hover,
-.ct-nav a.ct-nav-active { color: #fff; }
+.ct-nav > ul > li > a:hover,
+.ct-nav > ul > li > a.ct-nav-active { color: #fff; }
 
 /* Dropdown */
 .ct-nav-dropdown { position: relative; }
+
+.ct-dropdown-chevron {
+    font-size: 10px;
+    margin-left: 5px;
+    transition: transform 0.25s ease;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.ct-nav-dropdown.is-open .ct-dropdown-chevron {
+    transform: rotate(180deg);
+}
+
 .ct-dropdown-menu {
     position: absolute;
     top: 100%;
-    left: -10px;
-    margin-top: 12px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    left: -12px;
+    margin-top: 14px;
+    background: #ffffff !important;
+    border-radius: 14px;
+    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.06);
     padding: 8px 0;
-    min-width: 180px;
+    min-width: 195px;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-6px);
-    transition: all 0.2s;
-    z-index: 110;
+    transform: translateY(-8px) scale(0.98);
+    transform-origin: top left;
+    transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.22s ease;
+    z-index: 120;
+    pointer-events: none;
+    overflow: hidden;
 }
-.ct-nav-dropdown:hover .ct-dropdown-menu {
+
+/* Open state via click */
+.ct-nav-dropdown.is-open .ct-dropdown-menu {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
 }
-.ct-dropdown-menu a {
-    display: block;
-    padding: 10px 20px;
-    font-size: 13px;
-    color: #0a1628;
-    transition: background 0.15s;
-    text-decoration: none;
+
+/* Dropdown Items — Exact match to reference image */
+.ct-dropdown-menu a,
+.ct-dropdown-menu a:link,
+.ct-dropdown-menu a:visited {
+    display: block !important;
+    padding: 11px 22px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    font-family: 'Inter', sans-serif !important;
+    color: #1e293b !important; /* Crisp dark navy/slate matching reference image */
+    background: transparent !important;
+    text-decoration: none !important;
+    line-height: 1.4 !important;
+    letter-spacing: -0.1px !important;
+    transition: background-color 0.15s ease, color 0.15s ease !important;
+    position: relative !important;
+    white-space: nowrap !important;
+    cursor: pointer !important;
 }
-.ct-dropdown-menu a:hover { background: #f4f5f7; }
+
+/* Remove any underline pseudo-element inside dropdown menu */
+.ct-dropdown-menu a::after,
+.ct-dropdown-menu a::before {
+    display: none !important;
+    content: none !important;
+    width: 0 !important;
+}
+
+/* Hover state on dropdown items */
+.ct-dropdown-menu a:hover,
+.ct-dropdown-menu a:focus {
+    background-color: #f1f5f9 !important; /* Subtle soft highlight */
+    color: #0f1d2f !important; /* Deep crisp contrast */
+}
+
+/* Active / Clicked item (e.g. current category) — MUST REMAIN HIGH CONTRAST DARK */
+.ct-dropdown-menu a:active,
+.ct-dropdown-menu a.ct-nav-active {
+    background-color: #f8fafc !important;
+    color: #0f1d2f !important;
+    font-weight: 600 !important;
+}
 
 /* Header Icons */
 .ct-header-icons {
@@ -793,14 +850,25 @@ const navbarHTML = `
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="#">Products</a></li>
-                <li class="ct-nav-dropdown">
-                    <a href="#">Categories <i class="fa-solid fa-chevron-down" style="font-size:10px;margin-left:4px"></i></a>
-                    <div class="ct-dropdown-menu">
+                <li class="ct-nav-dropdown" id="ctCategoriesDropdown">
+                    <a href="javascript:void(0)" class="ct-dropdown-toggle" id="ctCategoriesToggle" role="button" aria-expanded="false" aria-haspopup="true">
+                        Categories <i class="fa-solid fa-chevron-down ct-dropdown-chevron"></i>
+                    </a>
+                    <div class="ct-dropdown-menu" id="ctCategoriesMenu">
                         <a href="category-jeans.html">Jeans</a>
                         <a href="category-linen.html">Linen Pants</a>
                         <a href="category-cargo.html">Cargo Pants</a>
                         <a href="category-shorts.html">Shorts</a>
                         <a href="category-kids.html">Kids Wear</a>
+                    </div>
+                </li>
+                <li class="ct-nav-dropdown" id="ctBrandsDropdown">
+                    <a href="javascript:void(0)" class="ct-dropdown-toggle" id="ctBrandsToggle" role="button" aria-expanded="false" aria-haspopup="true">
+                        Our Brands <i class="fa-solid fa-chevron-down ct-dropdown-chevron"></i>
+                    </a>
+                    <div class="ct-dropdown-menu" id="ctBrandsMenu">
+                        <a href="brand.html?brand=KOCOA">KOCOA</a>
+                        <a href="brand.html?brand=CROSS+COUNTRY">CROSS COUNTRY</a>
                     </div>
                 </li>
                 <li><a href="about.html">About Us</a></li>
@@ -860,7 +928,9 @@ const navbarHTML = `
 <div class="ct-mobile-nav" id="ctMobileNav">
     <button class="ct-mobile-nav-close" id="ctMobileNavClose">&times;</button>
     <a href="index.html">Home</a>
-    <a href="#">Products</a>
+    <a href="brand.html?brand=KOCOA">KOCOA</a>
+    <a href="brand.html?brand=CROSS+COUNTRY">CROSS COUNTRY</a>
+    <a href="category-jeans.html">Jeans</a>
     <a href="about.html">About</a>
     <a href="profile.html">Profile</a>
     <a href="#">Gallery</a>
@@ -1077,10 +1147,79 @@ class DotNavbar extends HTMLElement {
             const navLinks = this.querySelectorAll('.ct-nav a, .ct-mobile-nav a');
             navLinks.forEach(link => {
                 const linkPath = link.getAttribute('href');
-                if (linkPath === currentPath || (currentPath === '' && linkPath === 'index.html')) {
+                if (linkPath && (linkPath === currentPath || (currentPath === '' && linkPath === 'index.html'))) {
                     link.classList.add('ct-nav-active');
+                    // If link is inside a dropdown, highlight the parent dropdown toggle in top navbar
+                    const parentDropdown = link.closest('.ct-nav-dropdown');
+                    if (parentDropdown) {
+                        const toggle = parentDropdown.querySelector('.ct-dropdown-toggle');
+                        if (toggle) toggle.classList.add('ct-nav-active');
+                    }
                 } else {
                     link.classList.remove('ct-nav-active');
+                }
+            });
+
+            // --- CATEGORIES & BRANDS DROPDOWN CLICK & OUTSIDE-CLICK ---
+            const navDropdowns = this.querySelectorAll('.ct-nav-dropdown');
+            navDropdowns.forEach(dropdown => {
+                const toggle = dropdown.querySelector('.ct-dropdown-toggle');
+                const menu = dropdown.querySelector('.ct-dropdown-menu');
+                if (!toggle || !menu) return;
+
+                toggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const isOpen = dropdown.classList.contains('is-open');
+
+                    // Close any other open dropdowns first
+                    navDropdowns.forEach(other => {
+                        if (other !== dropdown) {
+                            other.classList.remove('is-open');
+                            const otherToggle = other.querySelector('.ct-dropdown-toggle');
+                            if (otherToggle) otherToggle.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+
+                    // Toggle current dropdown
+                    if (isOpen) {
+                        dropdown.classList.remove('is-open');
+                        toggle.setAttribute('aria-expanded', 'false');
+                    } else {
+                        dropdown.classList.add('is-open');
+                        toggle.setAttribute('aria-expanded', 'true');
+                    }
+                });
+
+                // Clicking an item inside closes the dropdown
+                menu.querySelectorAll('a').forEach(item => {
+                    item.addEventListener('click', () => {
+                        dropdown.classList.remove('is-open');
+                        toggle.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            });
+
+            // Close all dropdowns when clicking outside
+            document.addEventListener('click', (e) => {
+                navDropdowns.forEach(dropdown => {
+                    if (!dropdown.contains(e.target)) {
+                        dropdown.classList.remove('is-open');
+                        const toggle = dropdown.querySelector('.ct-dropdown-toggle');
+                        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+
+            // Close on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    navDropdowns.forEach(dropdown => {
+                        dropdown.classList.remove('is-open');
+                        const toggle = dropdown.querySelector('.ct-dropdown-toggle');
+                        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+                    });
                 }
             });
 
@@ -1120,18 +1259,18 @@ class DotNavbar extends HTMLElement {
 
             window.DOT_DATA = {
                 products: [
-                    { id: 501, name: 'Wide Leg Jeans – Blue', price: 1499, oldPrice: 1999, image: 'asses/wideleg.jpg', link: 'productDetails.html', keywords: 'jeans wide leg baggy blue', category: 'Jeans', brand: 'Cross Country', fit: 'Wide Leg', sizes: ['28','30','32','34','36'], colours: ['Blue'], isLycra: false, stock: 50 },
-                    { id: 502, name: 'Wide Leg Jeans – Black', price: 1549, oldPrice: 1999, image: 'asses/wideleg.jpg', link: 'productDetails.html', keywords: 'jeans wide leg baggy black', category: 'Jeans', brand: 'Cross Country', fit: 'Wide Leg', sizes: ['30','32','34','36'], colours: ['Black'], isLycra: false, stock: 0 },
-                    { id: 509, name: 'Straight Fit Jeans – Blue', price: 1299, oldPrice: 1699, image: 'asses/wideleg.jpg', link: 'productDetails.html', keywords: 'jeans straight fit blue', category: 'Jeans', brand: 'Armani', fit: 'Straight', sizes: ['28','30','32','34','36'], colours: ['Blue'], isLycra: true, stock: 2 },
-                    { id: 508, name: 'Baggy Jeans – Black', price: 1699, oldPrice: 2199, image: 'asses/wideleg.jpg', link: 'productDetails.html', keywords: 'jeans baggy black', category: 'Jeans', brand: 'Cross Country', fit: 'Baggy', sizes: ['30','32','34','36','38'], colours: ['Black'], isLycra: false, stock: 45 },
-                    { id: 201, name: 'Linen Pant – Beige', price: 1299, oldPrice: 1899, image: 'asses/linen pant/1.jpg', link: 'linen-product-details.html', keywords: 'linen pant pants beige casual', category: 'Linen Pants', brand: 'Cross Country', fit: 'Regular', sizes: ['28','30','32','34','36'], colours: ['Beige'], isLycra: false, stock: 15 },
-                    { id: 203, name: 'Linen Pant – Olive', price: 1349, oldPrice: 1899, image: 'asses/linen pant/3.jpg', link: 'linen-product-details.html', keywords: 'linen pant pants olive green', category: 'Linen Pants', brand: 'Armani', fit: 'Relaxed', sizes: ['30','32','34','36','38'], colours: ['Olive'], isLycra: false, stock: 0 },
-                    { id: 206, name: 'Linen Pant – Black', price: 1399, oldPrice: 1899, image: 'asses/linen pant/4.jpg', link: 'linen-product-details.html', keywords: 'linen pant pants black', category: 'Linen Pants', brand: 'Cross Country', fit: 'Regular', sizes: ['30','32','34','36','38'], colours: ['Black'], isLycra: false, stock: 8 },
-                    { id: 401, name: 'Classic Shorts – Black', price: 899, oldPrice: 1299, image: 'asses/shorts.jpg', link: 'productDetails.html', keywords: 'shorts classic black cotton', category: 'Shorts', brand: 'Armani', fit: 'Cotton', sizes: ['28','30','32','34','36'], colours: ['Black'], isLycra: false, stock: -1 },
-                    { id: 404, name: 'Cargo Shorts – Olive', price: 1099, oldPrice: 1499, image: 'asses/shorts.jpg', link: 'productDetails.html', keywords: 'shorts cargo olive green', category: 'Shorts', brand: 'Cross Country', fit: 'Cargo', sizes: ['30','32','34','36'], colours: ['Olive'], isLycra: false, stock: 20 },
-                    { id: 407, name: 'Denim Shorts – Blue', price: 1149, oldPrice: 1599, image: 'asses/shorts.jpg', link: 'productDetails.html', keywords: 'shorts denim blue', category: 'Shorts', brand: 'Cross Country', fit: 'Denim', sizes: ['30','32','34','36'], colours: ['Blue'], isLycra: false, stock: 0 },
-                    { id: 301, name: 'Cargo Pants – Olive', price: 1699, oldPrice: 2299, image: 'asses/cargo.jpg', link: 'productDetails.html', keywords: 'cargo pants olive green', category: 'Cargo Pants', brand: 'Cross Country', fit: 'Cargo', sizes: ['30','32','34','36','38'], colours: ['Olive'], isLycra: false, stock: 3 },
-                    { id: 302, name: 'Cargo Pants – Black', price: 1599, oldPrice: 2199, image: 'asses/cargo.jpg', link: 'productDetails.html', keywords: 'cargo pants black', category: 'Cargo Pants', brand: 'Armani', fit: 'Cargo', sizes: ['30','32','34','36'], colours: ['Black'], isLycra: false, stock: 100 },
+                    { id: 501, name: 'Wide Leg Jeans – Blue', price: 1499, oldPrice: 1999, image: 'asses/wideleg.jpg', link: 'productDetails.html?id=501', keywords: 'jeans wide leg baggy blue', category: 'Jeans', brand: 'Cross Country', fit: 'Wide Leg', sizes: ['28','30','32','34','36'], colours: ['Blue'], isLycra: false, stock: 50 },
+                    { id: 502, name: 'Wide Leg Jeans – Black', price: 1549, oldPrice: 1999, image: 'asses/wideleg.jpg', link: 'productDetails.html?id=502', keywords: 'jeans wide leg baggy black', category: 'Jeans', brand: 'Cross Country', fit: 'Wide Leg', sizes: ['30','32','34','36'], colours: ['Black'], isLycra: false, stock: 0 },
+                    { id: 509, name: 'Straight Fit Jeans – Blue', price: 1299, oldPrice: 1699, image: 'asses/wideleg.jpg', link: 'productDetails.html?id=509', keywords: 'jeans straight fit blue', category: 'Jeans', brand: 'Armani', fit: 'Straight', sizes: ['28','30','32','34','36'], colours: ['Blue'], isLycra: true, stock: 2 },
+                    { id: 508, name: 'Baggy Jeans – Black', price: 1699, oldPrice: 2199, image: 'asses/wideleg.jpg', link: 'productDetails.html?id=508', keywords: 'jeans baggy black', category: 'Jeans', brand: 'Cross Country', fit: 'Baggy', sizes: ['30','32','34','36','38'], colours: ['Black'], isLycra: false, stock: 45 },
+                    { id: 201, name: 'Linen Pant – Beige', price: 1299, oldPrice: 1899, image: 'asses/linen pant/1.jpg', link: 'productDetails.html?id=201', keywords: 'linen pant pants beige casual', category: 'Linen Pants', brand: 'Cross Country', fit: 'Regular', sizes: ['28','30','32','34','36'], colours: ['Beige'], isLycra: false, stock: 15 },
+                    { id: 203, name: 'Linen Pant – Olive', price: 1349, oldPrice: 1899, image: 'asses/linen pant/3.jpg', link: 'productDetails.html?id=203', keywords: 'linen pant pants olive green', category: 'Linen Pants', brand: 'Armani', fit: 'Relaxed', sizes: ['30','32','34','36','38'], colours: ['Olive'], isLycra: false, stock: 0 },
+                    { id: 206, name: 'Linen Pant – Black', price: 1399, oldPrice: 1899, image: 'asses/linen pant/4.jpg', link: 'productDetails.html?id=206', keywords: 'linen pant pants black', category: 'Linen Pants', brand: 'Cross Country', fit: 'Regular', sizes: ['30','32','34','36','38'], colours: ['Black'], isLycra: false, stock: 8 },
+                    { id: 401, name: 'Classic Shorts – Black', price: 899, oldPrice: 1299, image: 'asses/shorts.jpg', link: 'productDetails.html?id=401', keywords: 'shorts classic black cotton', category: 'Shorts', brand: 'Armani', fit: 'Cotton', sizes: ['28','30','32','34','36'], colours: ['Black'], isLycra: false, stock: -1 },
+                    { id: 404, name: 'Cargo Shorts – Olive', price: 1099, oldPrice: 1499, image: 'asses/shorts.jpg', link: 'productDetails.html?id=404', keywords: 'shorts cargo olive green', category: 'Shorts', brand: 'Cross Country', fit: 'Cargo', sizes: ['30','32','34','36'], colours: ['Olive'], isLycra: false, stock: 20 },
+                    { id: 407, name: 'Denim Shorts – Blue', price: 1149, oldPrice: 1599, image: 'asses/shorts.jpg', link: 'productDetails.html?id=407', keywords: 'shorts denim blue', category: 'Shorts', brand: 'Cross Country', fit: 'Denim', sizes: ['30','32','34','36'], colours: ['Blue'], isLycra: false, stock: 0 },
+                    { id: 301, name: 'Cargo Pants – Olive', price: 1699, oldPrice: 2299, image: 'asses/cargo.jpg', link: 'productDetails.html?id=301', keywords: 'cargo pants olive green', category: 'Cargo Pants', brand: 'Cross Country', fit: 'Cargo', sizes: ['30','32','34','36','38'], colours: ['Olive'], isLycra: false, stock: 3 },
+                    { id: 302, name: 'Cargo Pants – Black', price: 1599, oldPrice: 2199, image: 'asses/cargo.jpg', link: 'productDetails.html?id=302', keywords: 'cargo pants black', category: 'Cargo Pants', brand: 'Armani', fit: 'Cargo', sizes: ['30','32','34','36'], colours: ['Black'], isLycra: false, stock: 100 },
                 ],
                 categories: [
                     { name: 'Jeans', link: 'category-jeans.html' },
@@ -1141,10 +1280,12 @@ class DotNavbar extends HTMLElement {
                     { name: 'Kids Wear', link: 'category-kids.html' }
                 ],
                 brands: [
-                    { name: 'Cross Country', link: 'search.html?brand=Cross+Country' },
-                    { name: 'Armani', link: 'search.html?brand=Armani' }
+                    { name: 'KOCOA', link: 'brand.html?brand=KOCOA' },
+                    { name: 'CROSS COUNTRY', link: 'brand.html?brand=CROSS+COUNTRY' }
                 ],
                 popularSearches: [
+                    'KOCOA',
+                    'CROSS COUNTRY',
                     'Wide Leg Jeans',
                     'Men\'s Wide Leg Jeans',
                     'Linen Pants',

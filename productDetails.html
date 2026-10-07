@@ -27,6 +27,8 @@
 <body>
 
     <dot-navbar></dot-navbar>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
     <script src="navbar.js"></script>
 
     <!-- ===== MAIN ===== -->
@@ -481,47 +483,69 @@
             <h2 id="enquiryTitle">Wholesale Enquiry</h2>
             <p class="intro">Send your requirements and our sales team will contact you within 24 hours.</p>
             <div class="selected-product" id="modalProductSummary">
-                <img src="asses/wideleg.jpg" alt="" id="modalProductImg">
-                <div>
+                <img src="asses/wideleg.jpg" alt="Product" id="modalProductImg">
+                <div style="flex: 1; min-width: 0;">
                     <b id="modalProductName">Wide Leg Jeans</b>
-                    <small id="modalProductSku">SKU: WLJ-001</small>
-                    <strong><span id="modalProductPrice">₹460.00</span> <em>/ Per Piece</em></strong>
-                    <br><small id="modalPackSummary" style="color:#555;margin-top:4px;display:block">Colour: Blue | 1
-                        Pack (15 pcs)</small>
+                    <small id="modalProductSku" style="display:none">SKU: WLJ-001</small>
+                    <div style="font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5">
+                        <div><strong>Brand:</strong> <span id="modalProductBrand" style="color:var(--ink);font-weight:600">DOT JEANS CO.</span> &nbsp;|&nbsp; <strong>Fit / Type:</strong> <span id="modalProductFit" style="color:var(--ink);font-weight:600">Relaxed Fit</span></div>
+                        <div style="margin-top:2px"><strong>Colour:</strong> <span id="modalProductColour" style="color:var(--ink);font-weight:600">Blue</span> &nbsp;|&nbsp; <strong>Size:</strong> <span id="modalProductSize" style="color:var(--ink);font-weight:600">28, 30, 32, 34, 36, 38, 40</span></div>
+                        <div style="margin-top:2px"><strong>Quantity / PCS:</strong> <span id="modalProductQty" style="color:var(--ink);font-weight:600">1 Pack (15 pcs)</span></div>
+                    </div>
                 </div>
             </div>
             <form id="enquiryForm">
                 <div class="form-grid">
-                    <label>Business / Shop Name <mark>*</mark><input required name="business"
-                            placeholder="Enter your business or shop name"></label>
-                    <label>Contact Person <mark>*</mark><input required name="person"
-                            placeholder="Enter contact person name"></label>
-                    <label>WhatsApp Number <mark>*</mark>
-                        <div class="input-icon"><span>◉</span><input required name="phone" type="tel"
+                    <label>Shop Name <mark>*</mark>
+                        <input required name="shop_name" id="enquiryShopName"
+                            placeholder="Enter your shop / business name">
+                    </label>
+                    <label>Name <mark>*</mark>
+                        <input required name="name" id="enquiryName"
+                            placeholder="Enter contact person name">
+                    </label>
+                    <label>Mobile Number <mark>*</mark>
+                        <div class="input-icon"><span>📞</span><input required name="mobile" id="enquiryMobile" type="tel"
                                 placeholder="+91 98765 43210"></div>
                     </label>
-                    <label>Email Address <mark>*</mark>
-                        <div class="input-icon"><span>✉</span><input required name="email" type="email"
-                                placeholder="your@email.com"></div>
+                    <label>WhatsApp Number <mark>*</mark>
+                        <div class="input-icon"><span><i class="fa-brands fa-whatsapp"></i></span><input required name="whatsapp" id="enquiryWhatsApp" type="tel"
+                                placeholder="+91 98765 43210"></div>
                     </label>
-                    <label>Pack Quantity <mark>*</mark><input required name="packs" type="number" min="1"
-                            id="modalPacks" placeholder="Number of packs"></label>
-                    <label>Colour Selected <mark>*</mark>
-                        <select required name="colour" id="modalColourSelect">
-                            <option value="">Select colour</option>
-                        </select>
+                    <label>Colour
+                        <input readonly name="colour" id="modalColourInput"
+                            style="background:#f8fafc;cursor:default;color:#1e293b;font-weight:600"
+                            placeholder="Selected colour">
+                    </label>
+                    <label>Size
+                        <input readonly name="size" id="modalSizeInput"
+                            style="background:#f8fafc;cursor:default;color:#1e293b;font-weight:600"
+                            placeholder="Available pack sizes">
+                    </label>
+                    <label>Quantity / PCS
+                        <input readonly name="quantity" id="modalQuantityInput"
+                            style="background:#f8fafc;cursor:default;color:#1e293b;font-weight:600"
+                            placeholder="Selected quantity">
+                    </label>
+                    <label>Fit / Product Type
+                        <input readonly name="fit" id="modalFitInput"
+                            style="background:#f8fafc;cursor:default;color:#1e293b;font-weight:600"
+                            placeholder="Product fit/type">
                     </label>
                 </div>
-                <label style="margin-bottom:14px">Delivery Location <mark>*</mark>
-                    <div class="input-icon" style="position:relative"><span
-                            style="position:absolute;left:10px;top:50%;transform:translateY(-50%)">⌖</span><input
-                            required name="location" style="padding-left:32px"
-                            placeholder="Enter your city / state / area"></div>
+                <!-- Hidden inputs for product details & backward-compatibility -->
+                <input type="hidden" name="product_name" id="modalProductNameInput">
+                <input type="hidden" name="brand" id="modalProductBrandInput">
+                <input type="hidden" name="product_id" id="modalProductIdInput">
+                <input type="hidden" name="packs" id="modalPacks">
+                <select name="colour_select" id="modalColourSelect" style="display:none"></select>
+
+                <label style="margin-bottom:14px">Message / Requirements (Optional)
+                    <textarea name="message" id="enquiryMessage"
+                        placeholder="Any special requirements, preferences or additional details..."></textarea>
                 </label>
-                <label>Message / Requirements<textarea name="message"
-                        placeholder="Any special requirements, preferences or additional details..."></textarea></label>
                 <div class="form-actions">
-                    <button class="primary" type="submit">&#10148;&nbsp; Send Enquiry</button>
+                    <button class="primary" id="btnSubmitEnquiry" type="submit">&#10148;&nbsp; Send Enquiry</button>
                     <button class="outline" id="cancel" type="button">Cancel</button>
                 </div>
             </form>
@@ -603,6 +627,394 @@
            - related: [] ids of related products
            ────────────────────────────────────────────────────────────── */
         const PRODUCTS = [
+            // ── CROSS COUNTRY FEATURED HERO PRODUCTS ──────────────────
+            {
+                id: 'cc-straight-jeans',
+                aliases: ['cross-straight-fit-black', 'a1111111-1111-1111-1111-111111111111', 'straight-black', '509', '510', 'cc-202'],
+                name: 'CROSS COUNTRY – Straight Fit – Black',
+                brand: 'CROSS COUNTRY',
+                category: 'Jeans',
+                subcategory: 'Straight Fit Jeans',
+                fit: 'Straight Fit',
+                material: 'Heavyweight Rigid Denim',
+                description: 'Classic straight fit jeans built with heavyweight durable black denim. Comfortable waist with clean aesthetic and reinforced stitching for high-demand wholesale partner delivery.',
+                pricePerPiece: 850,
+                oldPrice: 1199,
+                badge: 'SIGNATURE',
+                images: ['asses/regular.jpg', 'asses/detail image/rope.png', 'asses/detail image/fabric.png'],
+                colours: [
+                    { name: 'Black', hex: '#1a1a1a', images: ['asses/regular.jpg', 'asses/detail image/fabric.png'] },
+                    { name: 'Indigo Blue', hex: '#2b3952', images: ['asses/regular.jpg', 'asses/detail image/rope.png'] },
+                    { name: 'Stone Grey', hex: '#5c5957', images: ['asses/regular.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 12,
+                    sizeBreakdown: [
+                        { size: '28', qty: 2 },
+                        { size: '30', qty: 3 },
+                        { size: '32', qty: 3 },
+                        { size: '34', qty: 2 },
+                        { size: '36', qty: 2 },
+                    ]
+                },
+                stock: 25,
+                related: ['cc-wide-leg', 'cc-cargos', 'cc-linen', 'cc-shorts'],
+                detailsUrl: 'productDetails.html?id=cc-straight-jeans',
+            },
+            {
+                id: 'cc-wide-leg',
+                aliases: ['cross-wide-leg-brown', 'a2222222-2222-2222-2222-222222222222', 'wide-leg-brown', 'cc-201', '501', '502'],
+                name: 'CROSS COUNTRY – Wide Leg – Brown',
+                brand: 'CROSS COUNTRY',
+                category: 'Jeans',
+                subcategory: 'Wide Leg Jeans',
+                fit: 'Wide Leg',
+                material: 'Premium Washed Denim',
+                description: 'Contemporary wide leg silhouette in rich earthy brown denim wash. Relaxed streetwear drape and premium heavyweight cotton denim designed for commercial bulk orders.',
+                pricePerPiece: 940,
+                oldPrice: 1350,
+                badge: 'NEW',
+                images: ['asses/wideleg.jpg', 'asses/detail image/rope.png', 'asses/detail image/fabric.png'],
+                colours: [
+                    { name: 'Brown', hex: '#8c6a51', images: ['asses/wideleg.jpg', 'asses/detail image/fabric.png'] },
+                    { name: 'Black', hex: '#2c2f33', images: ['asses/wideleg.jpg'] },
+                    { name: 'Rugged Blue', hex: '#4a6fa5', images: ['asses/wideleg.jpg', 'asses/detail image/rope.png'] },
+                ],
+                pack: {
+                    piecesPerPack: 15,
+                    sizeBreakdown: [
+                        { size: '30', qty: 3 },
+                        { size: '32', qty: 4 },
+                        { size: '34', qty: 4 },
+                        { size: '36', qty: 2 },
+                        { size: '38', qty: 2 },
+                    ]
+                },
+                stock: 20,
+                related: ['cc-straight-jeans', 'cc-cargos', 'cc-linen', 'cc-shorts'],
+                detailsUrl: 'productDetails.html?id=cc-wide-leg',
+            },
+            {
+                id: 'cc-cargos',
+                aliases: ['a3333333-3333-3333-3333-333333333333', 'cc-203', '301', 'CP-001', '101', '102'],
+                name: "CROSS COUNTRY Heavyweight Tactical Men's Cargos",
+                brand: 'CROSS COUNTRY',
+                category: 'Cargo Pants',
+                subcategory: 'Cargo Pants',
+                fit: 'Cargo Fit',
+                material: 'Heavy Cotton Twill',
+                description: 'Six-pocket rugged tactical cargo trousers in premium heavy twill cotton with reinforced stress points. Ideal for everyday utility wear.',
+                pricePerPiece: 800,
+                oldPrice: 1150,
+                badge: 'LOW STOCK',
+                images: ['asses/cargo.jpg'],
+                colours: [
+                    { name: 'Olive Green', hex: '#9fa196', images: ['asses/cargo.jpg'] },
+                    { name: 'Desert Beige', hex: '#d1c8bd', images: ['asses/cargo.jpg'] },
+                    { name: 'Earth Brown', hex: '#8c766b', images: ['asses/cargo.jpg'] },
+                    { name: 'Slate Blue', hex: '#3b5066', images: ['asses/cargo.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 12,
+                    sizeBreakdown: [
+                        { size: '30', qty: 2 },
+                        { size: '32', qty: 3 },
+                        { size: '34', qty: 3 },
+                        { size: '36', qty: 2 },
+                        { size: '38', qty: 2 },
+                    ]
+                },
+                stock: 8,
+                related: ['cc-straight-jeans', 'cc-wide-leg', 'cc-linen', 'cc-shorts'],
+                detailsUrl: 'productDetails.html?id=cc-cargos',
+            },
+            {
+                id: 'cc-linen',
+                aliases: ['a4444444-4444-4444-4444-444444444444', 'cc-204', '201', 'LP-001'],
+                name: 'CROSS COUNTRY Regular Linen Pants',
+                brand: 'CROSS COUNTRY',
+                category: 'Linen Pants',
+                subcategory: 'Linen Pants',
+                fit: 'Regular Fit',
+                material: 'Premium Linen Blend',
+                description: 'Breathable lightweight premium linen blend casual trousers designed for comfortable all-day wear and superior thermal comfort.',
+                pricePerPiece: 800,
+                oldPrice: 1100,
+                badge: null,
+                images: ['asses/linen.jpg'],
+                colours: [
+                    { name: 'Beige', hex: '#d6d2c4', images: ['asses/linen.jpg'] },
+                    { name: 'Black', hex: '#1a1a1a', images: ['asses/linen.jpg'] },
+                    { name: 'Navy Blue', hex: '#2b3952', images: ['asses/linen.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 12,
+                    sizeBreakdown: [
+                        { size: '28', qty: 2 },
+                        { size: '30', qty: 2 },
+                        { size: '32', qty: 3 },
+                        { size: '34', qty: 3 },
+                        { size: '36', qty: 2 },
+                    ]
+                },
+                stock: 12,
+                related: ['cc-straight-jeans', 'cc-wide-leg', 'cc-cargos', 'cc-shorts'],
+                detailsUrl: 'productDetails.html?id=cc-linen',
+            },
+            {
+                id: 'cc-kids-cargos',
+                aliases: ['a5555555-5555-5555-5555-555555555555', 'cc-206', 'KW-001'],
+                name: 'CROSS COUNTRY Kids Cargo Denim Pants',
+                brand: 'CROSS COUNTRY',
+                category: 'Kids Wear',
+                subcategory: 'Kids Cargos',
+                fit: 'Regular Fit',
+                material: 'Cotton Blend Denim',
+                description: 'Comfortable and durable kids cargo denim trousers with multiple pockets and elastic stretch waist.',
+                pricePerPiece: 500,
+                oldPrice: 750,
+                badge: 'NEW',
+                images: ['asses/kids.png'],
+                colours: [
+                    { name: 'Olive', hex: '#7d8471', images: ['asses/kids.png'] },
+                    { name: 'Navy Blue', hex: '#2e302f', images: ['asses/kids.png'] },
+                ],
+                pack: {
+                    piecesPerPack: 10,
+                    sizeBreakdown: [
+                        { size: '24', qty: 2 },
+                        { size: '26', qty: 3 },
+                        { size: '28', qty: 3 },
+                        { size: '30', qty: 2 },
+                    ]
+                },
+                stock: 15,
+                related: ['cc-straight-jeans', 'cc-wide-leg', 'cc-cargos'],
+                detailsUrl: 'productDetails.html?id=cc-kids-cargos',
+            },
+            {
+                id: 'cc-shorts',
+                aliases: ['a6666666-6666-6666-6666-666666666666', 'cc-205', '401', 'SH-001'],
+                name: "CROSS COUNTRY Classic Denim Men's Shorts",
+                brand: 'CROSS COUNTRY',
+                category: 'Shorts',
+                subcategory: 'Cotton Shorts',
+                fit: 'Regular Fit',
+                material: 'Premium Cotton',
+                description: 'Cool and durable cotton shorts tailored for active casual retail customers.',
+                pricePerPiece: 760,
+                oldPrice: 1050,
+                badge: null,
+                images: ['asses/shorts.jpg'],
+                colours: [
+                    { name: 'Slate Grey', hex: '#596168', images: ['asses/shorts.jpg'] },
+                    { name: 'Earth Brown', hex: '#7b6d61', images: ['asses/shorts.jpg'] },
+                    { name: 'Navy', hex: '#2b3952', images: ['asses/shorts.jpg'] },
+                    { name: 'Rust', hex: '#92534a', images: ['asses/shorts.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 12,
+                    sizeBreakdown: [
+                        { size: '30', qty: 2 },
+                        { size: '32', qty: 3 },
+                        { size: '34', qty: 3 },
+                        { size: '36', qty: 2 },
+                        { size: '38', qty: 2 },
+                    ]
+                },
+                stock: 20,
+                related: ['cc-straight-jeans', 'cc-wide-leg', 'cc-cargos', 'cc-linen'],
+                detailsUrl: 'productDetails.html?id=cc-shorts',
+            },
+
+            // ── KOCOA STREETWEAR PRODUCTS ──────────────────────────────
+            {
+                id: 'kocoa-101',
+                aliases: ['b1111111-1111-1111-1111-111111111111'],
+                name: 'KOCOA Baggy Fit Jeans – Washed Indigo',
+                brand: 'KOCOA',
+                category: 'Jeans',
+                subcategory: 'Baggy Fit Jeans',
+                fit: 'Baggy Fit',
+                material: 'Heavy Vintage Washed Denim',
+                description: 'Authentic streetwear baggy silhouette in heavy vintage wash denim. Premium brass rivets and reinforced pocket bags.',
+                pricePerPiece: 850,
+                oldPrice: 1250,
+                badge: 'URBAN',
+                images: ['asses/kocoa-baggy.jpg'],
+                colours: [
+                    { name: 'Washed Blue', hex: '#4a6fa5', images: ['asses/kocoa-baggy.jpg'] },
+                    { name: 'Dark Indigo', hex: '#1e2b45', images: ['asses/kocoa-baggy.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 10,
+                    sizeBreakdown: [
+                        { size: '30', qty: 2 },
+                        { size: '32', qty: 3 },
+                        { size: '34', qty: 3 },
+                        { size: '36', qty: 2 },
+                    ]
+                },
+                stock: 18,
+                related: ['kocoa-102', 'kocoa-103', 'kocoa-104'],
+                detailsUrl: 'productDetails.html?id=kocoa-101',
+            },
+            {
+                id: 'kocoa-102',
+                aliases: ['b2222222-2222-2222-2222-222222222222'],
+                name: 'KOCOA Skater Wide Leg Jeans – Vintage Black',
+                brand: 'KOCOA',
+                category: 'Jeans',
+                subcategory: 'Wide Leg Jeans',
+                fit: 'Wide Leg',
+                material: 'Washed Charcoal Black Denim',
+                description: 'Skater inspired wide leg silhouette in washed charcoal black denim. Relaxed fit for effortless street fashion style.',
+                pricePerPiece: 890,
+                oldPrice: 1300,
+                badge: 'NEW',
+                images: ['asses/kocoa-black.jpg'],
+                colours: [
+                    { name: 'Vintage Black', hex: '#1c1c1c', images: ['asses/kocoa-black.jpg'] },
+                    { name: 'Charcoal', hex: '#3d3d3d', images: ['asses/kocoa-black.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 10,
+                    sizeBreakdown: [
+                        { size: '28', qty: 2 },
+                        { size: '30', qty: 2 },
+                        { size: '32', qty: 3 },
+                        { size: '34', qty: 3 },
+                    ]
+                },
+                stock: 22,
+                related: ['kocoa-101', 'kocoa-103', 'kocoa-104'],
+                detailsUrl: 'productDetails.html?id=kocoa-102',
+            },
+            {
+                id: 'kocoa-103',
+                name: 'KOCOA Street Relaxed Denim – Light Ice Wash',
+                brand: 'KOCOA',
+                category: 'Jeans',
+                subcategory: 'Relaxed Fit Jeans',
+                fit: 'Relaxed Fit',
+                material: 'Light Denim',
+                description: 'Light ice washed denim trousers with comfortable skater aesthetic.',
+                pricePerPiece: 870,
+                oldPrice: 1200,
+                badge: 'STREET',
+                images: ['asses/kocoa-baggy.jpg'],
+                colours: [
+                    { name: 'Ice Blue', hex: '#7ba7c8', images: ['asses/kocoa-baggy.jpg'] },
+                    { name: 'Light Indigo', hex: '#597fa6', images: ['asses/kocoa-baggy.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 12,
+                    sizeBreakdown: [
+                        { size: '30', qty: 2 },
+                        { size: '32', qty: 4 },
+                        { size: '34', qty: 4 },
+                        { size: '36', qty: 2 },
+                    ]
+                },
+                stock: 10,
+                related: ['kocoa-101', 'kocoa-102', 'kocoa-104'],
+                detailsUrl: 'productDetails.html?id=kocoa-103',
+            },
+            {
+                id: 'kocoa-104',
+                name: 'KOCOA Urban Utility Cargo Pants – Shadow Grey',
+                brand: 'KOCOA',
+                category: 'Cargo Pants',
+                subcategory: 'Cargo Pants',
+                fit: 'Cargo',
+                material: 'Heavy Utility Twill',
+                description: 'Street-ready cargo pants featuring deep utility pockets and durable reinforced build.',
+                pricePerPiece: 820,
+                oldPrice: 1180,
+                badge: 'TRENDING',
+                images: ['asses/cargo.jpg'],
+                colours: [
+                    { name: 'Shadow Grey', hex: '#4b5563', images: ['asses/cargo.jpg'] },
+                    { name: 'Onyx Black', hex: '#111827', images: ['asses/cargo.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 10,
+                    sizeBreakdown: [
+                        { size: '30', qty: 2 },
+                        { size: '32', qty: 3 },
+                        { size: '34', qty: 3 },
+                        { size: '36', qty: 2 },
+                    ]
+                },
+                stock: 14,
+                related: ['kocoa-101', 'kocoa-102', 'kocoa-103'],
+                detailsUrl: 'productDetails.html?id=kocoa-104',
+            },
+
+            // ── CROSS COUNTRY BRAND COLLECTION ITEMS ────────────────────
+            {
+                id: 'cc-201',
+                name: "CROSS COUNTRY Men's Wide Leg Jeans",
+                brand: 'CROSS COUNTRY',
+                category: 'Jeans',
+                subcategory: 'Wide Leg Jeans',
+                fit: 'Wide Leg',
+                material: 'Heavy Denim',
+                description: 'Heavyweight heritage denim trousers tailored with classic wide leg opening.',
+                pricePerPiece: 940,
+                oldPrice: 1350,
+                badge: 'HERITAGE',
+                images: ['asses/wideleg.jpg'],
+                colours: [
+                    { name: 'Indigo Blue', hex: '#31538a', images: ['asses/wideleg.jpg'] },
+                    { name: 'Midnight Black', hex: '#1a1a1a', images: ['asses/wideleg.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 10,
+                    sizeBreakdown: [
+                        { size: '30', qty: 2 },
+                        { size: '32', qty: 3 },
+                        { size: '34', qty: 3 },
+                        { size: '36', qty: 2 },
+                    ]
+                },
+                stock: 10,
+                related: ['cc-202', 'cc-203', 'cc-204'],
+                detailsUrl: 'productDetails.html?id=cc-201',
+            },
+            {
+                id: 'cc-202',
+                name: "CROSS COUNTRY Men's Regular Fit Jeans",
+                brand: 'CROSS COUNTRY',
+                category: 'Jeans',
+                subcategory: 'Regular Fit Jeans',
+                fit: 'Regular Fit',
+                material: 'Durable Denim',
+                description: 'Essential regular fit denim trousers for dependable daily wholesale store demand.',
+                pricePerPiece: 850,
+                oldPrice: 1199,
+                badge: 'CLASSIC',
+                images: ['asses/regular.jpg'],
+                colours: [
+                    { name: 'Classic Blue', hex: '#2e4975', images: ['asses/regular.jpg'] },
+                    { name: 'Dark Blue', hex: '#162847', images: ['asses/regular.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 12,
+                    sizeBreakdown: [
+                        { size: '28', qty: 2 },
+                        { size: '30', qty: 3 },
+                        { size: '32', qty: 3 },
+                        { size: '34', qty: 2 },
+                        { size: '36', qty: 2 },
+                    ]
+                },
+                stock: 25,
+                related: ['cc-201', 'cc-203', 'cc-204'],
+                detailsUrl: 'productDetails.html?id=cc-202',
+            },
+
+            // ── ORIGINAL BASE CATALOGUE ────────────────────────────────
             {
                 id: 'WLJ-001',
                 name: 'Wide Leg Jeans',
@@ -768,24 +1180,261 @@
         ];
 
         /* ──────────────────────────────────────────────────────────────
-           LOAD PRODUCT
-           - Read ?id=WLJ-001 from URL, fall back to first product
+           DYNAMIC SUPABASE LOADER & DATA NORMALIZATION
            ────────────────────────────────────────────────────────────── */
-        function getProductById(id) {
-            return PRODUCTS.find(p => p.id === id) || PRODUCTS[0];
+        function normalizeSupabaseProduct(p) {
+            if (!p) return null;
+            const name = p.item_name || p.name || 'DOT Denim Product';
+            const brand = p.brand_name || p.brand || 'CROSS COUNTRY';
+            const category = p.category || 'Jeans';
+            const fit = p.fit || 'Regular Fit';
+            const subcategory = p.subcategory || `${fit} ${category}`.trim();
+            const description = p.description || 'Premium quality apparel crafted for durability, modern fit, and comfort. Suitable for wholesale retail distribution.';
+            const pricePerPiece = p.price || p.price_per_piece || p.pricePerPiece || 800;
+            const oldPrice = p.old_price || p.oldPrice || null;
+            const badge = p.badge || (p.is_new ? 'NEW' : null);
+
+            // Images
+            let images = [];
+            if (p.product_images && p.product_images.length > 0) {
+                images = p.product_images
+                    .slice()
+                    .sort((a, b) => (a.display_order || 0) - (b.display_order || 0))
+                    .map(i => i.image_url)
+                    .filter(Boolean);
+            }
+            if (images.length === 0 && p.image_url) images.push(p.image_url);
+            if (images.length === 0 && p.image) images.push(p.image);
+            if (images.length === 0) images = ['asses/regular.jpg', 'asses/detail image/rope.png', 'asses/detail image/fabric.png'];
+
+            // Colours
+            let colours = [];
+            if (p.product_colours && p.product_colours.length > 0) {
+                colours = p.product_colours.map(c => ({
+                    name: c.colour_name || c.name || 'Standard',
+                    hex: c.colour_code || c.hex_code || '#2b3952',
+                    images: c.image_url ? [c.image_url, ...images] : images
+                }));
+            } else {
+                colours = [{ name: 'Standard', hex: '#2b3952', images }];
+            }
+
+            // Sizes
+            let sizeBreakdown = [];
+            if (p.product_sizes && p.product_sizes.length > 0) {
+                sizeBreakdown = p.product_sizes.map(s => ({
+                    size: String(s.size),
+                    qty: Number(s.stock_quantity ?? s.quantity ?? 2)
+                }));
+            } else {
+                sizeBreakdown = [
+                    { size: '28', qty: 2 },
+                    { size: '30', qty: 2 },
+                    { size: '32', qty: 3 },
+                    { size: '34', qty: 3 },
+                    { size: '36', qty: 2 },
+                ];
+            }
+            const piecesPerPack = sizeBreakdown.reduce((sum, s) => sum + (s.qty || 0), 0) || 12;
+            const stockQty = p.stock ?? p.stock_quantity ?? 20;
+
+            return {
+                id: String(p.id),
+                name,
+                brand,
+                category,
+                subcategory,
+                fit,
+                material: p.material || 'Premium Denim / Cotton',
+                description,
+                pricePerPiece,
+                oldPrice,
+                badge,
+                images,
+                colours,
+                pack: {
+                    piecesPerPack,
+                    sizeBreakdown
+                },
+                stock: stockQty,
+                related: p.related || ['cc-straight-jeans', 'cc-wide-leg', 'cc-cargos'],
+                detailsUrl: `productDetails.html?id=${p.id}`
+            };
         }
 
+        async function fetchProductFromSupabase(rawId, urlName, urlBrand, urlFit) {
+            const client = window.supabase || window.supabaseClient;
+            if (!client || typeof client.from !== 'function') return null;
+
+            const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(rawId);
+
+            try {
+                // 1. Direct UUID lookup
+                if (isUUID) {
+                    const { data, error } = await client
+                        .from('products')
+                        .select('*, product_colours(*), product_sizes(*), product_images(*)')
+                        .eq('id', rawId)
+                        .limit(1);
+
+                    if (!error && data && data.length > 0) {
+                        return normalizeSupabaseProduct(data[0]);
+                    }
+                }
+
+                // 2. Search by item_name / keywords
+                let searchTerms = [];
+                if (urlName) searchTerms.push(urlName);
+                if (rawId === 'cc-straight-jeans' || rawId === 'cross-straight-fit-black') {
+                    searchTerms.push('Straight Fit', 'Straight');
+                } else if (rawId === 'cc-wide-leg' || rawId === 'cross-wide-leg-brown') {
+                    searchTerms.push('Wide Leg');
+                } else if (rawId === 'cc-cargos' || rawId === 'cc-203') {
+                    searchTerms.push('Cargo');
+                } else if (rawId === 'cc-linen' || rawId === 'cc-204') {
+                    searchTerms.push('Linen');
+                } else if (rawId === 'cc-kids-cargos' || rawId === 'cc-206') {
+                    searchTerms.push('Kids');
+                } else if (rawId === 'cc-shorts' || rawId === 'cc-205') {
+                    searchTerms.push('Shorts');
+                } else if (rawId && rawId.startsWith('kocoa')) {
+                    searchTerms.push('KOCOA');
+                } else if (rawId) {
+                    searchTerms.push(rawId);
+                }
+
+                for (const term of searchTerms) {
+                    let q = client
+                        .from('products')
+                        .select('*, product_colours(*), product_sizes(*), product_images(*)')
+                        .ilike('item_name', `%${term}%`);
+
+                    if (urlBrand) q = q.ilike('brand_name', `%${urlBrand}%`);
+                    let { data, error } = await q.limit(1);
+
+                    if (error && error.message && error.message.includes('item_name')) {
+                        let fallbackQ = client
+                            .from('products')
+                            .select('*, product_colours(*), product_sizes(*), product_images(*)')
+                            .ilike('name', `%${term}%`);
+                        if (urlBrand) fallbackQ = fallbackQ.ilike('brand', `%${urlBrand}%`);
+                        const fbRes = await fallbackQ.limit(1);
+                        data = fbRes.data;
+                        error = fbRes.error;
+                    }
+
+                    if (!error && data && data.length > 0) {
+                        return normalizeSupabaseProduct(data[0]);
+                    }
+                }
+            } catch (err) {
+                console.warn('Supabase product query notice:', err);
+            }
+            return null;
+        }
+
+        /* ──────────────────────────────────────────────────────────────
+           PRODUCT RESOLUTION
+           Matches the exact product clicked by user
+           ────────────────────────────────────────────────────────────── */
+        function resolveInitialProduct(rawId, queryName, queryBrand, queryColour) {
+            if (!rawId && !queryName) return PRODUCTS[0];
+            const sId = String(rawId || '').toLowerCase().trim();
+            const sName = String(queryName || '').toLowerCase().trim();
+
+            // 1. Exact ID
+            let found = PRODUCTS.find(p => String(p.id).toLowerCase() === sId);
+            if (found) return found;
+
+            // 2. Aliases array
+            found = PRODUCTS.find(p => p.aliases && p.aliases.some(a => String(a).toLowerCase() === sId));
+            if (found) return found;
+
+            // 3. Specific key mappings for user scenarios
+            if (sId.includes('straight') || sName.includes('straight')) {
+                found = PRODUCTS.find(p => p.id === 'cc-straight-jeans');
+                if (found) return found;
+            }
+            if ((sId.includes('wide') || sName.includes('wide')) && (sId.includes('brown') || sName.includes('brown') || (queryColour && queryColour.toLowerCase() === 'brown'))) {
+                found = PRODUCTS.find(p => p.id === 'cc-wide-leg');
+                if (found) return found;
+            }
+            if (sId.includes('wide') || sName.includes('wide')) {
+                found = PRODUCTS.find(p => p.id === 'cc-wide-leg') || PRODUCTS.find(p => p.id === 'WLJ-001');
+                if (found) return found;
+            }
+            if (sId.includes('cargo') || sName.includes('cargo')) {
+                found = PRODUCTS.find(p => p.id === 'cc-cargos');
+                if (found) return found;
+            }
+            if (sId.includes('linen') || sName.includes('linen')) {
+                found = PRODUCTS.find(p => p.id === 'cc-linen');
+                if (found) return found;
+            }
+            if (sId.includes('kids') || sName.includes('kids')) {
+                found = PRODUCTS.find(p => p.id === 'cc-kids-cargos');
+                if (found) return found;
+            }
+            if (sId.includes('short') || sName.includes('short')) {
+                found = PRODUCTS.find(p => p.id === 'cc-shorts');
+                if (found) return found;
+            }
+
+            // 4. Fuzzy match name
+            if (sName) {
+                found = PRODUCTS.find(p => p.name.toLowerCase().includes(sName) || sName.includes(p.name.toLowerCase()));
+                if (found) return found;
+            }
+
+            // 5. Number ID string match (e.g. 501..510)
+            if (sId) {
+                const numericMatch = PRODUCTS.find(p => String(p.id) === sId);
+                if (numericMatch) return numericMatch;
+            }
+
+            return PRODUCTS[0];
+        }
+
+        /* ── URL Parameter Extraction ──────────────────────────────── */
         const urlParams = new URLSearchParams(window.location.search);
-        const productId = urlParams.get('id') || 'WLJ-001';
-        let PRODUCT = getProductById(productId);
+        const productId = urlParams.get('id') || urlParams.get('productId') || urlParams.get('pid') || '';
+        const urlName = urlParams.get('name') || urlParams.get('product') || '';
+        const urlBrand = urlParams.get('brand') || '';
+        const urlFit = urlParams.get('fit') || '';
+        const urlColour = urlParams.get('colour') || urlParams.get('color') || '';
+
+        let PRODUCT = resolveInitialProduct(productId, urlName, urlBrand, urlColour);
 
         /* ── State ─────────────────────────────────────────────────── */
         let selectedColourIndex = 0;
+        if (urlColour && PRODUCT && PRODUCT.colours) {
+            const cleanC = urlColour.trim().toLowerCase();
+            const foundIdx = PRODUCT.colours.findIndex(c => 
+                c.name.toLowerCase() === cleanC || 
+                c.name.toLowerCase().includes(cleanC) || 
+                cleanC.includes(c.name.toLowerCase())
+            );
+            if (foundIdx !== -1) selectedColourIndex = foundIdx;
+        }
+
         let packQty = 1;
         let currentImgIndex = 0;
         let productImages = [];
         let wishlist = new Set(JSON.parse(localStorage.getItem('dot_wishlist') || '[]'));
         let cart = JSON.parse(localStorage.getItem('dot_cart') || '[]');
+
+        function applyColourParam(colourParam) {
+            if (!colourParam || !PRODUCT || !PRODUCT.colours) return;
+            const clean = colourParam.trim().toLowerCase();
+            const idx = PRODUCT.colours.findIndex(c => 
+                c.name.toLowerCase() === clean || 
+                c.name.toLowerCase().includes(clean) || 
+                clean.includes(c.name.toLowerCase())
+            );
+            if (idx !== -1) {
+                selectColour(idx);
+            }
+        }
 
         /* ──────────────────────────────────────────────────────────────
            RENDER PRODUCT
@@ -849,7 +1498,18 @@
             document.getElementById('bc-category').textContent = p.category;
             document.getElementById('bc-sub').textContent = p.subcategory;
             document.getElementById('bc-current').textContent = p.name;
-            document.getElementById('bc-category').href = `category-${p.category.toLowerCase().replace(/\s+/g, '-')}.html`;
+            const catHrefMap = {
+                'jeans': 'category-jeans.html',
+                'cargo pants': 'category-cargo.html',
+                'cargo': 'category-cargo.html',
+                'linen pants': 'category-linen.html',
+                'linen': 'category-linen.html',
+                'shorts': 'category-shorts.html',
+                'kids wear': 'category-kids.html',
+                'kids': 'category-kids.html'
+            };
+            const catKey = (p.category || 'jeans').toLowerCase().trim();
+            document.getElementById('bc-category').href = catHrefMap[catKey] || 'category-jeans.html';
 
             // Price
             document.getElementById('dp-price').textContent = formatRupee(p.pricePerPiece);
@@ -859,6 +1519,9 @@
                 const disc = Math.round((1 - p.pricePerPiece / p.oldPrice) * 100);
                 document.getElementById('dp-discount').textContent = `${disc}% OFF`;
                 document.getElementById('dp-discount').style.display = '';
+            } else {
+                document.getElementById('dp-old-price').style.display = 'none';
+                document.getElementById('dp-discount').style.display = 'none';
             }
 
             // Specs
@@ -871,7 +1534,13 @@
             document.getElementById('spec-sku').textContent = p.id;
 
             // Images
-            productImages = p.images.slice();
+            const activeCol = p.colours && p.colours[selectedColourIndex];
+            if (activeCol && activeCol.images && activeCol.images.length > 0) {
+                productImages = [...activeCol.images, ...(p.images || [])].filter((v, i, a) => a.indexOf(v) === i);
+            } else {
+                productImages = (p.images || []).slice();
+            }
+            if (productImages.length === 0) productImages = ['asses/wideleg.jpg'];
             renderGallery();
 
             // Colours
@@ -1254,24 +1923,96 @@
         });
 
         /* ──────────────────────────────────────────────────────────────
-           ENQUIRY MODAL
+           ENQUIRY MODAL & SUPABASE SUBMISSION
            ────────────────────────────────────────────────────────────── */
         function renderModalColours() {
             const sel = document.getElementById('modalColourSelect');
-            sel.innerHTML = '<option value="">Select colour</option>' +
-                PRODUCT.colours.map((c, i) => `<option value="${c.name}"${i === selectedColourIndex ? ' selected' : ''}>${c.name}</option>`).join('');
+            if (sel) {
+                sel.innerHTML = '<option value="">Select colour</option>' +
+                    PRODUCT.colours.map((c, i) => `<option value="${c.name}"${i === selectedColourIndex ? ' selected' : ''}>${c.name}</option>`).join('');
+            }
         }
 
         function openEnquiryModal() {
-            const colour = PRODUCT.colours[selectedColourIndex];
-            const totalPieces = PRODUCT.pack.piecesPerPack * packQty;
+            const colour = PRODUCT.colours[selectedColourIndex] || PRODUCT.colours[0];
+            const perPack = PRODUCT.pack.piecesPerPack || 12;
+            const totalPieces = perPack * packQty;
+            const sizeList = (PRODUCT.pack.sizeBreakdown || []).map(s => s.size).join(', ');
+            const fitType = PRODUCT.subcategory ? `${PRODUCT.subcategory} — ${PRODUCT.fit}` : PRODUCT.fit;
+            const qtyText = `${packQty} Pack${packQty > 1 ? 's' : ''} (${totalPieces} pcs)`;
 
-            document.getElementById('modalProductName').textContent = PRODUCT.name;
-            document.getElementById('modalProductSku').textContent = 'SKU: ' + PRODUCT.id;
-            document.getElementById('modalProductPrice').textContent = formatRupee(PRODUCT.pricePerPiece);
-            document.getElementById('modalProductImg').src = colour.images[0] || PRODUCT.images[0];
-            document.getElementById('modalPacks').value = packQty;
-            document.getElementById('modalPackSummary').textContent = `Colour: ${colour.name} | ${packQty} Pack${packQty > 1 ? 's' : ''} (${totalPieces} pcs)`;
+            // Automatically update modal summary header (No price displayed)
+            const nameEl = document.getElementById('modalProductName');
+            if (nameEl) nameEl.textContent = PRODUCT.name;
+
+            const brandEl = document.getElementById('modalProductBrand');
+            if (brandEl) brandEl.textContent = PRODUCT.brand;
+
+            const fitEl = document.getElementById('modalProductFit');
+            if (fitEl) fitEl.textContent = fitType;
+
+            const colourEl = document.getElementById('modalProductColour');
+            if (colourEl) colourEl.textContent = colour.name;
+
+            const sizeEl = document.getElementById('modalProductSize');
+            if (sizeEl) sizeEl.textContent = sizeList;
+
+            const qtyEl = document.getElementById('modalProductQty');
+            if (qtyEl) qtyEl.textContent = qtyText;
+
+            const imgEl = document.getElementById('modalProductImg');
+            if (imgEl) imgEl.src = colour.images?.[0] || PRODUCT.images?.[0] || '';
+
+            // Automatically pass product details to form fields (User does NOT manually enter these)
+            const inputColour = document.getElementById('modalColourInput');
+            if (inputColour) inputColour.value = colour.name;
+
+            const inputSize = document.getElementById('modalSizeInput');
+            if (inputSize) inputSize.value = sizeList;
+
+            const inputQty = document.getElementById('modalQuantityInput');
+            if (inputQty) inputQty.value = qtyText;
+
+            const inputFit = document.getElementById('modalFitInput');
+            if (inputFit) inputFit.value = fitType;
+
+            const inputProdName = document.getElementById('modalProductNameInput');
+            if (inputProdName) inputProdName.value = PRODUCT.name;
+
+            const inputBrand = document.getElementById('modalProductBrandInput');
+            if (inputBrand) inputBrand.value = PRODUCT.brand;
+
+            const inputProdId = document.getElementById('modalProductIdInput');
+            if (inputProdId) inputProdId.value = PRODUCT.id;
+
+            const inputPacks = document.getElementById('modalPacks');
+            if (inputPacks) inputPacks.value = packQty;
+
+            // Prefill customer details from saved user profile if available
+            try {
+                const storedUser = JSON.parse(localStorage.getItem('dot_user') || 'null');
+                if (storedUser) {
+                    const shopEl = document.getElementById('enquiryShopName');
+                    if (shopEl && !shopEl.value && storedUser.shop_name) shopEl.value = storedUser.shop_name;
+
+                    const nameInput = document.getElementById('enquiryName');
+                    if (nameInput && !nameInput.value && (storedUser.name || storedUser.full_name)) {
+                        nameInput.value = storedUser.name || storedUser.full_name;
+                    }
+
+                    const mobInput = document.getElementById('enquiryMobile');
+                    if (mobInput && !mobInput.value && (storedUser.phone || storedUser.mobile)) {
+                        mobInput.value = storedUser.phone || storedUser.mobile;
+                    }
+
+                    const waInput = document.getElementById('enquiryWhatsApp');
+                    if (waInput && !waInput.value && (storedUser.whatsapp || storedUser.phone)) {
+                        waInput.value = storedUser.whatsapp || storedUser.phone;
+                    }
+                }
+            } catch (e) { }
+
+            renderModalColours();
 
             document.getElementById('modal').classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -1291,21 +2032,165 @@
         document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeEnquiryModal(); });
         document.addEventListener('keydown', e => { if (e.key === 'Escape') closeEnquiryModal(); });
 
-        document.getElementById('enquiryForm').addEventListener('submit', function (e) {
+        async function submitEnquiryToSupabase(payload) {
+            const fullSummary = [
+                `Shop Name: ${payload.shop_name}`,
+                `Customer Name: ${payload.name}`,
+                `Mobile Number: ${payload.mobile}`,
+                `WhatsApp Number: ${payload.whatsapp}`,
+                `Product Name: ${payload.product_name}`,
+                `Brand: ${payload.brand}`,
+                `Fit / Type: ${payload.fit}`,
+                `Colour: ${payload.colour}`,
+                `Size: ${payload.size}`,
+                `Quantity / PCS: ${payload.quantity}`,
+                payload.message ? `Requirements: ${payload.message}` : ''
+            ].filter(Boolean).join('\n');
+
+            // 1. Always save in localStorage backup
+            try {
+                const list = JSON.parse(localStorage.getItem('dot_enquiries') || '[]');
+                list.push({ ...payload, fullSummary, created_at: new Date().toISOString() });
+                localStorage.setItem('dot_enquiries', JSON.stringify(list));
+            } catch (err) {
+                console.warn('Local storage backup notice:', err);
+            }
+
+            // 2. Insert into Supabase 'enquiries' table
+            let client = window.supabase || window.supabaseClient;
+            if (!client || typeof client.from !== 'function') {
+                if (typeof SUPABASE_URL !== 'undefined' && typeof SUPABASE_ANON_KEY !== 'undefined' && window.supabase && typeof window.supabase.createClient === 'function') {
+                    client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                    window.supabase = client;
+                }
+            }
+
+            if (!client || typeof client.from !== 'function') {
+                console.warn('Supabase client not initialized; enquiry cached in local storage.');
+                return;
+            }
+
+            const primaryPayload = {
+                shop_name: payload.shop_name,
+                business_name: payload.shop_name,
+                company_name: payload.shop_name,
+                name: payload.name,
+                contact_person: payload.name,
+                mobile: payload.mobile,
+                whatsapp: payload.whatsapp,
+                phone: payload.mobile || payload.whatsapp,
+                product_name: payload.product_name,
+                brand: payload.brand,
+                fit: payload.fit,
+                colour: payload.colour,
+                selected_colour: payload.colour,
+                size: payload.size,
+                selected_size: payload.size,
+                quantity: payload.quantity,
+                message: fullSummary,
+                notes: fullSummary,
+                status: 'pending'
+            };
+
+            try {
+                const { error } = await client.from('enquiries').insert([primaryPayload]);
+                if (!error) {
+                    console.log('Enquiry successfully inserted into Supabase enquiries table.');
+                    return;
+                }
+                console.warn('Primary insert returned notice, falling back to basic columns:', error);
+
+                // Fallback attempt for existing table schema
+                const fallbackPayload = {
+                    company_name: payload.shop_name,
+                    selected_colour: payload.colour,
+                    message: fullSummary,
+                    status: 'pending'
+                };
+                const { error: fbErr } = await client.from('enquiries').insert([fallbackPayload]);
+                if (fbErr) {
+                    console.warn('Fallback insert notice:', fbErr);
+                } else {
+                    console.log('Enquiry successfully inserted into Supabase via fallback columns.');
+                }
+            } catch (ex) {
+                console.error('Supabase insert exception:', ex);
+            }
+        }
+
+        document.getElementById('enquiryForm').addEventListener('submit', async function (e) {
             e.preventDefault();
+
+            const shopName = document.getElementById('enquiryShopName').value.trim();
+            const name = document.getElementById('enquiryName').value.trim();
+            const mobile = document.getElementById('enquiryMobile').value.trim();
+            const whatsapp = document.getElementById('enquiryWhatsApp').value.trim();
+            const message = document.getElementById('enquiryMessage') ? document.getElementById('enquiryMessage').value.trim() : '';
+
+            if (!shopName || !name || !mobile || !whatsapp) {
+                alert('Please fill all required fields: Shop Name, Name, Mobile Number, and WhatsApp Number.');
+                return;
+            }
+
+            const colour = PRODUCT.colours[selectedColourIndex] || PRODUCT.colours[0];
+            const perPack = PRODUCT.pack.piecesPerPack || 12;
+            const totalPieces = perPack * packQty;
+            const sizeList = (PRODUCT.pack.sizeBreakdown || []).map(s => s.size).join(', ');
+            const fitType = PRODUCT.subcategory ? `${PRODUCT.subcategory} — ${PRODUCT.fit}` : PRODUCT.fit;
+            const qtyText = `${packQty} Pack${packQty > 1 ? 's' : ''} (${totalPieces} pcs)`;
+
+            const enquiryData = {
+                shop_name: shopName,
+                name: name,
+                mobile: mobile,
+                whatsapp: whatsapp,
+                product_name: PRODUCT.name,
+                brand: PRODUCT.brand,
+                colour: colour.name,
+                size: sizeList,
+                quantity: qtyText,
+                fit: fitType,
+                product_id: PRODUCT.id,
+                message: message
+            };
+
+            const submitBtn = document.getElementById('btnSubmitEnquiry');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
+            }
+
+            try {
+                await submitEnquiryToSupabase(enquiryData);
+            } catch (err) {
+                console.error('Enquiry submission error:', err);
+            }
+
             closeEnquiryModal();
             showToast('Thanks! Your wholesale enquiry has been sent. We\'ll respond within 24 hours.');
-            this.reset();
+
+            // Clear customer input fields
+            document.getElementById('enquiryShopName').value = '';
+            document.getElementById('enquiryName').value = '';
+            document.getElementById('enquiryMobile').value = '';
+            document.getElementById('enquiryWhatsApp').value = '';
+            if (document.getElementById('enquiryMessage')) document.getElementById('enquiryMessage').value = '';
+
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '&#10148;&nbsp; Send Enquiry';
+            }
         });
 
         /* ──────────────────────────────────────────────────────────────
-           WHATSAPP
+           WHATSAPP (No price displayed)
            ────────────────────────────────────────────────────────────── */
         function buildWhatsappMsg() {
-            const colour = PRODUCT.colours[selectedColourIndex];
-            const totalPieces = PRODUCT.pack.piecesPerPack * packQty;
-            const totalPrice = PRODUCT.pricePerPiece * totalPieces;
-            const msg = `Hello, I am interested in:\n\n*${PRODUCT.name}*\nColour: ${colour.name}\nQuantity: ${packQty} Pack${packQty > 1 ? 's' : ''}\nTotal: ${totalPieces} Pieces\nTotal Amount: ₹${totalPrice.toLocaleString('en-IN')}\n\nPlease share wholesale details.`;
+            const colour = PRODUCT.colours[selectedColourIndex] || PRODUCT.colours[0];
+            const totalPieces = (PRODUCT.pack.piecesPerPack || 12) * packQty;
+            const fitType = PRODUCT.subcategory ? `${PRODUCT.subcategory} — ${PRODUCT.fit}` : PRODUCT.fit;
+            const sizeList = (PRODUCT.pack.sizeBreakdown || []).map(s => s.size).join(', ');
+            const msg = `Hello, I am interested in wholesale order for:\n\n*${PRODUCT.name}*\nBrand: ${PRODUCT.brand}\nFit / Type: ${fitType}\nColour: ${colour.name}\nQuantity: ${packQty} Pack${packQty > 1 ? 's' : ''} (${totalPieces} Pieces)\nSizes: ${sizeList}\n\nPlease share wholesale details and catalog.`;
             return `https://wa.me/919747710360?text=${encodeURIComponent(msg)}`;
         }
 
@@ -1362,6 +2247,36 @@
            ────────────────────────────────────────────────────────────── */
         renderProduct();
         updateQtyDisplay();
+        if (urlColour) {
+            applyColourParam(urlColour);
+        }
+
+        // Asynchronously check live Supabase database for dynamic product data
+        (async function initSupabaseProduct() {
+            try {
+                const dbProduct = await fetchProductFromSupabase(productId, urlName, urlBrand, urlFit);
+                if (dbProduct) {
+                    console.log('Successfully loaded live product from Supabase:', dbProduct.name);
+                    PRODUCT = dbProduct;
+                    if (urlColour && PRODUCT.colours) {
+                        const cleanC = urlColour.trim().toLowerCase();
+                        const foundIdx = PRODUCT.colours.findIndex(c => 
+                            c.name.toLowerCase() === cleanC || 
+                            c.name.toLowerCase().includes(cleanC) || 
+                            cleanC.includes(c.name.toLowerCase())
+                        );
+                        if (foundIdx !== -1) selectedColourIndex = foundIdx;
+                    }
+                    renderProduct();
+                    updateQtyDisplay();
+                    if (urlColour) {
+                        applyColourParam(urlColour);
+                    }
+                }
+            } catch (err) {
+                console.warn('Supabase product initialization notice:', err);
+            }
+        })();
     </script>
 
 </body>

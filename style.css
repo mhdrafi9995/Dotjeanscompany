@@ -418,6 +418,7 @@ main {
 
 /* Common Section Styles */
 .shop-category,
+.our-brands,
 .featured-products {
     padding: 60px 20px;
     background-color: #ffffff;
@@ -614,6 +615,154 @@ main {
     border-radius: 50%;
     display: inline-block;
     border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* ================================================================
+   OUR BRANDS SECTION
+   ================================================================ */
+.brands-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+}
+
+.brand-card {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 38px 36px;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #0d1b2a;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.brand-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 50px rgba(0, 0, 0, 0.22);
+}
+
+.brand-img-wrap {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.brand-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand-card:hover .brand-img-wrap img {
+    transform: scale(1.06);
+}
+
+.brand-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(8, 18, 30, 0.15) 0%, rgba(8, 18, 30, 0.55) 40%, rgba(8, 18, 30, 0.94) 100%);
+    transition: background 0.4s ease;
+}
+
+.brand-card:hover .brand-overlay {
+    background: linear-gradient(180deg, rgba(8, 18, 30, 0.08) 0%, rgba(8, 18, 30, 0.48) 35%, rgba(8, 18, 30, 0.96) 100%);
+}
+
+.brand-card-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.brand-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.brand-card-kocoa .brand-badge {
+    background: rgba(245, 158, 11, 0.22);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.brand-card-crosscountry .brand-badge {
+    background: rgba(59, 130, 246, 0.22);
+    color: #93c5fd;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+.brand-title {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #ffffff;
+    margin: 0 0 10px 0;
+    line-height: 1.15;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.brand-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.88);
+    max-width: 460px;
+    margin: 0 0 24px 0;
+}
+
+.brand-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    background: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.brand-arrow {
+    transition: transform 0.3s ease;
+    font-size: 13px;
+}
+
+.brand-card:hover .brand-cta {
+    background: #ffffff;
+    color: #0f1d2f;
+    border-color: #ffffff;
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
+}
+
+.brand-card:hover .brand-arrow {
+    transform: translateX(6px);
 }
 
 /* Banner Section */
@@ -1430,8 +1579,13 @@ main {
     }
 
     .shop-category,
+    .our-brands,
     .featured-products {
         padding: 40px 20px;
+    }
+
+    .brands-grid {
+        gap: 20px;
     }
 
     .banner {
@@ -1598,8 +1752,23 @@ main {
 
     /* ── Category & Product sections ── */
     .shop-category,
+    .our-brands,
     .featured-products {
         padding: 32px 16px;
+    }
+
+    .brands-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .brand-card {
+        min-height: 340px;
+        padding: 28px 22px;
+    }
+
+    .brand-title {
+        font-size: 28px;
     }
 
     .category-grid,
@@ -1927,8 +2096,12 @@ main {
     display: none !important;
 }
 
-/* Disable colour selection interactions */
+/* Colour swatches */
 .color-swatch {
-    pointer-events: none !important;
-    cursor: default !important;
+    cursor: pointer !important;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.color-swatch:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3px #1e293b;
 }

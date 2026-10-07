@@ -688,9 +688,3 @@ body {
 #dp-old-price, #dp-discount, #modalProductPrice, strong:has(#modalProductPrice) {
     display: none !important;
 }
-
-/* Disable colour selection */
-.dp-colour-btn, .dp-pack-swatch {
-    pointer-events: none !important;
-    cursor: default !important;
-}
