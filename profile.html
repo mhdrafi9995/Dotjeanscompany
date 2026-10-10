@@ -45,8 +45,67 @@
         .photo-field span:not(.field-icon) { flex:1; }
         .change { border:1px solid #ededee; border-radius:14px; color:#33383e; background:white; padding:13px 22px; cursor:pointer; font-size:17px; margin-left:auto; }
         
-        .save { height:70px; border:0; border-radius:14px; background:var(--orange); color:white; font-size:23px; font-weight:600; cursor:pointer; box-shadow:0 3px 5px #ff750b35; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; margin-top: 10px; }
-        .save:active { transform:translateY(1px); }
+        .save {
+            height: 70px;
+            border: 0;
+            border-radius: 14px;
+            background: var(--orange);
+            color: white;
+            font-size: 22px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 3px 5px #ff750b35;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            margin-top: 10px;
+            transition: background 0.2s ease, opacity 0.2s ease, transform 0.1s ease;
+        }
+        .save:hover:not(:disabled) {
+            background: #e66808;
+        }
+        .save:active:not(:disabled) {
+            transform: translateY(1px);
+        }
+        .save:disabled {
+            opacity: 0.85;
+            cursor: wait;
+        }
+
+        .profile-msg {
+            display: none;
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            align-items: center;
+            gap: 12px;
+            line-height: 1.4;
+            animation: fadeInMsg 0.25s ease-out;
+        }
+        @keyframes fadeInMsg {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .profile-msg.error {
+            display: flex;
+            background: #fff2f0;
+            color: #cf1322;
+            border: 1px solid #ffccc7;
+        }
+        .profile-msg.success {
+            display: flex;
+            background: #f6ffed;
+            color: #389e0d;
+            border: 1px solid #b7eb8f;
+        }
+        .field.field-error {
+            border-color: #ff4d4f !important;
+            background: #fffbfa !important;
+            box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.15);
+        }
         
         @media (max-width:900px) {
             .layout { grid-template-columns:1fr; margin-top:100px; padding: 0 15px; } 
@@ -62,6 +121,8 @@
             .field { padding:0 16px; gap:12px; height:70px; } 
             .change { padding:10px; font-size:14px; } 
             form { gap: 20px; }
+            .save { height: 60px; font-size: 19px; border-radius: 12px; }
+            .profile-msg { font-size: 14px; padding: 12px 14px; }
         }
     </style>
     <!-- Supabase Client -->
@@ -109,19 +170,20 @@
                     <div class="summary-value" id="dispName">Muhammed Rafi</div>
                 </div>
             </div>
-            <form id="profileForm">
+            <form id="profileForm" novalidate>
+                <div id="profileMsg" class="profile-msg" role="alert" style="display:none;"></div>
                 <label class="field">
                     <span class="field-icon">♜</span>
                     <span class="field-info">
                         <span class="field-label">Shop Name</span>
-                        <input id="inpShop" value="Dot Jeans" aria-label="Shop Name" required>
+                        <input id="inpShop" value="Dot Jeans" aria-label="Shop Name" required maxlength="100">
                     </span>
                 </label>
                 <label class="field">
                     <span class="field-icon">♙</span>
                     <span class="field-info">
                         <span class="field-label">Name</span>
-                        <input id="inpName" value="Muhammed Rafi" aria-label="Name" required>
+                        <input id="inpName" value="Muhammed Rafi" aria-label="Name" required maxlength="100">
                     </span>
                 </label>
                 <div class="field photo-field">
@@ -130,7 +192,7 @@
                     <input type="file" id="photoUpload" style="display:none" accept="image/*">
                     <button type="button" class="change" onclick="document.getElementById('photoUpload').click()">Change Photo</button>
                 </div>
-                <button class="save" type="submit" id="saveBtn">▣ &nbsp; Save</button>
+                <button class="save" type="submit" id="saveBtn" aria-label="Save Profile">▣ &nbsp; Save Profile</button>
             </form>
         </section>
     </div>
@@ -152,7 +214,7 @@
                 try {
                     const { data: { session } } = await supabase.auth.getSession();
                     userSession = session;
-                    if (session) userId = session.user.id;
+                    if (session && session.user) userId = session.user.id;
                 } catch(e) {}
             }
             
@@ -234,19 +296,27 @@
                 reader.readAsDataURL(file);
             };
 
-            if (userSession && typeof supabase !== 'undefined' && supabase.auth) {
+            if (userSession && typeof supabase !== 'undefined' && supabase.auth && userId) {
                 try {
                     const { data: profile } = await supabase
                         .from('profiles')
-                        .select('full_name, shop_name, avatar_url')
+                        .select('full_name, shop_name, avatar_url, phone, mobile')
                         .eq('id', userId)
-                        .single();
+                        .maybeSingle();
                         
                     if (profile) {
                         localUser.name = profile.full_name || localUser.name;
+                        localUser.full_name = profile.full_name || localUser.full_name;
                         localUser.shopName = profile.shop_name || localUser.shopName;
-                        localUser.avatar = profile.avatar_url || localUser.avatar;
-                        currentAvatar = localUser.avatar;
+                        localUser.shop_name = profile.shop_name || localUser.shop_name;
+                        if (profile.avatar_url) {
+                            localUser.avatar = profile.avatar_url;
+                            currentAvatar = profile.avatar_url;
+                        }
+                        if (profile.mobile || profile.phone) {
+                            localUser.mobile = profile.mobile || profile.phone;
+                            localUser.phone = profile.phone || profile.mobile;
+                        }
                         updateUI(localUser.name, localUser.shopName, localUser.avatar);
 
                         try {
@@ -254,15 +324,50 @@
                             if (localUser.name) localStorage.setItem('dot_user_name', localUser.name);
                             if (localUser.shopName) localStorage.setItem('dot_shop_name', localUser.shopName);
                             if (localUser.avatar) localStorage.setItem('dot_user_photo', localUser.avatar);
+                            if (localUser.mobile) localStorage.setItem('dot_user_mobile', localUser.mobile);
                         } catch(e) {}
 
                         window.dispatchEvent(new CustomEvent('dot_profile_updated', {
-                            detail: { photo: localUser.avatar, name: localUser.name, shop: localUser.shopName }
+                            detail: { photo: localUser.avatar, name: localUser.name, shop: localUser.shopName, mobile: localUser.mobile || '' }
                         }));
                         if (window.dotUpdateNavbarProfile) window.dotUpdateNavbarProfile();
                     }
                 } catch(e) {}
             }
+
+            // Error display helpers
+            const msgEl = document.getElementById('profileMsg');
+            const showError = (text, inputEl) => {
+                if (msgEl) {
+                    msgEl.className = 'profile-msg error';
+                    msgEl.innerHTML = `<span>⚠️</span> <span>${text}</span>`;
+                    msgEl.style.display = 'flex';
+                    msgEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+                if (inputEl) {
+                    const field = inputEl.closest('.field');
+                    if (field) field.classList.add('field-error');
+                    inputEl.focus();
+                }
+            };
+
+            const clearFieldError = (inputEl) => {
+                if (inputEl) {
+                    const field = inputEl.closest('.field');
+                    if (field) field.classList.remove('field-error');
+                }
+                if (msgEl && msgEl.classList.contains('error')) {
+                    const hasOtherErrors = document.querySelector('.field.field-error');
+                    if (!hasOtherErrors) {
+                        msgEl.style.display = 'none';
+                    }
+                }
+            };
+
+            const inpShop = document.getElementById('inpShop');
+            const inpName = document.getElementById('inpName');
+            if (inpShop) inpShop.addEventListener('input', () => clearFieldError(inpShop));
+            if (inpName) inpName.addEventListener('input', () => clearFieldError(inpName));
 
             document.getElementById('photoUpload').addEventListener('change', function(e) {
                 const file = e.target.files[0];
@@ -293,64 +398,155 @@
                 }
             });
             
+            // Save Profile Handler
             document.getElementById('profileForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
+
+                // Clear previous alerts
+                if (msgEl) {
+                    msgEl.style.display = 'none';
+                    msgEl.className = 'profile-msg';
+                    msgEl.innerHTML = '';
+                }
+                document.querySelectorAll('.field.field-error').forEach(f => f.classList.remove('field-error'));
+
+                const shopVal = (inpShop ? inpShop.value : '').trim();
+                const nameVal = (inpName ? inpName.value : '').trim();
+
+                // 1. Validate fields before saving
+                if (!shopVal) {
+                    showError('Please enter a Shop Name.', inpShop);
+                    return;
+                }
+                if (shopVal.length < 2) {
+                    showError('Shop Name must be at least 2 characters long.', inpShop);
+                    return;
+                }
+
+                if (!nameVal) {
+                    showError('Please enter your Name.', inpName);
+                    return;
+                }
+                if (nameVal.length < 2) {
+                    showError('Name must be at least 2 characters long.', inpName);
+                    return;
+                }
+
                 const btn = document.getElementById('saveBtn');
                 const originalHtml = btn.innerHTML;
                 btn.innerHTML = '↻ Saving...';
                 btn.disabled = true;
-                
-                const newName = document.getElementById('inpName').value;
-                const newShopName = document.getElementById('inpShop').value;
-                
-                localUser.name = newName;
-                localUser.shopName = newShopName;
+
+                // Sync latest session if available
+                if (!userId && typeof supabase !== 'undefined' && supabase.auth) {
+                    try {
+                        const { data: { session } } = await supabase.auth.getSession();
+                        if (session && session.user) {
+                            userSession = session;
+                            userId = session.user.id;
+                        }
+                    } catch(err) {}
+                }
+
+                // 2. Prepare user details
+                localUser.name = nameVal;
+                localUser.full_name = nameVal;
+                localUser.shopName = shopVal;
+                localUser.shop_name = shopVal;
                 localUser.avatar = currentAvatar;
-                
+
+                // 3. Save to localStorage
                 try {
                     localStorage.setItem('dot_user', JSON.stringify(localUser));
-                    localStorage.setItem('dot_shop_name', newShopName);
-                    localStorage.setItem('dot_user_name', newName);
+                    localStorage.setItem('dot_shop_name', shopVal);
+                    localStorage.setItem('dot_user_name', nameVal);
                     if (currentAvatar) {
                         localStorage.setItem('dot_user_photo', currentAvatar);
                     }
                 } catch(err) {
-                    console.warn('localStorage error on save:', err);
+                    console.error('localStorage error on save:', err);
+                    showError('Could not save profile locally (storage quota reached). Try choosing a smaller photo.', null);
+                    btn.innerHTML = originalHtml;
+                    btn.disabled = false;
+                    return; // Stay on the Profile page
                 }
-                
-                if (userSession && typeof supabase !== 'undefined' && supabase.auth) {
-                    try {
-                        await supabase
-                            .from('profiles')
-                            .update({ full_name: newName, shop_name: newShopName, avatar_url: currentAvatar })
-                            .eq('id', userId);
-                    } catch (e) {}
-                }
-                
-                updateUI(newName, newShopName, currentAvatar);
 
-                window.dispatchEvent(new CustomEvent('dot_profile_updated', {
-                    detail: { photo: currentAvatar, name: newName, shop: newShopName }
-                }));
-                if (window.dotUpdateNavbarProfile) window.dotUpdateNavbarProfile();
-                
-                setTimeout(() => {
-                    btn.innerHTML = '✓ Saved';
-                    setTimeout(() => {
+                // 4. Save to Supabase (if authenticated)
+                if (userSession && typeof supabase !== 'undefined' && supabase.auth && userId) {
+                    try {
+                        const profileUpdate = {
+                            id: userId,
+                            full_name: nameVal,
+                            shop_name: shopVal,
+                            avatar_url: currentAvatar || null,
+                            updated_at: new Date().toISOString()
+                        };
+                        if (localUser.mobile || localUser.phone) {
+                            profileUpdate.mobile = localUser.mobile || localUser.phone;
+                            profileUpdate.phone = localUser.phone || localUser.mobile;
+                        }
+
+                        const { error: upsertErr } = await supabase
+                            .from('profiles')
+                            .upsert(profileUpdate, { onConflict: 'id' });
+
+                        if (upsertErr) {
+                            throw upsertErr;
+                        }
+
+                        // Update auth user metadata
+                        try {
+                            await supabase.auth.updateUser({
+                                data: { full_name: nameVal, shop_name: shopVal, avatar_url: currentAvatar || null }
+                            });
+                        } catch (metaErr) {
+                            console.warn('Metadata update notice:', metaErr);
+                        }
+                    } catch (dbErr) {
+                        console.error('Supabase profile save error:', dbErr);
+                        showError('Failed to save profile to server: ' + (dbErr.message || 'Network error') + '. Please try again.', null);
                         btn.innerHTML = originalHtml;
                         btn.disabled = false;
-                    }, 2000);
-                }, 500);
+                        return; // Stay on the Profile page on failure
+                    }
+                }
+
+                // 5. Update local UI & trigger navbar updates
+                updateUI(nameVal, shopVal, currentAvatar);
+
+                window.dispatchEvent(new CustomEvent('dot_profile_updated', {
+                    detail: { photo: currentAvatar, name: nameVal, shop: shopVal, mobile: localUser.mobile || '' }
+                }));
+                if (window.dotUpdateNavbarProfile) {
+                    window.dotUpdateNavbarProfile();
+                }
+
+                // 6. Navigate directly to the Home Page (index.html)
+                // Works automatically without requiring an intermediate page or another click
+                btn.innerHTML = '✓ Saved! Redirecting...';
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 350);
             });
             
             document.getElementById('logoutBtn').addEventListener('click', async () => {
-                
-                if (typeof supabase !== 'undefined' && supabase.auth) await supabase.auth.signOut();
+                if (typeof supabase !== 'undefined' && supabase.auth) {
+                    try { await supabase.auth.signOut(); } catch(e) {}
+                }
                 localStorage.removeItem('dot_user');
                 localStorage.removeItem('dot_user_name');
+                localStorage.removeItem('dot_user_mobile');
                 localStorage.removeItem('dot_shop_name');
                 localStorage.removeItem('dot_user_photo');
-                window.dispatchEvent(new CustomEvent('dot_profile_updated', { detail: { photo: '', name: '', shop: '' } }));
+                try {
+                    for (let i = localStorage.length - 1; i >= 0; i--) {
+                        const k = localStorage.key(i);
+                        if (k && (k.startsWith('sb-') && k.endsWith('-auth-token'))) {
+                            localStorage.removeItem(k);
+                        }
+                    }
+                } catch(e) {}
+                window.dispatchEvent(new CustomEvent('dot_profile_updated', { detail: { photo: '', name: '', mobile: '', shop: '' } }));
                 if (window.dotUpdateNavbarProfile) window.dotUpdateNavbarProfile();
                 window.location.href = 'index.html';
             });

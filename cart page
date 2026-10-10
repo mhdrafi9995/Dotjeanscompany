@@ -143,9 +143,9 @@
 
     <script>
 
-        /* ================= PRODUCTS ================= */
+        /* ================= PRODUCTS & SESSION PRESERVATION ================= */
 
-        const items = [
+        const defaultItems = [
 
             {
                 id: 1,
@@ -183,6 +183,27 @@
             }
 
         ];
+
+        function loadItems() {
+            try {
+                const saved = sessionStorage.getItem("dot_cart_page_items") || localStorage.getItem("dot_cart_page_items");
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    if (Array.isArray(parsed)) return parsed;
+                }
+            } catch (e) {}
+            return defaultItems;
+        }
+
+        function saveItems() {
+            try {
+                const str = JSON.stringify(items);
+                sessionStorage.setItem("dot_cart_page_items", str);
+                localStorage.setItem("dot_cart_page_items", str);
+            } catch (e) {}
+        }
+
+        const items = loadItems();
 
 
 
@@ -515,6 +536,7 @@
             }
 
 
+            saveItems();
             render();
 
         });
@@ -556,8 +578,9 @@
             .querySelector("#continue")
             .addEventListener("click", () => {
 
+                saveItems();
                 window.location.href =
-                    "shop.html";
+                    "index.html";
 
             });
 

@@ -130,6 +130,17 @@
             <button class="filter-drawer-close" id="filterDrawerClose">&times;</button>
         </div>
         <div class="filter-section">
+            <div class="filter-title">Category <span class="ti">▾</span></div>
+            <div class="filter-options">
+                <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value=""> All Shorts</label>
+                <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Cargo"> Cargo Shorts</label>
+                <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Denim"> Denim Shorts</label>
+                <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Linen"> Linen Shorts</label>
+                <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Cotton"> Cotton Shorts</label>
+                <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Others"> Others</label>
+            </div>
+        </div>
+        <div class="filter-section">
             <div class="filter-title">Size <span class="ti">▾</span></div>
             <div class="filter-options">
                 <label class="filter-label"><input type="checkbox" class="filter-size" value="28"> 28</label>
@@ -222,14 +233,14 @@
 
     <script>
         const CATEGORY_PRODUCTS = [
-            { id: 401, name: 'Classic Shorts – Black', price: 899, image: 'asses/shorts.jpg', sizes: ['28', '30', '32', '34', '36'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Cotton', detailsUrl: 'productDetails.html' },
-            { id: 402, name: 'Classic Shorts – Olive', price: 949, image: 'asses/shorts.jpg', sizes: ['30', '32', '34', '36'], colours: ['Olive'], colourHex: ['#7a8c60'], fit: 'Cotton', detailsUrl: 'productDetails.html' },
-            { id: 403, name: 'Classic Shorts – Beige', price: 849, image: 'asses/shorts.jpg', sizes: ['30', '32', '34', '36', '38'], colours: ['Beige'], colourHex: ['#d8c9a8'], fit: 'Cotton', detailsUrl: 'productDetails.html' },
-            { id: 404, name: 'Cargo Shorts – Black', price: 1099, image: 'asses/shorts.jpg', sizes: ['30', '32', '34', '36'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Cargo', detailsUrl: 'productDetails.html' },
-            { id: 405, name: 'Cargo Shorts – Grey', price: 1049, image: 'asses/shorts.jpg', sizes: ['30', '32', '34', '36', '38'], colours: ['Grey'], colourHex: ['#8a8a8a'], fit: 'Cargo', detailsUrl: 'productDetails.html' },
-            { id: 406, name: 'Linen Shorts – Navy', price: 999, image: 'asses/shorts.jpg', sizes: ['28', '30', '32', '34', '36'], colours: ['Navy'], colourHex: ['#1e2b45'], fit: 'Linen', detailsUrl: 'productDetails.html' },
-            { id: 407, name: 'Denim Shorts – Blue', price: 1149, image: 'asses/shorts.jpg', sizes: ['30', '32', '34', '36'], colours: ['Navy'], colourHex: ['#4a6fa5'], fit: 'Denim', detailsUrl: 'productDetails.html' },
-            { id: 408, name: 'Denim Shorts – Black', price: 1199, image: 'asses/shorts.jpg', sizes: ['30', '32', '34', '36', '38', '40'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Denim', detailsUrl: 'productDetails.html' },
+            { id: 401, name: 'Classic Shorts – Black', price: 899, image: 'asses/short/1.jpg', sizes: ['28', '30', '32', '34', '36'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Cotton', category: 'Shorts', detailsUrl: 'productDetails.html', stock: 15 },
+            { id: 402, name: 'Classic Shorts – Olive', price: 949, image: 'asses/short/2.jpg', sizes: ['30', '32', '34', '36'], colours: ['Olive'], colourHex: ['#7a8c60'], fit: 'Cotton', category: 'Shorts', detailsUrl: 'productDetails.html', stock: 20 },
+            { id: 403, name: 'Classic Shorts – Beige', price: 849, image: 'asses/short/3.jpg', sizes: ['30', '32', '34', '36', '38'], colours: ['Beige'], colourHex: ['#d8c9a8'], fit: 'Cotton', category: 'Shorts', detailsUrl: 'productDetails.html', stock: 25 },
+            { id: 404, name: 'Cargo Shorts – Black', price: 1099, image: 'asses/short/4.jpg', sizes: ['30', '32', '34', '36'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Cargo', category: 'Shorts', detailsUrl: 'productDetails.html', stock: 12 },
+            { id: 405, name: 'Cargo Shorts – Grey', price: 1049, image: 'asses/short/5.jpg', sizes: ['30', '32', '34', '36', '38'], colours: ['Grey'], colourHex: ['#8a8a8a'], fit: 'Cargo', category: 'Shorts', detailsUrl: 'productDetails.html', stock: 18 },
+            { id: 406, name: 'Linen Shorts – Navy', price: 999, image: 'asses/short/1.jpg', sizes: ['28', '30', '32', '34', '36'], colours: ['Navy'], colourHex: ['#1e2b45'], fit: 'Linen', category: 'Shorts', detailsUrl: 'productDetails.html', stock: 14 },
+            { id: 407, name: 'Denim Shorts – Blue', price: 1149, image: 'asses/short/2.jpg', sizes: ['30', '32', '34', '36'], colours: ['Blue'], colourHex: ['#4a6fa5'], fit: 'Denim', category: 'Shorts', detailsUrl: 'productDetails.html', stock: 16 },
+            { id: 408, name: 'Denim Shorts – Black', price: 1199, image: 'asses/short/3.jpg', sizes: ['30', '32', '34', '36', '38', '40'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Denim', category: 'Shorts', detailsUrl: 'productDetails.html', stock: 10 },
         ];
     </script>
     <script src="category.js"></script>

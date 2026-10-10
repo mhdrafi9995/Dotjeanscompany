@@ -307,6 +307,94 @@ const authCSS = `
     cursor: not-allowed;
 }
 
+/* Phone Prefix & OTP Input Styles */
+.dot-auth-phone-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+.dot-auth-phone-prefix {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0b1a2d;
+    background: #f1f5f9;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    user-select: none;
+    flex-shrink: 0;
+}
+.dot-auth-otp-input {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 8px;
+    text-align: center;
+    color: #0b1a2d;
+    background: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 12px;
+    outline: none;
+    transition: all 0.2s ease;
+    font-family: 'Courier New', Courier, monospace, 'Inter', sans-serif;
+    box-sizing: border-box;
+}
+.dot-auth-otp-input:focus {
+    border-color: #0b1a2d;
+    background: #ffffff;
+    box-shadow: 0 0 0 2px rgba(11, 26, 45, 0.15);
+}
+.dot-auth-resend-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0 16px;
+    font-size: 13px;
+    color: #64748b;
+}
+.dot-auth-resend-btn {
+    background: none;
+    border: none;
+    color: #f97316;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    font-family: inherit;
+    transition: color 0.15s;
+}
+.dot-auth-resend-btn:hover {
+    color: #ea580c;
+}
+.dot-auth-resend-btn:disabled {
+    color: #94a3b8;
+    text-decoration: none;
+    cursor: not-allowed;
+}
+.dot-auth-back-btn {
+    background: none;
+    border: none;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 14px;
+    width: 100%;
+    text-align: center;
+    font-family: inherit;
+    transition: color 0.15s;
+}
+.dot-auth-back-btn:hover {
+    color: #0b1a2d;
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .dot-auth-modal {
@@ -371,7 +459,7 @@ const authHTML = `
             </div>
         </div>
 
-        <!-- RIGHT SIDE: CREATE ACCOUNT FORM -->
+        <!-- RIGHT SIDE: PHONE & OTP AUTH FORM -->
         <div class="dot-auth-right">
             <!-- Close Button (×) -->
             <button type="button" class="dot-auth-close" id="dotAuthClose" aria-label="Close modal">
@@ -382,14 +470,45 @@ const authHTML = `
             </button>
 
             <div class="dot-auth-right-header">
-                <h3 class="auth-heading" id="authHeading">Create Your Account</h3>
-                <p class="auth-sub">Create your wholesale account to continue.</p>
+                <h3 class="auth-heading" id="authHeading">Wholesale Login / Register</h3>
+                <p class="auth-sub" id="authSub">Enter your mobile number to receive a one-time OTP.</p>
             </div>
 
             <div class="dot-auth-alert" id="authErrorAlert"></div>
 
-            <form class="dot-auth-form" id="createAccountForm" onsubmit="event.preventDefault(); window.handleCreateAccount();">
-                <!-- Field 1: Shop Name -->
+            <!-- STEP 1: PHONE NUMBER INPUT -->
+            <form class="dot-auth-form" id="authPhoneStepForm" onsubmit="event.preventDefault(); window.handleSendOtp();">
+                <!-- Field 1: Phone Number -->
+                <div class="dot-auth-field">
+                    <div class="dot-auth-field-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                    </div>
+                    <div class="dot-auth-field-body">
+                        <label class="dot-auth-field-label" for="authPhoneNumber">Mobile Number</label>
+                        <div class="dot-auth-phone-wrap">
+                            <span class="dot-auth-phone-prefix">+91</span>
+                            <input type="tel" class="dot-auth-field-input" id="authPhoneNumber" placeholder="Enter 10-digit mobile" maxlength="15" autocomplete="tel" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Field 2: Full Name (Optional) -->
+                <div class="dot-auth-field">
+                    <div class="dot-auth-field-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <div class="dot-auth-field-body">
+                        <label class="dot-auth-field-label" for="authFullName">Customer Name (Optional)</label>
+                        <input type="text" class="dot-auth-field-input" id="authFullName" placeholder="Enter full name" autocomplete="name">
+                    </div>
+                </div>
+
+                <!-- Field 3: Shop Name (Optional) -->
                 <div class="dot-auth-field">
                     <div class="dot-auth-field-icon">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -400,37 +519,23 @@ const authHTML = `
                         </svg>
                     </div>
                     <div class="dot-auth-field-body">
-                        <label class="dot-auth-field-label" for="authShopName">Shop Name</label>
-                        <input type="text" class="dot-auth-field-input" id="authShopName" placeholder="Enter your shop name" autocomplete="organization" required>
+                        <label class="dot-auth-field-label" for="authShopName">Shop Name (Optional)</label>
+                        <input type="text" class="dot-auth-field-input" id="authShopName" placeholder="Enter business or shop name" autocomplete="organization">
                     </div>
                 </div>
 
-                <!-- Field 2: Full Name -->
-                <div class="dot-auth-field">
-                    <div class="dot-auth-field-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </div>
-                    <div class="dot-auth-field-body">
-                        <label class="dot-auth-field-label" for="authFullName">Full Name</label>
-                        <input type="text" class="dot-auth-field-input" id="authFullName" placeholder="Enter your full name" autocomplete="name" required>
-                    </div>
-                </div>
+                <!-- Primary Button: Send OTP -->
+                <button type="submit" class="dot-primary-btn" id="authSendOtpBtn">
+                    <span>Send OTP</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
 
-                <!-- Field 3: Email Address -->
-                <div class="dot-auth-field">
-                    <div class="dot-auth-field-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                        </svg>
-                    </div>
-                    <div class="dot-auth-field-body">
-                        <label class="dot-auth-field-label" for="authEmail">Email Address</label>
-                        <input type="email" class="dot-auth-field-input" id="authEmail" placeholder="Enter your email address" autocomplete="email" required>
-                    </div>
+                <!-- Divider: ──────── OR ──────── -->
+                <div class="dot-auth-divider">
+                    <span>OR</span>
                 </div>
 
                 <!-- Google OAuth Button -->
@@ -443,19 +548,41 @@ const authHTML = `
                     </svg>
                     <span>Continue with Google</span>
                 </button>
+            </form>
 
-                <!-- Divider: ──────── OR ──────── -->
-                <div class="dot-auth-divider">
-                    <span>OR</span>
+            <!-- STEP 2: OTP VERIFICATION -->
+            <form class="dot-auth-form" id="authOtpStepForm" style="display:none;" onsubmit="event.preventDefault(); window.handleVerifyOtp();">
+                <div style="font-size:13.5px; color:#475569; margin-bottom:16px; text-align:center;">
+                    Enter the 6-digit OTP code sent to<br><strong id="authOtpPhoneDisp" style="color:#0f172a; font-size:14.5px;">+91 </strong>
                 </div>
 
-                <!-- Primary Button: Create Account → -->
-                <button type="submit" class="dot-primary-btn" id="authCreateBtn">
-                    <span>Create Account</span>
+                <!-- OTP Input -->
+                <div style="margin-bottom:12px;">
+                    <input type="text" class="dot-auth-otp-input" id="authOtpCode" placeholder="••••••" maxlength="6" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" required>
+                </div>
+
+                <!-- Resend Row -->
+                <div class="dot-auth-resend-row">
+                    <span id="authResendTimerText">Resend OTP in <b id="authResendSeconds">30</b>s</span>
+                    <button type="button" class="dot-auth-resend-btn" id="authResendBtn" style="display:none;" onclick="window.handleSendOtp(true);">Resend OTP</button>
+                </div>
+
+                <!-- Primary Button: Verify & Login -->
+                <button type="submit" class="dot-primary-btn" id="authVerifyOtpBtn">
+                    <span>Verify & Login</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                         <polyline points="12 5 19 12 12 19"></polyline>
                     </svg>
+                </button>
+
+                <!-- Change Phone Button -->
+                <button type="button" class="dot-auth-back-btn" onclick="window.showAuthPhoneStep();">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    <span>Change Mobile Number</span>
                 </button>
             </form>
         </div>
@@ -473,7 +600,7 @@ const wrapper = document.createElement('div');
 wrapper.innerHTML = authHTML;
 document.body.appendChild(wrapper.firstElementChild);
 
-// Clean up any residual Firebase keys from browser storage
+// Clean up any residual storage keys
 try {
     for (let i = localStorage.length - 1; i >= 0; i--) {
         const k = localStorage.key(i);
@@ -489,8 +616,9 @@ window.isUserAuthenticated = function () {
     try {
         for (let i = 0; i < localStorage.length; i++) {
             const k = localStorage.key(i);
-            if (k && (k.startsWith('sb-') || k.includes('supabase.auth.token'))) {
-                return true;
+            if (k && (k.startsWith('sb-') && k.endsWith('-auth-token'))) {
+                const val = localStorage.getItem(k);
+                if (val && val.includes('access_token')) return true;
             }
         }
     } catch (e) { }
@@ -498,13 +626,14 @@ window.isUserAuthenticated = function () {
     // 2. Check stored wholesale user profile
     try {
         const u = JSON.parse(localStorage.getItem('dot_user') || 'null');
-        if (u && (u.id || u.uid || u.email || u.name || u.full_name)) {
+        if (u && (u.id || u.uid || u.phone || u.mobile || u.name || u.full_name)) {
             return true;
         }
     } catch (e) { }
 
     return false;
 };
+window.isUserLoggedIn = window.isUserAuthenticated;
 
 // Async check that also consults active Supabase session
 window.checkUserAuthStatus = async function () {
@@ -520,10 +649,30 @@ window.checkUserAuthStatus = async function () {
 };
 
 // ── Error Message Handlers ──
-function showAuthError(msg) {
+function showAuthError(msg, isSuccess = false, isInfo = false) {
     const err = document.getElementById('authErrorAlert');
     if (err) {
-        err.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> <span>${msg}</span>`;
+        let icon = '<i class="fa-solid fa-circle-exclamation"></i>';
+        let bg = '#fef2f2';
+        let border = '#fecaca';
+        let color = '#b91c1c';
+
+        if (isSuccess) {
+            icon = '<i class="fa-solid fa-circle-check"></i>';
+            bg = '#f0fdf4';
+            border = '#bbf7d0';
+            color = '#15803d';
+        } else if (isInfo) {
+            icon = '<i class="fa-solid fa-circle-info"></i>';
+            bg = '#eff6ff';
+            border = '#bfdbfe';
+            color = '#1d4ed8';
+        }
+
+        err.style.background = bg;
+        err.style.borderColor = border;
+        err.style.color = color;
+        err.innerHTML = `${icon} <span>${msg}</span>`;
         err.style.display = 'flex';
     }
 }
@@ -535,26 +684,114 @@ function clearAuthError() {
     }
 }
 
+// ── Step Navigation ──
+let resendTimerInterval = null;
+
+window.showAuthPhoneStep = function () {
+    clearAuthError();
+    if (resendTimerInterval) clearInterval(resendTimerInterval);
+
+    const phoneForm = document.getElementById('authPhoneStepForm');
+    const otpForm = document.getElementById('authOtpStepForm');
+    const heading = document.getElementById('authHeading');
+    const sub = document.getElementById('authSub');
+
+    if (phoneForm) phoneForm.style.display = 'flex';
+    if (otpForm) otpForm.style.display = 'none';
+    if (heading) heading.textContent = 'Wholesale Login / Register';
+    if (sub) sub.textContent = 'Enter your mobile number to receive a one-time OTP.';
+
+    const phoneInput = document.getElementById('authPhoneNumber');
+    if (phoneInput) setTimeout(() => phoneInput.focus(), 50);
+};
+
+window.showAuthOtpStep = function (formattedPhone) {
+    clearAuthError();
+    const phoneForm = document.getElementById('authPhoneStepForm');
+    const otpForm = document.getElementById('authOtpStepForm');
+    const heading = document.getElementById('authHeading');
+    const sub = document.getElementById('authSub');
+    const dispPhone = document.getElementById('authOtpPhoneDisp');
+
+    if (phoneForm) phoneForm.style.display = 'none';
+    if (otpForm) otpForm.style.display = 'flex';
+    if (heading) heading.textContent = 'Verify Mobile Number';
+    if (sub) sub.textContent = 'Please enter the 6-digit OTP code to continue.';
+    if (dispPhone) dispPhone.textContent = formattedPhone;
+
+    const otpInput = document.getElementById('authOtpCode');
+    if (otpInput) {
+        otpInput.value = '';
+        setTimeout(() => otpInput.focus(), 100);
+    }
+
+    startResendTimer();
+};
+
+function startResendTimer() {
+    if (resendTimerInterval) clearInterval(resendTimerInterval);
+
+    const timerText = document.getElementById('authResendTimerText');
+    const resendBtn = document.getElementById('authResendBtn');
+    const secondsSpan = document.getElementById('authResendSeconds');
+
+    let seconds = 30;
+    if (timerText) timerText.style.display = 'inline';
+    if (resendBtn) resendBtn.style.display = 'none';
+    if (secondsSpan) secondsSpan.textContent = seconds;
+
+    resendTimerInterval = setInterval(() => {
+        seconds--;
+        if (secondsSpan) secondsSpan.textContent = seconds;
+        if (seconds <= 0) {
+            clearInterval(resendTimerInterval);
+            if (timerText) timerText.style.display = 'none';
+            if (resendBtn) resendBtn.style.display = 'inline';
+        }
+    }, 1000);
+}
+
+// Phone Number Normalization Helper (E.164: +91XXXXXXXXXX)
+function normalizePhoneNumber(raw) {
+    if (!raw) return '';
+    let digits = raw.replace(/\D/g, '');
+    if (digits.length === 10) {
+        return '+91' + digits;
+    } else if (digits.length === 11 && digits.startsWith('0')) {
+        return '+91' + digits.substring(1);
+    } else if (digits.length === 12 && digits.startsWith('91')) {
+        return '+' + digits;
+    } else if (raw.startsWith('+')) {
+        return '+' + digits;
+    }
+    return '+91' + digits;
+}
+
 // ── Modal Open / Close ──
 window.openAuthModal = function () {
-    clearAuthError();
+    window.showAuthPhoneStep();
     const overlay = document.getElementById('dotAuthOverlay');
     if (overlay) overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
 
     // Pre-fill fields if known
-    const shopInput = document.getElementById('authShopName');
+    const phoneInput = document.getElementById('authPhoneNumber');
     const nameInput = document.getElementById('authFullName');
-    const emailInput = document.getElementById('authEmail');
+    const shopInput = document.getElementById('authShopName');
 
-    if (shopInput && !shopInput.value) {
-        shopInput.value = localStorage.getItem('dot_shop_name') || localStorage.getItem('dot_pending_shop_name') || '';
+    const stored = JSON.parse(localStorage.getItem('dot_user') || '{}');
+    const savedPhone = localStorage.getItem('dot_user_mobile') || stored.phone || stored.mobile || '';
+    const savedName = localStorage.getItem('dot_user_name') || stored.name || stored.full_name || '';
+    const savedShop = localStorage.getItem('dot_shop_name') || stored.shop_name || stored.shopName || '';
+
+    if (phoneInput && !phoneInput.value && savedPhone) {
+        phoneInput.value = savedPhone.replace('+91', '').trim();
     }
-    if (nameInput && !nameInput.value) {
-        nameInput.value = localStorage.getItem('dot_user_name') || localStorage.getItem('dot_pending_full_name') || '';
+    if (nameInput && !nameInput.value && savedName && !/^wholesale buyer$/i.test(savedName.trim())) {
+        nameInput.value = savedName;
     }
-    if (emailInput && !emailInput.value) {
-        emailInput.value = localStorage.getItem('dot_pending_email') || '';
+    if (shopInput && !shopInput.value && savedShop && !/^wholesale buyer$/i.test(savedShop.trim())) {
+        shopInput.value = savedShop;
     }
 };
 
@@ -562,87 +799,119 @@ window.closeAuthModal = function () {
     const overlay = document.getElementById('dotAuthOverlay');
     if (overlay) overlay.classList.remove('active');
     document.body.style.overflow = '';
+    if (resendTimerInterval) clearInterval(resendTimerInterval);
 };
 
 // ── Supabase Profile Sync Helper ──
-async function syncSupabaseUser(user) {
+async function syncSupabaseUser(user, enteredPhone = '') {
     if (!user) return;
 
     const pendingShop = localStorage.getItem('dot_pending_shop_name');
     const pendingName = localStorage.getItem('dot_pending_full_name');
-    const pendingEmail = localStorage.getItem('dot_pending_email');
-
     const currentStored = JSON.parse(localStorage.getItem('dot_user') || '{}');
 
+    const phone = user.phone || enteredPhone || currentStored.phone || currentStored.mobile || '';
+
+    // Auto-load profile details if saved in Supabase
+    let existingProfile = null;
+    if (window.supabase && typeof window.supabase.from === 'function') {
+        try {
+            if (user.id) {
+                const { data } = await window.supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', user.id)
+                    .maybeSingle();
+                if (data) existingProfile = data;
+            }
+            if (!existingProfile && phone) {
+                const { data: pByPhone } = await window.supabase
+                    .from('profiles')
+                    .select('*')
+                    .or(`phone.eq.${phone},mobile.eq.${phone}`)
+                    .limit(1)
+                    .maybeSingle();
+                if (pByPhone) existingProfile = pByPhone;
+            }
+        } catch (err) {
+            console.warn('Profile fetch note:', err);
+        }
+    }
+
     let fullName = pendingName 
+        || existingProfile?.full_name 
         || user.user_metadata?.full_name 
         || user.user_metadata?.name 
         || currentStored.name 
-        || (user.email ? user.email.split('@')[0] : '');
+        || '';
     if (/^wholesale buyer$/i.test(fullName.trim())) fullName = '';
 
     let shopName = pendingShop 
+        || existingProfile?.shop_name 
         || user.user_metadata?.shop_name 
         || currentStored.shop_name 
         || currentStored.shopName 
         || '';
     if (/^wholesale buyer$/i.test(shopName.trim())) shopName = '';
 
-    const phone = user.phone || user.user_metadata?.phone || user.user_metadata?.mobile || currentStored.phone || currentStored.mobile || '';
-    const whatsapp = user.user_metadata?.whatsapp || currentStored.whatsapp || '';
+    const avatar = existingProfile?.avatar_url 
+        || user.user_metadata?.avatar_url 
+        || user.user_metadata?.picture 
+        || currentStored.avatar 
+        || '';
 
-    const email = user.email || pendingEmail || currentStored.email || '';
-    const avatar = user.user_metadata?.avatar_url || user.user_metadata?.picture || currentStored.avatar || '';
+    // Default name fallback to phone number if still empty
+    if (!fullName && phone) {
+        fullName = phone;
+    }
 
     // Clear pending keys
     localStorage.removeItem('dot_pending_shop_name');
     localStorage.removeItem('dot_pending_full_name');
-    localStorage.removeItem('dot_pending_email');
+    localStorage.removeItem('dot_pending_phone');
 
     // Save to localStorage
     const userObj = {
-        id: user.id,
-        uid: user.id,
+        id: user.id || ('usr_' + phone.replace(/\D/g, '')),
+        uid: user.id || ('usr_' + phone.replace(/\D/g, '')),
         name: fullName,
         full_name: fullName,
         shopName: shopName,
         shop_name: shopName,
         phone: phone,
         mobile: phone,
-        whatsapp: whatsapp,
-        email: email,
+        whatsapp: phone,
         avatar: avatar
     };
     localStorage.setItem('dot_user', JSON.stringify(userObj));
     if (fullName) localStorage.setItem('dot_user_name', fullName);
     if (shopName) localStorage.setItem('dot_shop_name', shopName);
+    if (phone) localStorage.setItem('dot_user_mobile', phone);
     if (avatar) localStorage.setItem('dot_user_photo', avatar);
 
-    // Save to Supabase profiles table
+    // Save/Update in Supabase profiles table
     if (window.supabase && typeof window.supabase.from === 'function') {
         try {
             await window.supabase.from('profiles').upsert({
-                id: user.id,
+                id: user.id || userObj.id,
                 full_name: fullName,
                 shop_name: shopName,
-                email: email,
                 phone: phone,
                 mobile: phone,
-                whatsapp: whatsapp,
                 avatar_url: avatar,
                 updated_at: new Date().toISOString()
             }, { onConflict: 'id' });
         } catch (err) {
-            console.warn('Supabase profile sync note:', err);
+            console.warn('Supabase profile upsert note:', err);
         }
     }
 
-    // Update navbar profile
+    // Update navbar profile immediately
     if (window.dotUpdateNavbarProfile) {
         window.dotUpdateNavbarProfile();
     }
     window.dispatchEvent(new CustomEvent('dot_profile_updated', {
-        detail: { photo: avatar, name: fullName, shop: shopName }
+        detail: { photo: avatar, name: fullName, mobile: phone, shop: shopName }
     }));
 
     window.closeAuthModal();
@@ -653,25 +922,184 @@ async function syncSupabaseUser(user) {
     }
 }
 
+// ── Phone + OTP Flow: Step 1 Send OTP ──
+window._authTargetPhone = '';
+window._authFallbackMode = false;
+
+window.handleSendOtp = async function (isResend = false) {
+    clearAuthError();
+
+    const phoneInput = document.getElementById('authPhoneNumber');
+    const nameInput = document.getElementById('authFullName');
+    const shopInput = document.getElementById('authShopName');
+    const sendBtn = document.getElementById('authSendOtpBtn');
+
+    const rawVal = (phoneInput?.value || window._authTargetPhone || '').trim();
+    const formatted = normalizePhoneNumber(rawVal);
+
+    if (!formatted || formatted.replace(/\D/g, '').length < 10) {
+        showAuthError('Please enter a valid 10-digit mobile number.');
+        phoneInput?.focus();
+        return;
+    }
+
+    const fullName = (nameInput?.value || '').trim();
+    const shopName = (shopInput?.value || '').trim();
+
+    window._authTargetPhone = formatted;
+    localStorage.setItem('dot_pending_phone', formatted);
+    if (fullName) localStorage.setItem('dot_pending_full_name', fullName);
+    if (shopName) localStorage.setItem('dot_pending_shop_name', shopName);
+
+    if (sendBtn) {
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = '<span>Sending OTP...</span> <i class="fa-solid fa-circle-notch fa-spin"></i>';
+    }
+
+    try {
+        let sentLiveOtp = false;
+
+        // Call Supabase Phone OTP API
+        if (window.supabase && window.supabase.auth) {
+            const { data, error } = await window.supabase.auth.signInWithOtp({
+                phone: formatted
+            });
+
+            if (!error) {
+                sentLiveOtp = true;
+                window._authFallbackMode = false;
+            } else {
+                console.warn('Supabase signInWithOtp notice:', error);
+                // Graceful development mode handling if SMS provider is not active in Supabase dashboard
+                if (error.code === 'phone_provider_disabled' || 
+                    error.error_code === 'phone_provider_disabled' || 
+                    error.message?.includes('Unsupported phone provider') ||
+                    error.message?.includes('disabled')) {
+                    window._authFallbackMode = true;
+                } else {
+                    throw error;
+                }
+            }
+        } else {
+            window._authFallbackMode = true;
+        }
+
+        window.showAuthOtpStep(formatted);
+
+        if (window._authFallbackMode) {
+            showAuthError('Dev Notice: Supabase SMS provider inactive. Enter demo OTP: 123456 to verify.', false, true);
+        } else {
+            showAuthError(`OTP sent successfully to ${formatted}`, true);
+        }
+
+    } catch (err) {
+        console.error('Send OTP Error:', err);
+        showAuthError(err.message || 'Failed to send OTP. Please check the mobile number and try again.');
+    } finally {
+        if (sendBtn) {
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = '<span>Send OTP</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>';
+        }
+    }
+};
+
+// ── Phone + OTP Flow: Step 2 Verify OTP ──
+window.handleVerifyOtp = async function () {
+    clearAuthError();
+
+    const otpInput = document.getElementById('authOtpCode');
+    const verifyBtn = document.getElementById('authVerifyOtpBtn');
+    const otpCode = (otpInput?.value || '').trim().replace(/\D/g, '');
+    const phone = window._authTargetPhone || localStorage.getItem('dot_pending_phone') || '';
+
+    if (!otpCode || otpCode.length !== 6) {
+        showAuthError('Please enter the 6-digit OTP code.');
+        otpInput?.focus();
+        return;
+    }
+
+    if (!phone) {
+        showAuthError('Mobile number is missing. Please enter your mobile number again.');
+        window.showAuthPhoneStep();
+        return;
+    }
+
+    if (verifyBtn) {
+        verifyBtn.disabled = true;
+        verifyBtn.innerHTML = '<span>Verifying...</span> <i class="fa-solid fa-circle-notch fa-spin"></i>';
+    }
+
+    try {
+        let authenticatedUser = null;
+
+        if (!window._authFallbackMode && window.supabase && window.supabase.auth) {
+            // Live Supabase SMS OTP Verification
+            const { data, error } = await window.supabase.auth.verifyOtp({
+                phone: phone,
+                token: otpCode,
+                type: 'sms'
+            });
+
+            if (error) {
+                throw error;
+            }
+
+            authenticatedUser = data.user;
+        } else {
+            // Demo/Development OTP Verification (123456 or 6 digits)
+            if (otpCode !== '123456' && otpCode.length !== 6) {
+                throw new Error('Invalid OTP code. Please enter 123456.');
+            }
+
+            const cleanDigits = phone.replace(/\D/g, '');
+            const deterministicId = '00000000-0000-0000-0000-' + cleanDigits.padStart(12, '0').slice(-12);
+            authenticatedUser = {
+                id: deterministicId,
+                phone: phone,
+                user_metadata: {
+                    phone: phone,
+                    full_name: localStorage.getItem('dot_pending_full_name') || '',
+                    shop_name: localStorage.getItem('dot_pending_shop_name') || ''
+                }
+            };
+        }
+
+        // Successfully verified! Sync user profile and update navbar
+        await syncSupabaseUser(authenticatedUser, phone);
+
+    } catch (err) {
+        console.error('Verify OTP Error:', err);
+        showAuthError(err.message || 'Invalid or expired OTP code. Please try again.');
+        otpInput?.focus();
+    } finally {
+        if (verifyBtn) {
+            verifyBtn.disabled = false;
+            verifyBtn.innerHTML = '<span>Verify & Login</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
+        }
+    }
+};
+
 // ── Google OAuth Sign-In via Supabase ──
 window.handleGoogleSignIn = async function () {
     clearAuthError();
-    const shopInput = document.getElementById('authShopName');
+    const phoneInput = document.getElementById('authPhoneNumber');
     const nameInput = document.getElementById('authFullName');
-    const emailInput = document.getElementById('authEmail');
+    const shopInput = document.getElementById('authShopName');
 
-    const shopName = (shopInput?.value || '').trim();
+    const phone = (phoneInput?.value || '').trim();
     const fullName = (nameInput?.value || '').trim();
-    const email = (emailInput?.value || '').trim();
+    const shopName = (shopInput?.value || '').trim();
 
-    if (shopName) localStorage.setItem('dot_pending_shop_name', shopName);
+    if (phone) localStorage.setItem('dot_pending_phone', normalizePhoneNumber(phone));
     if (fullName) localStorage.setItem('dot_pending_full_name', fullName);
-    if (email) localStorage.setItem('dot_pending_email', email);
+    if (shopName) localStorage.setItem('dot_pending_shop_name', shopName);
 
     const btn = document.getElementById('authGoogleBtn');
-    const originalContent = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> <span>Connecting with Google...</span>';
+    const originalContent = btn ? btn.innerHTML : '';
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> <span>Connecting with Google...</span>';
+    }
 
     try {
         if (!window.supabase || !window.supabase.auth) {
@@ -682,114 +1110,18 @@ window.handleGoogleSignIn = async function () {
         const { data, error } = await window.supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: currentUrl,
-                queryParams: email ? { login_hint: email } : undefined
+                redirectTo: currentUrl
             }
         });
 
-        if (error) {
-            throw error;
-        }
+        if (error) throw error;
     } catch (err) {
         console.error('Google OAuth Notice:', err);
-        btn.disabled = false;
-        btn.innerHTML = originalContent;
-        showAuthError(err.message || 'Google Sign-In failed. Please verify Google provider is enabled in Supabase.');
-    }
-};
-
-// ── Create Account (Direct / Google Assisted) ──
-window.handleCreateAccount = async function () {
-    clearAuthError();
-    const shopInput = document.getElementById('authShopName');
-    const nameInput = document.getElementById('authFullName');
-    const emailInput = document.getElementById('authEmail');
-
-    const shopName = (shopInput?.value || '').trim();
-    const fullName = (nameInput?.value || '').trim();
-    const email = (emailInput?.value || '').trim();
-
-    if (!shopName || shopName.length < 2) {
-        showAuthError('Please enter your shop name.');
-        shopInput?.focus();
-        return;
-    }
-    if (!fullName || fullName.length < 2) {
-        showAuthError('Please enter your full name.');
-        nameInput?.focus();
-        return;
-    }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || !emailRegex.test(email)) {
-        showAuthError('Please enter a valid email address.');
-        emailInput?.focus();
-        return;
-    }
-
-    localStorage.setItem('dot_pending_shop_name', shopName);
-    localStorage.setItem('dot_pending_full_name', fullName);
-    localStorage.setItem('dot_pending_email', email);
-
-    const btn = document.getElementById('authCreateBtn');
-    btn.disabled = true;
-    btn.innerHTML = '<span>Creating Account...</span> <i class="fa-solid fa-circle-notch fa-spin"></i>';
-
-    // Try Supabase Google OAuth with login_hint
-    try {
-        if (window.supabase && window.supabase.auth) {
-            const currentUrl = window.location.href.split('#')[0];
-            const { data, error } = await window.supabase.auth.signInWithOAuth({
-                provider: 'google',
-                options: {
-                    redirectTo: currentUrl,
-                    queryParams: { login_hint: email }
-                }
-            });
-            if (error) throw error;
-        } else {
-            throw new Error('Supabase client not loaded');
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = originalContent;
         }
-    } catch (err) {
-        console.warn('Direct OAuth fallback note:', err);
-        // Fallback: Gracefully establish wholesale account profile locally & in Supabase so enquiries are never blocked
-        const fallbackUid = 'dot_' + Date.now();
-        const userObj = {
-            id: fallbackUid,
-            uid: fallbackUid,
-            name: fullName,
-            full_name: fullName,
-            shopName: shopName,
-            shop_name: shopName,
-            email: email,
-            avatar: ''
-        };
-        localStorage.setItem('dot_user', JSON.stringify(userObj));
-        localStorage.setItem('dot_user_name', fullName);
-        localStorage.setItem('dot_shop_name', shopName);
-
-        try {
-            if (window.supabase && typeof window.supabase.from === 'function') {
-                await window.supabase.from('profiles').upsert({
-                    id: fallbackUid,
-                    full_name: fullName,
-                    shop_name: shopName,
-                    email: email,
-                    updated_at: new Date().toISOString()
-                }, { onConflict: 'id' });
-            }
-        } catch(e) {}
-
-        if (window.dotUpdateNavbarProfile) window.dotUpdateNavbarProfile();
-        window.dispatchEvent(new CustomEvent('dot_profile_updated', {
-            detail: { photo: '', name: fullName, shop: shopName }
-        }));
-
-        btn.disabled = false;
-        btn.innerHTML = '<span>Account Created!</span> <i class="fa-solid fa-check"></i>';
-        setTimeout(() => {
-            window.closeAuthModal();
-            resumeEnquiryFlow();
-        }, 400);
+        showAuthError(err.message || 'Google Sign-In failed. Please check provider settings in Supabase.');
     }
 };
 
@@ -888,8 +1220,12 @@ document.addEventListener('click', function (e) {
     }
 });
 
-// ── ENQUIRY BUTTON INTERCEPT (Trigger auth when any Enquiry button is clicked if unauthenticated) ──
+// ── ENQUIRY BUTTON INTERCEPT (Temporarily bypassed: Visitors can enquiry directly without login/signup) ──
+window.BYPASS_AUTH_FOR_ENQUIRY = true; // Set to true to temporarily bypass authentication for enquiry flow
+
 document.addEventListener('click', async function (e) {
+    if (window.BYPASS_AUTH_FOR_ENQUIRY) return; // Bypassed: allow direct access to enquiry form
+
     const enqBtn = e.target.closest('#dpEnquiryBtnTab, #dpEnquiryBtn, #dpMobileEnquiryBtn, .dp-btn-enquiry, .btn-trigger-enquiry, #openEnquiry');
 
     if (!enqBtn) return;

@@ -537,18 +537,48 @@ const navbarCSS = `
 .ct-profile-info {
     display: flex;
     flex-direction: column;
-}
-.ct-profile-shop {
-    font-size: 15px;
-    font-weight: 600;
-    color: #111;
-    font-family: 'Inter', sans-serif;
+    min-width: 0;
+    overflow: hidden;
 }
 .ct-profile-name {
-    font-size: 13px;
-    color: #666;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #0f1d2f;
     font-family: 'Inter', sans-serif;
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.ct-profile-mobile {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: #64748b;
+    font-family: 'Inter', sans-serif;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.ct-profile-mobile i {
+    font-size: 10.5px;
+    color: #0b1a2d;
+    opacity: 0.7;
+}
+.ct-profile-shop {
+    font-size: 11px;
+    font-weight: 600;
+    color: #f97316;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .ct-profile-links {
     display: flex;
@@ -654,9 +684,17 @@ const navbarCSS = `
     .ct-hamburger { display: flex; }
     .ct-search-wrap { display: none; }
     .ct-header-inner { height: 56px; padding: 0 16px; }
-    .ct-profile-btn { width: 28px; height: 28px; }
-    .ct-profile-btn i { font-size: 14px; }
+    .ct-profile-btn { width: 30px; height: 30px; }
+    .ct-profile-btn i { font-size: 15px; }
     .ct-header-icons { gap: 14px; }
+    .ct-profile-menu {
+        right: -8px;
+        width: 270px;
+        max-width: calc(100vw - 28px);
+    }
+    .ct-profile-menu::before {
+        right: 18px;
+    }
 }
 
 /* Customer Support Floating Chat Widget */
@@ -970,33 +1008,32 @@ const navbarHTML = `
                 <div class="ct-search-results" id="ctSearchResults"></div>
             </div>
             <div class="ct-profile-dropdown" id="navAccountWrap">
-                <a href="javascript:void(0)" aria-label="Account" class="ct-profile-btn" id="navAccountBtn">
+                <a href="javascript:void(0)" aria-label="Account" class="ct-profile-btn" id="navAccountBtn" role="button" aria-haspopup="true" aria-expanded="false" title="Login / Register">
                     <i class="fa-regular fa-user" id="ctNavFallbackIcon"></i>
                     <img src="" alt="Profile" id="ctNavProfileImg" class="ct-nav-avatar" style="display:none;">
                 </a>
-                <i class="fa-solid fa-chevron-down ct-profile-chevron" style="font-size:10px; margin-left:6px; color:#c8d2dc; cursor:pointer;" id="navAccountChevron"></i>
+                <i class="fa-solid fa-chevron-down ct-profile-chevron" style="display:none; font-size:10px; margin-left:6px; color:#c8d2dc; cursor:pointer;" id="navAccountChevron" role="button" aria-label="Toggle profile menu"></i>
                 <div class="ct-profile-menu" id="navProfileMenu">
                     <div class="ct-profile-header">
                         <div class="ct-profile-img-wrap-small">
-                            <img src="https://ui-avatars.com/api/?name=User&background=e2e8f0&color=475569" alt="Profile" id="ctProfileImage">
+                            <img src="https://ui-avatars.com/api/?name=User&background=0f1d2f&color=ffffff" alt="Profile" id="ctProfileImage">
                         </div>
                         <div class="ct-profile-info">
-                            <div class="ct-profile-shop" id="ctDisplayShopName">My Shop</div>
-                            <div class="ct-profile-name" id="ctDisplayName">John Doe</div>
+                            <div class="ct-profile-name" id="ctDisplayName">User</div>
+                            <div class="ct-profile-mobile" id="ctDisplayMobile" style="display:none;">
+                                <i class="fa-solid fa-phone"></i>
+                                <span id="ctDisplayMobileText"></span>
+                            </div>
+                            <div class="ct-profile-shop" id="ctDisplayShopName" style="display:none;"></div>
                         </div>
                     </div>
                     <div class="ct-profile-links">
                         <a href="profile.html" class="ct-plink">
                             <i class="fa-regular fa-user"></i>
-                            <span>Profile</span>
+                            <span>My Profile</span>
                             <i class="fa-solid fa-chevron-right ct-plink-arrow"></i>
                         </a>
-                        <a href="profile.html" class="ct-plink">
-                            <i class="fa-solid fa-gear"></i>
-                            <span>Account</span>
-                            <i class="fa-solid fa-chevron-right ct-plink-arrow"></i>
-                        </a>
-                        <a href="javascript:void(0)" class="ct-plink" onclick="if(window.supabase && window.supabase.auth) supabase.auth.signOut(); localStorage.removeItem('dot_user'); localStorage.removeItem('dot_user_photo'); localStorage.removeItem('dot_user_name'); localStorage.removeItem('dot_shop_name'); if(window.dotUpdateNavbarProfile) window.dotUpdateNavbarProfile(); window.location.href='index.html';">
+                        <a href="javascript:void(0)" class="ct-plink" id="ctNavLogoutBtn">
                             <i class="fa-solid fa-arrow-right-from-bracket"></i>
                             <span>Logout</span>
                             <i class="fa-solid fa-chevron-right ct-plink-arrow"></i>
@@ -1472,84 +1509,253 @@ class DotNavbar extends HTMLElement {
             const profileImage = this.querySelector('#ctProfileImage');
             const displayShopName = this.querySelector('#ctDisplayShopName');
             const displayName = this.querySelector('#ctDisplayName');
+            const displayMobile = this.querySelector('#ctDisplayMobile');
+            const displayMobileText = this.querySelector('#ctDisplayMobileText');
             const navImg = this.querySelector('#ctNavProfileImg');
             const navIcon = this.querySelector('#ctNavFallbackIcon');
+            const logoutBtn = this.querySelector('#ctNavLogoutBtn');
 
-            const applyProfileUI = (photoUrl, name, shop) => {
-                if (name && displayName) displayName.textContent = name;
-                if (shop && displayShopName) displayShopName.textContent = shop;
+            // Authentication state helper
+            const isUserLoggedIn = () => {
+                // 1. Check wholesale customer profile in localStorage
+                try {
+                    const u = JSON.parse(localStorage.getItem('dot_user') || 'null');
+                    if (u && (u.id || u.uid || u.phone || u.mobile || u.full_name || u.name)) {
+                        return true;
+                    }
+                } catch (e) {}
 
-                if (profileImage) {
-                    if (photoUrl) {
-                        profileImage.src = photoUrl;
-                    } else if (name) {
-                        profileImage.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=e2e8f0&color=475569';
+                // 2. Check active Supabase session token in localStorage
+                try {
+                    for (let i = 0; i < localStorage.length; i++) {
+                        const k = localStorage.key(i);
+                        if (k && (k.startsWith('sb-') && k.endsWith('-auth-token'))) {
+                            const val = localStorage.getItem(k);
+                            if (val && val.includes('access_token')) {
+                                return true;
+                            }
+                        }
+                    }
+                } catch (e) {}
+
+                return false;
+            };
+            window.isUserLoggedIn = isUserLoggedIn;
+
+            // Retrieve saved user profile details
+            const getStoredProfile = () => {
+                let photo = localStorage.getItem('dot_user_photo') || '';
+                let name = localStorage.getItem('dot_user_name') || '';
+                let mobile = localStorage.getItem('dot_user_mobile') || '';
+                let shop = localStorage.getItem('dot_shop_name') || '';
+
+                try {
+                    const u = JSON.parse(localStorage.getItem('dot_user') || 'null');
+                    if (u) {
+                        if (!photo) photo = u.avatar || u.photo || u.avatar_url || '';
+                        if (!name) name = u.name || u.full_name || '';
+                        if (!mobile) mobile = u.mobile || u.phone || '';
+                        if (!shop) shop = u.shopName || u.shop_name || '';
+                    }
+                } catch (e) {}
+
+                return { photo, name, mobile, shop };
+            };
+
+            // Apply navbar avatar & profile dropdown UI
+            const applyProfileUI = (isLoggedIn, photoUrl, name, mobile, shop) => {
+                if (!isLoggedIn) {
+                    // --- Unauthenticated State: Default Avatar Icon ---
+                    if (navImg) {
+                        navImg.src = '';
+                        navImg.style.display = 'none';
+                    }
+                    if (navIcon) navIcon.style.display = 'inline-block';
+                    if (accountBtn) {
+                        accountBtn.classList.remove('has-img');
+                        accountBtn.setAttribute('title', 'Login / Register');
+                        accountBtn.setAttribute('aria-expanded', 'false');
+                    }
+                    if (accountChevron) accountChevron.style.display = 'none';
+                    if (profileMenu) profileMenu.classList.remove('show');
+                    if (accountWrap) accountWrap.classList.remove('is-open');
+                    return;
+                }
+
+                // --- Authenticated State ---
+                if (accountChevron) accountChevron.style.display = 'inline-block';
+                if (accountBtn) {
+                    accountBtn.setAttribute('title', name || mobile || 'My Account');
+                }
+
+                const cleanName = (name && !/^wholesale buyer$/i.test(name.trim())) ? name : (mobile || 'User');
+                const cleanMobile = mobile || '';
+                const cleanShop = (shop && !/^wholesale buyer$/i.test(shop.trim())) ? shop : '';
+
+                if (displayName) displayName.textContent = cleanName;
+
+                if (displayMobile && displayMobileText) {
+                    if (cleanMobile) {
+                        displayMobileText.textContent = cleanMobile;
+                        displayMobile.style.display = 'flex';
+                    } else {
+                        displayMobile.style.display = 'none';
                     }
                 }
 
+                if (displayShopName) {
+                    if (cleanShop) {
+                        displayShopName.textContent = cleanShop;
+                        displayShopName.style.display = 'block';
+                    } else {
+                        displayShopName.style.display = 'none';
+                    }
+                }
+
+                // Dropdown header avatar
+                const fallbackAvatarUrl = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(cleanName) + '&background=0f1d2f&color=ffffff&bold=true';
+                if (profileImage) {
+                    profileImage.src = photoUrl || fallbackAvatarUrl;
+                }
+
+                // Navbar Avatar Icon: Custom photo or stylized initials avatar
                 if (photoUrl) {
                     if (navImg) {
                         navImg.src = photoUrl;
                         navImg.style.display = 'block';
                         navImg.onerror = function() {
-                            this.style.display = 'none';
-                            if (navIcon) navIcon.style.display = 'inline-block';
-                            if (accountBtn) accountBtn.classList.remove('has-img');
+                            this.src = fallbackAvatarUrl;
                         };
                     }
                     if (navIcon) navIcon.style.display = 'none';
                     if (accountBtn) accountBtn.classList.add('has-img');
                 } else {
-                    if (navImg) navImg.style.display = 'none';
-                    if (navIcon) navIcon.style.display = 'inline-block';
-                    if (accountBtn) accountBtn.classList.remove('has-img');
+                    if (navImg) {
+                        navImg.src = fallbackAvatarUrl;
+                        navImg.style.display = 'block';
+                        navImg.onerror = function() {
+                            this.style.display = 'none';
+                            if (navIcon) navIcon.style.display = 'inline-block';
+                        };
+                    }
+                    if (navIcon) navIcon.style.display = 'none';
+                    if (accountBtn) accountBtn.classList.add('has-img');
                 }
             };
 
-            const getStoredProfile = () => {
-                let photo = localStorage.getItem('dot_user_photo') || '';
-                let name = localStorage.getItem('dot_user_name') || '';
-                let shop = localStorage.getItem('dot_shop_name') || '';
+            // Immediate render on component load
+            const loggedInInitially = isUserLoggedIn();
+            const initialData = getStoredProfile();
+            applyProfileUI(loggedInInitially, initialData.photo, initialData.name, initialData.mobile, initialData.shop);
 
-                if (!photo || !name || !shop) {
-                    try {
-                        const u = JSON.parse(localStorage.getItem('dot_user') || 'null');
-                        if (u) {
-                            if (!photo) photo = u.avatar || u.photo || u.avatar_url || '';
-                            if (!name) name = u.name || u.full_name || '';
-                            if (!shop) shop = u.shopName || u.shop_name || '';
+            // Handle Avatar click on desktop & mobile
+            const handleAccountClick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                if (!isUserLoggedIn()) {
+                    // When not logged in, clicking the avatar opens the login modal / page
+                    if (typeof window.openAuthModal === 'function') {
+                        window.openAuthModal();
+                    }
+                } else {
+                    // When logged in, toggle profile dropdown menu
+                    const willShow = !profileMenu.classList.contains('show');
+                    profileMenu.classList.toggle('show', willShow);
+                    if (accountWrap) accountWrap.classList.toggle('is-open', willShow);
+                    if (accountBtn) accountBtn.setAttribute('aria-expanded', willShow ? 'true' : 'false');
+                }
+            };
+
+            if (accountBtn) accountBtn.addEventListener('click', handleAccountClick);
+            if (accountChevron) accountChevron.addEventListener('click', handleAccountClick);
+
+            // Close profile dropdown on outside click
+            document.addEventListener('click', (e) => {
+                if (accountWrap && !accountWrap.contains(e.target)) {
+                    if (profileMenu) profileMenu.classList.remove('show');
+                    accountWrap.classList.remove('is-open');
+                    if (accountBtn) accountBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // Close on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (profileMenu) profileMenu.classList.remove('show');
+                    if (accountWrap) accountWrap.classList.remove('is-open');
+                    if (accountBtn) accountBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // Mobile Nav drawer "Profile" link interceptor
+            const mobileProfileLink = this.querySelector('#ctMobileNav a[href="profile.html"]');
+            if (mobileProfileLink) {
+                mobileProfileLink.addEventListener('click', (e) => {
+                    if (!isUserLoggedIn()) {
+                        e.preventDefault();
+                        const mobileNav = this.querySelector('#ctMobileNav');
+                        if (mobileNav) mobileNav.classList.remove('open');
+                        document.body.style.overflow = '';
+                        if (typeof window.openAuthModal === 'function') {
+                            window.openAuthModal();
                         }
-                    } catch(e) {}
-                }
-                return { photo, name, shop };
-            };
-
-            // Immediate render from localStorage
-            const initialStored = getStoredProfile();
-            applyProfileUI(initialStored.photo, initialStored.name, initialStored.shop);
-
-            // Profile Dropdown Toggle
-            if (accountBtn && profileMenu) {
-                const toggleMenu = (e) => {
-                    e.stopPropagation();
-                    profileMenu.classList.toggle('show');
-                    if (accountWrap) accountWrap.classList.toggle('is-open', profileMenu.classList.contains('show'));
-                };
-                accountBtn.addEventListener('click', toggleMenu);
-                if (accountChevron) accountChevron.addEventListener('click', toggleMenu);
-                
-                document.addEventListener('click', (e) => {
-                    if (accountWrap && !accountWrap.contains(e.target)) {
-                        profileMenu.classList.remove('show');
-                        accountWrap.classList.remove('is-open');
                     }
                 });
             }
 
-            // Expose update handler and listen for sync events
+            // Logout Option Handler
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // 1. Sign out from Supabase
+                    try {
+                        if (window.supabase && window.supabase.auth) {
+                            await window.supabase.auth.signOut();
+                        }
+                    } catch (err) {
+                        console.warn('Supabase signOut note:', err);
+                    }
+
+                    // 2. Clear local storage user sessions
+                    localStorage.removeItem('dot_user');
+                    localStorage.removeItem('dot_user_photo');
+                    localStorage.removeItem('dot_user_name');
+                    localStorage.removeItem('dot_user_mobile');
+                    localStorage.removeItem('dot_shop_name');
+
+                    // 3. Clear Supabase auth tokens
+                    try {
+                        for (let i = localStorage.length - 1; i >= 0; i--) {
+                            const k = localStorage.key(i);
+                            if (k && (k.startsWith('sb-') && k.endsWith('-auth-token'))) {
+                                localStorage.removeItem(k);
+                            }
+                        }
+                    } catch (e) {}
+
+                    // 4. Reset UI to default avatar icon
+                    applyProfileUI(false, '', '', '', '');
+
+                    // 5. Notify active components & listeners
+                    window.dispatchEvent(new CustomEvent('dot_profile_updated', {
+                        detail: { photo: '', name: '', mobile: '', shop: '' }
+                    }));
+
+                    // 6. If currently on profile.html, navigate to home page
+                    if (window.location.pathname.includes('profile.html')) {
+                        window.location.href = 'index.html';
+                    }
+                });
+            }
+
+            // Expose global update handler
             window.dotUpdateNavbarProfile = () => {
-                const current = getStoredProfile();
-                applyProfileUI(current.photo, current.name, current.shop);
+                const loggedIn = isUserLoggedIn();
+                const curr = getStoredProfile();
+                applyProfileUI(loggedIn, curr.photo, curr.name, curr.mobile, curr.shop);
             };
 
             window.addEventListener('storage', () => {
@@ -1558,14 +1764,15 @@ class DotNavbar extends HTMLElement {
 
             window.addEventListener('dot_profile_updated', (e) => {
                 if (e.detail) {
-                    applyProfileUI(e.detail.photo, e.detail.name, e.detail.shop);
+                    const loggedIn = isUserLoggedIn();
+                    applyProfileUI(loggedIn, e.detail.photo, e.detail.name, e.detail.mobile, e.detail.shop);
                 } else if (window.dotUpdateNavbarProfile) {
                     window.dotUpdateNavbarProfile();
                 }
             });
 
-            // Asynchronous Supabase profile syncing
-            (async () => {
+            // Asynchronous Supabase profile syncing & session persistence
+            const syncProfileFromSupabase = async () => {
                 try {
                     let retries = 0;
                     while ((typeof supabase === 'undefined' || !supabase.auth) && retries < 50) {
@@ -1575,34 +1782,71 @@ class DotNavbar extends HTMLElement {
                     if (typeof supabase === 'undefined' || !supabase.auth) return;
 
                     const { data: { session } } = await supabase.auth.getSession();
-                    if (session) {
-                        const { data: profile } = await supabase
-                            .from('profiles')
-                            .select('full_name, shop_name, avatar_url')
-                            .eq('id', session.user.id)
-                            .single();
+                    if (session && session.user) {
+                        const user = session.user;
+                        let profile = null;
+                        try {
+                            const { data } = await supabase
+                                .from('profiles')
+                                .select('*')
+                                .eq('id', user.id)
+                                .single();
+                            profile = data;
+                        } catch (err) {}
 
                         const current = getStoredProfile();
-                        const photo = profile?.avatar_url || current.photo;
-                        const name = profile?.full_name || current.name || session.user.phone || 'User';
-                        const shop = profile?.shop_name || current.shop || 'Dot Jeans';
+                        const photo = profile?.avatar_url || user.user_metadata?.avatar_url || current.photo || '';
+                        let name = profile?.full_name || user.user_metadata?.full_name || user.user_metadata?.name || current.name || '';
+                        const mobile = profile?.mobile || profile?.phone || user.phone || current.mobile || '';
+                        const shop = profile?.shop_name || user.user_metadata?.shop_name || current.shop || '';
 
-                        if (photo) localStorage.setItem('dot_user_photo', photo);
+                        if (!name && mobile) name = mobile;
+
+                        // Save loaded details to local cache
+                        const userObj = {
+                            id: user.id,
+                            uid: user.id,
+                            name: name,
+                            full_name: name,
+                            mobile: mobile,
+                            phone: mobile,
+                            shopName: shop,
+                            shop_name: shop,
+                            avatar: photo
+                        };
+                        localStorage.setItem('dot_user', JSON.stringify(userObj));
                         if (name) localStorage.setItem('dot_user_name', name);
+                        if (mobile) localStorage.setItem('dot_user_mobile', mobile);
                         if (shop) localStorage.setItem('dot_shop_name', shop);
+                        if (photo) localStorage.setItem('dot_user_photo', photo);
 
-                        try {
-                            let u = JSON.parse(localStorage.getItem('dot_user') || '{}');
-                            u.name = name;
-                            u.shopName = shop;
-                            if (photo) u.avatar = photo;
-                            localStorage.setItem('dot_user', JSON.stringify(u));
-                        } catch(e) {}
-
-                        applyProfileUI(photo, name, shop);
+                        applyProfileUI(true, photo, name, mobile, shop);
+                    } else {
+                        // If no session exists in Supabase and user not logged in, ensure default avatar is shown
+                        if (!isUserLoggedIn()) {
+                            applyProfileUI(false, '', '', '', '');
+                        }
                     }
-                } catch (e) {}
-            })();
+
+                    // Register auth state change listener
+                    if (!window._dotAuthSubscribed && supabase.auth.onAuthStateChange) {
+                        window._dotAuthSubscribed = true;
+                        supabase.auth.onAuthStateChange(async (event, session) => {
+                            if (event === 'SIGNED_IN' || event === 'USER_UPDATED' || event === 'TOKEN_REFRESHED') {
+                                if (session && session.user) {
+                                    await syncProfileFromSupabase();
+                                }
+                            } else if (event === 'SIGNED_OUT') {
+                                applyProfileUI(false, '', '', '', '');
+                            }
+                        });
+                    }
+                } catch (e) {
+                    console.warn('Navbar Supabase session check error:', e);
+                }
+            };
+
+            syncProfileFromSupabase();
 
         }, 0);
     }

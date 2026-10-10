@@ -118,6 +118,18 @@
         <button class="filter-drawer-close" id="filterDrawerClose">&times;</button>
     </div>
     <div class="filter-section">
+        <div class="filter-title">Category <span class="ti">▾</span></div>
+        <div class="filter-options">
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value=""> All Jeans</label>
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Wide Leg"> Wide Leg</label>
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Baggy"> Baggy</label>
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Straight"> Straight Fit</label>
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Regular"> Regular Fit</label>
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Slim"> Slim Fit</label>
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Others"> Others</label>
+        </div>
+    </div>
+    <div class="filter-section">
         <div class="filter-title">Size <span class="ti">▾</span></div>
         <div class="filter-options">
             <label class="filter-label"><input type="checkbox" class="filter-size" value="28"> 28</label>
@@ -204,16 +216,16 @@
 
 <script>
 const CATEGORY_PRODUCTS = [
-    { id: 501, name: 'Wide Leg Jeans – Blue', price: 1499, image: 'asses/wideleg.jpg', sizes: ['28','30','32','34','36'], colours: ['Blue'], colourHex: ['#4a6fa5'], fit: 'Wide Leg', detailsUrl: 'productDetails.html', stock: 50 },
-    { id: 502, name: 'Wide Leg Jeans – Black', price: 1549, image: 'asses/wideleg.jpg', sizes: ['30','32','34','36'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Wide Leg', detailsUrl: 'productDetails.html', stock: 0 },
-    { id: 503, name: 'Wide Leg Jeans – Grey', price: 1399, image: 'asses/wideleg.jpg', sizes: ['30','32','34','36'], colours: ['Grey'], colourHex: ['#8a8a8a'], fit: 'Wide Leg', detailsUrl: 'productDetails.html', stock: 5 },
-    { id: 504, name: 'Wide Leg Jeans – Light Blue', price: 1449, image: 'asses/wideleg.jpg', sizes: ['28','30','32','34','36'], colours: ['Light Blue'], colourHex: ['#7ba7c8'], fit: 'Wide Leg', detailsUrl: 'productDetails.html', stock: -1 }, // COMING SOON
-    { id: 505, name: 'Wide Leg Jeans – Washed Black', price: 1599, image: 'asses/wideleg.jpg', sizes: ['30','32','34','36','38'], colours: ['Washed Black'], colourHex: ['#3d3d3d'], fit: 'Baggy', detailsUrl: 'productDetails.html', stock: 120 },
-    { id: 506, name: 'Wide Leg Jeans – Dark Blue', price: 1529, image: 'asses/wideleg.jpg', sizes: ['30','32','34','36'], colours: ['Dark Blue'], colourHex: ['#1e2b45'], fit: 'Wide Leg', detailsUrl: 'productDetails.html', stock: 8 },
-    { id: 507, name: 'Baggy Jeans – Blue', price: 1649, image: 'asses/wideleg.jpg', sizes: ['30','32','34','36','38'], colours: ['Blue'], colourHex: ['#4a6fa5'], fit: 'Baggy', detailsUrl: 'productDetails.html', stock: 0 },
-    { id: 508, name: 'Baggy Jeans – Black', price: 1699, image: 'asses/wideleg.jpg', sizes: ['30','32','34','36','38'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Baggy', detailsUrl: 'productDetails.html', stock: 45 },
-    { id: 509, name: 'Straight Fit Jeans – Blue', price: 1299, image: 'asses/wideleg.jpg', sizes: ['28','30','32','34','36'], colours: ['Blue'], colourHex: ['#4a6fa5'], fit: 'Straight', detailsUrl: 'productDetails.html', stock: 2 },
-    { id: 510, name: 'Straight Fit Jeans – Black', price: 1349, image: 'asses/wideleg.jpg', sizes: ['28','30','32','34','36'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Straight', detailsUrl: 'productDetails.html', stock: 200 },
+    { id: 501, name: 'Wide Leg Jeans – Blue', price: 1499, image: 'asses/wide leg/1.jpg', sizes: ['28','30','32','34','36'], colours: ['Blue'], colourHex: ['#4a6fa5'], fit: 'Wide Leg', category: 'Jeans', detailsUrl: 'productDetails.html', stock: 50 },
+    { id: 502, name: 'Wide Leg Jeans – Black', price: 1549, image: 'asses/wide leg/2.jpg', sizes: ['30','32','34','36'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Wide Leg', category: 'Jeans', detailsUrl: 'productDetails.html', stock: 0 },
+    { id: 503, name: 'Wide Leg Jeans – Grey', price: 1399, image: 'asses/wide leg/3.jpg', sizes: ['30','32','34','36'], colours: ['Grey'], colourHex: ['#8a8a8a'], fit: 'Wide Leg', category: 'Jeans', detailsUrl: 'productDetails.html', stock: 5 },
+    { id: 504, name: 'Wide Leg Jeans – Light Blue', price: 1449, image: 'asses/wide leg/4.jpg', sizes: ['28','30','32','34','36'], colours: ['Light Blue'], colourHex: ['#7ba7c8'], fit: 'Wide Leg', category: 'Jeans', detailsUrl: 'productDetails.html', stock: -1 }, // COMING SOON
+    { id: 505, name: 'Wide Leg Jeans – Washed Black', price: 1599, image: 'asses/baggy/1.jpg', sizes: ['30','32','34','36','38'], colours: ['Washed Black'], colourHex: ['#3d3d3d'], fit: 'Baggy', category: 'Jeans', detailsUrl: 'productDetails.html', stock: 120 },
+    { id: 506, name: 'Wide Leg Jeans – Dark Blue', price: 1529, image: 'asses/wide leg/5.jpg', sizes: ['30','32','34','36'], colours: ['Dark Blue'], colourHex: ['#1e2b45'], fit: 'Wide Leg', category: 'Jeans', detailsUrl: 'productDetails.html', stock: 8 },
+    { id: 507, name: 'Baggy Jeans – Blue', price: 1649, image: 'asses/baggy/2.jpg', sizes: ['30','32','34','36','38'], colours: ['Blue'], colourHex: ['#4a6fa5'], fit: 'Baggy', category: 'Jeans', detailsUrl: 'productDetails.html', stock: 0 },
+    { id: 508, name: 'Baggy Jeans – Black', price: 1699, image: 'asses/baggy/3.jpg', sizes: ['30','32','34','36','38'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Baggy', category: 'Jeans', detailsUrl: 'productDetails.html', stock: 45 },
+    { id: 509, name: 'Straight Fit Jeans – Blue', price: 1299, image: 'asses/straight fit/1.jpg', sizes: ['28','30','32','34','36'], colours: ['Blue'], colourHex: ['#4a6fa5'], fit: 'Straight', category: 'Jeans', detailsUrl: 'productDetails.html', stock: 2 },
+    { id: 510, name: 'Straight Fit Jeans – Black', price: 1349, image: 'asses/straight fit/2.jpg', sizes: ['28','30','32','34','36'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Straight', category: 'Jeans', detailsUrl: 'productDetails.html', stock: 200 },
 ];
 </script>
 <script src="category.js"></script>

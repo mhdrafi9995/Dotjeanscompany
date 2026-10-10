@@ -118,6 +118,18 @@
         <button class="filter-drawer-close" id="filterDrawerClose">&times;</button>
     </div>
     <div class="filter-section">
+        <div class="filter-title">Category <span class="ti">▾</span></div>
+        <div class="filter-options">
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value=""> All Linen</label>
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Regular"> Regular Fit</label>
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Relaxed"> Relaxed Fit</label>
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Slim"> Slim Fit</label>
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Flowy"> Flowy</label>
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Track"> Track</label>
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Others"> Others</label>
+        </div>
+    </div>
+    <div class="filter-section">
         <div class="filter-title">Size <span class="ti">▾</span></div>
         <div class="filter-options">
             <label class="filter-label"><input type="checkbox" class="filter-size" value="28"> 28</label>
@@ -206,11 +218,12 @@
 
 <script>
 const CATEGORY_PRODUCTS = [
-    { id: 201, name: 'Linen Pant – Beige', price: 1299, image: 'asses/linen pant/1.jpg', sizes: ['28','30','32','34','36'], colours: ['Beige'], colourHex: ['#d8c9a8'], fit: 'Regular', detailsUrl: 'linen-product-details.html' },
-    { id: 202, name: 'Linen Pant – White', price: 1199, image: 'asses/linen pant/2.jpg', sizes: ['30','32','34','36'], colours: ['White'], colourHex: ['#f0ece4'], fit: 'Regular', detailsUrl: 'linen-product-details.html' },
-    { id: 203, name: 'Linen Pant – Olive', price: 1349, image: 'asses/linen pant/3.jpg', sizes: ['30','32','34','36','38'], colours: ['Olive'], colourHex: ['#7a8c60'], fit: 'Relaxed', detailsUrl: 'linen-product-details.html' },
-    { id: 204, name: 'Linen Pant – Grey', price: 1249, image: 'asses/linen pant/4.jpg', sizes: ['30','32','34','36'], colours: ['Grey'], colourHex: ['#9a9a9a'], fit: 'Slim', detailsUrl: 'linen-product-details.html' },
-    { id: 205, name: 'Linen Pant – Brown', price: 1299, image: 'asses/linen pant/5.jpg', sizes: ['28','30','32','34'], colours: ['Brown'], colourHex: ['#8b6c4f'], fit: 'Flowy', detailsUrl: 'linen-product-details.html' },
+    { id: 201, name: 'Linen Pant – Beige', price: 1299, image: 'asses/linen pant/1.jpg', sizes: ['28','30','32','34','36'], colours: ['Beige'], colourHex: ['#d8c9a8'], fit: 'Regular', category: 'Linen Pants', detailsUrl: 'productDetails.html', stock: 15 },
+    { id: 202, name: 'Linen Pant – White', price: 1199, image: 'asses/linen pant/2.jpg', sizes: ['30','32','34','36'], colours: ['White'], colourHex: ['#f0ece4'], fit: 'Regular', category: 'Linen Pants', detailsUrl: 'productDetails.html', stock: 20 },
+    { id: 203, name: 'Linen Pant – Olive', price: 1349, image: 'asses/linen pant/3.jpg', sizes: ['30','32','34','36','38'], colours: ['Olive'], colourHex: ['#7a8c60'], fit: 'Relaxed', category: 'Linen Pants', detailsUrl: 'productDetails.html', stock: 0 },
+    { id: 204, name: 'Linen Pant – Grey', price: 1249, image: 'asses/linen pant/4.jpg', sizes: ['30','32','34','36'], colours: ['Grey'], colourHex: ['#9a9a9a'], fit: 'Slim', category: 'Linen Pants', detailsUrl: 'productDetails.html', stock: 10 },
+    { id: 205, name: 'Linen Pant – Brown', price: 1299, image: 'asses/linen pant/5.jpg', sizes: ['28','30','32','34'], colours: ['Brown'], colourHex: ['#8b6c4f'], fit: 'Flowy', category: 'Linen Pants', detailsUrl: 'productDetails.html', stock: 8 },
+    { id: 206, name: 'Linen Pant – Black', price: 1399, image: 'asses/linen pant/4.jpg', sizes: ['30','32','34','36','38'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Regular', category: 'Linen Pants', detailsUrl: 'productDetails.html', stock: 8 },
 ];
 </script>
 <script src="category.js"></script>

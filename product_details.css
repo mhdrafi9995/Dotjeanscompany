@@ -296,33 +296,45 @@ body {
 /* Description */
 .dp-short-desc { font-size: 13px; color: #4a5568; line-height: 1.65; margin-bottom: 20px; }
 
-/* ── COLOUR DISPLAY (Information Only, Non-selectable) ────────── */
-.dp-colour-section { margin-bottom: 20px; }
-.dp-section-label { font-size: 12.5px; font-weight: 700; color: var(--ink); margin-bottom: 10px; text-transform: uppercase; letter-spacing: .5px; }
-.dp-colour-grid { display: flex; gap: 10px; flex-wrap: wrap; }
-.dp-colour-btn {
-    display: flex; flex-direction: column; align-items: center; gap: 5px;
-    background: none; border: none; cursor: pointer; padding: 2px;
-    pointer-events: auto; user-select: none; -webkit-user-select: none;
-    transition: transform 0.15s ease;
+/* ── COLOUR DISPLAY ────────────────────────────────────────── */
+.dp-colour-section { margin-bottom: 22px; }
+.dp-colour-section .dp-section-label { 
+    font-size: 12.5px; 
+    font-weight: 700; 
+    color: var(--ink); 
+    margin-bottom: 8px; 
+    text-transform: uppercase; 
+    letter-spacing: .5px; 
 }
-.dp-colour-btn:hover {
-    transform: translateY(-2px);
+.dp-multiple-colours-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    padding: 9px 18px;
+    border-radius: var(--radius);
+    letter-spacing: .2px;
 }
-.dp-colour-circle {
-    width: 32px; height: 32px; border-radius: 50%;
-    border: 3px solid transparent;
-    box-shadow: 0 0 0 1.5px rgba(0,0,0,.14);
-    outline: none;
-    transition: box-shadow 0.15s ease;
+.dp-pack-colours-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 6px 12px;
+    border-radius: 6px;
+    display: inline-block;
+    letter-spacing: .2px;
 }
-.dp-colour-btn.active .dp-colour-circle {
-    box-shadow: 0 0 0 2px var(--dark), 0 0 0 4px rgba(0,0,0,0.18);
-}
-.dp-colour-name { font-size: 10px; color: var(--muted); font-weight: 500; transition: color 0.15s ease; }
-.dp-colour-btn.active .dp-colour-name {
-    color: var(--dark);
-    font-weight: 700;
+.dp-card-colours-note {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-top: 4px;
 }
 
 /* ── PACK SELECTOR (dropdown) ──────────────────────────────── */
@@ -467,20 +479,7 @@ body {
 /* Colours in pack card (Display / Information Only) */
 .dp-pack-colour-section { margin-bottom: 16px; }
 .dp-pack-colour-title { font-size: 10.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
-.dp-pack-colour-swatches { display: flex; gap: 7px; flex-wrap: wrap; }
-.dp-pack-swatch {
-    width: 22px; height: 22px; border-radius: 50%;
-    box-shadow: 0 0 0 1.5px rgba(0,0,0,.14);
-    cursor: pointer; pointer-events: auto; user-select: none; -webkit-user-select: none;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-.dp-pack-swatch:hover {
-    transform: scale(1.15);
-}
-.dp-pack-swatch.active {
-    box-shadow: 0 0 0 2px var(--dark), 0 0 0 4px rgba(0,0,0,0.18);
-    transform: scale(1.15);
-}
+.dp-pack-colour-swatches { display: flex; gap: 7px; flex-wrap: wrap; align-items: center; }
 
 /* B2B info list */
 .dp-b2b-list { display: flex; flex-direction: column; gap: 11px; margin-bottom: 16px; border-top: 1px solid var(--line); padding-top: 16px; }
@@ -596,58 +595,306 @@ body {
 .dp-card-price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
 .dp-card-price { font-size: 14px; font-weight: 700; color: var(--ink); }
 .dp-card-old { font-size: 11.5px; color: #aab0b8; }
-.dp-card-swatches { display: flex; gap: 5px; flex-wrap: wrap; }
-.dp-card-swatches i { display: block; width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(0,0,0,.12); }
 
 /* ================================================================
-   ENQUIRY MODAL
+/* ================================================================
+   DOT JEANS COMPANY B2B WHOLESALE ENQUIRY MODAL (MATCHING REFERENCE UI)
    ================================================================ */
 .modal-backdrop {
-    display: none; position: fixed; inset: 0; z-index: 9999;
-    background: rgba(8,20,30,.55); backdrop-filter: blur(5px);
-    align-items: center; justify-content: center; padding: 20px;
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(220, 232, 246, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    overflow-y: auto;
 }
-.modal-backdrop.active { display: flex; }
-.modal-card {
-    position: relative; width: 100%; max-width: 620px; max-height: 92vh;
-    overflow-y: auto; background: #fff; border-radius: 18px;
-    padding: 32px; box-shadow: 0 25px 70px rgba(0,0,0,.25);
-    animation: modalIn .25s ease;
+.modal-backdrop.active {
+    display: flex;
 }
-@keyframes modalIn { from { opacity:0; transform: translateY(16px) scale(.97); } to { opacity:1; transform: none; } }
-.modal-card .close { position: absolute; top: 16px; right: 18px; width: 34px; height: 34px; border: none; border-radius: 50%; background: #f3f5f6; color: #53616c; font-size: 22px; display: flex; align-items: center; justify-content: center; }
-.modal-brand { display: inline-flex; align-items: center; margin-bottom: 16px; width: fit-content; text-decoration: none; }
-.modal-brand-img { height: 38px; width: auto; object-fit: contain; display: block; }
-.modal-brand strong { font-size: 26px; font-weight: 800; letter-spacing: 1px; }
-.modal-brand span { font-size: 9px; font-weight: 600; letter-spacing: 2.5px; color: var(--muted); }
-.modal-card h2 { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
-.modal-card .intro { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
-.selected-product { display: flex; align-items: center; gap: 14px; background: #f7f8f9; padding: 12px; border-radius: 10px; margin-bottom: 22px; }
-.selected-product img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; }
-.selected-product > div b { display: block; font-size: 14px; margin-bottom: 3px; }
-.selected-product > div small { display: block; color: var(--muted); font-size: 11.5px; margin-bottom: 4px; }
-.selected-product > div strong { font-size: 15px; color: var(--dark); }
-.selected-product > div strong em { font-size: 11px; font-style: normal; color: var(--muted); }
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-.modal-card label { display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; font-weight: 600; color: #344054; }
-.modal-card label mark { background: none; color: #d92d20; font-weight: 700; }
-.modal-card input, .modal-card select, .modal-card textarea {
-    width: 100%; box-sizing: border-box;
-    padding: 10px 12px; border: 1px solid #d8e0e5; border-radius: 8px;
-    outline: none; font-size: 13.5px; font-family: inherit;
-    background: #fff; color: var(--ink); transition: border-color .2s;
+
+@keyframes modalIn {
+    from { opacity: 0; transform: translateY(14px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
 }
-.modal-card input:focus, .modal-card select:focus, .modal-card textarea:focus { border-color: var(--dark); }
-.modal-card textarea { min-height: 80px; resize: vertical; }
-.input-icon { position: relative; }
-.input-icon > span { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; }
-.input-icon input { padding-left: 32px; }
-.form-actions { display: flex; gap: 12px; margin-top: 8px; }
-.form-actions .primary { flex: 1; padding: 13px 16px; border: none; border-radius: 9px; background: var(--dark); color: #fff; font-size: 14px; font-weight: 700; transition: background .2s; }
-.form-actions .primary:hover { background: #1e2d3d; }
-.form-actions .outline { padding: 13px 20px; border: 1.5px solid var(--line); border-radius: 9px; background: #fff; color: var(--ink); font-size: 14px; font-weight: 600; transition: all .2s; }
-.form-actions .outline:hover { border-color: var(--ink); }
-.modal-note { font-size: 11px; color: var(--muted); margin-top: 12px; text-align: center; }
+
+.modal-card.dot-b2b-modal-card {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    max-height: 94vh;
+    overflow-y: auto;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 28px 24px 26px;
+    box-shadow: 0 20px 48px rgba(11, 31, 68, 0.12), 0 3px 12px rgba(11, 31, 68, 0.04);
+    border: 1.5px solid #dce8f8;
+    animation: modalIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    margin: auto;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    box-sizing: border-box;
+}
+
+/* Floating close button */
+.modal-card.dot-b2b-modal-card .close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 50%;
+    background: #f1f6fc;
+    color: #627694;
+    font-size: 18px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+.modal-card.dot-b2b-modal-card .close:hover {
+    background: #e2edfa;
+    color: #0b1f44;
+}
+
+/* Header */
+.enquiry-header-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-right: 32px;
+}
+.enquiry-header-left {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+}
+.enquiry-jeans-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 40px;
+}
+.enquiry-header-divider {
+    width: 1.5px;
+    height: 38px;
+    background: #dce7f5;
+    margin: 0 14px 0 12px;
+    flex-shrink: 0;
+}
+.enquiry-header-text {
+    flex: 1;
+    min-width: 0;
+}
+.enquiry-header-title {
+    font-size: 21px;
+    font-weight: 800;
+    color: #0b1f44;
+    letter-spacing: -0.3px;
+    margin: 0 0 2px 0;
+    line-height: 1.2;
+}
+.enquiry-header-subtitle {
+    font-size: 12.5px;
+    font-weight: 400;
+    color: #5d718e;
+    margin: 0;
+    line-height: 1.35;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.enquiry-header-brand {
+    text-align: right;
+    flex-shrink: 0;
+    line-height: 1;
+}
+.eh-brand-dot {
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    color: #0b1f44;
+}
+.eh-brand-dot sup {
+    font-size: 9px;
+    font-weight: 700;
+    vertical-align: super;
+}
+.eh-brand-sub {
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #0b1f44;
+    margin-top: 2px;
+}
+
+/* Divider below header */
+.enquiry-header-line {
+    width: 100%;
+    height: 1px;
+    background: #e2edfa;
+    margin: 16px 0 18px 0;
+}
+
+/* Form structure */
+.dot-b2b-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.enquiry-field-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 13px;
+}
+.enquiry-field-row label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #0b1f44;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    line-height: 1;
+}
+.enquiry-field-row label .req {
+    color: #e53e3e;
+    margin-left: 3px;
+    font-weight: 700;
+}
+
+.enquiry-input-box {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.enquiry-input-icon {
+    position: absolute;
+    left: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5d718e;
+    pointer-events: none;
+    z-index: 2;
+}
+.enquiry-input-icon svg,
+.enquiry-input-icon i {
+    width: 18px;
+    height: 18px;
+    font-size: 17px;
+    color: #5d718e;
+}
+
+.enquiry-input-box input {
+    width: 100%;
+    height: 46px;
+    box-sizing: border-box;
+    padding: 0 14px 0 42px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0b1f44;
+    background: #ffffff;
+    border: 1.5px solid #dce8f8;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color .18s ease, box-shadow .18s ease;
+    font-family: inherit;
+}
+.enquiry-input-box input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+.enquiry-input-box input::placeholder {
+    color: #94a3b8;
+    font-weight: 400;
+}
+
+/* Product Details Banner */
+.enquiry-section-banner {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: #e9f2fd;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin: 6px 0 14px 0;
+    color: #0b1f44;
+}
+.enquiry-section-banner svg {
+    flex-shrink: 0;
+}
+.enquiry-section-banner span {
+    font-size: 15.5px;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+    color: #0b1f44;
+}
+
+/* Submit Button */
+.btn-whatsapp-submit {
+    width: 100%;
+    height: 48px;
+    margin-top: 14px;
+    background: #20a758;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(32, 167, 88, 0.28);
+    transition: all .2s ease;
+    font-family: inherit;
+}
+.btn-whatsapp-submit:hover {
+    background: #198e47;
+    box-shadow: 0 6px 18px rgba(32, 167, 88, 0.38);
+    transform: translateY(-1px);
+}
+.btn-whatsapp-submit:active {
+    transform: translateY(0);
+}
+.btn-whatsapp-submit i.fa-whatsapp {
+    font-size: 19px;
+}
+
+@media (max-width: 520px) {
+    .modal-card.dot-b2b-modal-card {
+        padding: 22px 16px 20px;
+        border-radius: 18px;
+    }
+    .enquiry-header-title {
+        font-size: 18px;
+    }
+    .enquiry-header-subtitle {
+        font-size: 11.5px;
+        white-space: normal;
+    }
+    .eh-brand-dot {
+        font-size: 20px;
+    }
+    .enquiry-input-box input {
+        height: 44px;
+        font-size: 13.5px;
+    }
+    .btn-whatsapp-submit {
+        height: 46px;
+        font-size: 14.5px;
+    }
+}
 
 /* Enquiry form alert message */
 .dot-enquiry-alert {

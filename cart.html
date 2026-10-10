@@ -61,6 +61,13 @@
                 <i class="fa-solid fa-boxes-stacked"></i>
                 <span>Wholesale orders only. Products are sold in predefined packs.</span>
             </div>
+
+            <!-- Bottom Actions Bar with Continue Shopping -->
+            <div class="ct-cart-bottom-bar" id="cartBottomBar">
+                <a href="index.html" class="ct-btn-continue-outline" id="continueShoppingBtn">
+                    <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+                </a>
+            </div>
         </div>
 
         <!-- RIGHT: CART SUMMARY -->
@@ -108,6 +115,11 @@
                 <i class="fa-brands fa-whatsapp"></i>
                 Continue on WhatsApp
             </button>
+
+            <!-- Continue Shopping Link in Summary -->
+            <a href="index.html" class="ct-summary-continue" id="summaryContinueBtn">
+                <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+            </a>
 
             <!-- Trust Row -->
             <div class="ct-trust-row">
@@ -369,10 +381,21 @@ const PRODUCTS = [
 ];
 
 /* ──────────────────────────────────────────────────────────────
-   STATE
+   STATE & SESSION PRESERVATION
    ────────────────────────────────────────────────────────────── */
-let cart = JSON.parse(localStorage.getItem('dot_cart') || '[]');
-let wishlist = new Set(JSON.parse(localStorage.getItem('dot_wishlist') || '[]'));
+function loadCart() {
+    try {
+        const stored = localStorage.getItem('dot_cart') || sessionStorage.getItem('dot_cart');
+        if (stored) {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed)) return parsed;
+        }
+    } catch (e) {}
+    return [];
+}
+
+let cart = loadCart();
+let wishlist = new Set(JSON.parse(localStorage.getItem('dot_wishlist') || sessionStorage.getItem('dot_wishlist') || '[]'));
 
 /* ──────────────────────────────────────────────────────────────
    HELPERS
@@ -382,11 +405,21 @@ function getProductData(productId) {
 }
 
 function saveCart() {
-    localStorage.setItem('dot_cart', JSON.stringify(cart));
+    try {
+        const cartStr = JSON.stringify(cart);
+        localStorage.setItem('dot_cart', cartStr);
+        sessionStorage.setItem('dot_cart', cartStr);
+    } catch (e) {
+        console.warn('Storage save error:', e);
+    }
 }
 
 function saveWishlist() {
-    localStorage.setItem('dot_wishlist', JSON.stringify([...wishlist]));
+    try {
+        const wishStr = JSON.stringify([...wishlist]);
+        localStorage.setItem('dot_wishlist', wishStr);
+        sessionStorage.setItem('dot_wishlist', wishStr);
+    } catch (e) {}
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -395,8 +428,10 @@ function saveWishlist() {
 function updateCartBadge() {
     const total = cart.length;
     const badge = document.getElementById('cartBadge');
-    badge.textContent = total;
-    badge.style.display = total > 0 ? 'flex' : 'none';
+    if (badge) {
+        badge.textContent = total;
+        badge.style.display = total > 0 ? 'flex' : 'none';
+    }
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -407,9 +442,12 @@ function updateSummary() {
     const totalPacks = cart.reduce((sum, item) => sum + item.packs, 0);
     const totalPieces = cart.reduce((sum, item) => sum + item.totalPieces, 0);
 
-    document.getElementById('summaryProducts').textContent = totalProducts;
-    document.getElementById('summaryPieces').textContent = totalPieces;
-    document.getElementById('cartCountText').textContent = `${totalProducts} Product${totalProducts !== 1 ? 's' : ''} in Cart`;
+    const summaryProducts = document.getElementById('summaryProducts');
+    const summaryPieces = document.getElementById('summaryPieces');
+    const cartCountText = document.getElementById('cartCountText');
+    if (summaryProducts) summaryProducts.textContent = totalProducts;
+    if (summaryPieces) summaryPieces.textContent = totalPieces;
+    if (cartCountText) cartCountText.textContent = `${totalProducts} Product${totalProducts !== 1 ? 's' : ''} in Cart`;
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -425,6 +463,8 @@ function buildSizeSetString(sizeBreakdown, packs) {
 function renderCart() {
     const container = document.getElementById('cartItemsContainer');
     const notice = document.getElementById('wholesaleNotice');
+    const bottomBar = document.getElementById('cartBottomBar');
+    const summaryContinue = document.getElementById('summaryContinueBtn');
 
     if (cart.length === 0) {
         container.innerHTML = `
@@ -432,17 +472,21 @@ function renderCart() {
                 <i class="fa-solid fa-cart-shopping"></i>
                 <h2>Your cart is empty</h2>
                 <p>Start adding products to your wholesale cart.</p>
-                <a href="productDetails.html" class="ct-btn-continue">
+                <a href="index.html" class="ct-btn-continue" id="continueShoppingEmpty">
                     <i class="fa-solid fa-arrow-left"></i> Continue Shopping
                 </a>
             </div>`;
-        notice.style.display = 'none';
+        if (notice) notice.style.display = 'none';
+        if (bottomBar) bottomBar.style.display = 'none';
+        if (summaryContinue) summaryContinue.style.display = 'none';
         updateSummary();
         updateCartBadge();
         return;
     }
 
-    notice.style.display = 'flex';
+    if (notice) notice.style.display = 'flex';
+    if (bottomBar) bottomBar.style.display = 'flex';
+    if (summaryContinue) summaryContinue.style.display = 'flex';
 
     container.innerHTML = cart.map((item, index) => {
         // Look up product data for colour swatches
@@ -648,6 +692,16 @@ function showToast(msg) {
     toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
 }
 
+
+/* ──────────────────────────────────────────────────────────────
+   CONTINUE SHOPPING NAVIGATION
+   ────────────────────────────────────────────────────────────── */
+document.addEventListener('click', (e) => {
+    const continueBtn = e.target.closest('#continueShoppingBtn, #summaryContinueBtn, #continueShoppingEmpty, .ct-btn-continue, .ct-btn-continue-outline, .ct-summary-continue');
+    if (continueBtn) {
+        saveCart();
+    }
+});
 
 /* ──────────────────────────────────────────────────────────────
    INIT

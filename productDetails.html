@@ -83,7 +83,8 @@
                 <div class="dp-product-code-section" id="dpProductCodeSection">
                     <span class="dp-code-label">Code:</span>
                     <strong class="dp-code-val" id="dpProductCode">APM</strong>
-                    <button type="button" class="dp-code-copy-btn" id="dpCopyCodeBtn" title="Copy product code" aria-label="Copy product code">
+                    <button type="button" class="dp-code-copy-btn" id="dpCopyCodeBtn" title="Copy product code"
+                        aria-label="Copy product code">
                         <i class="fa-regular fa-copy"></i>
                     </button>
                 </div>
@@ -112,17 +113,6 @@
                     <a href="#" class="dp-write-review">Write a review</a>
                 </div>
 
-                <!-- Feature chips -->
-                <div class="dp-features-row">
-                    <div class="dp-feature-item"><i class="fa-solid fa-person-walking"></i><span>Comfort Fit</span>
-                    </div>
-                    <div class="dp-feature-item"><i class="fa-solid fa-shirt"></i><span>Premium Denim Fabric</span>
-                    </div>
-                    <div class="dp-feature-item"><i class="fa-solid fa-shield-halved"></i><span>Long Lasting</span>
-                    </div>
-                    <div class="dp-feature-item"><i class="fa-solid fa-store"></i><span>Wholesale Only</span></div>
-                </div>
-
                 <!-- Pricing -->
                 <div class="dp-pricing">
                     <div class="dp-price-row">
@@ -142,15 +132,12 @@
 
                 <!-- ── COLOURS ── -->
                 <div class="dp-colour-section">
-                    <div class="dp-section-label">Available Colours</div>
-                    <div class="dp-colour-grid" id="dpColourGrid">
-                        <!-- Injected by JS -->
-                    </div>
+                    <div class="dp-multiple-colours-label" id="dpColourGrid">Multiple Colours Available</div>
                 </div>
 
                 <!-- ── PACK SELECTOR ── -->
                 <div class="dp-pack-select-section">
-                    <div class="dp-section-label">Select Pack (Fixed Size Set) <i class="fa-regular fa-circle-question"
+                    <div class="dp-section-label">Select Set (Fixed Size Set) <i class="fa-regular fa-circle-question"
                             style="font-weight:400;font-size:11px;color:var(--muted)"></i></div>
                     <div class="dp-pack-dropdown-wrap">
                         <select class="dp-pack-dropdown" id="dpPackDropdown">
@@ -164,7 +151,7 @@
                 <!-- ── SIZE BREAKDOWN ── -->
                 <div class="dp-size-breakdown">
                     <div class="dp-size-label-row">Size Breakdown <span style="font-weight:400;color:#aab0b8">(Per
-                            Pack)</span></div>
+                            Set)</span></div>
                     <div class="dp-size-chips" id="dpSizeChips">
                         <!-- Injected by JS -->
                     </div>
@@ -172,13 +159,13 @@
 
                 <!-- ── PACK QUANTITY ── -->
                 <div class="dp-pack-qty-section">
-                    <div class="dp-section-label">Pack Quantity</div>
+                    <div class="dp-section-label">Set Quantity</div>
                     <div class="dp-pack-stepper">
                         <button id="dpQtyMinus" aria-label="Decrease packs">&#8722;</button>
                         <div class="dp-pack-qty-display" id="dpQtyDisplay">1</div>
                         <button id="dpQtyPlus" aria-label="Increase packs">&#43;</button>
                     </div>
-                    <p class="dp-pack-pieces-note" id="dpPiecesNote">1 Pack (<strong id="dpPiecesPerPack">15</strong>
+                    <p class="dp-pack-pieces-note" id="dpPiecesNote">1 Set (<strong id="dpPiecesPerPack">15</strong>
                         pcs) — Total: <strong id="dpTotalPieces">15</strong> pcs</p>
                 </div>
 
@@ -219,8 +206,8 @@
                         <i class="fa-solid fa-layer-group"></i>
                     </div>
                     <div>
-                        <h3>Pack Overview</h3>
-                        <p id="pcCardPiecesTitle">15 Pieces per Pack</p>
+                        <h3>Set Overview</h3>
+                        <p id="pcCardPiecesTitle">15 Pieces per Set</p>
                     </div>
                 </div>
                 <div class="dp-pack-card-body">
@@ -230,7 +217,7 @@
                         <thead>
                             <tr>
                                 <th>Size</th>
-                                <th>Pcs / Pack</th>
+                                <th>Pcs / Set</th>
                             </tr>
                         </thead>
                         <tbody id="dpPackTableBody">
@@ -241,13 +228,7 @@
                         </tfoot>
                     </table>
 
-                    <!-- Colour swatches -->
-                    <div class="dp-pack-colour-section">
-                        <div class="dp-pack-colour-title">Available Colours</div>
-                        <div class="dp-pack-colour-swatches" id="dpPackSwatches">
-                            <!-- Injected by JS -->
-                        </div>
-                    </div>
+                    <div id="dpPackSwatches" style="display:none"></div>
 
                     <!-- B2B Info -->
                     <div class="dp-b2b-list">
@@ -255,7 +236,7 @@
                             <div class="dp-b2b-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
                             <div>
                                 <div class="dp-b2b-label">MOQ</div>
-                                <div class="dp-b2b-sub" id="dpMoqLabel">1 Pack (15 Pieces)</div>
+                                <div class="dp-b2b-sub" id="dpMoqLabel">1 Set (15 Pieces)</div>
                             </div>
                         </div>
                         <div class="dp-b2b-item">
@@ -389,12 +370,12 @@
                                 <td id="spec-colours">Multiple (sold as pre-set colour packs)</td>
                             </tr>
                             <tr>
-                                <th>Pack Size</th>
-                                <td id="spec-pack">1 Pack = 15 Pieces</td>
+                                <th>Set Size</th>
+                                <td id="spec-pack">1 Set = 15 Pieces</td>
                             </tr>
                             <tr>
                                 <th>MOQ</th>
-                                <td id="spec-moq">1 Pack</td>
+                                <td id="spec-moq">1 Set</td>
                             </tr>
                             <tr>
                                 <th>Occasion</th>
@@ -486,151 +467,202 @@
         <img src="" alt="Product Zoom" id="dpLightboxImg">
     </div>
 
-    <!-- ===== ENQUIRY MODAL ===== -->
-    <div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-labelledby="enquiryTitle">
-        <section class="modal-card">
+    <!-- ===== WHOLESALE ENQUIRY MODAL (REFERENCE MATCH) ===== -->
+    <div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-labelledby="enquiryMainTitle">
+        <section class="modal-card dot-b2b-modal-card">
             <button class="close" id="closeEnquiry" aria-label="Close">&times;</button>
-            <a class="modal-brand" href="index.html" aria-label="DOT Jeans Company">
-                <img src="asses/logo-main.png" alt="DOT Jeans Company" class="modal-brand-img">
-            </a>
-            <h2 id="enquiryTitle">Wholesale Enquiry</h2>
-            <p class="intro">Send your requirements and our sales team will contact you within 24 hours.</p>
-            <div class="selected-product" id="modalProductSummary">
-                <img src="asses/wideleg.jpg" alt="Product" id="modalProductImg">
-                <div style="flex: 1; min-width: 0;">
-                    <b id="modalProductName">Wide Leg Jeans</b>
-                    <small id="modalProductSku" style="display:none">SKU: WLJ-001</small>
-                    <div style="font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5">
-                        <div><strong>Brand:</strong> <span id="modalProductBrand" style="color:var(--ink);font-weight:600">DOT JEANS CO.</span> &nbsp;|&nbsp; <strong>Fit / Type:</strong> <span id="modalProductFit" style="color:var(--ink);font-weight:600">Relaxed Fit</span></div>
-                        <div style="margin-top:2px"><strong>Code:</strong> <span id="modalProductCode" style="color:var(--ink);font-weight:600">APM</span> &nbsp;|&nbsp; <strong>Colour:</strong> <span id="modalProductColour" style="color:var(--ink);font-weight:600">Blue</span> &nbsp;|&nbsp; <strong>Size:</strong> <span id="modalProductSize" style="color:var(--ink);font-weight:600">28, 30, 32, 34, 36, 38, 40</span></div>
-                        <div style="margin-top:2px"><strong>Quantity / PCS:</strong> <span id="modalProductQty" style="color:var(--ink);font-weight:600">1 Pack (15 pcs)</span></div>
+
+            <!-- Header -->
+            <div class="enquiry-header-wrap">
+                <div class="enquiry-header-left">
+                    <!-- Jeans Outline SVG Icon -->
+                    <svg class="enquiry-jeans-icon" width="34" height="42" viewBox="0 0 34 42" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 5C4 4.45 4.45 4 5 4H29C29.55 4 30 4.45 30 5V10H4V5Z" stroke="#0b1f44"
+                            stroke-width="2.2" stroke-linejoin="round" />
+                        <path d="M10 4V10M24 4V10" stroke="#0b1f44" stroke-width="1.8" stroke-linecap="round" />
+                        <path d="M17 10V18" stroke="#0b1f44" stroke-width="2" stroke-linecap="round" />
+                        <path d="M4 14C8.5 14 11 11.5 11 10" stroke="#0b1f44" stroke-width="1.8"
+                            stroke-linecap="round" />
+                        <path d="M30 14C25.5 14 23 11.5 23 10" stroke="#0b1f44" stroke-width="1.8"
+                            stroke-linecap="round" />
+                        <path d="M4 10L6.5 38H14L17 21L20 38H27.5L30 10" stroke="#0b1f44" stroke-width="2.2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <line x1="6.5" y1="36" x2="14" y2="36" stroke="#0b1f44" stroke-width="1.5" />
+                        <line x1="20" y1="36" x2="27.5" y2="36" stroke="#0b1f44" stroke-width="1.5" />
+                    </svg>
+                    <div class="enquiry-header-divider"></div>
+                    <div class="enquiry-header-text">
+                        <h2 class="enquiry-header-title" id="enquiryMainTitle">Wholesale Enquiry</h2>
+                        <p class="enquiry-header-subtitle">Share your details to request product availability</p>
                     </div>
+                </div>
+                <div class="enquiry-header-brand">
+                    <div class="eh-brand-dot">DOT<sup>®</sup></div>
+                    <div class="eh-brand-sub">JEANS CO.</div>
                 </div>
             </div>
-            <form id="enquiryForm">
-                <div id="enquiryAlert" class="dot-enquiry-alert"></div>
-                <div class="form-grid">
-                    <label>Shop Name <mark>*</mark>
-                        <input required name="shop_name" id="enquiryShopName"
-                            placeholder="Enter your shop / business name">
-                    </label>
-                    <label>Name <mark>*</mark>
-                        <input required name="name" id="enquiryName"
-                            placeholder="Enter contact person name">
-                    </label>
-                    <label>Mobile Number <mark>*</mark>
-                        <div class="input-icon"><span>📞</span><input required name="mobile" id="enquiryMobile" type="tel"
-                                placeholder="+91 98765 43210"></div>
-                    </label>
-                    <label>WhatsApp Number <mark>*</mark>
-                        <div class="input-icon"><span><i class="fa-brands fa-whatsapp"></i></span><input required name="whatsapp" id="enquiryWhatsApp" type="tel"
-                                placeholder="+91 98765 43210"></div>
-                    </label>
-                    <label>Colour
-                        <input readonly name="colour" id="modalColourInput"
-                            style="background:#f8fafc;cursor:default;color:#1e293b;font-weight:600"
-                            placeholder="Selected colour">
-                    </label>
-                    <label>Size
-                        <input readonly name="size" id="modalSizeInput"
-                            style="background:#f8fafc;cursor:default;color:#1e293b;font-weight:600"
-                            placeholder="Available pack sizes">
-                    </label>
-                    <label>Quantity / PCS
-                        <input readonly name="quantity" id="modalQuantityInput"
-                            style="background:#f8fafc;cursor:default;color:#1e293b;font-weight:600"
-                            placeholder="Selected quantity">
-                    </label>
-                    <label>Fit / Product Type
-                        <input readonly name="fit" id="modalFitInput"
-                            style="background:#f8fafc;cursor:default;color:#1e293b;font-weight:600"
-                            placeholder="Product fit/type">
-                    </label>
-                </div>
-                <!-- Hidden inputs for product details & backward-compatibility -->
-                <input type="hidden" name="product_name" id="modalProductNameInput">
-                <input type="hidden" name="brand" id="modalProductBrandInput">
-                <input type="hidden" name="product_id" id="modalProductIdInput">
-                <input type="hidden" name="packs" id="modalPacks">
-                <select name="colour_select" id="modalColourSelect" style="display:none"></select>
 
-                <label style="margin-bottom:14px">Message / Requirements (Optional)
-                    <textarea name="message" id="enquiryMessage"
-                        placeholder="Any special requirements, preferences or additional details..."></textarea>
-                </label>
+            <div class="enquiry-header-line"></div>
 
-                <!-- Optional Photo / Sample Upload -->
-                <div class="enquiry-upload-group" style="margin-bottom:16px;text-align:left;">
-                    <label for="enquiryPhotoUpload" style="font-size:12.5px;font-weight:600;display:block;margin-bottom:6px;color:var(--ink);">
-                        Attach Reference Photo / Sample (Optional)
-                    </label>
-                    <input type="file" id="enquiryPhotoUpload" accept="image/*" style="font-size:12px;color:var(--muted);width:100%;padding:7px;border:1px dashed #cbd5e1;border-radius:6px;background:#f8fafc;cursor:pointer;">
-                    <div id="enquiryUploadPreviewWrap" style="display:none;margin-top:8px;align-items:center;gap:10px;background:#f1f5f9;padding:6px 10px;border-radius:6px;">
-                        <img id="enquiryUploadPreview" src="" alt="Sample" style="width:40px;height:40px;object-fit:cover;border-radius:4px;border:1px solid #cbd5e1;">
-                        <div style="flex:1;min-width:0;">
-                            <div id="enquiryUploadFilename" style="font-size:12px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">sample.jpg</div>
-                            <div style="font-size:11px;color:var(--muted);">Additional photo will be shared</div>
-                        </div>
-                        <button type="button" id="btnClearUploadedPhoto" style="background:#fee2e2;border:none;color:#dc2626;font-size:11.5px;font-weight:600;padding:4px 8px;border-radius:4px;cursor:pointer;">Remove</button>
+            <form id="enquiryForm" class="dot-b2b-form">
+                <!-- Customer Details Fields in Vertical Order -->
+                <div class="enquiry-field-row">
+                    <label for="enquiryCustomerName">Name <span class="req">*</span></label>
+                    <div class="enquiry-input-box">
+                        <span class="enquiry-input-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5d718e"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </span>
+                        <input type="text" id="enquiryCustomerName" name="customer_name" placeholder="Enter your name"
+                            required autocomplete="name">
                     </div>
                 </div>
 
-                <div class="form-actions">
-                    <button class="primary" id="btnSubmitEnquiry" type="submit"><i class="fa-solid fa-paper-plane"></i>&nbsp; Submit Enquiry</button>
-                    <button class="outline" id="cancel" type="button">Cancel</button>
+                <div class="enquiry-field-row">
+                    <label for="enquiryShopName">Shop Name <span class="req">*</span></label>
+                    <div class="enquiry-input-box">
+                        <span class="enquiry-input-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5d718e"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9l1-5h16l1 5"></path>
+                                <path d="M4 9a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0"></path>
+                                <path d="M4 9v11h16V9"></path>
+                                <path d="M9 20v-7h6v7"></path>
+                            </svg>
+                        </span>
+                        <input type="text" id="enquiryShopName" name="shop_name" placeholder="Enter shop name" required
+                            autocomplete="organization">
+                    </div>
+                </div>
+
+                <div class="enquiry-field-row">
+                    <label for="enquiryWhatsAppNumber">WhatsApp Number <span class="req">*</span></label>
+                    <div class="enquiry-input-box">
+                        <span class="enquiry-input-icon">
+                            <i class="fa-brands fa-whatsapp" style="font-size: 19px; color: #5d718e;"></i>
+                        </span>
+                        <input type="tel" id="enquiryWhatsAppNumber" name="whatsapp_number"
+                            placeholder="Enter WhatsApp number" required autocomplete="tel">
+                    </div>
+                </div>
+
+                <div class="enquiry-field-row">
+                    <label for="enquiryMobileNumber">Mobile Number <span class="req">*</span></label>
+                    <div class="enquiry-input-box">
+                        <span class="enquiry-input-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5d718e"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                </path>
+                            </svg>
+                        </span>
+                        <input type="tel" id="enquiryMobileNumber" name="mobile_number"
+                            placeholder="Enter mobile number" required autocomplete="tel">
+                    </div>
+                </div>
+
+                <!-- Product Details Section Heading Banner -->
+                <div class="enquiry-section-banner">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0b1f44" stroke-width="2.2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                        </path>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                    <span>Product Details</span>
+                </div>
+
+                <!-- Product Details Fields in Vertical Order -->
+                <div class="enquiry-field-row">
+                    <label for="enquiryProductBrandName">Product Brand Name <span class="req">*</span></label>
+                    <div class="enquiry-input-box">
+                        <span class="enquiry-input-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5d718e"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                                <line x1="9" y1="22" x2="9" y2="2"></line>
+                                <line x1="15" y1="22" x2="15" y2="2"></line>
+                                <line x1="4" y1="12" x2="20" y2="12"></line>
+                                <line x1="9" y1="7" x2="9" y2="7.01"></line>
+                                <line x1="15" y1="7" x2="15" y2="7.01"></line>
+                                <line x1="9" y1="17" x2="9" y2="17.01"></line>
+                                <line x1="15" y1="17" x2="15" y2="17.01"></line>
+                            </svg>
+                        </span>
+                        <input type="text" id="enquiryProductBrandName" name="product_brand_name" value="DOT JEANS CO."
+                            required>
+                    </div>
+                </div>
+
+                <div class="enquiry-field-row">
+                    <label for="enquiryProductItem">Product Item <span class="req">*</span></label>
+                    <div class="enquiry-input-box">
+                        <span class="enquiry-input-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5d718e"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z">
+                                </path>
+                                <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                            </svg>
+                        </span>
+                        <input type="text" id="enquiryProductItem" name="product_item"
+                            value="Cotton Cargo Pant – Dark Grey" required>
+                    </div>
+                </div>
+
+                <div class="enquiry-field-row">
+                    <label for="enquiryProductCode">Product Code <span class="req">*</span></label>
+                    <div class="enquiry-input-box">
+                        <span class="enquiry-input-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5d718e"
+                                stroke-width="2" stroke-linecap="round">
+                                <line x1="3" y1="5" x2="3" y2="19"></line>
+                                <line x1="6" y1="5" x2="6" y2="19"></line>
+                                <line x1="10" y1="5" x2="10" y2="19" stroke-width="2.5"></line>
+                                <line x1="14" y1="5" x2="14" y2="19"></line>
+                                <line x1="18" y1="5" x2="18" y2="19" stroke-width="2.5"></line>
+                                <line x1="21" y1="5" x2="21" y2="19"></line>
+                            </svg>
+                        </span>
+                        <input type="text" id="enquiryProductCode" name="product_code" value="COT-113" required>
+                    </div>
+                </div>
+
+                <div class="enquiry-field-row">
+                    <label for="enquirySetQuantity">Set Quantity <span class="req">*</span></label>
+                    <div class="enquiry-input-box">
+                        <span class="enquiry-input-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5d718e"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                                </path>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                            </svg>
+                        </span>
+                        <input type="number" id="enquirySetQuantity" name="set_quantity" min="1" step="1" value="1"
+                            required>
+                    </div>
+                </div>
+
+                <div id="enquiryAlert" class="dot-enquiry-alert" style="display:none;"></div>
+
+                <!-- Submit Button -->
+                <div class="enquiry-actions">
+                    <button type="submit" class="btn-whatsapp-submit" id="btnSubmitEnquiry">
+                        <i class="fa-brands fa-whatsapp"></i> Submit Enquiry via WhatsApp
+                    </button>
                 </div>
             </form>
-
-            <!-- Product Photo & WhatsApp Action View -->
-            <div id="enquirySuccessView" class="enquiry-success-view" style="display:none;">
-                <div class="es-badge-wrap">
-                    <div class="es-icon-circle" style="background:#ecfdf5;color:#16a34a;box-shadow:0 0 0 6px #f0fdf4;">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </div>
-                </div>
-                <h3 class="es-title" id="esTitle">Enquiry Prepared for WhatsApp</h3>
-                <p class="es-desc" id="esDesc">Your enquiry details and selected product photo are ready to send to our WhatsApp desk (+91 9995926080).</p>
-
-                <!-- Product Photo Card -->
-                <div class="es-pdf-card" id="esPhotoCard" style="display:flex;align-items:center;gap:14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px 14px;margin-bottom:16px;text-align:left;">
-                    <img id="esProductPhotoImg" src="asses/wideleg.jpg" alt="Product Photo" style="width:54px;height:54px;object-fit:cover;border-radius:8px;border:1px solid #cbd5e1;flex-shrink:0;">
-                    <div class="es-pdf-info" style="flex:1;min-width:0;">
-                        <span class="es-pdf-filename" id="esProductPhotoTitle" style="font-size:13.5px;font-weight:700;color:var(--ink);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Selected Product Photo</span>
-                        <span class="es-pdf-meta" id="esProductPhotoMeta" style="display:block;font-size:11.5px;color:var(--muted);margin-top:2px;">Product image ready for WhatsApp</span>
-                        <div id="esUploadedPhotoBadge" style="display:none;margin-top:3px;font-size:11px;color:#059669;font-weight:600;">
-                            <i class="fa-solid fa-paperclip"></i> + Uploaded sample photo included
-                        </div>
-                    </div>
-                </div>
-
-                <div class="es-actions">
-                    <button type="button" class="es-btn es-btn-whatsapp" id="btnShareEnquiryWhatsApp">
-                        <i class="fa-brands fa-whatsapp"></i> Send on WhatsApp
-                    </button>
-                    <button type="button" class="es-btn es-btn-download" id="btnDownloadProductPhoto">
-                        <i class="fa-solid fa-arrow-down-to-line"></i> Download Photo
-                    </button>
-                </div>
-
-                <div style="display:flex;gap:12px;justify-content:center;align-items:center;margin-bottom:14px;font-size:12px;">
-                    <button type="button" id="btnViewProductPhoto" style="background:none;border:none;color:var(--muted);cursor:pointer;text-decoration:underline;font-family:inherit;font-size:12px;">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Full Photo
-                    </button>
-                    <span style="color:var(--line)">•</span>
-                    <button type="button" id="btnDownloadEnquiryPdf" style="background:none;border:none;color:var(--muted);cursor:pointer;text-decoration:underline;font-family:inherit;font-size:12px;">
-                        <i class="fa-solid fa-file-pdf"></i> Download Enquiry PDF
-                    </button>
-                </div>
-
-                <div class="es-help-tip" id="esHelpTip">
-                    <i class="fa-solid fa-circle-info"></i>
-                    <span id="esHelpTipText"><strong>Note:</strong> WhatsApp click-to-chat links cannot automatically attach image files. The product photo has been downloaded to your device — please tap the <strong>attachment icon (📎)</strong> in your WhatsApp chat and attach the photo to complete your enquiry.</span>
-                </div>
-
-                <button type="button" class="es-btn-done" id="btnDoneEnquiry">Close</button>
-            </div>
-
-            <p class="modal-note" id="modalNote">ⓘ &nbsp; For wholesale / B2B enquiries only</p>
         </section>
     </div>
 
@@ -649,7 +681,8 @@
                     <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
                     <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-                    <a href="https://wa.me/919995926080" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://wa.me/919995926080" target="_blank" rel="noopener noreferrer"
+                        aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
                 </div>
             </div>
             <div class="dp-footer-col">
@@ -712,7 +745,7 @@
             {
                 id: 'cc-straight-jeans',
                 code: 'APM',
-                aliases: ['cross-straight-fit-black', 'a1111111-1111-1111-1111-111111111111', 'straight-black', '509', '510', 'cc-202'],
+                aliases: ['cross-straight-fit-black', 'a1111111-1111-1111-1111-111111111111', 'straight-black', 'cc-202'],
                 name: 'CROSS COUNTRY – Straight Fit – Black',
                 brand: 'CROSS COUNTRY',
                 category: 'Jeans',
@@ -730,13 +763,13 @@
                     { name: 'Stone Grey', hex: '#5c5957', images: ['asses/regular.jpg'] },
                 ],
                 pack: {
-                    piecesPerPack: 12,
+                    piecesPerPack: 5,
                     sizeBreakdown: [
-                        { size: '28', qty: 2 },
-                        { size: '30', qty: 3 },
-                        { size: '32', qty: 3 },
-                        { size: '34', qty: 2 },
-                        { size: '36', qty: 2 },
+                        { size: '28', qty: 1 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
                     ]
                 },
                 stock: 25,
@@ -745,7 +778,7 @@
             },
             {
                 id: 'cc-wide-leg',
-                aliases: ['cross-wide-leg-brown', 'a2222222-2222-2222-2222-222222222222', 'wide-leg-brown', 'cc-201', '501', '502'],
+                aliases: ['cross-wide-leg-brown', 'a2222222-2222-2222-2222-222222222222', 'wide-leg-brown'],
                 name: 'CROSS COUNTRY – Wide Leg – Brown',
                 brand: 'CROSS COUNTRY',
                 category: 'Jeans',
@@ -763,13 +796,14 @@
                     { name: 'Rugged Blue', hex: '#4a6fa5', images: ['asses/wideleg.jpg', 'asses/detail image/rope.png'] },
                 ],
                 pack: {
-                    piecesPerPack: 15,
+                    piecesPerPack: 6,
                     sizeBreakdown: [
-                        { size: '30', qty: 3 },
-                        { size: '32', qty: 4 },
-                        { size: '34', qty: 4 },
-                        { size: '36', qty: 2 },
-                        { size: '38', qty: 2 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
+                        { size: '40', qty: 1 },
                     ]
                 },
                 stock: 20,
@@ -778,7 +812,7 @@
             },
             {
                 id: 'cc-cargos',
-                aliases: ['a3333333-3333-3333-3333-333333333333', 'cc-203', '301', 'CP-001', '101', '102'],
+                aliases: ['a3333333-3333-3333-3333-333333333333', 'cc-203', 'CP-001'],
                 name: "CROSS COUNTRY Heavyweight Tactical Men's Cargos",
                 brand: 'CROSS COUNTRY',
                 category: 'Cargo Pants',
@@ -797,13 +831,14 @@
                     { name: 'Slate Blue', hex: '#3b5066', images: ['asses/cargo.jpg'] },
                 ],
                 pack: {
-                    piecesPerPack: 12,
+                    piecesPerPack: 6,
                     sizeBreakdown: [
-                        { size: '30', qty: 2 },
-                        { size: '32', qty: 3 },
-                        { size: '34', qty: 3 },
-                        { size: '36', qty: 2 },
-                        { size: '38', qty: 2 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
+                        { size: '40', qty: 1 },
                     ]
                 },
                 stock: 8,
@@ -812,7 +847,7 @@
             },
             {
                 id: 'cc-linen',
-                aliases: ['a4444444-4444-4444-4444-444444444444', 'cc-204', '201', 'LP-001'],
+                aliases: ['a4444444-4444-4444-4444-444444444444', 'cc-204', 'LP-001'],
                 name: 'CROSS COUNTRY Regular Linen Pants',
                 brand: 'CROSS COUNTRY',
                 category: 'Linen Pants',
@@ -830,13 +865,14 @@
                     { name: 'Navy Blue', hex: '#2b3952', images: ['asses/linen.jpg'] },
                 ],
                 pack: {
-                    piecesPerPack: 12,
+                    piecesPerPack: 6,
                     sizeBreakdown: [
-                        { size: '28', qty: 2 },
-                        { size: '30', qty: 2 },
-                        { size: '32', qty: 3 },
-                        { size: '34', qty: 3 },
-                        { size: '36', qty: 2 },
+                        { size: '28', qty: 1 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
                     ]
                 },
                 stock: 12,
@@ -862,12 +898,14 @@
                     { name: 'Navy Blue', hex: '#2e302f', images: ['asses/kids.png'] },
                 ],
                 pack: {
-                    piecesPerPack: 10,
+                    piecesPerPack: 6,
                     sizeBreakdown: [
-                        { size: '24', qty: 2 },
-                        { size: '26', qty: 3 },
-                        { size: '28', qty: 3 },
-                        { size: '30', qty: 2 },
+                        { size: '24', qty: 1 },
+                        { size: '26', qty: 1 },
+                        { size: '28', qty: 1 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
                     ]
                 },
                 stock: 15,
@@ -876,7 +914,7 @@
             },
             {
                 id: 'cc-shorts',
-                aliases: ['a6666666-6666-6666-6666-666666666666', 'cc-205', '401', 'SH-001'],
+                aliases: ['a6666666-6666-6666-6666-666666666666', 'cc-205', 'SH-001'],
                 name: "CROSS COUNTRY Classic Denim Men's Shorts",
                 brand: 'CROSS COUNTRY',
                 category: 'Shorts',
@@ -895,13 +933,14 @@
                     { name: 'Rust', hex: '#92534a', images: ['asses/shorts.jpg'] },
                 ],
                 pack: {
-                    piecesPerPack: 12,
+                    piecesPerPack: 6,
                     sizeBreakdown: [
-                        { size: '30', qty: 2 },
-                        { size: '32', qty: 3 },
-                        { size: '34', qty: 3 },
-                        { size: '36', qty: 2 },
-                        { size: '38', qty: 2 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
+                        { size: '40', qty: 1 },
                     ]
                 },
                 stock: 20,
@@ -929,12 +968,14 @@
                     { name: 'Dark Indigo', hex: '#1e2b45', images: ['asses/kocoa-baggy.jpg'] },
                 ],
                 pack: {
-                    piecesPerPack: 10,
+                    piecesPerPack: 6,
                     sizeBreakdown: [
-                        { size: '30', qty: 2 },
-                        { size: '32', qty: 3 },
-                        { size: '34', qty: 3 },
-                        { size: '36', qty: 2 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
+                        { size: '40', qty: 1 },
                     ]
                 },
                 stock: 18,
@@ -960,12 +1001,14 @@
                     { name: 'Charcoal', hex: '#3d3d3d', images: ['asses/kocoa-black.jpg'] },
                 ],
                 pack: {
-                    piecesPerPack: 10,
+                    piecesPerPack: 6,
                     sizeBreakdown: [
-                        { size: '28', qty: 2 },
-                        { size: '30', qty: 2 },
-                        { size: '32', qty: 3 },
-                        { size: '34', qty: 3 },
+                        { size: '28', qty: 1 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
                     ]
                 },
                 stock: 22,
@@ -990,12 +1033,14 @@
                     { name: 'Light Indigo', hex: '#597fa6', images: ['asses/kocoa-baggy.jpg'] },
                 ],
                 pack: {
-                    piecesPerPack: 12,
+                    piecesPerPack: 6,
                     sizeBreakdown: [
-                        { size: '30', qty: 2 },
-                        { size: '32', qty: 4 },
-                        { size: '34', qty: 4 },
-                        { size: '36', qty: 2 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
+                        { size: '40', qty: 1 },
                     ]
                 },
                 stock: 10,
@@ -1020,12 +1065,14 @@
                     { name: 'Onyx Black', hex: '#111827', images: ['asses/cargo.jpg'] },
                 ],
                 pack: {
-                    piecesPerPack: 10,
+                    piecesPerPack: 6,
                     sizeBreakdown: [
-                        { size: '30', qty: 2 },
-                        { size: '32', qty: 3 },
-                        { size: '34', qty: 3 },
-                        { size: '36', qty: 2 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
+                        { size: '40', qty: 1 },
                     ]
                 },
                 stock: 14,
@@ -1052,12 +1099,14 @@
                     { name: 'Midnight Black', hex: '#1a1a1a', images: ['asses/wideleg.jpg'] },
                 ],
                 pack: {
-                    piecesPerPack: 10,
+                    piecesPerPack: 6,
                     sizeBreakdown: [
-                        { size: '30', qty: 2 },
-                        { size: '32', qty: 3 },
-                        { size: '34', qty: 3 },
-                        { size: '36', qty: 2 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
+                        { size: '40', qty: 1 },
                     ]
                 },
                 stock: 10,
@@ -1084,11 +1133,12 @@
                 pack: {
                     piecesPerPack: 12,
                     sizeBreakdown: [
-                        { size: '28', qty: 2 },
-                        { size: '30', qty: 3 },
-                        { size: '32', qty: 3 },
-                        { size: '34', qty: 2 },
-                        { size: '36', qty: 2 },
+                        { size: '28', qty: 1 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
                     ]
                 },
                 stock: 25,
@@ -1118,15 +1168,15 @@
                     { name: 'Beige', hex: '#d4c9a8', images: ['asses/wideleg.jpg'] },
                 ],
                 pack: {
-                    piecesPerPack: 15,
+                    piecesPerPack: 6,
                     sizeBreakdown: [
-                        { size: '28', qty: 2 },
-                        { size: '30', qty: 2 },
-                        { size: '32', qty: 4 },
-                        { size: '34', qty: 2 },
+                        { size: '28', qty: 1 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
                         { size: '36', qty: 1 },
                         { size: '38', qty: 1 },
-                        { size: '40', qty: 3 },
+                        { size: '40', qty: 1 },
                     ]
                 },
                 stock: 10,
@@ -1260,6 +1310,1719 @@
                 related: ['WLJ-001', 'CP-001', 'LP-001'],
                 detailsUrl: 'productDetails.html',
             },
+
+            // ── JEANS PANT CATEGORY (501–510) ──────────────────────────
+            {
+                id: '501',
+                code: 'WLJ-501',
+                name: 'Wide Leg Jeans – Blue',
+                brand: 'DOT JEANS CO.',
+                category: 'Jeans',
+                subcategory: 'Wide Leg Jeans',
+                fit: 'Wide Leg',
+                material: '100% Premium Denim Cotton',
+                description: 'Contemporary wide leg denim trousers in classic indigo blue wash. Relaxed streetwear drape and heavyweight denim construction tailored for high-volume wholesale distribution.',
+                pricePerPiece: 1499,
+                price: 1499,
+                oldPrice: 1999,
+                badge: 'NEW',
+                images: ['asses/wide leg/1.jpg', 'asses/wideleg.jpg', 'asses/detail image/rope.png', 'asses/detail image/fabric.png'],
+                colours: [
+                    { name: 'Blue', hex: '#4a6fa5', images: ['asses/wide leg/1.jpg', 'asses/wideleg.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '28', qty: 1 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 50,
+                related: ['502', '503', '505', '509'],
+                detailsUrl: 'productDetails.html?id=501',
+            },
+            {
+                id: '502',
+                code: 'WLJ-502',
+                name: 'Wide Leg Jeans – Black',
+                brand: 'DOT JEANS CO.',
+                category: 'Jeans',
+                subcategory: 'Wide Leg Jeans',
+                fit: 'Wide Leg',
+                material: 'Heavyweight Deep Black Denim',
+                description: 'Urban wide leg fit jeans crafted in pitch black denim. Clean styling with reinforced waistband and riveted stress points.',
+                pricePerPiece: 1549,
+                price: 1549,
+                oldPrice: 1999,
+                badge: null,
+                images: ['asses/wide leg/2.jpg', 'asses/wideleg.jpg', 'asses/detail image/fabric.png'],
+                colours: [
+                    { name: 'Black', hex: '#1a1a1a', images: ['asses/wide leg/2.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 0,
+                related: ['501', '503', '508', '510'],
+                detailsUrl: 'productDetails.html?id=502',
+            },
+            {
+                id: '503',
+                code: 'WLJ-503',
+                name: 'Wide Leg Jeans – Grey',
+                brand: 'DOT JEANS CO.',
+                category: 'Jeans',
+                subcategory: 'Wide Leg Jeans',
+                fit: 'Wide Leg',
+                material: 'Premium Washed Denim',
+                description: 'Modern relaxed wide leg jeans featuring an authentic smoke grey denim wash. Perfect everyday wear with modern silhouette.',
+                pricePerPiece: 1399,
+                price: 1399,
+                oldPrice: 1899,
+                badge: null,
+                images: ['asses/wide leg/3.jpg', 'asses/wideleg.jpg'],
+                colours: [
+                    { name: 'Grey', hex: '#8a8a8a', images: ['asses/wide leg/3.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 5,
+                related: ['501', '502', '504', '506'],
+                detailsUrl: 'productDetails.html?id=503',
+            },
+            {
+                id: '504',
+                code: 'WLJ-504',
+                name: 'Wide Leg Jeans – Light Blue',
+                brand: 'DOT JEANS CO.',
+                category: 'Jeans',
+                subcategory: 'Wide Leg Jeans',
+                fit: 'Wide Leg',
+                material: 'Vintage Ice Wash Denim',
+                description: 'Light ice washed wide leg denim with natural fade lines. Ultra comfortable drape designed for high summer and casual wholesale demand.',
+                pricePerPiece: 1449,
+                price: 1449,
+                oldPrice: 1899,
+                badge: 'COMING SOON',
+                images: ['asses/wide leg/4.jpg', 'asses/wideleg.jpg'],
+                colours: [
+                    { name: 'Light Blue', hex: '#7ba7c8', images: ['asses/wide leg/4.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '28', qty: 1 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: -1,
+                related: ['501', '503', '505', '509'],
+                detailsUrl: 'productDetails.html?id=504',
+            },
+            {
+                id: '505',
+                code: 'BG-505',
+                name: 'Wide Leg Jeans – Washed Black',
+                brand: 'DOT JEANS CO.',
+                category: 'Jeans',
+                subcategory: 'Baggy Jeans',
+                fit: 'Baggy',
+                material: 'Heavy Washed Cotton Twill Denim',
+                description: 'Streetwear baggy fit wide leg jeans finished in mineral washed black. Roomy thigh and ankle cut for trend-focused retail customers.',
+                pricePerPiece: 1599,
+                price: 1599,
+                oldPrice: 2099,
+                badge: 'TRENDING',
+                images: ['asses/baggy/1.jpg', 'asses/wide leg/5.jpg', 'asses/wideleg.jpg'],
+                colours: [
+                    { name: 'Washed Black', hex: '#3d3d3d', images: ['asses/baggy/1.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
+                    ]
+                },
+                stock: 120,
+                related: ['501', '502', '507', '508'],
+                detailsUrl: 'productDetails.html?id=505',
+            },
+            {
+                id: '506',
+                code: 'WLJ-506',
+                name: 'Wide Leg Jeans – Dark Blue',
+                brand: 'DOT JEANS CO.',
+                category: 'Jeans',
+                subcategory: 'Wide Leg Jeans',
+                fit: 'Wide Leg',
+                material: 'Deep Indigo Denim',
+                description: 'Clean dark indigo wide leg jeans with tonal stitching. Heavy fabric weight providing structured drape and long-lasting durability.',
+                pricePerPiece: 1529,
+                price: 1529,
+                oldPrice: 1999,
+                badge: null,
+                images: ['asses/wide leg/5.jpg', 'asses/wideleg.jpg'],
+                colours: [
+                    { name: 'Dark Blue', hex: '#1e2b45', images: ['asses/wide leg/5.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 8,
+                related: ['501', '503', '507', '509'],
+                detailsUrl: 'productDetails.html?id=506',
+            },
+            {
+                id: '507',
+                code: 'BG-507',
+                name: 'Baggy Jeans – Blue',
+                brand: 'DOT JEANS CO.',
+                category: 'Jeans',
+                subcategory: 'Baggy Jeans',
+                fit: 'Baggy',
+                material: 'Vintage Rigid Denim',
+                description: '90s skate-inspired baggy silhouette jeans in mid-blue denim. Relaxed hip, loose thighs, and roomy leg opening.',
+                pricePerPiece: 1649,
+                price: 1649,
+                oldPrice: 2199,
+                badge: null,
+                images: ['asses/baggy/2.jpg', 'asses/wideleg.jpg'],
+                colours: [
+                    { name: 'Blue', hex: '#4a6fa5', images: ['asses/baggy/2.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
+                    ]
+                },
+                stock: 0,
+                related: ['501', '505', '508', '509'],
+                detailsUrl: 'productDetails.html?id=507',
+            },
+            {
+                id: '508',
+                code: 'BG-508',
+                name: 'Baggy Jeans – Black',
+                brand: 'DOT JEANS CO.',
+                category: 'Jeans',
+                subcategory: 'Baggy Jeans',
+                fit: 'Baggy',
+                material: 'Heavyweight Black Twill Denim',
+                description: 'Premium heavyweight jet black baggy jeans with durable construction. Designed for commercial retailers and streetwear boutiques.',
+                pricePerPiece: 1699,
+                price: 1699,
+                oldPrice: 2199,
+                badge: 'BESTSELLER',
+                images: ['asses/baggy/3.jpg', 'asses/wideleg.jpg'],
+                colours: [
+                    { name: 'Black', hex: '#1a1a1a', images: ['asses/baggy/3.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
+                    ]
+                },
+                stock: 45,
+                related: ['502', '505', '507', '510'],
+                detailsUrl: 'productDetails.html?id=508',
+            },
+            {
+                id: '509',
+                code: 'ST-509',
+                name: 'Straight Fit Jeans – Blue',
+                brand: 'DOT JEANS CO.',
+                category: 'Jeans',
+                subcategory: 'Straight Fit Jeans',
+                fit: 'Straight',
+                material: 'Comfort Stretch Denim',
+                description: 'Classic straight leg cut in dependable blue denim with slight stretch. Balanced profile ideal for wholesale retailers nationwide.',
+                pricePerPiece: 1299,
+                price: 1299,
+                oldPrice: 1699,
+                badge: null,
+                images: ['asses/straight fit/1.jpg', 'asses/regular.jpg'],
+                colours: [
+                    { name: 'Blue', hex: '#4a6fa5', images: ['asses/straight fit/1.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '28', qty: 1 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 2,
+                related: ['501', '503', '510'],
+                detailsUrl: 'productDetails.html?id=509',
+            },
+            {
+                id: '510',
+                code: 'ST-510',
+                name: 'Straight Fit Jeans – Black',
+                brand: 'DOT JEANS CO.',
+                category: 'Jeans',
+                subcategory: 'Straight Fit Jeans',
+                fit: 'Straight',
+                material: 'Durable Rigid Denim',
+                description: 'Timeless straight leg jeans in deep black denim. Built with heavy-duty rivets and bar-tacked stress zones for commercial endurance.',
+                pricePerPiece: 1349,
+                price: 1349,
+                oldPrice: 1749,
+                badge: 'ESSENTIAL',
+                images: ['asses/straight fit/2.jpg', 'asses/regular.jpg'],
+                colours: [
+                    { name: 'Black', hex: '#1a1a1a', images: ['asses/straight fit/2.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '28', qty: 1 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 200,
+                related: ['502', '508', '509'],
+                detailsUrl: 'productDetails.html?id=510',
+            },
+
+            // ── LINEN PANT CATEGORY (201–206) ──────────────────────────
+            {
+                id: '201',
+                code: 'LP-201',
+                name: 'Linen Pant – Beige',
+                brand: 'DOT JEANS CO.',
+                category: 'Linen Pants',
+                subcategory: 'Regular Linen Pants',
+                fit: 'Regular',
+                material: 'Natural Linen Cotton Blend',
+                description: 'Lightweight and breathable premium linen trousers in natural warm beige. Designed for maximum airflow and comfortable all-day wear.',
+                pricePerPiece: 1299,
+                price: 1299,
+                oldPrice: 1899,
+                badge: 'SUMMER',
+                images: ['asses/linen pant/1.jpg', 'asses/linen.jpg'],
+                colours: [
+                    { name: 'Beige', hex: '#d8c9a8', images: ['asses/linen pant/1.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '28', qty: 1 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 15,
+                related: ['202', '203', '204', '205'],
+                detailsUrl: 'productDetails.html?id=201',
+            },
+            {
+                id: '202',
+                code: 'LP-202',
+                name: 'Linen Pant – White',
+                brand: 'DOT JEANS CO.',
+                category: 'Linen Pants',
+                subcategory: 'Regular Linen Pants',
+                fit: 'Regular',
+                material: 'Pure White Linen Blend',
+                description: 'Crisp and elegant white linen trousers with relaxed leg opening. Excellent staple for summer and resort collections.',
+                pricePerPiece: 1199,
+                price: 1199,
+                oldPrice: 1699,
+                badge: null,
+                images: ['asses/linen pant/2.jpg', 'asses/linen.jpg'],
+                colours: [
+                    { name: 'White', hex: '#f0ece4', images: ['asses/linen pant/2.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 20,
+                related: ['201', '203', '204', '205'],
+                detailsUrl: 'productDetails.html?id=202',
+            },
+            {
+                id: '203',
+                code: 'LP-203',
+                name: 'Linen Pant – Olive',
+                brand: 'DOT JEANS CO.',
+                category: 'Linen Pants',
+                subcategory: 'Relaxed Linen Pants',
+                fit: 'Relaxed',
+                material: 'Dyed Linen Twill Blend',
+                description: 'Earthy olive green relaxed linen trousers. Features a comfortable drawcord waistband and tailored hem.',
+                pricePerPiece: 1349,
+                price: 1349,
+                oldPrice: 1899,
+                badge: null,
+                images: ['asses/linen pant/3.jpg', 'asses/linen.jpg'],
+                colours: [
+                    { name: 'Olive', hex: '#7a8c60', images: ['asses/linen pant/3.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
+                    ]
+                },
+                stock: 0,
+                related: ['201', '202', '204', '206'],
+                detailsUrl: 'productDetails.html?id=203',
+            },
+            {
+                id: '204',
+                code: 'LP-204',
+                name: 'Linen Pant – Grey',
+                brand: 'DOT JEANS CO.',
+                category: 'Linen Pants',
+                subcategory: 'Slim Linen Pants',
+                fit: 'Slim',
+                material: 'Refined Grey Linen Blend',
+                description: 'Modern slim silhouette linen pants in versatile slate grey. Blends formal polish with relaxed lightweight linen texture.',
+                pricePerPiece: 1249,
+                price: 1249,
+                oldPrice: 1749,
+                badge: null,
+                images: ['asses/linen pant/4.jpg', 'asses/linen.jpg'],
+                colours: [
+                    { name: 'Grey', hex: '#9a9a9a', images: ['asses/linen pant/4.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 10,
+                related: ['201', '202', '205', '206'],
+                detailsUrl: 'productDetails.html?id=204',
+            },
+            {
+                id: '205',
+                code: 'LP-205',
+                name: 'Linen Pant – Brown',
+                brand: 'DOT JEANS CO.',
+                category: 'Linen Pants',
+                subcategory: 'Flowy Linen Pants',
+                fit: 'Flowy',
+                material: 'Soft Flowy Linen Blend',
+                description: 'Rich tobacco brown linen trousers with relaxed drape. Extremely soft handfeel for high-end boutique retail assortments.',
+                pricePerPiece: 1299,
+                price: 1299,
+                oldPrice: 1799,
+                badge: null,
+                images: ['asses/linen pant/5.jpg', 'asses/linen.jpg'],
+                colours: [
+                    { name: 'Brown', hex: '#8b6c4f', images: ['asses/linen pant/5.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '28', qty: 1 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                    ]
+                },
+                stock: 8,
+                related: ['201', '203', '204'],
+                detailsUrl: 'productDetails.html?id=205',
+            },
+            {
+                id: '206',
+                code: 'LP-206',
+                name: 'Linen Pant – Black',
+                brand: 'DOT JEANS CO.',
+                category: 'Linen Pants',
+                subcategory: 'Regular Linen Pants',
+                fit: 'Regular',
+                material: 'Jet Black Linen Blend',
+                description: 'Classic solid black linen trousers. Breathable weave with elegant structure for evening casual wear.',
+                pricePerPiece: 1399,
+                price: 1399,
+                oldPrice: 1899,
+                badge: null,
+                images: ['asses/linen pant/4.jpg', 'asses/linen.jpg'],
+                colours: [
+                    { name: 'Black', hex: '#1a1a1a', images: ['asses/linen pant/4.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
+                    ]
+                },
+                stock: 8,
+                related: ['201', '203', '204', '205'],
+                detailsUrl: 'productDetails.html?id=206',
+            },
+
+            // ── CARGO / COTTON PANT / TRACK CATEGORY (101–114) ───────────
+            {
+                id: '101',
+                code: 'CP-101',
+                name: 'Cargo Pant – Beige',
+                brand: 'DOT JEANS CO.',
+                category: 'Cargo Pants',
+                subcategory: 'Cargo Pants',
+                fit: 'Regular',
+                material: 'Heavy Utility Cotton Twill',
+                description: 'Classic multi-pocket cargo pants in warm sand beige. Durable reinforced stitching and deep utility flap pockets.',
+                pricePerPiece: 1399,
+                price: 1399,
+                oldPrice: 1899,
+                badge: 'NEW',
+                images: ['asses/cargo.jpg'],
+                colours: [
+                    { name: 'Beige', hex: '#d8cbb4', images: ['asses/cargo.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 25,
+                related: ['102', '103', '104', '113'],
+                detailsUrl: 'productDetails.html?id=101',
+            },
+            {
+                id: '102',
+                code: 'CP-102',
+                name: 'Cargo Pant – Olive',
+                brand: 'DOT JEANS CO.',
+                category: 'Cargo Pants',
+                subcategory: 'Cargo Pants',
+                fit: 'Regular',
+                material: 'Tactical Heavy Cotton Twill',
+                description: 'Rugged military olive tactical cargo pants with six reinforced utility pockets. Highly popular wholesale standard.',
+                pricePerPiece: 1499,
+                price: 1499,
+                oldPrice: 1999,
+                badge: null,
+                images: ['asses/cargo.jpg'],
+                colours: [
+                    { name: 'Olive', hex: '#6b7c52', images: ['asses/cargo.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
+                    ]
+                },
+                stock: 15,
+                related: ['101', '103', '106', '110'],
+                detailsUrl: 'productDetails.html?id=102',
+            },
+            {
+                id: '103',
+                code: 'CP-103',
+                name: 'Cargo Pant – Black',
+                brand: 'DOT JEANS CO.',
+                category: 'Cargo Pants',
+                subcategory: 'Cargo Pants',
+                fit: 'Regular',
+                material: 'Heavyweight Black Twill Cotton',
+                description: 'Tactical black cargo trousers engineered with robust flap pockets and heavy gauge zippers.',
+                pricePerPiece: 1549,
+                price: 1549,
+                oldPrice: 1999,
+                badge: 'POPULAR',
+                images: ['asses/cargo.jpg'],
+                colours: [
+                    { name: 'Black', hex: '#1a1a1a', images: ['asses/cargo.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 30,
+                related: ['101', '102', '108', '114'],
+                detailsUrl: 'productDetails.html?id=103',
+            },
+            {
+                id: '104',
+                code: 'CP-104',
+                name: 'Cargo Pant – Grey',
+                brand: 'DOT JEANS CO.',
+                category: 'Cargo Pants',
+                subcategory: 'Cargo Pants',
+                fit: 'Relaxed',
+                material: 'Durable Washed Cotton',
+                description: 'Smoke grey relaxed cargo trousers with functional gusset and adjustable cuff details.',
+                pricePerPiece: 1349,
+                price: 1349,
+                oldPrice: 1799,
+                badge: null,
+                images: ['asses/cargo.jpg'],
+                colours: [
+                    { name: 'Grey', hex: '#8a8a8a', images: ['asses/cargo.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 3,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                    ]
+                },
+                stock: 12,
+                related: ['101', '103', '105', '108'],
+                detailsUrl: 'productDetails.html?id=104',
+            },
+            {
+                id: '105',
+                code: 'CP-105',
+                name: 'Cargo Pant – Sand',
+                brand: 'DOT JEANS CO.',
+                category: 'Cargo Pants',
+                subcategory: 'Cargo Pants',
+                fit: 'Relaxed',
+                material: 'Desert Sand Twill',
+                description: 'Relaxed fit desert sand cargos built for utilitarian style and durable daily wear.',
+                pricePerPiece: 1299,
+                price: 1299,
+                oldPrice: 1749,
+                badge: null,
+                images: ['asses/cargo.jpg'],
+                colours: [
+                    { name: 'Sand', hex: '#c9ae87', images: ['asses/cargo.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 18,
+                related: ['101', '107', '109', '112'],
+                detailsUrl: 'productDetails.html?id=105',
+            },
+            {
+                id: '106',
+                code: 'CP-106',
+                name: 'Cargo Pant – Dark Olive',
+                brand: 'DOT JEANS CO.',
+                category: 'Cargo Pants',
+                subcategory: 'Cargo Pants',
+                fit: 'Baggy',
+                material: 'Heavy Utility Twill',
+                description: 'Deep forest dark olive baggy cargos with oversized cargo pockets and wide leg profile.',
+                pricePerPiece: 1599,
+                price: 1599,
+                oldPrice: 2099,
+                badge: null,
+                images: ['asses/cargo.jpg'],
+                colours: [
+                    { name: 'Dark Olive', hex: '#4a5438', images: ['asses/cargo.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
+                        { size: '40', qty: 1 },
+                    ]
+                },
+                stock: 10,
+                related: ['102', '110', '113'],
+                detailsUrl: 'productDetails.html?id=106',
+            },
+            {
+                id: '107',
+                code: 'CP-107',
+                name: 'Cargo Pant – Cream',
+                brand: 'DOT JEANS CO.',
+                category: 'Cargo Pants',
+                subcategory: 'Cargo Pants',
+                fit: 'Slim',
+                material: 'Fine Cotton Twill',
+                description: 'Slim fit tailored cargo pants in clean natural cream. Streamlined pockets for modern retail demand.',
+                pricePerPiece: 1249,
+                price: 1249,
+                oldPrice: 1699,
+                badge: null,
+                images: ['asses/cargo.jpg'],
+                colours: [
+                    { name: 'Cream', hex: '#e8dfc8', images: ['asses/cargo.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 3,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                    ]
+                },
+                stock: 15,
+                related: ['101', '105', '109'],
+                detailsUrl: 'productDetails.html?id=107',
+            },
+            {
+                id: '108',
+                code: 'CP-108',
+                name: 'Cargo Pant – Charcoal',
+                brand: 'DOT JEANS CO.',
+                category: 'Cargo Pants',
+                subcategory: 'Cargo Pants',
+                fit: 'Regular',
+                material: 'Heavy Utility Twill',
+                description: 'Charcoal grey utility cargo trousers with reinforced knee sections and deep bellow pockets.',
+                pricePerPiece: 1449,
+                price: 1449,
+                oldPrice: 1899,
+                badge: null,
+                images: ['asses/cargo.jpg'],
+                colours: [
+                    { name: 'Charcoal', hex: '#555555', images: ['asses/cargo.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 22,
+                related: ['103', '104', '114'],
+                detailsUrl: 'productDetails.html?id=108',
+            },
+            {
+                id: '109',
+                code: 'CP-109',
+                name: 'Cargo Pant – Khaki',
+                brand: 'DOT JEANS CO.',
+                category: 'Cargo Pants',
+                subcategory: 'Cargo Pants',
+                fit: 'Regular',
+                material: 'Classic Khaki Cotton Twill',
+                description: 'Sturdy khaki cargo trousers with double needle stitching and metal snap flap pockets.',
+                pricePerPiece: 1379,
+                price: 1379,
+                oldPrice: 1799,
+                badge: null,
+                images: ['asses/cargo.jpg'],
+                colours: [
+                    { name: 'Khaki', hex: '#b8a882', images: ['asses/cargo.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 3,
+                    sizeBreakdown: [
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 8,
+                related: ['101', '105', '113'],
+                detailsUrl: 'productDetails.html?id=109',
+            },
+            {
+                id: '110',
+                code: 'CP-110',
+                name: 'Cargo Pant – Forest Green',
+                brand: 'DOT JEANS CO.',
+                category: 'Cargo Pants',
+                subcategory: 'Cargo Pants',
+                fit: 'Baggy',
+                material: 'Heavy Twill',
+                description: 'Forest green baggy cargos offering maximum pocket capacity and durable outdoor build.',
+                pricePerPiece: 1529,
+                price: 1529,
+                oldPrice: 1999,
+                badge: null,
+                images: ['asses/cargo.jpg'],
+                colours: [
+                    { name: 'Forest Green', hex: '#3a5244', images: ['asses/cargo.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
+                    ]
+                },
+                stock: 14,
+                related: ['102', '106'],
+                detailsUrl: 'productDetails.html?id=110',
+            },
+            {
+                id: '111',
+                code: 'CP-111',
+                name: 'Cargo Pant – Navy',
+                brand: 'DOT JEANS CO.',
+                category: 'Cargo Pants',
+                subcategory: 'Cargo Pants',
+                fit: 'Slim',
+                material: 'Navy Twill Cotton',
+                description: 'Dark navy slim cargos combining sharp city style with utilitarian functional pockets.',
+                pricePerPiece: 1459,
+                price: 1459,
+                oldPrice: 1899,
+                badge: null,
+                images: ['asses/cargo.jpg'],
+                colours: [
+                    { name: 'Navy', hex: '#1e2b45', images: ['asses/cargo.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 16,
+                related: ['103', '108'],
+                detailsUrl: 'productDetails.html?id=111',
+            },
+            {
+                id: '112',
+                code: 'CP-112',
+                name: 'Cargo Pant – Stone',
+                brand: 'DOT JEANS CO.',
+                category: 'Cargo Pants',
+                subcategory: 'Cargo Pants',
+                fit: 'Relaxed',
+                material: 'Stone Washed Twill',
+                description: 'Relaxed stone shade cargo pants featuring multiple utility compartments and reinforced seams.',
+                pricePerPiece: 1319,
+                price: 1319,
+                oldPrice: 1749,
+                badge: null,
+                images: ['asses/cargo.jpg'],
+                colours: [
+                    { name: 'Stone', hex: '#a09888', images: ['asses/cargo.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 3,
+                    sizeBreakdown: [
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 10,
+                related: ['101', '104', '105'],
+                detailsUrl: 'productDetails.html?id=112',
+            },
+            {
+                id: '113',
+                code: 'COT-113',
+                name: 'Cotton Cargo Pant – Dark Grey',
+                brand: 'DOT JEANS CO.',
+                category: 'Cotton Pant',
+                subcategory: 'Cotton Cargo Pants',
+                fit: 'Cotton',
+                material: '100% Pure Heavy Cotton',
+                description: 'Heavyweight pure cotton cargo trousers built for supreme durability, breathability, and all-weather commercial utility.',
+                pricePerPiece: 1420,
+                price: 1420,
+                oldPrice: 1899,
+                badge: 'COTTON',
+                images: ['asses/cargo.jpg'],
+                colours: [
+                    { name: 'Dark Grey', hex: '#383a31', images: ['asses/cargo.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 20,
+                related: ['101', '103', '108', '114'],
+                detailsUrl: 'productDetails.html?id=113',
+            },
+            {
+                id: '114',
+                code: 'TRK-114',
+                name: 'Men\'s Track Pant – Charcoal',
+                brand: 'DOT JEANS CO.',
+                category: 'Track',
+                subcategory: 'Track Pants',
+                fit: 'Track',
+                material: 'Athletic Stretch Knit',
+                description: 'Athletic track pant with zipped pockets, elastic waistband, and internal drawcord. Superior flexibility for casual or active wholesale stock.',
+                pricePerPiece: 999,
+                price: 999,
+                oldPrice: 1399,
+                badge: 'ACTIVE',
+                images: ['asses/track/1.jpg', 'asses/cargo.jpg'],
+                colours: [
+                    { name: 'Charcoal', hex: '#243243', images: ['asses/track/1.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 15,
+                related: ['103', '108', '113', '306'],
+                detailsUrl: 'productDetails.html?id=114',
+            },
+
+            // ── SHORTS CATEGORY (401–408) ───────────────────────────────
+            {
+                id: '401',
+                code: 'SH-401',
+                name: 'Classic Shorts – Black',
+                brand: 'DOT JEANS CO.',
+                category: 'Shorts',
+                subcategory: 'Cotton Shorts',
+                fit: 'Cotton',
+                material: 'Premium Cotton Twill',
+                description: 'Essential solid black cotton shorts featuring comfortable waistband and slant pockets.',
+                pricePerPiece: 899,
+                price: 899,
+                oldPrice: 1299,
+                badge: null,
+                images: ['asses/short/1.jpg', 'asses/shorts.jpg'],
+                colours: [
+                    { name: 'Black', hex: '#1a1a1a', images: ['asses/short/1.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '28', qty: 1 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 15,
+                related: ['402', '403', '404'],
+                detailsUrl: 'productDetails.html?id=401',
+            },
+            {
+                id: '402',
+                code: 'SH-402',
+                name: 'Classic Shorts – Olive',
+                brand: 'DOT JEANS CO.',
+                category: 'Shorts',
+                subcategory: 'Cotton Shorts',
+                fit: 'Cotton',
+                material: 'Durable Cotton Twill',
+                description: 'Olive green casual shorts designed for warm weather wholesale collections.',
+                pricePerPiece: 949,
+                price: 949,
+                oldPrice: 1299,
+                badge: null,
+                images: ['asses/short/2.jpg', 'asses/shorts.jpg'],
+                colours: [
+                    { name: 'Olive', hex: '#7a8c60', images: ['asses/short/2.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 20,
+                related: ['401', '403', '405'],
+                detailsUrl: 'productDetails.html?id=402',
+            },
+            {
+                id: '403',
+                code: 'SH-403',
+                name: 'Classic Shorts – Beige',
+                brand: 'DOT JEANS CO.',
+                category: 'Shorts',
+                subcategory: 'Cotton Shorts',
+                fit: 'Cotton',
+                material: 'Fine Cotton Twill',
+                description: 'Natural beige cotton shorts with relaxed leg and clean finished hem.',
+                pricePerPiece: 849,
+                price: 849,
+                oldPrice: 1199,
+                badge: null,
+                images: ['asses/short/3.jpg', 'asses/shorts.jpg'],
+                colours: [
+                    { name: 'Beige', hex: '#d8c9a8', images: ['asses/short/3.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
+                    ]
+                },
+                stock: 25,
+                related: ['401', '402', '406'],
+                detailsUrl: 'productDetails.html?id=403',
+            },
+            {
+                id: '404',
+                code: 'SH-404',
+                name: 'Cargo Shorts – Black',
+                brand: 'DOT JEANS CO.',
+                category: 'Shorts',
+                subcategory: 'Cargo Shorts',
+                fit: 'Cargo',
+                material: 'Heavy Utility Twill',
+                description: 'Six-pocket rugged cargo shorts in jet black twill. Deep flap pockets and reinforced bar tacks.',
+                pricePerPiece: 1099,
+                price: 1099,
+                oldPrice: 1499,
+                badge: 'BESTSELLER',
+                images: ['asses/short/4.jpg', 'asses/shorts.jpg'],
+                colours: [
+                    { name: 'Black', hex: '#1a1a1a', images: ['asses/short/4.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 12,
+                related: ['401', '405', '408'],
+                detailsUrl: 'productDetails.html?id=404',
+            },
+            {
+                id: '405',
+                code: 'SH-405',
+                name: 'Cargo Shorts – Grey',
+                brand: 'DOT JEANS CO.',
+                category: 'Shorts',
+                subcategory: 'Cargo Shorts',
+                fit: 'Cargo',
+                material: 'Washed Twill',
+                description: 'Cargo shorts in versatile stone grey. Built for utility style and long service life.',
+                pricePerPiece: 1049,
+                price: 1049,
+                oldPrice: 1449,
+                badge: null,
+                images: ['asses/short/5.jpg', 'asses/shorts.jpg'],
+                colours: [
+                    { name: 'Grey', hex: '#8a8a8a', images: ['asses/short/5.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
+                    ]
+                },
+                stock: 18,
+                related: ['402', '404', '407'],
+                detailsUrl: 'productDetails.html?id=405',
+            },
+            {
+                id: '406',
+                code: 'SH-406',
+                name: 'Linen Shorts – Navy',
+                brand: 'DOT JEANS CO.',
+                category: 'Shorts',
+                subcategory: 'Linen Shorts',
+                fit: 'Linen',
+                material: 'Lightweight Linen Blend',
+                description: 'Breathable navy linen shorts with elasticated drawstring waist. Supreme thermal comfort for coastal retail stores.',
+                pricePerPiece: 999,
+                price: 999,
+                oldPrice: 1399,
+                badge: null,
+                images: ['asses/short/1.jpg', 'asses/shorts.jpg'],
+                colours: [
+                    { name: 'Navy', hex: '#1e2b45', images: ['asses/short/1.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '28', qty: 1 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 14,
+                related: ['401', '403', '407'],
+                detailsUrl: 'productDetails.html?id=406',
+            },
+            {
+                id: '407',
+                code: 'SH-407',
+                name: 'Denim Shorts – Blue',
+                brand: 'DOT JEANS CO.',
+                category: 'Shorts',
+                subcategory: 'Denim Shorts',
+                fit: 'Denim',
+                material: 'Sturdy Denim Cotton',
+                description: 'Authentic 5-pocket denim cut-off shorts in classic mid blue denim wash.',
+                pricePerPiece: 1149,
+                price: 1149,
+                oldPrice: 1599,
+                badge: null,
+                images: ['asses/short/2.jpg', 'asses/shorts.jpg'],
+                colours: [
+                    { name: 'Blue', hex: '#4a6fa5', images: ['asses/short/2.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 16,
+                related: ['404', '408', '501'],
+                detailsUrl: 'productDetails.html?id=407',
+            },
+            {
+                id: '408',
+                code: 'SH-408',
+                name: 'Denim Shorts – Black',
+                brand: 'DOT JEANS CO.',
+                category: 'Shorts',
+                subcategory: 'Denim Shorts',
+                fit: 'Denim',
+                material: 'Black Denim Cotton',
+                description: 'Classic black denim shorts with clean raw hem and durable brass rivet accents.',
+                pricePerPiece: 1199,
+                price: 1199,
+                oldPrice: 1649,
+                badge: null,
+                images: ['asses/short/3.jpg', 'asses/shorts.jpg'],
+                colours: [
+                    { name: 'Black', hex: '#1a1a1a', images: ['asses/short/3.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 1 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                        { size: '38', qty: 1 },
+                    ]
+                },
+                stock: 10,
+                related: ['404', '407', '502'],
+                detailsUrl: 'productDetails.html?id=408',
+            },
+
+            // ── KIDS WEAR / TRACK CATEGORY (301–310) ───────────────────
+            {
+                id: '301',
+                code: 'KD-301',
+                name: 'Kids Cargo Pant – Olive',
+                brand: 'DOT JEANS CO.',
+                category: 'Kids Wear',
+                subcategory: 'Kids Cargo Pants',
+                fit: 'Cargo',
+                material: 'Durable Cotton Blend',
+                description: 'Sturdy kids cargo pants in olive green with elastic waistband and multi-pocket styling.',
+                pricePerPiece: 699,
+                price: 699,
+                oldPrice: 999,
+                badge: 'KIDS',
+                images: ['asses/kids denim/1.jpg', 'asses/kids.png'],
+                colours: [
+                    { name: 'Olive', hex: '#7a8c60', images: ['asses/kids denim/1.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '4-5Y', qty: 1 },
+                        { size: '6-7Y', qty: 1 },
+                        { size: '8-9Y', qty: 1 },
+                        { size: '10-11Y', qty: 1 },
+                    ]
+                },
+                stock: 15,
+                related: ['302', '303', '306'],
+                detailsUrl: 'productDetails.html?id=301',
+            },
+            {
+                id: '302',
+                code: 'KD-302',
+                name: 'Kids Cargo Pant – Beige',
+                brand: 'DOT JEANS CO.',
+                category: 'Kids Wear',
+                subcategory: 'Kids Cargo Pants',
+                fit: 'Cargo',
+                material: 'Soft Cotton Twill',
+                description: 'Light beige kids cargo trousers with flexible stretch waist for comfortable all-day play.',
+                pricePerPiece: 649,
+                price: 649,
+                oldPrice: 899,
+                badge: null,
+                images: ['asses/kids denim/2.jpg', 'asses/kids.png'],
+                colours: [
+                    { name: 'Beige', hex: '#d8c9a8', images: ['asses/kids denim/2.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 3,
+                    sizeBreakdown: [
+                        { size: '4-5Y', qty: 1 },
+                        { size: '6-7Y', qty: 1 },
+                        { size: '8-9Y', qty: 1 },
+                    ]
+                },
+                stock: 12,
+                related: ['301', '303', '308'],
+                detailsUrl: 'productDetails.html?id=302',
+            },
+            {
+                id: '303',
+                code: 'KD-303',
+                name: 'Kids Denim Jeans – Blue',
+                brand: 'DOT JEANS CO.',
+                category: 'Kids Wear',
+                subcategory: 'Kids Jeans',
+                fit: 'Jeans',
+                material: 'Stretch Denim',
+                description: 'Classic blue kids denim jeans with flexible fit and durable double-stitched seams.',
+                pricePerPiece: 749,
+                price: 749,
+                oldPrice: 1049,
+                badge: null,
+                images: ['asses/kids denim/3.jpg', 'asses/kids.png'],
+                colours: [
+                    { name: 'Blue', hex: '#4a6fa5', images: ['asses/kids denim/3.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '6-7Y', qty: 1 },
+                        { size: '8-9Y', qty: 1 },
+                        { size: '10-11Y', qty: 1 },
+                        { size: '12-13Y', qty: 1 },
+                    ]
+                },
+                stock: 20,
+                related: ['301', '307', '310'],
+                detailsUrl: 'productDetails.html?id=303',
+            },
+            {
+                id: '304',
+                code: 'KD-304',
+                name: 'Kids Shorts – Black',
+                brand: 'DOT JEANS CO.',
+                category: 'Kids Wear',
+                subcategory: 'Kids Shorts',
+                fit: 'Shorts',
+                material: 'Cotton Knit',
+                description: 'Easy pull-on black kids shorts crafted from breathable cotton with adjustable drawstring.',
+                pricePerPiece: 499,
+                price: 499,
+                oldPrice: 699,
+                badge: null,
+                images: ['asses/kids.png'],
+                colours: [
+                    { name: 'Black', hex: '#1a1a1a', images: ['asses/kids.png'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '2-3Y', qty: 1 },
+                        { size: '4-5Y', qty: 1 },
+                        { size: '6-7Y', qty: 1 },
+                        { size: '8-9Y', qty: 1 },
+                    ]
+                },
+                stock: 18,
+                related: ['305', '306', '307'],
+                detailsUrl: 'productDetails.html?id=304',
+            },
+            {
+                id: '305',
+                code: 'KD-305',
+                name: 'Kids Shorts – Beige',
+                brand: 'DOT JEANS CO.',
+                category: 'Kids Wear',
+                subcategory: 'Kids Shorts',
+                fit: 'Shorts',
+                material: 'Soft Twill',
+                description: 'Natural beige kids casual shorts designed for comfort and everyday active wear.',
+                pricePerPiece: 450,
+                price: 450,
+                oldPrice: 650,
+                badge: null,
+                images: ['asses/kids.png'],
+                colours: [
+                    { name: 'Beige', hex: '#c8b898', images: ['asses/kids.png'] },
+                ],
+                pack: {
+                    piecesPerPack: 3,
+                    sizeBreakdown: [
+                        { size: '2-3Y', qty: 1 },
+                        { size: '4-5Y', qty: 1 },
+                        { size: '6-7Y', qty: 1 },
+                    ]
+                },
+                stock: 14,
+                related: ['304', '308', '309'],
+                detailsUrl: 'productDetails.html?id=305',
+            },
+            {
+                id: '306',
+                code: 'KD-306',
+                name: 'Kids Track Pant – Grey',
+                brand: 'DOT JEANS CO.',
+                category: 'Kids Wear',
+                subcategory: 'Kids Track Pants',
+                fit: 'Track',
+                material: 'Soft Combed Cotton Fleece',
+                description: 'Comfortable heather grey kids track pant featuring an elastic rib waistband, side pockets, and rib ankle cuffs.',
+                pricePerPiece: 399,
+                price: 399,
+                oldPrice: 599,
+                badge: 'ACTIVE',
+                images: ['asses/track/1.jpg', 'asses/kids.png'],
+                colours: [
+                    { name: 'Grey', hex: '#8a8a8a', images: ['asses/track/1.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '4-5Y', qty: 1 },
+                        { size: '6-7Y', qty: 1 },
+                        { size: '8-9Y', qty: 1 },
+                        { size: '10-11Y', qty: 1 },
+                        { size: '12-13Y', qty: 1 },
+                    ]
+                },
+                stock: 25,
+                related: ['301', '303', '307', '114'],
+                detailsUrl: 'productDetails.html?id=306',
+            },
+            {
+                id: '307',
+                code: 'KD-307',
+                name: 'Kids Jeans – Black',
+                brand: 'DOT JEANS CO.',
+                category: 'Kids Wear',
+                subcategory: 'Kids Jeans',
+                fit: 'Jeans',
+                material: 'Durable Denim',
+                description: 'Jet black kids regular denim jeans with resilient fabric and comfortable internal adjusters.',
+                pricePerPiece: 699,
+                price: 699,
+                oldPrice: 949,
+                badge: null,
+                images: ['asses/kids denim/4.jpg', 'asses/kids.png'],
+                colours: [
+                    { name: 'Black', hex: '#1a1a1a', images: ['asses/kids denim/4.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 5,
+                    sizeBreakdown: [
+                        { size: '6-7Y', qty: 1 },
+                        { size: '8-9Y', qty: 1 },
+                        { size: '10-11Y', qty: 1 },
+                        { size: '12-13Y', qty: 1 },
+                        { size: '14-15Y', qty: 1 },
+                    ]
+                },
+                stock: 10,
+                related: ['303', '306', '310'],
+                detailsUrl: 'productDetails.html?id=307',
+            },
+            {
+                id: '308',
+                code: 'KD-308',
+                name: 'Kids Cargo – Navy',
+                brand: 'DOT JEANS CO.',
+                category: 'Kids Wear',
+                subcategory: 'Kids Cargo Pants',
+                fit: 'Cargo',
+                material: 'Navy Twill',
+                description: 'Kids utility cargo pants in deep navy with side cargo pockets and reinforced knees.',
+                pricePerPiece: 729,
+                price: 729,
+                oldPrice: 999,
+                badge: null,
+                images: ['asses/kids.png'],
+                colours: [
+                    { name: 'Navy', hex: '#1e2b45', images: ['asses/kids.png'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '4-5Y', qty: 1 },
+                        { size: '6-7Y', qty: 1 },
+                        { size: '8-9Y', qty: 1 },
+                        { size: '10-11Y', qty: 1 },
+                    ]
+                },
+                stock: 8,
+                related: ['301', '302', '306'],
+                detailsUrl: 'productDetails.html?id=308',
+            },
+            {
+                id: '309',
+                code: 'KD-309',
+                name: 'Kids Linen Pant – White',
+                brand: 'DOT JEANS CO.',
+                category: 'Kids Wear',
+                subcategory: 'Kids Linen Pants',
+                fit: 'Others',
+                material: 'Airy Linen Blend',
+                description: 'Lightweight white linen trousers for kids. Ideal for summer celebrations and festive functions.',
+                pricePerPiece: 549,
+                price: 549,
+                oldPrice: 799,
+                badge: null,
+                images: ['asses/kids.png'],
+                colours: [
+                    { name: 'White', hex: '#f0ece4', images: ['asses/kids.png'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '2-3Y', qty: 1 },
+                        { size: '4-5Y', qty: 1 },
+                        { size: '6-7Y', qty: 1 },
+                        { size: '8-9Y', qty: 1 },
+                    ]
+                },
+                stock: 12,
+                related: ['302', '305', '308'],
+                detailsUrl: 'productDetails.html?id=309',
+            },
+            {
+                id: '310',
+                code: 'KD-310',
+                name: 'Kids Denim – Light Blue',
+                brand: 'DOT JEANS CO.',
+                category: 'Kids Wear',
+                subcategory: 'Kids Jeans',
+                fit: 'Jeans',
+                material: 'Washed Denim',
+                description: 'Kids light blue wash denim jeans with relaxed seat and durable waistband.',
+                pricePerPiece: 679,
+                price: 679,
+                oldPrice: 949,
+                badge: null,
+                images: ['asses/kids denim/1.jpg', 'asses/kids.png'],
+                colours: [
+                    { name: 'Light Blue', hex: '#7ba7c8', images: ['asses/kids denim/1.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 4,
+                    sizeBreakdown: [
+                        { size: '6-7Y', qty: 1 },
+                        { size: '8-9Y', qty: 1 },
+                        { size: '10-11Y', qty: 1 },
+                        { size: '12-13Y', qty: 1 },
+                    ]
+                },
+                stock: 16,
+                related: ['303', '307'],
+                detailsUrl: 'productDetails.html?id=310',
+            },
+
+            // ── ADMIN SUITE CATALOGUE ITEMS (DOT-001..006) ─────────────
+            {
+                id: 'DOT-001',
+                code: 'DOT-001',
+                name: 'Armani Bootcut Jeans',
+                brand: 'ARMANI',
+                category: 'Jeans',
+                subcategory: 'Bootcut Jeans',
+                fit: 'Bootcut',
+                material: 'High-Density Denim',
+                description: 'Iconic bootcut denim trousers with tailored flare at leg opening. High customer retention staple.',
+                pricePerPiece: 650,
+                price: 650,
+                oldPrice: 950,
+                badge: 'BEST SELLER',
+                images: ['asses/regular.jpg'],
+                colours: [
+                    { name: 'Navy Indigo', hex: '#26395a', images: ['asses/regular.jpg'] },
+                    { name: 'Steel Blue', hex: '#839199', images: ['asses/regular.jpg'] },
+                    { name: 'Ice Grey', hex: '#d0d6df', images: ['asses/regular.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 6,
+                    sizeBreakdown: [
+                        { size: '28', qty: 1 },
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 2 },
+                        { size: '34', qty: 1 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 10,
+                related: ['501', '509', 'DOT-006'],
+                detailsUrl: 'productDetails.html?id=DOT-001',
+            },
+            {
+                id: 'DOT-002',
+                code: 'DOT-002',
+                name: 'Armani Linen Pants',
+                brand: 'ARMANI',
+                category: 'Linen Pants',
+                subcategory: 'Linen Pants',
+                fit: 'Regular',
+                material: 'Airy Linen',
+                description: 'Lightweight linen trousers tailored with smooth drape and drawstring waist.',
+                pricePerPiece: 480,
+                price: 480,
+                oldPrice: 720,
+                badge: 'NEW',
+                images: ['asses/linen.jpg'],
+                colours: [
+                    { name: 'Sand', hex: '#b4ad9e', images: ['asses/linen.jpg'] },
+                    { name: 'Moss', hex: '#a6aa9b', images: ['asses/linen.jpg'] },
+                    { name: 'Oatmeal', hex: '#c9c6bd', images: ['asses/linen.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 6,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 2 },
+                        { size: '34', qty: 2 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 10,
+                related: ['201', '203', 'LP-001'],
+                detailsUrl: 'productDetails.html?id=DOT-002',
+            },
+            {
+                id: 'DOT-003',
+                code: 'DOT-003',
+                name: 'Cotton Cargo Pants',
+                brand: 'DOT JEANS CO.',
+                category: 'Cotton Pant',
+                subcategory: 'Cargo Pants',
+                fit: 'Cargo',
+                material: 'Heavy Utility Twill',
+                description: 'Pure cotton multi-pocket cargos with reinforced stress corners and durable belt loops.',
+                pricePerPiece: 520,
+                price: 520,
+                oldPrice: 780,
+                badge: 'ACTIVE',
+                images: ['asses/cargo.jpg'],
+                colours: [
+                    { name: 'Military Olive', hex: '#383a31', images: ['asses/cargo.jpg'] },
+                    { name: 'Sage', hex: '#6c6a57', images: ['asses/cargo.jpg'] },
+                    { name: 'Desert Sand', hex: '#aaa99f', images: ['asses/cargo.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 6,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 2 },
+                        { size: '34', qty: 2 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 10,
+                related: ['101', '102', '113'],
+                detailsUrl: 'productDetails.html?id=DOT-003',
+            },
+            {
+                id: 'DOT-004',
+                code: 'DOT-004',
+                name: 'Wholesale Casual Shorts',
+                brand: 'DOT JEANS CO.',
+                category: 'Shorts',
+                subcategory: 'Shorts',
+                fit: 'Regular',
+                material: 'Cotton Blend',
+                description: 'Everyday casual cotton shorts built for warm climate bulk deliveries.',
+                pricePerPiece: 350,
+                price: 350,
+                oldPrice: 550,
+                badge: 'ACTIVE',
+                images: ['asses/shorts.jpg'],
+                colours: [
+                    { name: 'Navy', hex: '#28384f', images: ['asses/shorts.jpg'] },
+                    { name: 'Slate', hex: '#96a4b3', images: ['asses/shorts.jpg'] },
+                    { name: 'Denim Blue', hex: '#6381b8', images: ['asses/shorts.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 6,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 2 },
+                        { size: '34', qty: 2 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 10,
+                related: ['401', '402', 'SH-001'],
+                detailsUrl: 'productDetails.html?id=DOT-004',
+            },
+            {
+                id: 'DOT-005',
+                code: 'DOT-005',
+                name: 'Men\'s Track Pant',
+                brand: 'DOT JEANS CO.',
+                category: 'Track',
+                subcategory: 'Track Pants',
+                fit: 'Track',
+                material: 'Athletic Tricot Fleece',
+                description: 'Sport track pants with elasticated drawcord waist and zipper pockets.',
+                pricePerPiece: 420,
+                price: 420,
+                oldPrice: 650,
+                badge: 'OUT OF STOCK',
+                images: ['asses/track/1.jpg'],
+                colours: [
+                    { name: 'Charcoal', hex: '#243243', images: ['asses/track/1.jpg'] },
+                    { name: 'Silver Grey', hex: '#b8bbc0', images: ['asses/track/1.jpg'] },
+                    { name: 'Slate Blue', hex: '#4a5b73', images: ['asses/track/1.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 6,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 2 },
+                        { size: '34', qty: 2 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 0,
+                related: ['114', '306'],
+                detailsUrl: 'productDetails.html?id=DOT-005',
+            },
+            {
+                id: 'DOT-006',
+                code: 'DOT-006',
+                name: 'Wide Leg Denim Jeans',
+                brand: 'DOT JEANS CO.',
+                category: 'Jeans',
+                subcategory: 'Wide Leg Jeans',
+                fit: 'Wide Leg',
+                material: 'Premium Denim',
+                description: 'Relaxed wide leg silhouette in high quality wash denim.',
+                pricePerPiece: 600,
+                price: 600,
+                oldPrice: 890,
+                badge: 'NEW',
+                images: ['asses/wideleg.jpg'],
+                colours: [
+                    { name: 'Indigo', hex: '#31538a', images: ['asses/wideleg.jpg'] },
+                    { name: 'Grey Wash', hex: '#99a1a5', images: ['asses/wideleg.jpg'] },
+                    { name: 'Dark Slate', hex: '#313b48', images: ['asses/wideleg.jpg'] },
+                ],
+                pack: {
+                    piecesPerPack: 6,
+                    sizeBreakdown: [
+                        { size: '30', qty: 1 },
+                        { size: '32', qty: 2 },
+                        { size: '34', qty: 2 },
+                        { size: '36', qty: 1 },
+                    ]
+                },
+                stock: 10,
+                related: ['501', '503', 'WLJ-001'],
+                detailsUrl: 'productDetails.html?id=DOT-006',
+            },
         ];
 
         /* ──────────────────────────────────────────────────────────────
@@ -1366,47 +3129,27 @@
                     }
                 }
 
-                // 2. Search by item_name / keywords
-                let searchTerms = [];
-                if (urlName) searchTerms.push(urlName);
-                if (rawId === 'cc-straight-jeans' || rawId === 'cross-straight-fit-black') {
-                    searchTerms.push('Straight Fit', 'Straight');
-                } else if (rawId === 'cc-wide-leg' || rawId === 'cross-wide-leg-brown') {
-                    searchTerms.push('Wide Leg');
-                } else if (rawId === 'cc-cargos' || rawId === 'cc-203') {
-                    searchTerms.push('Cargo');
-                } else if (rawId === 'cc-linen' || rawId === 'cc-204') {
-                    searchTerms.push('Linen');
-                } else if (rawId === 'cc-kids-cargos' || rawId === 'cc-206') {
-                    searchTerms.push('Kids');
-                } else if (rawId === 'cc-shorts' || rawId === 'cc-205') {
-                    searchTerms.push('Shorts');
-                } else if (rawId && rawId.startsWith('kocoa')) {
-                    searchTerms.push('KOCOA');
-                } else if (rawId) {
-                    searchTerms.push(rawId);
-                }
-
-                for (const term of searchTerms) {
+                // 2. Exact name lookup if provided
+                if (urlName && urlName.trim()) {
+                    const cleanName = urlName.trim();
                     let q = client
                         .from('products')
                         .select('*, product_colours(*), product_sizes(*), product_images(*)')
-                        .ilike('item_name', `%${term}%`);
-
-                    if (urlBrand) q = q.ilike('brand_name', `%${urlBrand}%`);
+                        .eq('item_name', cleanName);
+                    if (urlBrand) q = q.eq('brand_name', urlBrand);
                     let { data, error } = await q.limit(1);
-
-                    if (error && error.message && error.message.includes('item_name')) {
-                        let fallbackQ = client
-                            .from('products')
-                            .select('*, product_colours(*), product_sizes(*), product_images(*)')
-                            .ilike('name', `%${term}%`);
-                        if (urlBrand) fallbackQ = fallbackQ.ilike('brand', `%${urlBrand}%`);
-                        const fbRes = await fallbackQ.limit(1);
-                        data = fbRes.data;
-                        error = fbRes.error;
+                    if (!error && data && data.length > 0) {
+                        return normalizeSupabaseProduct(data[0]);
                     }
+                }
 
+                // 3. Exact item code or string id lookup
+                if (rawId && !isUUID) {
+                    let q = client
+                        .from('products')
+                        .select('*, product_colours(*), product_sizes(*), product_images(*)')
+                        .eq('item_name', rawId);
+                    let { data, error } = await q.limit(1);
                     if (!error && data && data.length > 0) {
                         return normalizeSupabaseProduct(data[0]);
                     }
@@ -1418,62 +3161,127 @@
         }
 
         /* ──────────────────────────────────────────────────────────────
-           PRODUCT RESOLUTION
-           Matches the exact product clicked by user
+           SLUG & PRODUCT RESOLUTION
+           Matches the exact product clicked by user across all categories
            ────────────────────────────────────────────────────────────── */
-        function resolveInitialProduct(rawId, queryName, queryBrand, queryColour) {
+        function toSlug(str) {
+            return String(str || '')
+                .toLowerCase()
+                .trim()
+                .replace(/[–—]/g, '-')
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/(^-|-$)/g, '');
+        }
+
+        function synthesizeProduct(rawId, queryName, queryBrand, queryColour, queryCategory, queryFit) {
+            const id = rawId || 'DOT-' + Math.floor(100 + Math.random() * 900);
+            const name = queryName || (rawId ? 'DOT ' + String(rawId).toUpperCase() : 'Premium Pants');
+            const brand = queryBrand || 'DOT JEANS CO.';
+            const category = queryCategory || 'Jeans';
+            const fit = queryFit || 'Regular Fit';
+            const colourName = queryColour || 'Standard';
+
+            let defaultImg = 'asses/wideleg.jpg';
+            const combined = (category + ' ' + fit + ' ' + name).toLowerCase();
+            if (combined.includes('short')) defaultImg = 'asses/shorts.jpg';
+            else if (combined.includes('cargo')) defaultImg = 'asses/cargo.jpg';
+            else if (combined.includes('linen')) defaultImg = 'asses/linen.jpg';
+            else if (combined.includes('kid')) defaultImg = 'asses/kids.png';
+            else if (combined.includes('track')) defaultImg = 'asses/track/1.jpg';
+            else if (combined.includes('baggy')) defaultImg = 'asses/baggy/1.jpg';
+            else if (combined.includes('straight')) defaultImg = 'asses/straight fit/1.jpg';
+            else if (combined.includes('wide')) defaultImg = 'asses/wide leg/1.jpg';
+            else if (combined.includes('cotton')) defaultImg = 'asses/cargo.jpg';
+
+            return {
+                id: String(id),
+                code: 'DOT-' + String(id).toUpperCase().replace(/[^A-Z0-9]/g, ''),
+                aliases: [String(id)],
+                name: name,
+                brand: brand,
+                category: category,
+                subcategory: fit || category,
+                fit: fit,
+                material: 'Premium Commercial Wholesale Quality Fabric',
+                description: `Wholesale ${name}. Designed for high comfort and durable daily retail performance with reinforced seams and true-to-size grading.`,
+                pricePerPiece: 999,
+                price: 999,
+                oldPrice: 1399,
+                badge: 'WHOLESALE',
+                images: [defaultImg, 'asses/detail image/rope.png', 'asses/detail image/fabric.png'],
+                pack: {
+                    piecesPerPack: 12,
+                    ratio: '2:3:4:2:1',
+                    sizeBreakdown: [
+                        { size: '28', qty: 2 },
+                        { size: '30', qty: 3 },
+                        { size: '32', qty: 4 },
+                        { size: '34', qty: 2 },
+                        { size: '36', qty: 1 }
+                    ]
+                },
+                colours: [
+                    {
+                        name: colourName,
+                        hex: '#2b2b2b',
+                        images: [defaultImg]
+                    }
+                ],
+                stock: 25
+            };
+        }
+
+        function resolveInitialProduct(rawId, queryName, queryBrand, queryColour, queryCategory, queryFit) {
             if (!rawId && !queryName) return PRODUCTS[0];
             const sId = String(rawId || '').toLowerCase().trim();
             const sName = String(queryName || '').toLowerCase().trim();
+            const sSlug = toSlug(queryName || rawId || '');
 
-            // 1. Exact ID
-            let found = PRODUCTS.find(p => String(p.id).toLowerCase() === sId);
-            if (found) return found;
-
-            // 2. Aliases array
-            found = PRODUCTS.find(p => p.aliases && p.aliases.some(a => String(a).toLowerCase() === sId));
-            if (found) return found;
-
-            // 3. Specific key mappings for user scenarios
-            if (sId.includes('straight') || sName.includes('straight')) {
-                found = PRODUCTS.find(p => p.id === 'cc-straight-jeans');
-                if (found) return found;
-            }
-            if ((sId.includes('wide') || sName.includes('wide')) && (sId.includes('brown') || sName.includes('brown') || (queryColour && queryColour.toLowerCase() === 'brown'))) {
-                found = PRODUCTS.find(p => p.id === 'cc-wide-leg');
-                if (found) return found;
-            }
-            if (sId.includes('wide') || sName.includes('wide')) {
-                found = PRODUCTS.find(p => p.id === 'cc-wide-leg') || PRODUCTS.find(p => p.id === 'WLJ-001');
-                if (found) return found;
-            }
-            if (sId.includes('cargo') || sName.includes('cargo')) {
-                found = PRODUCTS.find(p => p.id === 'cc-cargos');
-                if (found) return found;
-            }
-            if (sId.includes('linen') || sName.includes('linen')) {
-                found = PRODUCTS.find(p => p.id === 'cc-linen');
-                if (found) return found;
-            }
-            if (sId.includes('kids') || sName.includes('kids')) {
-                found = PRODUCTS.find(p => p.id === 'cc-kids-cargos');
-                if (found) return found;
-            }
-            if (sId.includes('short') || sName.includes('short')) {
-                found = PRODUCTS.find(p => p.id === 'cc-shorts');
-                if (found) return found;
-            }
-
-            // 4. Fuzzy match name
-            if (sName) {
-                found = PRODUCTS.find(p => p.name.toLowerCase().includes(sName) || sName.includes(p.name.toLowerCase()));
-                if (found) return found;
-            }
-
-            // 5. Number ID string match (e.g. 501..510)
+            // 1. Exact ID match (case-insensitive and type-insensitive)
             if (sId) {
-                const numericMatch = PRODUCTS.find(p => String(p.id) === sId);
-                if (numericMatch) return numericMatch;
+                let found = PRODUCTS.find(p => String(p.id).toLowerCase() === sId);
+                if (found) return found;
+            }
+
+            // 2. Exact product Code match (e.g. 'WLJ-501', 'CP-101', 'APM')
+            if (sId) {
+                let found = PRODUCTS.find(p => p.code && String(p.code).toLowerCase() === sId);
+                if (found) return found;
+            }
+
+            // 3. Aliases array match
+            if (sId) {
+                let found = PRODUCTS.find(p => p.aliases && p.aliases.some(a => String(a).toLowerCase() === sId));
+                if (found) return found;
+            }
+
+            // 4. Exact product Name match (case-insensitive)
+            if (sName) {
+                let found = PRODUCTS.find(p => p.name && p.name.toLowerCase() === sName);
+                if (found) return found;
+            }
+
+            // 5. Slug match (matches slug of name, id, or code)
+            if (sSlug) {
+                let found = PRODUCTS.find(p => toSlug(p.name) === sSlug || toSlug(p.id) === sSlug || (p.code && toSlug(p.code) === sSlug));
+                if (found) return found;
+            }
+
+            // 6. Substring name match (if query name is at least 3 chars)
+            if (sName && sName.length >= 3) {
+                let found = PRODUCTS.find(p => p.name && (p.name.toLowerCase().includes(sName) || sName.includes(p.name.toLowerCase())));
+                if (found) return found;
+            }
+
+            // 7. Substring ID match (if ID is at least 2 chars)
+            if (sId && sId.length >= 2) {
+                let found = PRODUCTS.find(p => String(p.id).toLowerCase().includes(sId) || (p.name && p.name.toLowerCase().includes(sId)));
+                if (found) return found;
+            }
+
+            // 8. Dynamic synthesis: If an ID or Name was supplied, do NOT fall back to PRODUCTS[0]
+            if (rawId || queryName) {
+                return synthesizeProduct(rawId, queryName, queryBrand, queryColour, queryCategory, queryFit);
             }
 
             return PRODUCTS[0];
@@ -1485,20 +3293,170 @@
         const urlName = urlParams.get('name') || urlParams.get('product') || '';
         const urlBrand = urlParams.get('brand') || '';
         const urlFit = urlParams.get('fit') || '';
+        const urlCategory = urlParams.get('category') || urlParams.get('cat') || '';
         const urlColour = urlParams.get('colour') || urlParams.get('color') || '';
 
-        let PRODUCT = resolveInitialProduct(productId, urlName, urlBrand, urlColour);
+        let PRODUCT = resolveInitialProduct(productId, urlName, urlBrand, urlColour, urlCategory, urlFit);
+
+        function isLightColor(hex) {
+            if (!hex) return false;
+            hex = String(hex).replace('#', '').trim();
+            if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+            if (hex.length !== 6) return false;
+            const r = parseInt(hex.substr(0, 2), 16) || 0;
+            const g = parseInt(hex.substr(2, 2), 16) || 0;
+            const b = parseInt(hex.substr(4, 2), 16) || 0;
+            return (r * 299 + g * 587 + b * 114) / 1000 > 175;
+        }
+
+        function ensureProductColours(p) {
+            if (!p) return;
+            if (Array.isArray(p.colours) && p.colours.length > 1) {
+                return;
+            }
+
+            const currentCat = (p.category || '').toLowerCase().trim();
+            const currentFit = (p.fit || '').toLowerCase().trim();
+            const currentSub = (p.subcategory || '').toLowerCase().trim();
+
+            const colourMap = new Map();
+            (p.colours || []).forEach(c => {
+                if (c && c.name) colourMap.set(c.name.toLowerCase().trim(), { ...c });
+            });
+
+            // Find matching sibling products in PRODUCTS
+            const siblings = PRODUCTS.filter(other => {
+                if (!other || String(other.id) === String(p.id)) return false;
+                const oCat = (other.category || '').toLowerCase().trim();
+                const oFit = (other.fit || '').toLowerCase().trim();
+                const oSub = (other.subcategory || '').toLowerCase().trim();
+
+                if (currentSub && oSub && currentSub === oSub) return true;
+                if (currentFit && oFit && currentFit === oFit && currentCat === oCat) return true;
+                if (currentCat && oCat && currentCat === oCat) return true;
+                return false;
+            });
+
+            siblings.forEach(s => {
+                (s.colours || []).forEach(c => {
+                    if (c && c.name) {
+                        const key = c.name.toLowerCase().trim();
+                        if (!colourMap.has(key)) {
+                            colourMap.set(key, {
+                                name: c.name,
+                                hex: c.hex,
+                                images: c.images || s.images || []
+                            });
+                        }
+                    }
+                });
+            });
+
+            // If still only 1 colour, supplement with standard category colourways
+            if (colourMap.size <= 1) {
+                const standardPicks = {
+                    'jeans': [
+                        { name: 'Indigo Blue', hex: '#2b3952' },
+                        { name: 'Deep Black', hex: '#1a1a1a' },
+                        { name: 'Stone Grey', hex: '#5c5957' },
+                        { name: 'Light Blue', hex: '#7ba7c8' }
+                    ],
+                    'linen': [
+                        { name: 'Natural Beige', hex: '#d8cbb4' },
+                        { name: 'Crisp White', hex: '#f4f4f2' },
+                        { name: 'Sage Olive', hex: '#6b7c52' },
+                        { name: 'Midnight Black', hex: '#1a1a1a' }
+                    ],
+                    'cargo': [
+                        { name: 'Desert Beige', hex: '#d8cbb4' },
+                        { name: 'Army Olive', hex: '#6b7c52' },
+                        { name: 'Tactical Black', hex: '#1a1a1a' },
+                        { name: 'Charcoal Grey', hex: '#555555' }
+                    ],
+                    'cotton': [
+                        { name: 'Dark Grey', hex: '#383a31' },
+                        { name: 'Warm Khaki', hex: '#a69076' },
+                        { name: 'Black', hex: '#1a1a1a' },
+                        { name: 'Olive Green', hex: '#5c634b' }
+                    ],
+                    'track': [
+                        { name: 'Charcoal', hex: '#243243' },
+                        { name: 'Jet Black', hex: '#111111' },
+                        { name: 'Navy Blue', hex: '#1a273b' },
+                        { name: 'Grey Melange', hex: '#848d99' }
+                    ],
+                    'shorts': [
+                        { name: 'Classic Black', hex: '#1a1a1a' },
+                        { name: 'Olive Green', hex: '#6b7c52' },
+                        { name: 'Sand Beige', hex: '#d8cbb4' },
+                        { name: 'Denim Blue', hex: '#3b5f8f' }
+                    ],
+                    'kids': [
+                        { name: 'Medium Blue', hex: '#3b5f8f' },
+                        { name: 'Army Olive', hex: '#6b7c52' },
+                        { name: 'Pitch Black', hex: '#1a1a1a' },
+                        { name: 'Heather Grey', hex: '#8a8a8a' }
+                    ]
+                };
+
+                const catKey = Object.keys(standardPicks).find(k => (currentCat + ' ' + currentSub + ' ' + currentFit).includes(k));
+                if (catKey && standardPicks[catKey]) {
+                    standardPicks[catKey].forEach(item => {
+                        const k = item.name.toLowerCase();
+                        if (!colourMap.has(k)) {
+                            colourMap.set(k, { ...item, images: p.images || [] });
+                        }
+                    });
+                }
+            }
+
+            if (colourMap.size > 1) {
+                p.colours = Array.from(colourMap.values());
+            }
+        }
+
+        ensureProductColours(PRODUCT);
 
         /* ── State ─────────────────────────────────────────────────── */
-        let selectedColourIndex = 0;
-        if (urlColour && PRODUCT && PRODUCT.colours) {
-            const cleanC = urlColour.trim().toLowerCase();
-            const foundIdx = PRODUCT.colours.findIndex(c => 
-                c.name.toLowerCase() === cleanC || 
-                c.name.toLowerCase().includes(cleanC) || 
-                cleanC.includes(c.name.toLowerCase())
-            );
-            if (foundIdx !== -1) selectedColourIndex = foundIdx;
+        let selectedColourIndices = new Set([0]);
+        let activeGalleryColourIndex = 0;
+
+        function initSelectedColours(colourParam) {
+            selectedColourIndices = new Set();
+            if (!PRODUCT || !PRODUCT.colours || PRODUCT.colours.length === 0) return;
+
+            if (colourParam) {
+                const parts = colourParam.split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+                parts.forEach(part => {
+                    const idx = PRODUCT.colours.findIndex(c =>
+                        c.name.toLowerCase() === part ||
+                        c.name.toLowerCase().includes(part) ||
+                        part.includes(c.name.toLowerCase())
+                    );
+                    if (idx !== -1) selectedColourIndices.add(idx);
+                });
+            }
+
+            if (selectedColourIndices.size === 0) {
+                selectedColourIndices.add(0);
+            }
+            activeGalleryColourIndex = [...selectedColourIndices][0] || 0;
+        }
+
+        initSelectedColours(urlColour);
+
+        function getSelectedColours() {
+            if (!PRODUCT || !PRODUCT.colours || PRODUCT.colours.length === 0) {
+                return [{ name: 'Standard', hex: '#2b2b2b' }];
+            }
+            const list = [];
+            selectedColourIndices.forEach(idx => {
+                if (PRODUCT.colours[idx]) list.push(PRODUCT.colours[idx]);
+            });
+            if (list.length === 0 && PRODUCT.colours[0]) {
+                list.push(PRODUCT.colours[0]);
+            }
+            return list;
         }
 
         let packQty = 1;
@@ -1509,15 +3467,11 @@
 
         function applyColourParam(colourParam) {
             if (!colourParam || !PRODUCT || !PRODUCT.colours) return;
-            const clean = colourParam.trim().toLowerCase();
-            const idx = PRODUCT.colours.findIndex(c => 
-                c.name.toLowerCase() === clean || 
-                c.name.toLowerCase().includes(clean) || 
-                clean.includes(c.name.toLowerCase())
-            );
-            if (idx !== -1) {
-                selectColour(idx);
-            }
+            initSelectedColours(colourParam);
+            renderColours();
+            renderPackCard();
+            renderModalColours();
+            updateColoursSummary();
         }
 
         /* ──────────────────────────────────────────────────────────────
@@ -1589,10 +3543,19 @@
             document.getElementById('bc-current').textContent = p.name;
             const catHrefMap = {
                 'jeans': 'category-jeans.html',
+                'jeans pant': 'category-jeans.html',
+                'jeans pants': 'category-jeans.html',
                 'cargo pants': 'category-cargo.html',
                 'cargo': 'category-cargo.html',
                 'linen pants': 'category-linen.html',
+                'linen pant': 'category-linen.html',
                 'linen': 'category-linen.html',
+                'cotton pant': 'category-cargo.html?fit=Cotton',
+                'cotton pants': 'category-cargo.html?fit=Cotton',
+                'cotton': 'category-cargo.html?fit=Cotton',
+                'track': 'category-cargo.html?fit=Track',
+                'track pant': 'category-cargo.html?fit=Track',
+                'track pants': 'category-cargo.html?fit=Track',
                 'shorts': 'category-shorts.html',
                 'kids wear': 'category-kids.html',
                 'kids': 'category-kids.html'
@@ -1617,13 +3580,14 @@
             document.getElementById('spec-fit').textContent = `${p.subcategory} — ${p.fit}`;
             document.getElementById('spec-cat').textContent = p.category;
             document.getElementById('spec-sizes').textContent = p.pack.sizeBreakdown.map(s => s.size).join(', ');
-            document.getElementById('spec-colours').textContent = p.colours.map(c => c.name).join(', ');
+            document.getElementById('spec-colours').textContent = 'Multiple Colours Available';
             document.getElementById('spec-pack').textContent = `1 Pack = ${p.pack.piecesPerPack} Pieces`;
             document.getElementById('spec-moq').textContent = `1 Pack (${p.pack.piecesPerPack} Pieces)`;
             document.getElementById('spec-sku').textContent = p.id;
 
             // Images
-            const activeCol = p.colours && p.colours[selectedColourIndex];
+            const primaryIdx = activeGalleryColourIndex || [...selectedColourIndices][0] || 0;
+            const activeCol = p.colours && p.colours[primaryIdx];
             if (activeCol && activeCol.images && activeCol.images.length > 0) {
                 productImages = [...activeCol.images, ...(p.images || [])].filter((v, i, a) => a.indexOf(v) === i);
             } else {
@@ -1714,51 +3678,42 @@
         }
 
         /* ──────────────────────────────────────────────────────────────
-           COLOURS (Interactive Selection)
+           COLOURS (Multiple Colours Available Display)
            ────────────────────────────────────────────────────────────── */
-        function renderColours() {
-            const grid = document.getElementById('dpColourGrid');
-            if (!grid) return;
-            grid.innerHTML = '';
-            (PRODUCT.colours || []).forEach((c, idx) => {
-                const item = document.createElement('div');
-                item.className = 'dp-colour-btn' + (idx === selectedColourIndex ? ' active' : '');
-                item.setAttribute('aria-label', c.name);
-                item.setAttribute('role', 'button');
-                item.setAttribute('tabindex', '0');
-                item.innerHTML = `
-          <div class="dp-colour-circle" style="background:${c.hex}"></div>
-          <span class="dp-colour-name">${c.name}</span>`;
-                item.addEventListener('click', () => {
-                    selectColour(idx);
-                });
-                item.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        selectColour(idx);
-                    }
-                });
-                grid.appendChild(item);
-            });
+        function updateColoursSummary() {
+            const badge = document.getElementById('dpColourCountBadge');
+            if (badge) badge.style.display = 'none';
+
+            const namesEl = document.getElementById('dpSelectedColoursNames');
+            if (namesEl) namesEl.textContent = 'Multiple Colours Available';
+
+            const selectAllBtn = document.getElementById('dpColourSelectAllBtn');
+            if (selectAllBtn) selectAllBtn.style.display = 'none';
+
+            const specColours = document.getElementById('spec-colours');
+            if (specColours) {
+                specColours.textContent = 'Multiple Colours Available';
+            }
+        }
+
+        function toggleSelectAllColours() {
+            // Retained for backward-compatibility; swatches are hidden
+        }
+
+        function toggleColour(idx) {
+            // Retained for backward-compatibility; swatches are hidden
         }
 
         function selectColour(idx) {
-            if (!PRODUCT || !PRODUCT.colours || !PRODUCT.colours[idx]) return;
-            selectedColourIndex = idx;
-            const colour = PRODUCT.colours[idx];
-            // Swap images if colour has its own images
-            const colourImages = colour?.images;
-            if (colourImages && colourImages.length > 0) {
-                productImages = [...colourImages, ...(PRODUCT.images || [])].filter((v, i, a) => a.indexOf(v) === i);
-            } else {
-                productImages = (PRODUCT.images || []).slice();
+            // Retained for backward-compatibility
+        }
+
+        function renderColours() {
+            const grid = document.getElementById('dpColourGrid');
+            if (grid) {
+                grid.innerHTML = 'Multiple Colours Available';
             }
-            if (productImages.length === 0) productImages = ['asses/wideleg.jpg'];
-            renderGallery();
-            switchImage(0, false);
-            renderColours();
-            renderPackCard();
-            renderModalColours();
+            updateColoursSummary();
         }
 
         /* ──────────────────────────────────────────────────────────────
@@ -1777,27 +3732,13 @@
             ).join('');
 
             tfoot.innerHTML = `<tr>
-        <td>Total</td>
-        <td>${p.pack.piecesPerPack} pcs</td>
-    </tr>`;
+                <td>Total</td>
+                <td>${p.pack.piecesPerPack} pcs</td>
+            </tr>`;
 
-            swatches.innerHTML = (p.colours || []).map((c, idx) =>
-                `<div class="dp-pack-swatch${idx === selectedColourIndex ? ' active' : ''}" style="background:${c.hex}" title="${c.name}" data-idx="${idx}" role="button" tabindex="0"></div>`
-            ).join('');
-
-            swatches.querySelectorAll('.dp-pack-swatch').forEach(sw => {
-                sw.addEventListener('click', () => {
-                    const i = parseInt(sw.dataset.idx, 10);
-                    if (!isNaN(i)) selectColour(i);
-                });
-                sw.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        const i = parseInt(sw.dataset.idx, 10);
-                        if (!isNaN(i)) selectColour(i);
-                    }
-                });
-            });
+            if (swatches) {
+                swatches.innerHTML = '';
+            }
         }
 
         /* ──────────────────────────────────────────────────────────────
@@ -1881,7 +3822,6 @@
             const related = relatedIds.map(id => PRODUCTS.find(p => p.id === id)).filter(Boolean);
 
             grid.innerHTML = related.map(p => {
-                const swatches = p.colours.map(c => `<i style="background:${c.hex}"></i>`).join('');
                 return `
           <article class="dp-card" onclick="window.location.href='productDetails.html?id=${p.id}'">
             <div class="dp-card-photo">
@@ -1897,7 +3837,7 @@
               <div class="dp-card-price-row">
                 <span class="dp-card-price">${formatRupee(p.pricePerPiece)} <small style="font-size:10px;color:#9ca3af;font-weight:400">/ piece</small></span>
               </div>
-              <div class="dp-card-swatches">${swatches}</div>
+              <div class="dp-card-colours-note">Multiple Colours Available</div>
             </div>
           </article>`;
             }).join('');
@@ -1972,29 +3912,33 @@
            CART
            ────────────────────────────────────────────────────────────── */
         function addToCart() {
-            const colour = PRODUCT.colours[selectedColourIndex];
+            const selectedColoursList = getSelectedColours();
+            const colourNames = selectedColoursList.map(c => c.name).join(', ');
+            const primaryColour = selectedColoursList[0] || (PRODUCT.colours && PRODUCT.colours[0]) || { name: 'Standard', hex: '#2b2b2b' };
             const totalPieces = PRODUCT.pack.piecesPerPack * packQty;
             const totalPrice = PRODUCT.pricePerPiece * totalPieces;
 
             const cartItem = {
-                id: PRODUCT.id + '-' + colour.name,
+                id: PRODUCT.id + '-' + selectedColoursList.map(c => c.name).sort().join('-'),
                 productId: PRODUCT.id,
                 name: PRODUCT.name,
                 brand: PRODUCT.brand,
                 sku: PRODUCT.id,
                 fit: PRODUCT.fit,
-                colour: colour.name,
-                colourHex: colour.hex,
+                colour: colourNames,
+                colours: colourNames,
+                colourHex: primaryColour.hex,
+                colourHexes: selectedColoursList.map(c => c.hex),
                 packs: packQty,
                 piecesPerPack: PRODUCT.pack.piecesPerPack,
                 sizeBreakdown: PRODUCT.pack.sizeBreakdown,
                 totalPieces,
                 pricePerPiece: PRODUCT.pricePerPiece,
                 totalPrice,
-                image: colour.images[0] || PRODUCT.images[0],
+                image: primaryColour.images?.[0] || PRODUCT.images?.[0] || 'asses/wideleg.jpg',
             };
 
-            // Check if same product+colour exists
+            // Check if same product+colours exists
             const existing = cart.findIndex(c => c.id === cartItem.id);
             if (existing > -1) {
                 cart[existing].packs += packQty;
@@ -2006,7 +3950,7 @@
 
             localStorage.setItem('dot_cart', JSON.stringify(cart));
             updateCartBadge();
-
+            showToast(`Added ${packQty} pack(s) [${colourNames}] to Cart!`);
             console.log('Cart updated:', cartItem);
         }
 
@@ -2048,8 +3992,8 @@
             if (/^https?:\/\//i.test(src)) return src;
             const cleanPath = String(src).replace(/^\.?\//, '');
             const isLocal = !window.location.protocol.startsWith('http') ||
-                            window.location.hostname === 'localhost' ||
-                            window.location.hostname === '127.0.0.1';
+                window.location.hostname === 'localhost' ||
+                window.location.hostname === '127.0.0.1';
             if (!isLocal) {
                 try {
                     return new URL(src, window.location.href).href;
@@ -2061,8 +4005,8 @@
         function getProductPageUrl(productId, colourName) {
             let base;
             const isLocal = !window.location.protocol.startsWith('http') ||
-                            window.location.hostname === 'localhost' ||
-                            window.location.hostname === '127.0.0.1';
+                window.location.hostname === 'localhost' ||
+                window.location.hostname === '127.0.0.1';
             if (!isLocal) {
                 base = `${window.location.origin}${window.location.pathname}`;
             } else {
@@ -2146,7 +4090,9 @@
         }
 
         function buildProductWhatsAppMessage() {
-            const colour = (PRODUCT.colours && PRODUCT.colours[selectedColourIndex]) || (PRODUCT.colours && PRODUCT.colours[0]) || { name: 'Standard' };
+            const selectedColoursList = getSelectedColours();
+            const coloursStr = selectedColoursList.map(c => c.name).join(', ');
+            const primaryColour = selectedColoursList[0] || (PRODUCT.colours && PRODUCT.colours[0]) || { name: 'Standard' };
             const perPack = (PRODUCT.pack && PRODUCT.pack.piecesPerPack) || 12;
             const totalPieces = perPack * packQty;
             const qtyText = `${packQty} Pack${packQty > 1 ? 's' : ''} (${totalPieces} pcs)`;
@@ -2156,12 +4102,12 @@
             const pCode = PRODUCT.code || PRODUCT.product_code || (document.getElementById('dpProductCode')?.textContent?.trim()) || 'APM';
 
             // Exact image of the customer-selected colour / product
-            const selectedImgSrc = (colour.images && colour.images[0]) || 
-                                   (PRODUCT.images && PRODUCT.images[0]) || 
-                                   document.getElementById('dp-main-img')?.getAttribute('src') || 
-                                   'asses/wideleg.jpg';
+            const selectedImgSrc = (primaryColour.images && primaryColour.images[0]) ||
+                (PRODUCT.images && PRODUCT.images[0]) ||
+                document.getElementById('dp-main-img')?.getAttribute('src') ||
+                'asses/wideleg.jpg';
             const directImageUrl = getPublicImageUrl(selectedImgSrc);
-            const productPageUrl = getProductPageUrl(PRODUCT.id, colour.name);
+            const productPageUrl = getProductPageUrl(PRODUCT.id, primaryColour.name);
 
             return [
                 `*Wholesale Product Enquiry — DOT Jeans Co.*`,
@@ -2169,7 +4115,7 @@
                 `* Exact product name: ${PRODUCT.name}`,
                 `* Brand name: ${PRODUCT.brand}`,
                 `* Product code: ${pCode}`,
-                `* Colour: ${colour.name}`,
+                `* Selected Colour(s): ${coloursStr}`,
                 `* Available sizes: ${sizeList}`,
                 `* Quantity: ${qtyText}`,
                 `* Product image URL: ${directImageUrl}`,
@@ -2180,15 +4126,16 @@
         }
 
         async function openProductWhatsAppEnquiry() {
-            const colour = (PRODUCT.colours && PRODUCT.colours[selectedColourIndex]) || (PRODUCT.colours && PRODUCT.colours[0]) || { name: 'Standard' };
+            const selectedColoursList = getSelectedColours();
+            const primaryColour = selectedColoursList[0] || (PRODUCT.colours && PRODUCT.colours[0]) || { name: 'Standard' };
             const cleanBrand = (PRODUCT.brand || 'DOT').replace(/[^\w]/g, '_');
             const cleanProdName = (PRODUCT.name || 'Product').replace(/[^\w]/g, '_');
-            const cleanColour = (colour.name || 'Standard').replace(/[^\w]/g, '_');
+            const cleanColour = selectedColoursList.map(c => c.name.replace(/[^\w]/g, '_')).join('_');
             const photoFilename = `DOT_${cleanBrand}_${cleanProdName}_${cleanColour}.jpg`;
-            const selectedImgSrc = (colour.images && colour.images[0]) || 
-                                   (PRODUCT.images && PRODUCT.images[0]) || 
-                                   document.getElementById('dp-main-img')?.getAttribute('src') || 
-                                   'asses/wideleg.jpg';
+            const selectedImgSrc = (primaryColour.images && primaryColour.images[0]) ||
+                (PRODUCT.images && PRODUCT.images[0]) ||
+                document.getElementById('dp-main-img')?.getAttribute('src') ||
+                'asses/wideleg.jpg';
 
             const msg = buildProductWhatsAppMessage();
             const waUrl = `https://wa.me/${ENQUIRY_WA_NUMBER}?text=${encodeURIComponent(msg)}`;
@@ -2236,8 +4183,7 @@
         function renderModalColours() {
             const sel = document.getElementById('modalColourSelect');
             if (sel) {
-                sel.innerHTML = '<option value="">Select colour</option>' +
-                    PRODUCT.colours.map((c, i) => `<option value="${c.name}"${i === selectedColourIndex ? ' selected' : ''}>${c.name}</option>`).join('');
+                sel.innerHTML = '<option value="Multiple Colours Available" selected>Multiple Colours Available</option>';
             }
         }
 
@@ -2348,7 +4294,7 @@
                                 phone: mobile,
                                 mobile: mobile
                             }
-                        }).catch(() => {});
+                        }).catch(() => { });
 
                         if (typeof client.from === 'function') {
                             await client.from('profiles').upsert({
@@ -2360,7 +4306,7 @@
                                 mobile: mobile,
                                 whatsapp: whatsapp,
                                 updated_at: new Date().toISOString()
-                            }, { onConflict: 'id' }).catch(() => {});
+                            }, { onConflict: 'id' }).catch(() => { });
                         }
                     }
                 } catch (err) {
@@ -2370,20 +4316,23 @@
         }
 
         async function openEnquiryModal() {
-            // Check if customer is authenticated; if not, ask them to log in or register first
-            let isAuthed = false;
-            if (typeof window.checkUserAuthStatus === 'function') {
-                isAuthed = await window.checkUserAuthStatus();
-            } else if (typeof window.isUserAuthenticated === 'function') {
-                isAuthed = window.isUserAuthenticated();
-            }
-
-            if (!isAuthed) {
-                localStorage.setItem('dot_pending_enquiry', 'true');
-                if (typeof window.openAuthModal === 'function') {
-                    window.openAuthModal();
+            // Check if customer is authenticated; temporarily bypassed for direct enquiry flow
+            const BYPASS_AUTH_FOR_ENQUIRY = true;
+            if (!BYPASS_AUTH_FOR_ENQUIRY) {
+                let isAuthed = false;
+                if (typeof window.checkUserAuthStatus === 'function') {
+                    isAuthed = await window.checkUserAuthStatus();
+                } else if (typeof window.isUserAuthenticated === 'function') {
+                    isAuthed = window.isUserAuthenticated();
                 }
-                return;
+
+                if (!isAuthed) {
+                    localStorage.setItem('dot_pending_enquiry', 'true');
+                    if (typeof window.openAuthModal === 'function') {
+                        window.openAuthModal();
+                    }
+                    return;
+                }
             }
 
             // Clear any previous error/alert messages
@@ -2394,127 +4343,63 @@
                 alertEl.className = 'dot-enquiry-alert';
             }
 
-            const colour = PRODUCT.colours[selectedColourIndex] || PRODUCT.colours[0];
-            const perPack = PRODUCT.pack.piecesPerPack || 12;
-            const totalPieces = perPack * packQty;
-            const sizeList = (PRODUCT.pack.sizeBreakdown || []).map(s => s.size).join(', ');
-            const fitType = PRODUCT.subcategory ? `${PRODUCT.subcategory} — ${PRODUCT.fit}` : PRODUCT.fit;
-            const qtyText = `${packQty} Pack${packQty > 1 ? 's' : ''} (${totalPieces} pcs)`;
+            // 1. Auto-fill Product Details
+            const brandInput = document.getElementById('enquiryProductBrandName');
+            if (brandInput) {
+                brandInput.value = PRODUCT.brand || 'DOT JEANS CO.';
+            }
 
-            // Automatically update modal summary header (No price displayed)
-            const nameEl = document.getElementById('modalProductName');
-            if (nameEl) nameEl.textContent = PRODUCT.name;
+            const itemInput = document.getElementById('enquiryProductItem');
+            if (itemInput) {
+                let itemName = PRODUCT.name || "Men's Linen Pant";
+                if (PRODUCT.fit && !itemName.toLowerCase().includes(PRODUCT.fit.toLowerCase())) {
+                    itemName += ` – ${PRODUCT.fit}`;
+                }
+                itemInput.value = itemName;
+            }
 
-            const brandEl = document.getElementById('modalProductBrand');
-            if (brandEl) brandEl.textContent = PRODUCT.brand;
+            const codeInput = document.getElementById('enquiryProductCode');
+            if (codeInput) {
+                codeInput.value = PRODUCT.code || PRODUCT.product_code || 'APM';
+            }
 
-            const fitEl = document.getElementById('modalProductFit');
-            if (fitEl) fitEl.textContent = fitType;
+            const setQtyInput = document.getElementById('enquirySetQuantity');
+            if (setQtyInput) {
+                setQtyInput.value = packQty || 1;
+            }
 
-            const modalCodeEl = document.getElementById('modalProductCode');
-            if (modalCodeEl) modalCodeEl.textContent = PRODUCT.code || PRODUCT.product_code || 'APM';
-
-            const colourEl = document.getElementById('modalProductColour');
-            if (colourEl) colourEl.textContent = colour.name;
-
-            const sizeEl = document.getElementById('modalProductSize');
-            if (sizeEl) sizeEl.textContent = sizeList;
-
-            const qtyEl = document.getElementById('modalProductQty');
-            if (qtyEl) qtyEl.textContent = qtyText;
-
-            const imgEl = document.getElementById('modalProductImg');
-            if (imgEl) imgEl.src = colour.images?.[0] || PRODUCT.images?.[0] || '';
-
-            // Automatically pass product details to form fields (User does NOT manually enter these)
-            const inputColour = document.getElementById('modalColourInput');
-            if (inputColour) inputColour.value = colour.name;
-
-            const inputSize = document.getElementById('modalSizeInput');
-            if (inputSize) inputSize.value = sizeList;
-
-            const inputQty = document.getElementById('modalQuantityInput');
-            if (inputQty) inputQty.value = qtyText;
-
-            const inputFit = document.getElementById('modalFitInput');
-            if (inputFit) inputFit.value = fitType;
-
-            const inputProdName = document.getElementById('modalProductNameInput');
-            if (inputProdName) inputProdName.value = PRODUCT.name;
-
-            const inputBrand = document.getElementById('modalProductBrandInput');
-            if (inputBrand) inputBrand.value = PRODUCT.brand;
-
-            const inputProdId = document.getElementById('modalProductIdInput');
-            if (inputProdId) inputProdId.value = PRODUCT.id;
-
-            const inputPacks = document.getElementById('modalPacks');
-            if (inputPacks) inputPacks.value = packQty;
-
-            // Fetch and auto-fill customer information fields from Supabase
+            // 2. Fetch and auto-fill Customer Details from saved profile / localStorage wherever available
             try {
                 const profile = await fetchCustomerProfile();
 
-                // 1. Customer Name – Automatically fill from the saved customer profile
-                const nameInput = document.getElementById('enquiryName');
-                if (nameInput) {
-                    nameInput.value = profile.name || '';
-                    nameInput.readOnly = false;
+                const nameInput = document.getElementById('enquiryCustomerName');
+                if (nameInput && profile.name) {
+                    nameInput.value = profile.name;
                 }
 
-                // 2. Shop Name – Fill from the saved shop/business profile; allow customer to enter if not available
                 const shopEl = document.getElementById('enquiryShopName');
-                if (shopEl) {
-                    shopEl.value = profile.shopName || '';
-                    shopEl.readOnly = false;
+                if (shopEl && profile.shopName) {
+                    shopEl.value = profile.shopName;
                 }
 
-                // 3. WhatsApp Number – Automatically fill from saved WhatsApp number, if available
-                const waInput = document.getElementById('enquiryWhatsApp');
-                if (waInput) {
-                    waInput.value = profile.whatsapp || '';
-                    waInput.readOnly = false;
+                const waInput = document.getElementById('enquiryWhatsAppNumber');
+                if (waInput && profile.whatsapp) {
+                    waInput.value = profile.whatsapp;
                 }
 
-                // 4. Mobile Number – Automatically fill from verified mobile number saved in Supabase
-                const mobInput = document.getElementById('enquiryMobile');
-                if (mobInput) {
-                    mobInput.value = profile.mobile || '';
-                    mobInput.readOnly = false;
+                const mobInput = document.getElementById('enquiryMobileNumber');
+                if (mobInput && profile.mobile) {
+                    mobInput.value = profile.mobile;
                 }
             } catch (err) {
                 console.warn('Profile fetch notice:', err);
             }
 
-            renderModalColours();
-
-            // Reset modal state to show enquiry form view
-            const formEl = document.getElementById('enquiryForm');
-            if (formEl) formEl.style.display = 'block';
-
-            const photoUploadInput = document.getElementById('enquiryPhotoUpload');
-            if (photoUploadInput) photoUploadInput.value = '';
-            const previewWrap = document.getElementById('enquiryUploadPreviewWrap');
-            if (previewWrap) previewWrap.style.display = 'none';
-            const previewImg = document.getElementById('enquiryUploadPreviewImg');
-            if (previewImg) previewImg.src = '';
-
-            const successView = document.getElementById('enquirySuccessView');
-            if (successView) successView.style.display = 'none';
-
-            const summaryEl = document.getElementById('modalProductSummary');
-            if (summaryEl) summaryEl.style.display = 'flex';
-
-            const introEl = document.querySelector('.modal-card .intro');
-            if (introEl) introEl.style.display = 'block';
-
-            const noteEl = document.getElementById('modalNote');
-            if (noteEl) noteEl.style.display = 'block';
-
+            // Reset submit button state
             const submitBtn = document.getElementById('btnSubmitEnquiry');
             if (submitBtn) {
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>&nbsp; Submit Enquiry';
+                submitBtn.innerHTML = '<i class="fa-brands fa-whatsapp"></i> Submit Enquiry via WhatsApp';
             }
 
             document.getElementById('modal').classList.add('active');
@@ -2522,28 +4407,40 @@
         }
 
         function closeEnquiryModal() {
-            document.getElementById('modal').classList.remove('active');
+            const modal = document.getElementById('modal');
+            if (modal) modal.classList.remove('active');
             document.body.style.overflow = '';
         }
 
         window.openEnquiryModal = openEnquiryModal;
+        window.closeEnquiryModal = closeEnquiryModal;
         window.openProductWhatsAppEnquiry = openProductWhatsAppEnquiry;
         window.buildProductWhatsAppMessage = buildProductWhatsAppMessage;
 
-        // When a customer clicks the Enquiry button on a product, open the existing enquiry form
+        // When a customer clicks the Enquiry button on a product, open the enquiry form
         const dpEnquiryBtn = document.getElementById('dpEnquiryBtn');
         if (dpEnquiryBtn) dpEnquiryBtn.addEventListener('click', openEnquiryModal);
 
         const dpMobileEnquiryBtn = document.getElementById('dpMobileEnquiryBtn');
         if (dpMobileEnquiryBtn) dpMobileEnquiryBtn.addEventListener('click', openEnquiryModal);
 
-        // Keep the existing enquiry form modal accessible via the Enquiry Tab button
         const dpEnquiryBtnTab = document.getElementById('dpEnquiryBtnTab');
         if (dpEnquiryBtnTab) dpEnquiryBtnTab.addEventListener('click', openEnquiryModal);
-        document.getElementById('closeEnquiry').addEventListener('click', closeEnquiryModal);
-        document.getElementById('cancel').addEventListener('click', closeEnquiryModal);
-        document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeEnquiryModal(); });
+
+        const closeEnquiryBtn = document.getElementById('closeEnquiry');
+        if (closeEnquiryBtn) closeEnquiryBtn.addEventListener('click', closeEnquiryModal);
+
+        const cancelModalBtn = document.getElementById('cancel');
+        if (cancelModalBtn) cancelModalBtn.addEventListener('click', closeEnquiryModal);
+
+        const modalBackdrop = document.getElementById('modal');
+        if (modalBackdrop) {
+            modalBackdrop.addEventListener('click', e => {
+                if (e.target === modalBackdrop) closeEnquiryModal();
+            });
+        }
         document.addEventListener('keydown', e => { if (e.key === 'Escape') closeEnquiryModal(); });
+
 
         function dataUrlToBlob(dataUrl) {
             const parts = dataUrl.split(',');
@@ -2991,39 +4888,62 @@
                 return;
             }
 
-            const shopName = document.getElementById('enquiryShopName').value.trim();
-            const name = document.getElementById('enquiryName').value.trim();
-            const mobile = document.getElementById('enquiryMobile').value.trim();
-            const whatsapp = document.getElementById('enquiryWhatsApp').value.trim();
-            const message = document.getElementById('enquiryMessage') ? document.getElementById('enquiryMessage').value.trim() : '';
+            // Customer Details
+            const customerNameInput = document.getElementById('enquiryCustomerName') || document.getElementById('enquiryName');
+            const shopNameInput = document.getElementById('enquiryShopName');
+            const waNumberInput = document.getElementById('enquiryWhatsAppNumber') || document.getElementById('enquiryWhatsApp');
+            const mobileNumberInput = document.getElementById('enquiryMobileNumber') || document.getElementById('enquiryMobile');
 
-            // 1. Validate Shop Name
+            const customerName = (customerNameInput?.value || '').trim();
+            const shopName = (shopNameInput?.value || '').trim();
+            const whatsAppNumber = (waNumberInput?.value || '').trim();
+            const mobileNumber = (mobileNumberInput?.value || '').trim();
+
+            // Product Details
+            const brandInput = document.getElementById('enquiryProductBrandName');
+            const itemInput = document.getElementById('enquiryProductItem');
+            const codeInput = document.getElementById('enquiryProductCode');
+            const setQtyInput = document.getElementById('enquirySetQuantity');
+
+            const productBrandName = (brandInput?.value || PRODUCT.brand || 'DOT JEANS CO.').trim();
+            const productItem = (itemInput?.value || PRODUCT.name || "Men's Linen Pant – Regular Fit").trim();
+            const productCode = (codeInput?.value || PRODUCT.code || 'APM').trim();
+            const setQuantity = parseInt(setQtyInput?.value || '1', 10) || 1;
+
+            // 1. Validate Customer Name
+            if (!customerName) {
+                showEnquiryAlert('Please enter Customer Name.');
+                customerNameInput?.focus();
+                return;
+            }
+
+            // 2. Validate Shop Name
             if (!shopName) {
-                showEnquiryAlert('Please enter your Shop / Business Name.');
-                document.getElementById('enquiryShopName').focus();
+                showEnquiryAlert('Please enter Shop Name.');
+                shopNameInput?.focus();
                 return;
             }
 
-            // 2. Validate Customer Name
-            if (!name) {
-                showEnquiryAlert('Please enter Customer Name / Contact Person.');
-                document.getElementById('enquiryName').focus();
-                return;
-            }
-
-            // 3. Validate Mobile Number (min 10 digits)
-            const cleanMobile = mobile.replace(/\D/g, '');
-            if (cleanMobile.length < 10) {
-                showEnquiryAlert('Please enter a valid 10-digit Mobile Number.');
-                document.getElementById('enquiryMobile').focus();
-                return;
-            }
-
-            // 4. Validate WhatsApp Number (min 10 digits)
-            const cleanWhatsApp = whatsapp.replace(/\D/g, '');
+            // 3. Validate WhatsApp Number
+            const cleanWhatsApp = whatsAppNumber.replace(/\D/g, '');
             if (cleanWhatsApp.length < 10) {
                 showEnquiryAlert('Please enter a valid 10-digit WhatsApp Number.');
-                document.getElementById('enquiryWhatsApp').focus();
+                waNumberInput?.focus();
+                return;
+            }
+
+            // 4. Validate Mobile Number
+            const cleanMobile = mobileNumber.replace(/\D/g, '');
+            if (cleanMobile.length < 10) {
+                showEnquiryAlert('Please enter a valid 10-digit Mobile Number.');
+                mobileNumberInput?.focus();
+                return;
+            }
+
+            // 5. Validate Set Quantity
+            if (setQuantity < 1) {
+                showEnquiryAlert('Set Quantity must be at least 1.');
+                setQtyInput?.focus();
                 return;
             }
 
@@ -3031,14 +4951,14 @@
             const submitBtn = document.getElementById('btnSubmitEnquiry');
             if (submitBtn) {
                 submitBtn.disabled = true;
-                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>&nbsp; Preparing WhatsApp...';
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>&nbsp; Opening WhatsApp...';
             }
 
             try {
-                // Save updated customer details to local storage cache & user profile metadata if authenticated
+                // Save customer details to local storage cache for pre-filling next time
                 try {
                     await saveCustomerProfileUpdates({
-                        name: name,
+                        name: customerName,
                         shopName: shopName,
                         whatsapp: cleanWhatsApp,
                         mobile: cleanMobile
@@ -3047,215 +4967,53 @@
                     console.warn('Customer profile update notice:', profErr);
                 }
 
-                // Fetch exact product details from Supabase if available
-                let targetProduct = PRODUCT;
-                try {
-                    const dbProd = await fetchProductFromSupabase(PRODUCT.id, PRODUCT.name, PRODUCT.brand, PRODUCT.fit);
-                    if (dbProd) targetProduct = dbProd;
-                } catch (ex) {
-                    console.warn('Supabase product query notice:', ex);
-                }
-
-                const perPack = (targetProduct.pack && targetProduct.pack.piecesPerPack) || 12;
-                const totalPieces = perPack * packQty;
-                const sizeList = (targetProduct.pack && targetProduct.pack.sizeBreakdown) 
-                    ? targetProduct.pack.sizeBreakdown.map(s => s.size).join(', ') 
-                    : (document.getElementById('modalSizeInput') ? document.getElementById('modalSizeInput').value.trim() : '28, 30, 32, 34, 36');
-                const fitType = targetProduct.subcategory 
-                    ? `${targetProduct.subcategory} - ${targetProduct.fit}` 
-                    : (targetProduct.fit || 'Regular Fit');
-                const qtyText = `${packQty} Pack${packQty > 1 ? 's' : ''} (${totalPieces} pcs)`;
-                const prodCode = targetProduct.code || targetProduct.product_code || (document.getElementById('modalProductCode') ? document.getElementById('modalProductCode').textContent.trim() : 'APM');
-                const colourObj = (targetProduct.colours && targetProduct.colours[selectedColourIndex]) || (targetProduct.colours && targetProduct.colours[0]);
-                const colourName = colourObj ? (colourObj.name || colourObj) : (document.getElementById('modalColourInput') ? document.getElementById('modalColourInput').value.trim() : 'Standard');
-
-                // Identify the exact product image from the website
-                const selectedProductImg = (colourObj && colourObj.images && colourObj.images[0])
-                    || (targetProduct.images && targetProduct.images[0])
-                    || (document.getElementById('modalProductImg') ? document.getElementById('modalProductImg').src : '')
-                    || (document.getElementById('dpMainImg') ? document.getElementById('dpMainImg').src : '')
-                    || 'asses/wideleg.jpg';
-
-                const productImageUrl = getPublicImageUrl(selectedProductImg);
-                const productPageUrl = getProductPageUrl(targetProduct.id, colourName);
-
-                // Check for optional uploaded reference photo
-                const uploadedPhotoInput = document.getElementById('enquiryPhotoUpload');
-                const uploadedFile = (uploadedPhotoInput && uploadedPhotoInput.files && uploadedPhotoInput.files[0]) ? uploadedPhotoInput.files[0] : null;
-
-                const cleanBrand = (targetProduct.brand || 'DOT').replace(/[^\w]/g, '_');
-                const cleanProdName = (targetProduct.name || 'Product').replace(/[^\w]/g, '_');
-                const cleanColour = (colourName || 'Standard').replace(/[^\w]/g, '_');
-                const photoFilename = `DOT_${cleanBrand}_${cleanProdName}_${cleanColour}.jpg`;
-
-                // Convert identified product image to Blob & File object
-                let productPhotoBlob = null;
-                let productPhotoFile = null;
-                let productPhotoDataUrl = null;
-                try {
-                    productPhotoBlob = await getPhotoBlobFromSrc(selectedProductImg);
-                    if (productPhotoBlob) {
-                        productPhotoFile = new File([productPhotoBlob], photoFilename, { type: productPhotoBlob.type || 'image/jpeg' });
-                        productPhotoDataUrl = URL.createObjectURL(productPhotoBlob);
-                    }
-                } catch(imgErr) {
-                    console.warn('Product image conversion notice:', imgErr);
-                }
-
-                const now = new Date();
-                const dateTimeStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) + ', ' +
-                                    now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
-
-                // Build WhatsApp prefilled message
-                const waMessage = buildEnquiryWhatsAppMessage({
-                    product_name: targetProduct.name,
-                    brand: targetProduct.brand,
-                    code: prodCode,
-                    fit: fitType,
-                    colour: colourName,
-                    available_sizes: sizeList,
-                    selected_size_qty: `${sizeList} | ${qtyText}`,
-                    quantity: qtyText,
-                    product_image_url: productImageUrl,
-                    product_page_url: productPageUrl,
-                    uploaded_photo_note: uploadedFile ? `Custom sample attached (${uploadedFile.name})` : '',
-                    shop_name: shopName,
-                    name: name,
-                    mobile: cleanMobile,
-                    whatsapp: cleanWhatsApp,
-                    message: message,
-                    date_time: dateTimeStr
-                });
+                // Format WhatsApp message with exact enquiry details
+                const waMessage = [
+                    `*DOT JEANS COMPANY*`,
+                    `*B2B WHOLESALE ENQUIRY*`,
+                    ``,
+                    `*Customer Details*`,
+                    `• Customer Name: ${customerName}`,
+                    `• Shop Name: ${shopName}`,
+                    `• WhatsApp Number: ${whatsAppNumber}`,
+                    `• Mobile Number: ${mobileNumber}`,
+                    ``,
+                    `*Product Details*`,
+                    `• Product Brand Name: ${productBrandName}`,
+                    `• Product Item: ${productItem}`,
+                    `• Product Code: ${productCode}`,
+                    `• Set Quantity: ${setQuantity}`
+                ].join('\n');
 
                 const waUrl = `https://wa.me/${ENQUIRY_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`;
 
-                // Generate optional PDF copy
-                let pdfFile = null;
-                let pdfUrl = null;
-                try {
-                    const pdfData = {
-                        productName: targetProduct.name,
-                        brand: targetProduct.brand,
-                        code: prodCode,
-                        fit: fitType,
-                        colour: colourName,
-                        availableSizes: sizeList,
-                        quantity: qtyText,
-                        productImage: selectedProductImg,
-                        shopName: shopName,
-                        name: name,
-                        mobile: cleanMobile,
-                        whatsapp: cleanWhatsApp,
-                        message: message,
-                        dateTime: dateTimeStr,
-                        enquiryRef: 'DOT-' + Math.random().toString(36).substring(2, 8).toUpperCase()
-                    };
-                    const pdfFilename = `DOT_Jeans_Enquiry_${cleanProdName}.pdf`;
-                    const pdfBlob = await generateProductEnquiryPDF(pdfData);
-                    pdfFile = new File([pdfBlob], pdfFilename, { type: 'application/pdf' });
-                    pdfUrl = URL.createObjectURL(pdfBlob);
-                    window.currentEnquiryPdfFile = pdfFile;
-                    window.currentEnquiryPdfUrl = pdfUrl;
-                    window.currentEnquiryPdfName = pdfFilename;
-                } catch(pdfErr) {
-                    console.warn('PDF generation notice:', pdfErr);
-                }
-
-                // Store state for action buttons
-                window.currentEnquiryPhotoFile = productPhotoFile;
-                window.currentEnquiryPhotoBlob = productPhotoBlob;
-                window.currentEnquiryPhotoUrl = productPhotoDataUrl || selectedProductImg;
-                window.currentEnquiryPhotoName = photoFilename;
-                window.currentEnquiryUploadedFile = uploadedFile;
-                window.currentEnquiryWaText = waMessage;
-                window.currentEnquiryWaUrl = waUrl;
-
-                // Share product photo via Web Share API when supported, otherwise open WhatsApp click-to-chat + auto-download photo
-                const filesToShare = [];
-                if (productPhotoFile) filesToShare.push(productPhotoFile);
-                if (uploadedFile) filesToShare.push(uploadedFile);
-
+                // Open WhatsApp directly
                 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-                let sharedViaNativeSheet = false;
-
-                if (isMobile && navigator.canShare && filesToShare.length > 0 && navigator.canShare({ files: filesToShare })) {
-                    try {
-                        await navigator.share({
-                            title: `DOT Jeans Wholesale Enquiry - ${targetProduct.name}`,
-                            text: waMessage,
-                            files: filesToShare
-                        });
-                        sharedViaNativeSheet = true;
-                    } catch (shErr) {
-                        if (shErr.name !== 'AbortError') {
-                            console.warn('Native share sheet notice, falling back:', shErr);
-                        }
-                    }
-                }
-
-                if (!sharedViaNativeSheet) {
-                    // Fallback: download product photo to device so customer can attach it
-                    downloadPhotoDirect(productPhotoBlob || selectedProductImg, photoFilename);
-
-                    // Open WhatsApp click-to-chat URL
-                    if (isMobile) {
-                        window.open(waUrl, '_blank');
-                    } else {
-                        const waWin = window.open(waUrl, '_blank', 'noopener,noreferrer');
-                        if (!waWin || waWin.closed || typeof waWin.closed === 'undefined') {
-                            window.location.href = waUrl;
-                        }
-                    }
-                }
-
-                // Transition Modal UI to Success View with clear image display & status
-                formEl.style.display = 'none';
-                const summaryEl = document.getElementById('modalProductSummary');
-                if (summaryEl) summaryEl.style.display = 'none';
-                const introEl = document.querySelector('.modal-card .intro');
-                if (introEl) introEl.style.display = 'none';
-                const noteEl = document.getElementById('modalNote');
-                if (noteEl) noteEl.style.display = 'none';
-
-                // Display selected product photo & details
-                const photoImg = document.getElementById('esProductPhotoImg');
-                if (photoImg) photoImg.src = productPhotoDataUrl || selectedProductImg;
-                const photoTitle = document.getElementById('esProductPhotoTitle');
-                if (photoTitle) photoTitle.textContent = `${targetProduct.brand} • ${targetProduct.name}`;
-                const photoMeta = document.getElementById('esProductPhotoMeta');
-                if (photoMeta) photoMeta.textContent = `Colour: ${colourName} | Qty: ${qtyText}`;
-                const uploadBadge = document.getElementById('esUploadedPhotoBadge');
-                if (uploadBadge) uploadBadge.style.display = uploadedFile ? 'block' : 'none';
-
-                const esTitleEl = document.getElementById('esTitle');
-                const esDescEl = document.getElementById('esDesc');
-                const tipTextEl = document.getElementById('esHelpTipText');
-
-                if (sharedViaNativeSheet) {
-                    if (esTitleEl) esTitleEl.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--dp-green, #16a34a);"></i>&nbsp; Enquiry & Photo Shared!';
-                    if (esDescEl) esDescEl.textContent = 'Your enquiry details and selected product photo were shared directly to your chosen app.';
-                    if (tipTextEl) tipTextEl.innerHTML = '<strong>Next step:</strong> In your WhatsApp chat, check the message text and product photo preview, then tap <strong>Send</strong>.';
+                if (isMobile) {
+                    window.location.href = waUrl;
                 } else {
-                    if (esTitleEl) esTitleEl.innerHTML = '<i class="fa-brands fa-whatsapp" style="color:#25D366;"></i>&nbsp; Enquiry Opened in WhatsApp';
-                    if (esDescEl) esDescEl.textContent = 'WhatsApp has opened with your pre-filled enquiry text.';
-                    if (tipTextEl) tipTextEl.innerHTML = '<strong>Important:</strong> WhatsApp click-to-chat links cannot automatically attach image files. The selected product photo has been downloaded to your device (or you can save it below) — please tap the <strong>attachment icon (📎)</strong> in your WhatsApp chat and attach the photo to complete your enquiry.';
+                    const waWin = window.open(waUrl, '_blank', 'noopener,noreferrer');
+                    if (!waWin || waWin.closed || typeof waWin.closed === 'undefined') {
+                        window.location.href = waUrl;
+                    }
                 }
 
-                const successView = document.getElementById('enquirySuccessView');
-                if (successView) successView.style.display = 'block';
-
-                if (typeof showToast === 'function') {
-                    showToast('✓ Wholesale enquiry prepared for WhatsApp!');
-                }
+                // Close enquiry modal & notify customer
+                setTimeout(() => {
+                    closeEnquiryModal();
+                    if (typeof showToast === 'function') {
+                        showToast('✓ WhatsApp opened with your wholesale enquiry!');
+                    }
+                }, 400);
 
             } catch (error) {
-                console.error('Error preparing WhatsApp enquiry:', error);
-                showEnquiryAlert('Failed to prepare enquiry: ' + (error.message || 'Please check your connection and try again.'));
+                console.error('Error opening WhatsApp enquiry:', error);
+                showEnquiryAlert('Failed to open WhatsApp: ' + (error.message || 'Please try again.'));
             } finally {
                 isSubmittingEnquiry = false;
                 if (submitBtn) {
                     submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>&nbsp; Submit Enquiry';
+                    submitBtn.innerHTML = '<i class="fa-brands fa-whatsapp"></i> Submit Enquiry via WhatsApp';
                 }
             }
         });
@@ -3385,7 +5143,7 @@
                         copyCodeBtn.innerHTML = '<i class="fa-regular fa-copy"></i>';
                         copyCodeBtn.classList.remove('copied');
                     }, 1800);
-                }).catch(() => {});
+                }).catch(() => { });
             });
         }
 
@@ -3440,6 +5198,11 @@
         /* ──────────────────────────────────────────────────────────────
            INIT
            ────────────────────────────────────────────────────────────── */
+        const selectAllBtn = document.getElementById('dpColourSelectAllBtn');
+        if (selectAllBtn) {
+            selectAllBtn.addEventListener('click', toggleSelectAllColours);
+        }
+
         renderProduct();
         updateQtyDisplay();
         if (urlColour) {
@@ -3453,15 +5216,8 @@
                 if (dbProduct) {
                     console.log('Successfully loaded live product from Supabase:', dbProduct.name);
                     PRODUCT = dbProduct;
-                    if (urlColour && PRODUCT.colours) {
-                        const cleanC = urlColour.trim().toLowerCase();
-                        const foundIdx = PRODUCT.colours.findIndex(c => 
-                            c.name.toLowerCase() === cleanC || 
-                            c.name.toLowerCase().includes(cleanC) || 
-                            cleanC.includes(c.name.toLowerCase())
-                        );
-                        if (foundIdx !== -1) selectedColourIndex = foundIdx;
-                    }
+                    ensureProductColours(PRODUCT);
+                    initSelectedColours(urlColour);
                     renderProduct();
                     updateQtyDisplay();
                     if (urlColour) {

@@ -23,6 +23,7 @@ let wishlist      = new Set(JSON.parse(localStorage.getItem('dot_wishlist') || '
 
 /* ─── Init ────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
+    initUrlFilters();
     if (typeof CATEGORY_PRODUCTS !== 'undefined') {
         allProducts = CATEGORY_PRODUCTS;
         applyAndRender();
@@ -33,6 +34,14 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavHamburger();
     initEnquiryModal();
 });
+
+function initUrlFilters() {
+    const params = new URLSearchParams(window.location.search);
+    const fitParam = params.get('fit');
+    if (fitParam) {
+        activeFilters.fit = fitParam;
+    }
+}
 
 /* ─── Render pipeline ─────────────────────────────────────── */
 function applyAndRender() {
@@ -47,7 +56,7 @@ function filterProducts(list) {
         const sizeOk   = activeFilters.sizes.length === 0 || p.sizes.some(s => activeFilters.sizes.includes(s));
         const colourOk = activeFilters.colours.length === 0 || p.colours.some(c => activeFilters.colours.includes(c));
         const priceOk  = p.price <= activeFilters.maxPrice;
-        const fitOk    = !activeFilters.fit || p.fit === activeFilters.fit;
+        const fitOk    = !activeFilters.fit || (p.fit && p.fit.toLowerCase() === activeFilters.fit.toLowerCase());
         return sizeOk && colourOk && priceOk && fitOk;
     });
 }
@@ -84,13 +93,24 @@ function renderPage(page) {
     grid.innerHTML = slice.map(p => productCardHTML(p)).join('');
     renderPagination(Math.ceil(filteredList.length / PER_PAGE), page);
 
-    /* attach card click → product details */
+    /* attach card click → product details with exact product parameters */
     grid.querySelectorAll('.pcard').forEach(card => {
         card.addEventListener('click', e => {
             if (e.target.closest('.pcard-wishlist')) return; // ignore wishlist click
-            const base = card.dataset.href || 'productDetails.html';
             const id = card.dataset.productId;
-            window.location.href = id ? `productDetails.html?id=${id}` : base;
+            const name = card.dataset.productName;
+            const category = card.dataset.productCategory;
+            const fit = card.dataset.productFit;
+            const rawHref = card.dataset.href;
+            const base = (rawHref && !rawHref.includes('linen-product-details')) ? rawHref : 'productDetails.html';
+
+            const targetUrl = new URL(base.startsWith('productDetails') ? base : 'productDetails.html', window.location.href);
+            if (id) targetUrl.searchParams.set('id', id);
+            if (name) targetUrl.searchParams.set('name', decodeURIComponent(name));
+            if (category) targetUrl.searchParams.set('category', decodeURIComponent(category));
+            if (fit) targetUrl.searchParams.set('fit', decodeURIComponent(fit));
+
+            window.location.href = targetUrl.pathname + targetUrl.search;
         });
     });
 
@@ -120,9 +140,10 @@ function productCardHTML(p) {
     
     const stockStatus = getStockStatus(p.stock);
     const outOfStockStyle = stockStatus.isOut ? 'opacity: 0.6;' : '';
+    const safeDetailsUrl = (p.detailsUrl && !p.detailsUrl.includes('linen-product-details')) ? p.detailsUrl : 'productDetails.html';
     
     return `
-      <div class="pcard" data-href="${p.detailsUrl || 'productDetails.html'}" data-product-id="${p.id}" ${stockStatus.isOut ? '' : ''}>
+      <div class="pcard" data-href="${safeDetailsUrl}" data-product-id="${p.id}" data-product-name="${encodeURIComponent(p.name || '')}" data-product-category="${encodeURIComponent(p.category || '')}" data-product-fit="${encodeURIComponent(p.fit || '')}">
         <div class="pcard-img-wrap" style="${outOfStockStyle}">
           <span class="pcard-badge ${stockStatus.class}">${stockStatus.label}</span>
           <button class="pcard-wishlist ${inWish ? 'active' : ''}" data-id="${p.id}" aria-label="Wishlist">
@@ -207,8 +228,14 @@ function initFilters() {
 
     /* Radio — fit/category */
     document.querySelectorAll('.filter-fit').forEach(rb => {
+        if (activeFilters.fit && rb.value.toLowerCase() === activeFilters.fit.toLowerCase()) {
+            rb.checked = true;
+        }
         rb.addEventListener('change', () => {
             activeFilters.fit = rb.value;
+            document.querySelectorAll('.filter-fit').forEach(r => {
+                r.checked = (r.value.toLowerCase() === rb.value.toLowerCase());
+            });
             applyAndRender();
         });
     });

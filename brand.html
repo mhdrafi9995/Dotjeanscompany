@@ -1171,20 +1171,23 @@
             const modal = document.getElementById('enquiryModal');
             if (!modal || !product) return;
 
-            // Check if customer is authenticated; if not, ask them to log in or register first
-            let isAuthed = false;
-            if (typeof window.checkUserAuthStatus === 'function') {
-                isAuthed = await window.checkUserAuthStatus();
-            } else if (typeof window.isUserAuthenticated === 'function') {
-                isAuthed = window.isUserAuthenticated();
-            }
-
-            if (!isAuthed) {
-                localStorage.setItem('dot_pending_enquiry', 'true');
-                if (typeof window.openAuthModal === 'function') {
-                    window.openAuthModal();
+            // Check if customer is authenticated; temporarily bypassed for direct enquiry flow
+            const BYPASS_AUTH_FOR_ENQUIRY = true;
+            if (!BYPASS_AUTH_FOR_ENQUIRY) {
+                let isAuthed = false;
+                if (typeof window.checkUserAuthStatus === 'function') {
+                    isAuthed = await window.checkUserAuthStatus();
+                } else if (typeof window.isUserAuthenticated === 'function') {
+                    isAuthed = window.isUserAuthenticated();
                 }
-                return;
+
+                if (!isAuthed) {
+                    localStorage.setItem('dot_pending_enquiry', 'true');
+                    if (typeof window.openAuthModal === 'function') {
+                        window.openAuthModal();
+                    }
+                    return;
+                }
             }
 
             // Reset modal UI to show enquiry form view

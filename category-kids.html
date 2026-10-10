@@ -116,6 +116,17 @@
         <button class="filter-drawer-close" id="filterDrawerClose">&times;</button>
     </div>
     <div class="filter-section">
+        <div class="filter-title">Category <span class="ti">▾</span></div>
+        <div class="filter-options">
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value=""> All Kids</label>
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Jeans"> Kids Jeans</label>
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Cargo"> Kids Cargo</label>
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Shorts"> Kids Shorts</label>
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Track"> Track Pants</label>
+            <label class="filter-label"><input type="radio" name="cat_fit_mob" class="filter-fit" value="Others"> Others</label>
+        </div>
+    </div>
+    <div class="filter-section">
         <div class="filter-title">Age/Size <span class="ti">▾</span></div>
         <div class="filter-options">
             <label class="filter-label"><input type="checkbox" class="filter-size" value="2-3Y"> 2-3Y</label>
@@ -202,16 +213,16 @@
 
 <script>
 const CATEGORY_PRODUCTS = [
-    { id: 301, name: 'Kids Cargo Pant – Olive', price: 699, image: 'asses/kids.png', sizes: ['4-5Y','6-7Y','8-9Y','10-11Y'], colours: ['Olive'], colourHex: ['#7a8c60'], fit: 'Cargo', detailsUrl: 'productDetails.html' },
-    { id: 302, name: 'Kids Cargo Pant – Beige', price: 649, image: 'asses/kids.png', sizes: ['4-5Y','6-7Y','8-9Y'], colours: ['Beige'], colourHex: ['#d8c9a8'], fit: 'Cargo', detailsUrl: 'productDetails.html' },
-    { id: 303, name: 'Kids Denim Jeans – Blue', price: 749, image: 'asses/kids.png', sizes: ['6-7Y','8-9Y','10-11Y','12-13Y'], colours: ['Blue'], colourHex: ['#4a6fa5'], fit: 'Jeans', detailsUrl: 'productDetails.html' },
-    { id: 304, name: 'Kids Shorts – Black', price: 499, image: 'asses/kids.png', sizes: ['2-3Y','4-5Y','6-7Y','8-9Y'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Shorts', detailsUrl: 'productDetails.html' },
-    { id: 305, name: 'Kids Shorts – Beige', price: 450, image: 'asses/kids.png', sizes: ['2-3Y','4-5Y','6-7Y'], colours: ['Beige'], colourHex: ['#c8b898'], fit: 'Shorts', detailsUrl: 'productDetails.html' },
-    { id: 306, name: 'Kids Track Pant – Grey', price: 399, image: 'asses/kids.png', sizes: ['4-5Y','6-7Y','8-9Y','10-11Y','12-13Y'], colours: ['Grey'], colourHex: ['#8a8a8a'], fit: 'Track', detailsUrl: 'productDetails.html' },
-    { id: 307, name: 'Kids Jeans – Black', price: 699, image: 'asses/kids.png', sizes: ['6-7Y','8-9Y','10-11Y','12-13Y','14-15Y'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Jeans', detailsUrl: 'productDetails.html' },
-    { id: 308, name: 'Kids Cargo – Navy', price: 729, image: 'asses/kids.png', sizes: ['4-5Y','6-7Y','8-9Y','10-11Y'], colours: ['Blue'], colourHex: ['#1e2b45'], fit: 'Cargo', detailsUrl: 'productDetails.html' },
-    { id: 309, name: 'Kids Linen Pant – White', price: 549, image: 'asses/kids.png', sizes: ['2-3Y','4-5Y','6-7Y','8-9Y'], colours: ['White'], colourHex: ['#f0ece4'], fit: 'Others', detailsUrl: 'productDetails.html' },
-    { id: 310, name: 'Kids Denim – Light Blue', price: 679, image: 'asses/kids.png', sizes: ['6-7Y','8-9Y','10-11Y','12-13Y'], colours: ['Blue'], colourHex: ['#7ba7c8'], fit: 'Jeans', detailsUrl: 'productDetails.html' },
+    { id: 301, name: 'Kids Cargo Pant – Olive', price: 699, image: 'asses/kids denim/1.jpg', sizes: ['4-5Y','6-7Y','8-9Y','10-11Y'], colours: ['Olive'], colourHex: ['#7a8c60'], fit: 'Cargo', category: 'Kids Wear', detailsUrl: 'productDetails.html', stock: 15 },
+    { id: 302, name: 'Kids Cargo Pant – Beige', price: 649, image: 'asses/kids denim/2.jpg', sizes: ['4-5Y','6-7Y','8-9Y'], colours: ['Beige'], colourHex: ['#d8c9a8'], fit: 'Cargo', category: 'Kids Wear', detailsUrl: 'productDetails.html', stock: 12 },
+    { id: 303, name: 'Kids Denim Jeans – Blue', price: 749, image: 'asses/kids denim/3.jpg', sizes: ['6-7Y','8-9Y','10-11Y','12-13Y'], colours: ['Blue'], colourHex: ['#4a6fa5'], fit: 'Jeans', category: 'Kids Wear', detailsUrl: 'productDetails.html', stock: 20 },
+    { id: 304, name: 'Kids Shorts – Black', price: 499, image: 'asses/kids.png', sizes: ['2-3Y','4-5Y','6-7Y','8-9Y'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Shorts', category: 'Kids Wear', detailsUrl: 'productDetails.html', stock: 18 },
+    { id: 305, name: 'Kids Shorts – Beige', price: 450, image: 'asses/kids.png', sizes: ['2-3Y','4-5Y','6-7Y'], colours: ['Beige'], colourHex: ['#c8b898'], fit: 'Shorts', category: 'Kids Wear', detailsUrl: 'productDetails.html', stock: 14 },
+    { id: 306, name: 'Kids Track Pant – Grey', price: 399, image: 'asses/track/1.jpg', sizes: ['4-5Y','6-7Y','8-9Y','10-11Y','12-13Y'], colours: ['Grey'], colourHex: ['#8a8a8a'], fit: 'Track', category: 'Kids Wear', detailsUrl: 'productDetails.html', stock: 25 },
+    { id: 307, name: 'Kids Jeans – Black', price: 699, image: 'asses/kids denim/4.jpg', sizes: ['6-7Y','8-9Y','10-11Y','12-13Y','14-15Y'], colours: ['Black'], colourHex: ['#1a1a1a'], fit: 'Jeans', category: 'Kids Wear', detailsUrl: 'productDetails.html', stock: 10 },
+    { id: 308, name: 'Kids Cargo – Navy', price: 729, image: 'asses/kids.png', sizes: ['4-5Y','6-7Y','8-9Y','10-11Y'], colours: ['Navy'], colourHex: ['#1e2b45'], fit: 'Cargo', category: 'Kids Wear', detailsUrl: 'productDetails.html', stock: 8 },
+    { id: 309, name: 'Kids Linen Pant – White', price: 549, image: 'asses/kids.png', sizes: ['2-3Y','4-5Y','6-7Y','8-9Y'], colours: ['White'], colourHex: ['#f0ece4'], fit: 'Others', category: 'Kids Wear', detailsUrl: 'productDetails.html', stock: 12 },
+    { id: 310, name: 'Kids Denim – Light Blue', price: 679, image: 'asses/kids denim/1.jpg', sizes: ['6-7Y','8-9Y','10-11Y','12-13Y'], colours: ['Light Blue'], colourHex: ['#7ba7c8'], fit: 'Jeans', category: 'Kids Wear', detailsUrl: 'productDetails.html', stock: 16 },
 ];
 </script>
 <script src="category.js"></script>

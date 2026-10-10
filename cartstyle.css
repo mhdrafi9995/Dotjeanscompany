@@ -658,8 +658,63 @@ select { font-family: inherit; }
     font-size: 14px;
     font-weight: 600;
     transition: background 0.2s;
+    text-decoration: none;
 }
 .ct-btn-continue:hover { background: #1a3d5c; }
+
+/* Bottom Actions Bar */
+.ct-cart-bottom-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 18px 24px;
+    background: #ffffff;
+    border-top: 1px solid #eef0f2;
+}
+
+.ct-btn-continue-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #f8fafc;
+    color: var(--ct-ink);
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.ct-btn-continue-outline:hover {
+    background: #eff2f6;
+    border-color: #cbd5e1;
+    color: #0f1d2f;
+    transform: translateX(-2px);
+}
+
+.ct-summary-continue {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px 16px;
+    margin-top: 6px;
+    color: var(--ct-muted);
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.ct-summary-continue:hover {
+    color: var(--ct-ink);
+    background: #f1f5f9;
+}
 
 /* ================================================================
    CART SUMMARY SIDEBAR
@@ -1139,6 +1194,15 @@ select { font-family: inherit; }
     .ct-wholesale-notice {
         padding: 12px 16px;
         font-size: 12px;
+    }
+
+    .ct-cart-bottom-bar {
+        padding: 14px 16px;
+        justify-content: center;
+    }
+    .ct-btn-continue-outline {
+        width: 100%;
+        justify-content: center;
     }
 }
 
