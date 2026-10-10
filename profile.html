@@ -162,6 +162,15 @@
                 shopName: 'Dot Jeans',
                 avatar: ''
             };
+            if (!localUser.avatar) {
+                localUser.avatar = localStorage.getItem('dot_user_photo') || '';
+            }
+            if (!localUser.name && localStorage.getItem('dot_user_name')) {
+                localUser.name = localStorage.getItem('dot_user_name');
+            }
+            if (!localUser.shopName && localStorage.getItem('dot_shop_name')) {
+                localUser.shopName = localStorage.getItem('dot_shop_name');
+            }
 
             const updateUI = (name, shopName, avatarUrl) => {
                 const dName = name || 'Muhammed Rafi';
@@ -180,12 +189,51 @@
                     document.getElementById('sidebarImg').src = avatarUrl;
                     document.getElementById('sidebarImg').style.display = 'block';
                     document.getElementById('sidebarFallback').style.display = 'none';
+                } else {
+                    document.getElementById('mainImg').style.display = 'none';
+                    document.getElementById('mainFallback').style.display = 'block';
+                    document.getElementById('sidebarImg').style.display = 'none';
+                    document.getElementById('sidebarFallback').style.display = 'inline-block';
                 }
             };
             
             let currentAvatar = localUser.avatar;
             updateUI(localUser.name, localUser.shopName, localUser.avatar);
             
+            // Image compressor / resizer to safely fit in localStorage & Supabase without QuotaExceededError
+            const processImageFile = (file, callback) => {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const maxDim = 400;
+                        let w = img.width;
+                        let h = img.height;
+                        if (w > maxDim || h > maxDim) {
+                            if (w > h) {
+                                h = Math.round((h * maxDim) / w);
+                                w = maxDim;
+                            } else {
+                                w = Math.round((w * maxDim) / h);
+                                h = maxDim;
+                            }
+                        }
+                        const canvas = document.createElement('canvas');
+                        canvas.width = w;
+                        canvas.height = h;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, w, h);
+                        const optimizedUrl = canvas.toDataURL('image/jpeg', 0.88);
+                        callback(optimizedUrl);
+                    };
+                    img.onerror = function() {
+                        callback(evt.target.result);
+                    };
+                    img.src = evt.target.result;
+                };
+                reader.readAsDataURL(file);
+            };
+
             if (userSession && typeof supabase !== 'undefined' && supabase.auth) {
                 try {
                     const { data: profile } = await supabase
@@ -200,6 +248,18 @@
                         localUser.avatar = profile.avatar_url || localUser.avatar;
                         currentAvatar = localUser.avatar;
                         updateUI(localUser.name, localUser.shopName, localUser.avatar);
+
+                        try {
+                            localStorage.setItem('dot_user', JSON.stringify(localUser));
+                            if (localUser.name) localStorage.setItem('dot_user_name', localUser.name);
+                            if (localUser.shopName) localStorage.setItem('dot_shop_name', localUser.shopName);
+                            if (localUser.avatar) localStorage.setItem('dot_user_photo', localUser.avatar);
+                        } catch(e) {}
+
+                        window.dispatchEvent(new CustomEvent('dot_profile_updated', {
+                            detail: { photo: localUser.avatar, name: localUser.name, shop: localUser.shopName }
+                        }));
+                        if (window.dotUpdateNavbarProfile) window.dotUpdateNavbarProfile();
                     }
                 } catch(e) {}
             }
@@ -207,9 +267,8 @@
             document.getElementById('photoUpload').addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(evt) {
-                        currentAvatar = evt.target.result;
+                    processImageFile(file, function(optimizedUrl) {
+                        currentAvatar = optimizedUrl;
                         document.getElementById('mainImg').src = currentAvatar;
                         document.getElementById('mainImg').style.display = 'block';
                         document.getElementById('mainFallback').style.display = 'none';
@@ -217,8 +276,20 @@
                         document.getElementById('sidebarImg').src = currentAvatar;
                         document.getElementById('sidebarImg').style.display = 'block';
                         document.getElementById('sidebarFallback').style.display = 'none';
-                    };
-                    reader.readAsDataURL(file);
+
+                        // Instantly reflect in local state and top navbar
+                        try {
+                            localUser.avatar = currentAvatar;
+                            localStorage.setItem('dot_user', JSON.stringify(localUser));
+                            localStorage.setItem('dot_user_photo', currentAvatar);
+                        } catch(err) {
+                            console.warn('Staging photo to localStorage warning:', err);
+                        }
+                        window.dispatchEvent(new CustomEvent('dot_profile_updated', {
+                            detail: { photo: currentAvatar, name: localUser.name, shop: localUser.shopName }
+                        }));
+                        if (window.dotUpdateNavbarProfile) window.dotUpdateNavbarProfile();
+                    });
                 }
             });
             
@@ -235,11 +306,17 @@
                 localUser.name = newName;
                 localUser.shopName = newShopName;
                 localUser.avatar = currentAvatar;
-                localStorage.setItem('dot_user', JSON.stringify(localUser));
                 
-                localStorage.setItem('dot_shop_name', newShopName);
-                localStorage.setItem('dot_user_name', newName);
-                localStorage.setItem('dot_user_photo', currentAvatar);
+                try {
+                    localStorage.setItem('dot_user', JSON.stringify(localUser));
+                    localStorage.setItem('dot_shop_name', newShopName);
+                    localStorage.setItem('dot_user_name', newName);
+                    if (currentAvatar) {
+                        localStorage.setItem('dot_user_photo', currentAvatar);
+                    }
+                } catch(err) {
+                    console.warn('localStorage error on save:', err);
+                }
                 
                 if (userSession && typeof supabase !== 'undefined' && supabase.auth) {
                     try {
@@ -251,6 +328,11 @@
                 }
                 
                 updateUI(newName, newShopName, currentAvatar);
+
+                window.dispatchEvent(new CustomEvent('dot_profile_updated', {
+                    detail: { photo: currentAvatar, name: newName, shop: newShopName }
+                }));
+                if (window.dotUpdateNavbarProfile) window.dotUpdateNavbarProfile();
                 
                 setTimeout(() => {
                     btn.innerHTML = '✓ Saved';
@@ -262,11 +344,14 @@
             });
             
             document.getElementById('logoutBtn').addEventListener('click', async () => {
+                
                 if (typeof supabase !== 'undefined' && supabase.auth) await supabase.auth.signOut();
                 localStorage.removeItem('dot_user');
                 localStorage.removeItem('dot_user_name');
                 localStorage.removeItem('dot_shop_name');
                 localStorage.removeItem('dot_user_photo');
+                window.dispatchEvent(new CustomEvent('dot_profile_updated', { detail: { photo: '', name: '', shop: '' } }));
+                if (window.dotUpdateNavbarProfile) window.dotUpdateNavbarProfile();
                 window.location.href = 'index.html';
             });
         });

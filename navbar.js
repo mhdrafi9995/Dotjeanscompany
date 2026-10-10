@@ -166,10 +166,26 @@ const navbarCSS = `
 
 /* Logo */
 .ct-logo {
-    display: flex;
-    flex-direction: column;
+    display: inline-flex;
+    align-items: center;
     line-height: 1;
     text-decoration: none;
+    flex-shrink: 0;
+}
+.ct-logo-img {
+    height: 38px;
+    width: auto;
+    object-fit: contain;
+    background: #ffffff;
+    padding: 3px 8px;
+    border-radius: 7px;
+    display: block;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.ct-logo:hover .ct-logo-img {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
 }
 .ct-logo-dot {
     font-size: 22px;
@@ -380,11 +396,80 @@ const navbarCSS = `
     font-family: 'Inter', sans-serif;
 }
 
-/* Profile Dropdown */
+/* Profile Dropdown & Profile Button */
 .ct-profile-dropdown {
     position: relative;
-    display: flex;
+    display: inline-flex;
     align-items: center;
+}
+.ct-profile-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: #c8d2dc;
+    text-decoration: none;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    vertical-align: middle;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    transition: color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, background-color 0.2s ease;
+    border: 1.5px solid transparent;
+    background: transparent;
+    padding: 0;
+    line-height: 1;
+}
+.ct-profile-btn:hover {
+    color: #ffffff;
+}
+.ct-profile-btn i {
+    font-size: 16px;
+    color: inherit;
+    line-height: 1;
+    display: inline-block;
+}
+.ct-profile-btn.has-img {
+    border-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.08);
+}
+.ct-profile-btn.has-img:hover {
+    border-color: #ffffff;
+    transform: scale(1.04);
+}
+.ct-nav-avatar,
+.ct-profile-btn img,
+#navAccountBtn img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    display: block !important;
+    aspect-ratio: 1 / 1 !important;
+}
+.ct-profile-chevron {
+    font-size: 10px;
+    margin-left: 6px;
+    color: #c8d2dc;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.25s ease;
+    display: inline-block;
+    vertical-align: middle;
+}
+.ct-profile-chevron:hover,
+.ct-profile-dropdown:hover .ct-profile-chevron {
+    color: #ffffff;
+}
+.ct-profile-menu.show ~ .ct-profile-chevron,
+.ct-profile-dropdown.is-open .ct-profile-chevron {
+    transform: rotate(180deg);
+    color: #ffffff;
 }
 .ct-profile-menu {
     position: absolute;
@@ -569,6 +654,9 @@ const navbarCSS = `
     .ct-hamburger { display: flex; }
     .ct-search-wrap { display: none; }
     .ct-header-inner { height: 56px; padding: 0 16px; }
+    .ct-profile-btn { width: 28px; height: 28px; }
+    .ct-profile-btn i { font-size: 14px; }
+    .ct-header-icons { gap: 14px; }
 }
 
 /* Customer Support Floating Chat Widget */
@@ -842,9 +930,8 @@ const navbarCSS = `
 const navbarHTML = `
 <header class="ct-header" id="ct-header">
     <div class="ct-header-inner">
-        <a href="index.html" class="ct-logo">
-            <span class="ct-logo-dot">DOT<sup>®</sup></span>
-            <span class="ct-logo-sub">JEANS CO.</span>
+        <a href="index.html" class="ct-logo" aria-label="DOT Jeans Company">
+            <img src="asses/logo-main.png" alt="DOT Jeans Company" class="ct-logo-img">
         </a>
         <nav class="ct-nav" id="ct-nav">
             <ul>
@@ -883,8 +970,11 @@ const navbarHTML = `
                 <div class="ct-search-results" id="ctSearchResults"></div>
             </div>
             <div class="ct-profile-dropdown" id="navAccountWrap">
-                <a href="javascript:void(0)" aria-label="Account" id="navAccountBtn"><i class="fa-regular fa-user"></i></a>
-                <i class="fa-solid fa-chevron-down" style="font-size:10px; margin-left:6px; color:#c8d2dc; cursor:pointer;" id="navAccountChevron"></i>
+                <a href="javascript:void(0)" aria-label="Account" class="ct-profile-btn" id="navAccountBtn">
+                    <i class="fa-regular fa-user" id="ctNavFallbackIcon"></i>
+                    <img src="" alt="Profile" id="ctNavProfileImg" class="ct-nav-avatar" style="display:none;">
+                </a>
+                <i class="fa-solid fa-chevron-down ct-profile-chevron" style="font-size:10px; margin-left:6px; color:#c8d2dc; cursor:pointer;" id="navAccountChevron"></i>
                 <div class="ct-profile-menu" id="navProfileMenu">
                     <div class="ct-profile-header">
                         <div class="ct-profile-img-wrap-small">
@@ -906,7 +996,7 @@ const navbarHTML = `
                             <span>Account</span>
                             <i class="fa-solid fa-chevron-right ct-plink-arrow"></i>
                         </a>
-                        <a href="javascript:void(0)" class="ct-plink" onclick="if(window.supabase) supabase.auth.signOut(); localStorage.removeItem('dot_user'); window.location.href='index.html';">
+                        <a href="javascript:void(0)" class="ct-plink" onclick="if(window.supabase && window.supabase.auth) supabase.auth.signOut(); localStorage.removeItem('dot_user'); localStorage.removeItem('dot_user_photo'); localStorage.removeItem('dot_user_name'); localStorage.removeItem('dot_shop_name'); if(window.dotUpdateNavbarProfile) window.dotUpdateNavbarProfile(); window.location.href='index.html';">
                             <i class="fa-solid fa-arrow-right-from-bracket"></i>
                             <span>Logout</span>
                             <i class="fa-solid fa-chevron-right ct-plink-arrow"></i>
@@ -938,7 +1028,7 @@ const navbarHTML = `
 </div>
 
 <div class="ct-whatsapp-widget" id="ctWhatsAppWidget">
-    <a href="https://wa.me/919747710360?text=Hello%20DOT%20Jeans%20Co.%2C%20I%20have%20an%20enquiry" class="ct-support-popup" id="ctWhatsAppPopup" target="_blank" rel="noopener noreferrer" aria-label="Chat With Us on WhatsApp">
+    <a href="https://wa.me/919995926080?text=Hello%20DOT%20Jeans%20Co.%2C%20I%20have%20an%20enquiry" class="ct-support-popup" id="ctWhatsAppPopup" target="_blank" rel="noopener noreferrer" aria-label="Chat With Us on WhatsApp">
         <div class="ct-support-popup-body">
             <div class="ct-support-popup-header">
                 <span class="ct-support-live-indicator">
@@ -951,7 +1041,7 @@ const navbarHTML = `
         </div>
         <div class="ct-support-popup-tail"></div>
     </a>
-    <a href="https://wa.me/919747710360?text=Hello%20DOT%20Jeans%20Co.%2C%20I%20have%20an%20enquiry" class="ct-support-avatar-btn" id="ctWhatsAppBtn" target="_blank" rel="noopener noreferrer" aria-label="Chat With Customer Support">
+    <a href="https://wa.me/919995926080?text=Hello%20DOT%20Jeans%20Co.%2C%20I%20have%20an%20enquiry" class="ct-support-avatar-btn" id="ctWhatsAppBtn" target="_blank" rel="noopener noreferrer" aria-label="Chat With Customer Support">
         <svg class="ct-support-vector" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <!-- Broad Male Shoulders / Blazer -->
             <path d="M12 64C12 50 19 44 26 43L38 43C45 44 52 50 52 64Z" fill="#0F1D2F"/>
@@ -1112,35 +1202,7 @@ class DotNavbar extends HTMLElement {
                 }
             }
             
-            // Update profile icon if logged in (real Supabase session)
-            const navAccountBtn = this.querySelector('#navAccountBtn');
-            if (navAccountBtn) {
-                // Use async IIFE so we don't block the rest of navbar setup
-                (async () => {
-                    try {
-                        let retries = 0;
-                        while ((typeof supabase === 'undefined' || !supabase.auth) && retries < 50) {
-                            await new Promise(r => setTimeout(r, 100));
-                            retries++;
-                        }
-                        if (typeof supabase === 'undefined' || !supabase.auth) return;
 
-                        const { data: { session } } = await supabase.auth.getSession();
-                        if (session) {
-                            const { data: profile } = await supabase
-                                .from('profiles')
-                                .select('full_name')
-                                .eq('id', session.user.id)
-                                .single();
-                            const displayName = profile?.full_name || session.user.phone || 'User';
-                            const avatarUrl = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(displayName) + '&background=0f1d2f&color=fff';
-                            navAccountBtn.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width:24px; height:24px; border-radius:50%; object-fit:cover; display:block;">`;
-                        }
-                    } catch (e) {
-                        // supabase may not be available on non-product pages; silently ignore
-                    }
-                })();
-            }
 
             // Set active nav link based on current URL
             const currentPath = window.location.pathname.split('/').pop() || 'index.html';
@@ -1402,7 +1464,7 @@ class DotNavbar extends HTMLElement {
                 });
             }
 
-            // --- PROFILE DROPDOWN SYSTEM ---
+            // --- PROFILE & ACCOUNT AVATAR SYSTEM ---
             const accountBtn = this.querySelector('#navAccountBtn');
             const accountChevron = this.querySelector('#navAccountChevron');
             const profileMenu = this.querySelector('#navProfileMenu');
@@ -1410,30 +1472,137 @@ class DotNavbar extends HTMLElement {
             const profileImage = this.querySelector('#ctProfileImage');
             const displayShopName = this.querySelector('#ctDisplayShopName');
             const displayName = this.querySelector('#ctDisplayName');
+            const navImg = this.querySelector('#ctNavProfileImg');
+            const navIcon = this.querySelector('#ctNavFallbackIcon');
 
+            const applyProfileUI = (photoUrl, name, shop) => {
+                if (name && displayName) displayName.textContent = name;
+                if (shop && displayShopName) displayShopName.textContent = shop;
+
+                if (profileImage) {
+                    if (photoUrl) {
+                        profileImage.src = photoUrl;
+                    } else if (name) {
+                        profileImage.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=e2e8f0&color=475569';
+                    }
+                }
+
+                if (photoUrl) {
+                    if (navImg) {
+                        navImg.src = photoUrl;
+                        navImg.style.display = 'block';
+                        navImg.onerror = function() {
+                            this.style.display = 'none';
+                            if (navIcon) navIcon.style.display = 'inline-block';
+                            if (accountBtn) accountBtn.classList.remove('has-img');
+                        };
+                    }
+                    if (navIcon) navIcon.style.display = 'none';
+                    if (accountBtn) accountBtn.classList.add('has-img');
+                } else {
+                    if (navImg) navImg.style.display = 'none';
+                    if (navIcon) navIcon.style.display = 'inline-block';
+                    if (accountBtn) accountBtn.classList.remove('has-img');
+                }
+            };
+
+            const getStoredProfile = () => {
+                let photo = localStorage.getItem('dot_user_photo') || '';
+                let name = localStorage.getItem('dot_user_name') || '';
+                let shop = localStorage.getItem('dot_shop_name') || '';
+
+                if (!photo || !name || !shop) {
+                    try {
+                        const u = JSON.parse(localStorage.getItem('dot_user') || 'null');
+                        if (u) {
+                            if (!photo) photo = u.avatar || u.photo || u.avatar_url || '';
+                            if (!name) name = u.name || u.full_name || '';
+                            if (!shop) shop = u.shopName || u.shop_name || '';
+                        }
+                    } catch(e) {}
+                }
+                return { photo, name, shop };
+            };
+
+            // Immediate render from localStorage
+            const initialStored = getStoredProfile();
+            applyProfileUI(initialStored.photo, initialStored.name, initialStored.shop);
+
+            // Profile Dropdown Toggle
             if (accountBtn && profileMenu) {
                 const toggleMenu = (e) => {
                     e.stopPropagation();
                     profileMenu.classList.toggle('show');
+                    if (accountWrap) accountWrap.classList.toggle('is-open', profileMenu.classList.contains('show'));
                 };
                 accountBtn.addEventListener('click', toggleMenu);
                 if (accountChevron) accountChevron.addEventListener('click', toggleMenu);
                 
                 document.addEventListener('click', (e) => {
-                    if (!accountWrap.contains(e.target)) {
+                    if (accountWrap && !accountWrap.contains(e.target)) {
                         profileMenu.classList.remove('show');
+                        accountWrap.classList.remove('is-open');
                     }
                 });
-
-                // Load saved data for display
-                const savedShopName = localStorage.getItem('dot_shop_name');
-                const savedUserName = localStorage.getItem('dot_user_name');
-                const savedPhoto = localStorage.getItem('dot_user_photo');
-
-                if (savedShopName && displayShopName) displayShopName.textContent = savedShopName;
-                if (savedUserName && displayName) displayName.textContent = savedUserName;
-                if (savedPhoto && profileImage) profileImage.src = savedPhoto;
             }
+
+            // Expose update handler and listen for sync events
+            window.dotUpdateNavbarProfile = () => {
+                const current = getStoredProfile();
+                applyProfileUI(current.photo, current.name, current.shop);
+            };
+
+            window.addEventListener('storage', () => {
+                if (window.dotUpdateNavbarProfile) window.dotUpdateNavbarProfile();
+            });
+
+            window.addEventListener('dot_profile_updated', (e) => {
+                if (e.detail) {
+                    applyProfileUI(e.detail.photo, e.detail.name, e.detail.shop);
+                } else if (window.dotUpdateNavbarProfile) {
+                    window.dotUpdateNavbarProfile();
+                }
+            });
+
+            // Asynchronous Supabase profile syncing
+            (async () => {
+                try {
+                    let retries = 0;
+                    while ((typeof supabase === 'undefined' || !supabase.auth) && retries < 50) {
+                        await new Promise(r => setTimeout(r, 100));
+                        retries++;
+                    }
+                    if (typeof supabase === 'undefined' || !supabase.auth) return;
+
+                    const { data: { session } } = await supabase.auth.getSession();
+                    if (session) {
+                        const { data: profile } = await supabase
+                            .from('profiles')
+                            .select('full_name, shop_name, avatar_url')
+                            .eq('id', session.user.id)
+                            .single();
+
+                        const current = getStoredProfile();
+                        const photo = profile?.avatar_url || current.photo;
+                        const name = profile?.full_name || current.name || session.user.phone || 'User';
+                        const shop = profile?.shop_name || current.shop || 'Dot Jeans';
+
+                        if (photo) localStorage.setItem('dot_user_photo', photo);
+                        if (name) localStorage.setItem('dot_user_name', name);
+                        if (shop) localStorage.setItem('dot_shop_name', shop);
+
+                        try {
+                            let u = JSON.parse(localStorage.getItem('dot_user') || '{}');
+                            u.name = name;
+                            u.shopName = shop;
+                            if (photo) u.avatar = photo;
+                            localStorage.setItem('dot_user', JSON.stringify(u));
+                        } catch(e) {}
+
+                        applyProfileUI(photo, name, shop);
+                    }
+                } catch (e) {}
+            })();
 
         }, 0);
     }

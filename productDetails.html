@@ -29,6 +29,7 @@
     <dot-navbar></dot-navbar>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
+    <script src="js/jspdf.umd.min.js"></script>
     <script src="navbar.js"></script>
 
     <!-- ===== MAIN ===== -->
@@ -77,6 +78,15 @@
             <section class="dp-details">
                 <p class="dp-eyebrow" id="dp-eyebrow">DOT JEANS COLLECTION</p>
                 <h1 class="dp-title" id="dp-title">Wide Leg Jeans</h1>
+
+                <!-- Product Code -->
+                <div class="dp-product-code-section" id="dpProductCodeSection">
+                    <span class="dp-code-label">Code:</span>
+                    <strong class="dp-code-val" id="dpProductCode">APM</strong>
+                    <button type="button" class="dp-code-copy-btn" id="dpCopyCodeBtn" title="Copy product code" aria-label="Copy product code">
+                        <i class="fa-regular fa-copy"></i>
+                    </button>
+                </div>
 
                 <div class="dp-fit-tags" id="dp-fit-tags">
                     <span class="dp-fit-tag" id="dp-fit">Relaxed Fit</span>
@@ -190,7 +200,7 @@
                 <!-- WhatsApp -->
                 <button class="dp-btn-whatsapp" id="dpWhatsappBtn">
                     <i class="fa-brands fa-whatsapp"></i>
-                    Chat on WhatsApp — +91 97477 10360
+                    Chat on WhatsApp — +91 99959 26080
                 </button>
 
                 <!-- Trust row -->
@@ -276,7 +286,7 @@
                         <i class="fa-brands fa-whatsapp"></i>
                         <div class="dp-card-wa-text">
                             <div class="title">Need Help? Chat on WhatsApp</div>
-                            <div class="num">+91 97477 10360</div>
+                            <div class="num">+91 99959 26080</div>
                         </div>
                         <i class="fa-solid fa-chevron-right dp-card-wa-arrow"></i>
                     </div>
@@ -395,6 +405,10 @@
                                 <td>Machine wash cold, tumble dry low</td>
                             </tr>
                             <tr>
+                                <th>Product Code</th>
+                                <td id="spec-code">APM</td>
+                            </tr>
+                            <tr>
                                 <th>SKU</th>
                                 <td id="spec-sku">WLJ-001</td>
                             </tr>
@@ -476,9 +490,8 @@
     <div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-labelledby="enquiryTitle">
         <section class="modal-card">
             <button class="close" id="closeEnquiry" aria-label="Close">&times;</button>
-            <a class="modal-brand" href="#">
-                <strong>DOT<sup>®</sup></strong>
-                <span>JEANS CO.</span>
+            <a class="modal-brand" href="index.html" aria-label="DOT Jeans Company">
+                <img src="asses/logo-main.png" alt="DOT Jeans Company" class="modal-brand-img">
             </a>
             <h2 id="enquiryTitle">Wholesale Enquiry</h2>
             <p class="intro">Send your requirements and our sales team will contact you within 24 hours.</p>
@@ -489,12 +502,13 @@
                     <small id="modalProductSku" style="display:none">SKU: WLJ-001</small>
                     <div style="font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5">
                         <div><strong>Brand:</strong> <span id="modalProductBrand" style="color:var(--ink);font-weight:600">DOT JEANS CO.</span> &nbsp;|&nbsp; <strong>Fit / Type:</strong> <span id="modalProductFit" style="color:var(--ink);font-weight:600">Relaxed Fit</span></div>
-                        <div style="margin-top:2px"><strong>Colour:</strong> <span id="modalProductColour" style="color:var(--ink);font-weight:600">Blue</span> &nbsp;|&nbsp; <strong>Size:</strong> <span id="modalProductSize" style="color:var(--ink);font-weight:600">28, 30, 32, 34, 36, 38, 40</span></div>
+                        <div style="margin-top:2px"><strong>Code:</strong> <span id="modalProductCode" style="color:var(--ink);font-weight:600">APM</span> &nbsp;|&nbsp; <strong>Colour:</strong> <span id="modalProductColour" style="color:var(--ink);font-weight:600">Blue</span> &nbsp;|&nbsp; <strong>Size:</strong> <span id="modalProductSize" style="color:var(--ink);font-weight:600">28, 30, 32, 34, 36, 38, 40</span></div>
                         <div style="margin-top:2px"><strong>Quantity / PCS:</strong> <span id="modalProductQty" style="color:var(--ink);font-weight:600">1 Pack (15 pcs)</span></div>
                     </div>
                 </div>
             </div>
             <form id="enquiryForm">
+                <div id="enquiryAlert" class="dot-enquiry-alert"></div>
                 <div class="form-grid">
                     <label>Shop Name <mark>*</mark>
                         <input required name="shop_name" id="enquiryShopName"
@@ -544,16 +558,83 @@
                     <textarea name="message" id="enquiryMessage"
                         placeholder="Any special requirements, preferences or additional details..."></textarea>
                 </label>
+
+                <!-- Optional Photo / Sample Upload -->
+                <div class="enquiry-upload-group" style="margin-bottom:16px;text-align:left;">
+                    <label for="enquiryPhotoUpload" style="font-size:12.5px;font-weight:600;display:block;margin-bottom:6px;color:var(--ink);">
+                        Attach Reference Photo / Sample (Optional)
+                    </label>
+                    <input type="file" id="enquiryPhotoUpload" accept="image/*" style="font-size:12px;color:var(--muted);width:100%;padding:7px;border:1px dashed #cbd5e1;border-radius:6px;background:#f8fafc;cursor:pointer;">
+                    <div id="enquiryUploadPreviewWrap" style="display:none;margin-top:8px;align-items:center;gap:10px;background:#f1f5f9;padding:6px 10px;border-radius:6px;">
+                        <img id="enquiryUploadPreview" src="" alt="Sample" style="width:40px;height:40px;object-fit:cover;border-radius:4px;border:1px solid #cbd5e1;">
+                        <div style="flex:1;min-width:0;">
+                            <div id="enquiryUploadFilename" style="font-size:12px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">sample.jpg</div>
+                            <div style="font-size:11px;color:var(--muted);">Additional photo will be shared</div>
+                        </div>
+                        <button type="button" id="btnClearUploadedPhoto" style="background:#fee2e2;border:none;color:#dc2626;font-size:11.5px;font-weight:600;padding:4px 8px;border-radius:4px;cursor:pointer;">Remove</button>
+                    </div>
+                </div>
+
                 <div class="form-actions">
-                    <button class="primary" id="btnSubmitEnquiry" type="submit">&#10148;&nbsp; Send Enquiry</button>
+                    <button class="primary" id="btnSubmitEnquiry" type="submit"><i class="fa-solid fa-paper-plane"></i>&nbsp; Submit Enquiry</button>
                     <button class="outline" id="cancel" type="button">Cancel</button>
                 </div>
             </form>
-            <p class="modal-note">ⓘ &nbsp; For wholesale / B2B enquiries only</p>
+
+            <!-- Product Photo & WhatsApp Action View -->
+            <div id="enquirySuccessView" class="enquiry-success-view" style="display:none;">
+                <div class="es-badge-wrap">
+                    <div class="es-icon-circle" style="background:#ecfdf5;color:#16a34a;box-shadow:0 0 0 6px #f0fdf4;">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                </div>
+                <h3 class="es-title" id="esTitle">Enquiry Prepared for WhatsApp</h3>
+                <p class="es-desc" id="esDesc">Your enquiry details and selected product photo are ready to send to our WhatsApp desk (+91 9995926080).</p>
+
+                <!-- Product Photo Card -->
+                <div class="es-pdf-card" id="esPhotoCard" style="display:flex;align-items:center;gap:14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px 14px;margin-bottom:16px;text-align:left;">
+                    <img id="esProductPhotoImg" src="asses/wideleg.jpg" alt="Product Photo" style="width:54px;height:54px;object-fit:cover;border-radius:8px;border:1px solid #cbd5e1;flex-shrink:0;">
+                    <div class="es-pdf-info" style="flex:1;min-width:0;">
+                        <span class="es-pdf-filename" id="esProductPhotoTitle" style="font-size:13.5px;font-weight:700;color:var(--ink);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Selected Product Photo</span>
+                        <span class="es-pdf-meta" id="esProductPhotoMeta" style="display:block;font-size:11.5px;color:var(--muted);margin-top:2px;">Product image ready for WhatsApp</span>
+                        <div id="esUploadedPhotoBadge" style="display:none;margin-top:3px;font-size:11px;color:#059669;font-weight:600;">
+                            <i class="fa-solid fa-paperclip"></i> + Uploaded sample photo included
+                        </div>
+                    </div>
+                </div>
+
+                <div class="es-actions">
+                    <button type="button" class="es-btn es-btn-whatsapp" id="btnShareEnquiryWhatsApp">
+                        <i class="fa-brands fa-whatsapp"></i> Send on WhatsApp
+                    </button>
+                    <button type="button" class="es-btn es-btn-download" id="btnDownloadProductPhoto">
+                        <i class="fa-solid fa-arrow-down-to-line"></i> Download Photo
+                    </button>
+                </div>
+
+                <div style="display:flex;gap:12px;justify-content:center;align-items:center;margin-bottom:14px;font-size:12px;">
+                    <button type="button" id="btnViewProductPhoto" style="background:none;border:none;color:var(--muted);cursor:pointer;text-decoration:underline;font-family:inherit;font-size:12px;">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Full Photo
+                    </button>
+                    <span style="color:var(--line)">•</span>
+                    <button type="button" id="btnDownloadEnquiryPdf" style="background:none;border:none;color:var(--muted);cursor:pointer;text-decoration:underline;font-family:inherit;font-size:12px;">
+                        <i class="fa-solid fa-file-pdf"></i> Download Enquiry PDF
+                    </button>
+                </div>
+
+                <div class="es-help-tip" id="esHelpTip">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span id="esHelpTipText"><strong>Note:</strong> WhatsApp click-to-chat links cannot automatically attach image files. The product photo has been downloaded to your device — please tap the <strong>attachment icon (📎)</strong> in your WhatsApp chat and attach the photo to complete your enquiry.</span>
+                </div>
+
+                <button type="button" class="es-btn-done" id="btnDoneEnquiry">Close</button>
+            </div>
+
+            <p class="modal-note" id="modalNote">ⓘ &nbsp; For wholesale / B2B enquiries only</p>
         </section>
     </div>
 
-    <div class="toast" id="toast" role="status">Thanks! Your wholesale enquiry has been sent.</div>
+    <div class="toast" id="toast" role="status"></div>
 
     <!-- ===== FOOTER ===== -->
     <footer class="dp-footer">
@@ -568,7 +649,7 @@
                     <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
                     <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-                    <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://wa.me/919995926080" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
                 </div>
             </div>
             <div class="dp-footer-col">
@@ -630,6 +711,7 @@
             // ── CROSS COUNTRY FEATURED HERO PRODUCTS ──────────────────
             {
                 id: 'cc-straight-jeans',
+                code: 'APM',
                 aliases: ['cross-straight-fit-black', 'a1111111-1111-1111-1111-111111111111', 'straight-black', '509', '510', 'cc-202'],
                 name: 'CROSS COUNTRY – Straight Fit – Black',
                 brand: 'CROSS COUNTRY',
@@ -1017,6 +1099,7 @@
             // ── ORIGINAL BASE CATALOGUE ────────────────────────────────
             {
                 id: 'WLJ-001',
+                code: 'APM',
                 name: 'Wide Leg Jeans',
                 brand: 'DOT JEANS COLLECTION',
                 category: 'Jeans',
@@ -1240,6 +1323,7 @@
 
             return {
                 id: String(p.id),
+                code: p.code || p.product_code || p.item_code || 'APM',
                 name,
                 brand,
                 category,
@@ -1444,6 +1528,11 @@
             document.getElementById('pg-title').textContent = `${p.name} — DOT Jeans Co. | B2B Wholesale`;
             document.getElementById('dp-eyebrow').textContent = p.brand;
             document.getElementById('dp-title').textContent = p.name;
+            const pCode = p.code || p.product_code || 'APM';
+            const codeEl = document.getElementById('dpProductCode');
+            if (codeEl) codeEl.textContent = pCode;
+            const specCodeEl = document.getElementById('spec-code');
+            if (specCodeEl) specCodeEl.textContent = pCode;
             document.getElementById('dp-fit').textContent = p.fit;
             document.getElementById('dp-desc').textContent = p.description;
             document.getElementById('tab-desc-title').textContent = 'Product Details';
@@ -1625,33 +1714,50 @@
         }
 
         /* ──────────────────────────────────────────────────────────────
-           COLOURS
+           COLOURS (Interactive Selection)
            ────────────────────────────────────────────────────────────── */
         function renderColours() {
             const grid = document.getElementById('dpColourGrid');
+            if (!grid) return;
             grid.innerHTML = '';
-            PRODUCT.colours.forEach((c, i) => {
-                const btn = document.createElement('button');
-                btn.className = 'dp-colour-btn' + (i === selectedColourIndex ? ' active' : '');
-                btn.innerHTML = `
+            (PRODUCT.colours || []).forEach((c, idx) => {
+                const item = document.createElement('div');
+                item.className = 'dp-colour-btn' + (idx === selectedColourIndex ? ' active' : '');
+                item.setAttribute('aria-label', c.name);
+                item.setAttribute('role', 'button');
+                item.setAttribute('tabindex', '0');
+                item.innerHTML = `
           <div class="dp-colour-circle" style="background:${c.hex}"></div>
           <span class="dp-colour-name">${c.name}</span>`;
-                btn.addEventListener('click', () => selectColour(i));
-                grid.appendChild(btn);
+                item.addEventListener('click', () => {
+                    selectColour(idx);
+                });
+                item.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        selectColour(idx);
+                    }
+                });
+                grid.appendChild(item);
             });
         }
 
         function selectColour(idx) {
+            if (!PRODUCT || !PRODUCT.colours || !PRODUCT.colours[idx]) return;
             selectedColourIndex = idx;
-            document.querySelectorAll('.dp-colour-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
-            document.querySelectorAll('.dp-pack-swatch').forEach((s, i) => s.classList.toggle('active', i === idx));
-
+            const colour = PRODUCT.colours[idx];
             // Swap images if colour has its own images
-            const colourImages = PRODUCT.colours[idx].images;
+            const colourImages = colour?.images;
             if (colourImages && colourImages.length > 0) {
-                productImages = [...colourImages, ...PRODUCT.images].filter((v, i, a) => a.indexOf(v) === i);
-                renderGallery();
+                productImages = [...colourImages, ...(PRODUCT.images || [])].filter((v, i, a) => a.indexOf(v) === i);
+            } else {
+                productImages = (PRODUCT.images || []).slice();
             }
+            if (productImages.length === 0) productImages = ['asses/wideleg.jpg'];
+            renderGallery();
+            switchImage(0, false);
+            renderColours();
+            renderPackCard();
             renderModalColours();
         }
 
@@ -1675,12 +1781,22 @@
         <td>${p.pack.piecesPerPack} pcs</td>
     </tr>`;
 
-            swatches.innerHTML = p.colours.map((c, i) =>
-                `<div class="dp-pack-swatch${i === selectedColourIndex ? ' active' : ''}" style="background:${c.hex}" title="${c.name}" data-idx="${i}"></div>`
+            swatches.innerHTML = (p.colours || []).map((c, idx) =>
+                `<div class="dp-pack-swatch${idx === selectedColourIndex ? ' active' : ''}" style="background:${c.hex}" title="${c.name}" data-idx="${idx}" role="button" tabindex="0"></div>`
             ).join('');
 
             swatches.querySelectorAll('.dp-pack-swatch').forEach(sw => {
-                sw.addEventListener('click', () => selectColour(+sw.dataset.idx));
+                sw.addEventListener('click', () => {
+                    const i = parseInt(sw.dataset.idx, 10);
+                    if (!isNaN(i)) selectColour(i);
+                });
+                sw.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const i = parseInt(sw.dataset.idx, 10);
+                        if (!isNaN(i)) selectColour(i);
+                    }
+                });
             });
         }
 
@@ -1923,8 +2039,200 @@
         });
 
         /* ──────────────────────────────────────────────────────────────
-           ENQUIRY MODAL & SUPABASE SUBMISSION
+           ENQUIRY & WHATSAPP FUNCTIONALITY
            ────────────────────────────────────────────────────────────── */
+        const ENQUIRY_WA_NUMBER = '919995926080';
+
+        function getPublicImageUrl(src) {
+            if (!src) return '';
+            if (/^https?:\/\//i.test(src)) return src;
+            const cleanPath = String(src).replace(/^\.?\//, '');
+            const isLocal = !window.location.protocol.startsWith('http') ||
+                            window.location.hostname === 'localhost' ||
+                            window.location.hostname === '127.0.0.1';
+            if (!isLocal) {
+                try {
+                    return new URL(src, window.location.href).href;
+                } catch (e) { }
+            }
+            return `https://mhdrafi9995.github.io/Dotjeanscompany/${cleanPath}`;
+        }
+
+        function getProductPageUrl(productId, colourName) {
+            let base;
+            const isLocal = !window.location.protocol.startsWith('http') ||
+                            window.location.hostname === 'localhost' ||
+                            window.location.hostname === '127.0.0.1';
+            if (!isLocal) {
+                base = `${window.location.origin}${window.location.pathname}`;
+            } else {
+                base = 'https://mhdrafi9995.github.io/Dotjeanscompany/productDetails.html';
+            }
+            const params = new URLSearchParams();
+            if (productId) params.set('id', productId);
+            if (colourName) params.set('colour', colourName);
+            const qs = params.toString();
+            return qs ? `${base}?${qs}` : base;
+        }
+
+        /* ─── Image & File Conversion Helpers ─────────────────────── */
+        function dataUrlToBlob(dataUrl) {
+            const parts = dataUrl.split(',');
+            const mime = parts[0].match(/:(.*?);/)[1];
+            const bstr = atob(parts[1]);
+            let n = bstr.length;
+            const u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], { type: mime });
+        }
+
+        async function getPhotoBlobFromSrc(src) {
+            if (!src) return null;
+            if (src.startsWith('data:')) {
+                try { return dataUrlToBlob(src); } catch (e) { return null; }
+            }
+            try {
+                const resp = await fetch(src, { mode: 'cors' });
+                if (resp.ok) {
+                    const blob = await resp.blob();
+                    if (blob && blob.size > 0) return blob;
+                }
+            } catch (e) { }
+
+            return new Promise((resolve) => {
+                try {
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    img.onload = () => {
+                        try {
+                            const canvas = document.createElement('canvas');
+                            canvas.width = img.naturalWidth || img.width || 400;
+                            canvas.height = img.naturalHeight || img.height || 500;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0);
+                            canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.92);
+                        } catch (err) {
+                            resolve(null);
+                        }
+                    };
+                    img.onerror = () => resolve(null);
+                    img.src = src;
+                } catch (ex) {
+                    resolve(null);
+                }
+            });
+        }
+
+        function downloadPhotoDirect(blobOrUrl, filename) {
+            let url = blobOrUrl;
+            let needRevoke = false;
+            if (blobOrUrl instanceof Blob) {
+                url = URL.createObjectURL(blobOrUrl);
+                needRevoke = true;
+            }
+            if (!url) return;
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename || 'DOT_Jeans_Product.jpg';
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            if (needRevoke) {
+                setTimeout(() => URL.revokeObjectURL(url), 30000);
+            }
+        }
+
+        function buildProductWhatsAppMessage() {
+            const colour = (PRODUCT.colours && PRODUCT.colours[selectedColourIndex]) || (PRODUCT.colours && PRODUCT.colours[0]) || { name: 'Standard' };
+            const perPack = (PRODUCT.pack && PRODUCT.pack.piecesPerPack) || 12;
+            const totalPieces = perPack * packQty;
+            const qtyText = `${packQty} Pack${packQty > 1 ? 's' : ''} (${totalPieces} pcs)`;
+            const sizeList = (PRODUCT.pack && PRODUCT.pack.sizeBreakdown && PRODUCT.pack.sizeBreakdown.length > 0)
+                ? PRODUCT.pack.sizeBreakdown.map(s => s.size).join(', ')
+                : '28, 30, 32, 34, 36';
+            const pCode = PRODUCT.code || PRODUCT.product_code || (document.getElementById('dpProductCode')?.textContent?.trim()) || 'APM';
+
+            // Exact image of the customer-selected colour / product
+            const selectedImgSrc = (colour.images && colour.images[0]) || 
+                                   (PRODUCT.images && PRODUCT.images[0]) || 
+                                   document.getElementById('dp-main-img')?.getAttribute('src') || 
+                                   'asses/wideleg.jpg';
+            const directImageUrl = getPublicImageUrl(selectedImgSrc);
+            const productPageUrl = getProductPageUrl(PRODUCT.id, colour.name);
+
+            return [
+                `*Wholesale Product Enquiry — DOT Jeans Co.*`,
+                ``,
+                `* Exact product name: ${PRODUCT.name}`,
+                `* Brand name: ${PRODUCT.brand}`,
+                `* Product code: ${pCode}`,
+                `* Colour: ${colour.name}`,
+                `* Available sizes: ${sizeList}`,
+                `* Quantity: ${qtyText}`,
+                `* Product image URL: ${directImageUrl}`,
+                `* Product details page URL: ${productPageUrl}`,
+                ``,
+                `Please share wholesale pricing and availability.`
+            ].join('\n');
+        }
+
+        async function openProductWhatsAppEnquiry() {
+            const colour = (PRODUCT.colours && PRODUCT.colours[selectedColourIndex]) || (PRODUCT.colours && PRODUCT.colours[0]) || { name: 'Standard' };
+            const cleanBrand = (PRODUCT.brand || 'DOT').replace(/[^\w]/g, '_');
+            const cleanProdName = (PRODUCT.name || 'Product').replace(/[^\w]/g, '_');
+            const cleanColour = (colour.name || 'Standard').replace(/[^\w]/g, '_');
+            const photoFilename = `DOT_${cleanBrand}_${cleanProdName}_${cleanColour}.jpg`;
+            const selectedImgSrc = (colour.images && colour.images[0]) || 
+                                   (PRODUCT.images && PRODUCT.images[0]) || 
+                                   document.getElementById('dp-main-img')?.getAttribute('src') || 
+                                   'asses/wideleg.jpg';
+
+            const msg = buildProductWhatsAppMessage();
+            const waUrl = `https://wa.me/${ENQUIRY_WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            // Attempt Web Share with image file if supported
+            let shared = false;
+            try {
+                const blob = await getPhotoBlobFromSrc(selectedImgSrc);
+                if (blob && navigator.canShare) {
+                    const file = new File([blob], photoFilename, { type: blob.type || 'image/jpeg' });
+                    if (navigator.canShare({ files: [file] })) {
+                        await navigator.share({
+                            title: `DOT Jeans Wholesale Enquiry - ${PRODUCT.name}`,
+                            text: msg,
+                            files: [file]
+                        });
+                        shared = true;
+                    }
+                }
+            } catch (err) {
+                if (err.name === 'AbortError') return;
+            }
+
+            if (!shared) {
+                try {
+                    const blob = await getPhotoBlobFromSrc(selectedImgSrc);
+                    downloadPhotoDirect(blob || selectedImgSrc, photoFilename);
+                    if (typeof showToast === 'function') {
+                        showToast('✓ Product photo downloaded. Please attach in WhatsApp.');
+                    }
+                } catch (e) { }
+
+                if (isMobile) {
+                    window.location.href = waUrl;
+                } else {
+                    const win = window.open(waUrl, '_blank', 'noopener,noreferrer');
+                    if (!win || win.closed || typeof win.closed === 'undefined') {
+                        window.location.href = waUrl;
+                    }
+                }
+            }
+        }
+
         function renderModalColours() {
             const sel = document.getElementById('modalColourSelect');
             if (sel) {
@@ -1933,7 +2241,159 @@
             }
         }
 
-        function openEnquiryModal() {
+        // ── Helper to fetch logged-in customer profile from Supabase & storage ──
+        async function fetchCustomerProfile() {
+            let client = window.supabase || window.supabaseClient;
+            if (!client && typeof SUPABASE_URL !== 'undefined' && typeof SUPABASE_ANON_KEY !== 'undefined') {
+                if (window.supabase && typeof window.supabase.createClient === 'function') {
+                    client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                    window.supabase = client;
+                }
+            }
+
+            let authUser = null;
+            if (client && client.auth) {
+                try {
+                    const { data: { session } } = await client.auth.getSession();
+                    if (session && session.user) {
+                        authUser = session.user;
+                    }
+                } catch (e) { }
+            }
+
+            let dbProfile = null;
+            if (client && authUser && authUser.id && typeof client.from === 'function') {
+                try {
+                    const { data, error } = await client
+                        .from('profiles')
+                        .select('*')
+                        .eq('id', authUser.id)
+                        .maybeSingle();
+                    if (data && !error) {
+                        dbProfile = data;
+                    }
+                } catch (e) { }
+            }
+
+            let localUser = {};
+            try {
+                localUser = JSON.parse(localStorage.getItem('dot_user') || '{}');
+            } catch (e) { }
+
+            const meta = authUser?.user_metadata || {};
+
+            // 1. Customer Name – Automatically fill from the saved customer profile
+            let name = dbProfile?.full_name || dbProfile?.name || meta.full_name || meta.name || localUser.name || localUser.full_name || localStorage.getItem('dot_user_name') || '';
+            if (/^wholesale buyer$/i.test(name.trim())) name = '';
+
+            // 2. Shop Name – Fill from the saved shop/business profile; if not available, leave empty so customer can enter it
+            let shopName = dbProfile?.shop_name || meta.shop_name || localUser.shopName || localUser.shop_name || localStorage.getItem('dot_shop_name') || '';
+            if (/^wholesale buyer$/i.test(shopName.trim())) shopName = '';
+
+            // 3. WhatsApp Number – Automatically fill from saved WhatsApp number, if available
+            const whatsapp = dbProfile?.whatsapp || meta.whatsapp || localUser.whatsapp || '';
+
+            // 4. Mobile Number – Automatically fill from verified mobile number saved in Supabase
+            const mobile = authUser?.phone || dbProfile?.mobile || dbProfile?.phone || meta.phone || meta.mobile || localUser.phone || localUser.mobile || '';
+
+            return {
+                userId: authUser?.id || localUser.id || localUser.uid || null,
+                authUser,
+                dbProfile,
+                name: (name || '').trim(),
+                shopName: (shopName || '').trim(),
+                whatsapp: (whatsapp || '').trim(),
+                mobile: (mobile || '').trim()
+            };
+        }
+
+        // ── Helper to save updated customer details securely to Supabase ──
+        async function saveCustomerProfileUpdates(profileData) {
+            const client = window.supabase || window.supabaseClient;
+            const { name, shopName, whatsapp, mobile } = profileData;
+
+            // 1. Update local storage cache
+            try {
+                let localUser = JSON.parse(localStorage.getItem('dot_user') || '{}');
+                if (name) localUser.name = name;
+                if (shopName) {
+                    localUser.shopName = shopName;
+                    localUser.shop_name = shopName;
+                }
+                if (mobile) {
+                    localUser.phone = mobile;
+                    localUser.mobile = mobile;
+                }
+                if (whatsapp) localUser.whatsapp = whatsapp;
+                localStorage.setItem('dot_user', JSON.stringify(localUser));
+                if (name) localStorage.setItem('dot_user_name', name);
+                if (shopName) localStorage.setItem('dot_shop_name', shopName);
+
+                window.dispatchEvent(new CustomEvent('dot_profile_updated', {
+                    detail: { photo: localUser.avatar || '', name: name, shop: shopName }
+                }));
+                if (window.dotUpdateNavbarProfile) window.dotUpdateNavbarProfile();
+            } catch (e) { }
+
+            // 2. Update Supabase Auth user metadata & public.profiles
+            if (client && client.auth) {
+                try {
+                    const { data: { session } } = await client.auth.getSession();
+                    if (session && session.user) {
+                        await client.auth.updateUser({
+                            data: {
+                                full_name: name,
+                                shop_name: shopName,
+                                whatsapp: whatsapp,
+                                phone: mobile,
+                                mobile: mobile
+                            }
+                        }).catch(() => {});
+
+                        if (typeof client.from === 'function') {
+                            await client.from('profiles').upsert({
+                                id: session.user.id,
+                                full_name: name,
+                                shop_name: shopName,
+                                email: session.user.email || null,
+                                phone: mobile,
+                                mobile: mobile,
+                                whatsapp: whatsapp,
+                                updated_at: new Date().toISOString()
+                            }, { onConflict: 'id' }).catch(() => {});
+                        }
+                    }
+                } catch (err) {
+                    console.warn('Profile sync notice:', err);
+                }
+            }
+        }
+
+        async function openEnquiryModal() {
+            // Check if customer is authenticated; if not, ask them to log in or register first
+            let isAuthed = false;
+            if (typeof window.checkUserAuthStatus === 'function') {
+                isAuthed = await window.checkUserAuthStatus();
+            } else if (typeof window.isUserAuthenticated === 'function') {
+                isAuthed = window.isUserAuthenticated();
+            }
+
+            if (!isAuthed) {
+                localStorage.setItem('dot_pending_enquiry', 'true');
+                if (typeof window.openAuthModal === 'function') {
+                    window.openAuthModal();
+                }
+                return;
+            }
+
+            // Clear any previous error/alert messages
+            const alertEl = document.getElementById('enquiryAlert');
+            if (alertEl) {
+                alertEl.textContent = '';
+                alertEl.style.display = 'none';
+                alertEl.className = 'dot-enquiry-alert';
+            }
+
             const colour = PRODUCT.colours[selectedColourIndex] || PRODUCT.colours[0];
             const perPack = PRODUCT.pack.piecesPerPack || 12;
             const totalPieces = perPack * packQty;
@@ -1950,6 +2410,9 @@
 
             const fitEl = document.getElementById('modalProductFit');
             if (fitEl) fitEl.textContent = fitType;
+
+            const modalCodeEl = document.getElementById('modalProductCode');
+            if (modalCodeEl) modalCodeEl.textContent = PRODUCT.code || PRODUCT.product_code || 'APM';
 
             const colourEl = document.getElementById('modalProductColour');
             if (colourEl) colourEl.textContent = colour.name;
@@ -1988,31 +2451,71 @@
             const inputPacks = document.getElementById('modalPacks');
             if (inputPacks) inputPacks.value = packQty;
 
-            // Prefill customer details from saved user profile if available
+            // Fetch and auto-fill customer information fields from Supabase
             try {
-                const storedUser = JSON.parse(localStorage.getItem('dot_user') || 'null');
-                if (storedUser) {
-                    const shopEl = document.getElementById('enquiryShopName');
-                    if (shopEl && !shopEl.value && storedUser.shop_name) shopEl.value = storedUser.shop_name;
+                const profile = await fetchCustomerProfile();
 
-                    const nameInput = document.getElementById('enquiryName');
-                    if (nameInput && !nameInput.value && (storedUser.name || storedUser.full_name)) {
-                        nameInput.value = storedUser.name || storedUser.full_name;
-                    }
-
-                    const mobInput = document.getElementById('enquiryMobile');
-                    if (mobInput && !mobInput.value && (storedUser.phone || storedUser.mobile)) {
-                        mobInput.value = storedUser.phone || storedUser.mobile;
-                    }
-
-                    const waInput = document.getElementById('enquiryWhatsApp');
-                    if (waInput && !waInput.value && (storedUser.whatsapp || storedUser.phone)) {
-                        waInput.value = storedUser.whatsapp || storedUser.phone;
-                    }
+                // 1. Customer Name – Automatically fill from the saved customer profile
+                const nameInput = document.getElementById('enquiryName');
+                if (nameInput) {
+                    nameInput.value = profile.name || '';
+                    nameInput.readOnly = false;
                 }
-            } catch (e) { }
+
+                // 2. Shop Name – Fill from the saved shop/business profile; allow customer to enter if not available
+                const shopEl = document.getElementById('enquiryShopName');
+                if (shopEl) {
+                    shopEl.value = profile.shopName || '';
+                    shopEl.readOnly = false;
+                }
+
+                // 3. WhatsApp Number – Automatically fill from saved WhatsApp number, if available
+                const waInput = document.getElementById('enquiryWhatsApp');
+                if (waInput) {
+                    waInput.value = profile.whatsapp || '';
+                    waInput.readOnly = false;
+                }
+
+                // 4. Mobile Number – Automatically fill from verified mobile number saved in Supabase
+                const mobInput = document.getElementById('enquiryMobile');
+                if (mobInput) {
+                    mobInput.value = profile.mobile || '';
+                    mobInput.readOnly = false;
+                }
+            } catch (err) {
+                console.warn('Profile fetch notice:', err);
+            }
 
             renderModalColours();
+
+            // Reset modal state to show enquiry form view
+            const formEl = document.getElementById('enquiryForm');
+            if (formEl) formEl.style.display = 'block';
+
+            const photoUploadInput = document.getElementById('enquiryPhotoUpload');
+            if (photoUploadInput) photoUploadInput.value = '';
+            const previewWrap = document.getElementById('enquiryUploadPreviewWrap');
+            if (previewWrap) previewWrap.style.display = 'none';
+            const previewImg = document.getElementById('enquiryUploadPreviewImg');
+            if (previewImg) previewImg.src = '';
+
+            const successView = document.getElementById('enquirySuccessView');
+            if (successView) successView.style.display = 'none';
+
+            const summaryEl = document.getElementById('modalProductSummary');
+            if (summaryEl) summaryEl.style.display = 'flex';
+
+            const introEl = document.querySelector('.modal-card .intro');
+            if (introEl) introEl.style.display = 'block';
+
+            const noteEl = document.getElementById('modalNote');
+            if (noteEl) noteEl.style.display = 'block';
+
+            const submitBtn = document.getElementById('btnSubmitEnquiry');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>&nbsp; Submit Enquiry';
+            }
 
             document.getElementById('modal').classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -2023,103 +2526,470 @@
             document.body.style.overflow = '';
         }
 
-        ['dpEnquiryBtn', 'dpMobileEnquiryBtn', 'dpEnquiryBtnTab'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.addEventListener('click', openEnquiryModal);
-        });
+        window.openEnquiryModal = openEnquiryModal;
+        window.openProductWhatsAppEnquiry = openProductWhatsAppEnquiry;
+        window.buildProductWhatsAppMessage = buildProductWhatsAppMessage;
+
+        // When a customer clicks the Enquiry button on a product, open the existing enquiry form
+        const dpEnquiryBtn = document.getElementById('dpEnquiryBtn');
+        if (dpEnquiryBtn) dpEnquiryBtn.addEventListener('click', openEnquiryModal);
+
+        const dpMobileEnquiryBtn = document.getElementById('dpMobileEnquiryBtn');
+        if (dpMobileEnquiryBtn) dpMobileEnquiryBtn.addEventListener('click', openEnquiryModal);
+
+        // Keep the existing enquiry form modal accessible via the Enquiry Tab button
+        const dpEnquiryBtnTab = document.getElementById('dpEnquiryBtnTab');
+        if (dpEnquiryBtnTab) dpEnquiryBtnTab.addEventListener('click', openEnquiryModal);
         document.getElementById('closeEnquiry').addEventListener('click', closeEnquiryModal);
         document.getElementById('cancel').addEventListener('click', closeEnquiryModal);
         document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeEnquiryModal(); });
         document.addEventListener('keydown', e => { if (e.key === 'Escape') closeEnquiryModal(); });
 
-        async function submitEnquiryToSupabase(payload) {
-            const fullSummary = [
-                `Shop Name: ${payload.shop_name}`,
-                `Customer Name: ${payload.name}`,
-                `Mobile Number: ${payload.mobile}`,
-                `WhatsApp Number: ${payload.whatsapp}`,
-                `Product Name: ${payload.product_name}`,
-                `Brand: ${payload.brand}`,
-                `Fit / Type: ${payload.fit}`,
-                `Colour: ${payload.colour}`,
-                `Size: ${payload.size}`,
-                `Quantity / PCS: ${payload.quantity}`,
-                payload.message ? `Requirements: ${payload.message}` : ''
-            ].filter(Boolean).join('\n');
-
-            // 1. Always save in localStorage backup
-            try {
-                const list = JSON.parse(localStorage.getItem('dot_enquiries') || '[]');
-                list.push({ ...payload, fullSummary, created_at: new Date().toISOString() });
-                localStorage.setItem('dot_enquiries', JSON.stringify(list));
-            } catch (err) {
-                console.warn('Local storage backup notice:', err);
+        function dataUrlToBlob(dataUrl) {
+            const parts = dataUrl.split(',');
+            const mime = (parts[0].match(/:(.*?);/) || [])[1] || 'image/jpeg';
+            const binary = atob(parts[1]);
+            const array = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) {
+                array[i] = binary.charCodeAt(i);
             }
+            return new Blob([array], { type: mime });
+        }
 
-            // 2. Insert into Supabase 'enquiries' table
-            let client = window.supabase || window.supabaseClient;
-            if (!client || typeof client.from !== 'function') {
-                if (typeof SUPABASE_URL !== 'undefined' && typeof SUPABASE_ANON_KEY !== 'undefined' && window.supabase && typeof window.supabase.createClient === 'function') {
-                    client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                    window.supabase = client;
+        async function getPhotoFileFromSrc(src, filename) {
+            if (!src) return null;
+            try {
+                if (src.startsWith('data:')) {
+                    const blob = dataUrlToBlob(src);
+                    return new File([blob], filename, { type: blob.type || 'image/jpeg' });
                 }
-            }
-
-            if (!client || typeof client.from !== 'function') {
-                console.warn('Supabase client not initialized; enquiry cached in local storage.');
-                return;
-            }
-
-            const primaryPayload = {
-                shop_name: payload.shop_name,
-                business_name: payload.shop_name,
-                company_name: payload.shop_name,
-                name: payload.name,
-                contact_person: payload.name,
-                mobile: payload.mobile,
-                whatsapp: payload.whatsapp,
-                phone: payload.mobile || payload.whatsapp,
-                product_name: payload.product_name,
-                brand: payload.brand,
-                fit: payload.fit,
-                colour: payload.colour,
-                selected_colour: payload.colour,
-                size: payload.size,
-                selected_size: payload.size,
-                quantity: payload.quantity,
-                message: fullSummary,
-                notes: fullSummary,
-                status: 'pending'
-            };
+                const res = await fetch(src);
+                if (res.ok) {
+                    const blob = await res.blob();
+                    const mime = blob.type || (filename.toLowerCase().endsWith('.png') ? 'image/png' : 'image/jpeg');
+                    return new File([blob], filename, { type: mime });
+                }
+            } catch (e) { }
 
             try {
-                const { error } = await client.from('enquiries').insert([primaryPayload]);
-                if (!error) {
-                    console.log('Enquiry successfully inserted into Supabase enquiries table.');
+                const loaded = await loadImageAsDataUrl(src);
+                if (loaded && loaded.dataUrl) {
+                    const blob = dataUrlToBlob(loaded.dataUrl);
+                    return new File([blob], filename, { type: 'image/jpeg' });
+                }
+            } catch (e) { }
+            return null;
+        }
+
+        function downloadPhotoDirect(blobOrUrl, filename) {
+            try {
+                const a = document.createElement('a');
+                if (blobOrUrl instanceof Blob) {
+                    a.href = URL.createObjectURL(blobOrUrl);
+                } else if (typeof blobOrUrl === 'string') {
+                    a.href = blobOrUrl;
+                } else {
                     return;
                 }
-                console.warn('Primary insert returned notice, falling back to basic columns:', error);
-
-                // Fallback attempt for existing table schema
-                const fallbackPayload = {
-                    company_name: payload.shop_name,
-                    selected_colour: payload.colour,
-                    message: fullSummary,
-                    status: 'pending'
-                };
-                const { error: fbErr } = await client.from('enquiries').insert([fallbackPayload]);
-                if (fbErr) {
-                    console.warn('Fallback insert notice:', fbErr);
-                } else {
-                    console.log('Enquiry successfully inserted into Supabase via fallback columns.');
-                }
-            } catch (ex) {
-                console.error('Supabase insert exception:', ex);
+                a.download = filename || 'DOT_Jeans_Product_Photo.jpg';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } catch (e) {
+                console.warn('Direct photo download notice:', e);
             }
+        }
+
+        /* --------------------------------------------------------------
+           IMAGE HELPERS & PDF GENERATION (A4 Professional Layout)
+           Strictly excludes colours, colour counts, and prices
+           -------------------------------------------------------------- */
+        async function loadImageAsDataUrl(url) {
+            if (!url) return null;
+            if (url.startsWith('data:image/')) {
+                return { dataUrl: url, width: 300, height: 300, format: 'PNG' };
+            }
+
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.crossOrigin = 'Anonymous';
+                img.onload = function () {
+                    try {
+                        let w = img.naturalWidth || 400;
+                        let h = img.naturalHeight || 400;
+                        const maxDim = 800;
+                        if (w > maxDim || h > maxDim) {
+                            if (w > h) {
+                                h = Math.round((h * maxDim) / w);
+                                w = maxDim;
+                            } else {
+                                w = Math.round((w * maxDim) / h);
+                                h = maxDim;
+                            }
+                        }
+                        const canvas = document.createElement('canvas');
+                        canvas.width = w;
+                        canvas.height = h;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, w, h);
+                        const isLogo = url.indexOf('logo') !== -1;
+                        const isPng = url.toLowerCase().endsWith('.png') && isLogo;
+                        const format = isPng ? 'PNG' : 'JPEG';
+                        const dataUrl = canvas.toDataURL(isPng ? 'image/png' : 'image/jpeg', 0.82);
+                        resolve({
+                            dataUrl,
+                            width: w,
+                            height: h,
+                            format
+                        });
+                    } catch (e) {
+                        console.warn('Canvas export notice for', url, e);
+                        resolve(null);
+                    }
+                };
+                img.onerror = function () {
+                    console.warn('Image load failed for', url);
+                    resolve(null);
+                };
+                img.src = url;
+            });
+        }
+
+        function calculateFitDimensions(imgW, imgH, boxW, boxH) {
+            if (!imgW || !imgH) return { w: boxW, h: boxH, offsetX: 0, offsetY: 0 };
+            const ratio = Math.min(boxW / imgW, boxH / imgH);
+            const w = imgW * ratio;
+            const h = imgH * ratio;
+            const offsetX = (boxW - w) / 2;
+            const offsetY = (boxH - h) / 2;
+            return { w, h, offsetX, offsetY };
+        }
+
+        function buildEnquiryWhatsAppMessage(data) {
+            return [
+                `*DOT JEANS COMPANY - B2B WHOLESALE ENQUIRY*`,
+                ``,
+                `*Product Details:*`,
+                `• *Exact product name:* ${data.product_name}`,
+                `• *Brand name:* ${data.brand}`,
+                `• *Product code:* ${data.code}`,
+                `• *Colour:* ${data.colour || 'Standard'}`,
+                `• *Available sizes:* ${data.available_sizes}`,
+                `• *Quantity:* ${data.quantity}`,
+                `• *Fit / Product Type:* ${data.fit}`,
+                data.selected_size_qty ? `• *Selected Size & Qty:* ${data.selected_size_qty}` : '',
+                data.product_image_url ? `• *Product Photo URL:* ${data.product_image_url}` : '',
+                data.uploaded_photo_note ? `• *Sample Photo Uploaded:* ${data.uploaded_photo_note}` : '',
+                data.product_page_url ? `• *Product Details Link:* ${data.product_page_url}` : '',
+                ``,
+                `*Customer & Shop Details:*`,
+                `• *Shop Name:* ${data.shop_name}`,
+                `• *Customer Name:* ${data.name}`,
+                `• *Mobile Number:* ${data.mobile}`,
+                `• *WhatsApp Number:* ${data.whatsapp}`,
+                ``,
+                `*Customer Message / Requirements:*`,
+                data.message ? data.message : 'None',
+                ``,
+                `*Enquiry Date & Time:* ${data.date_time}`,
+                ``,
+                `_Selected product photo is attached with this enquiry._`
+            ].filter(Boolean).join('\n');
+        }
+
+        async function generateProductEnquiryPDF(data) {
+            const jsPDFClass = (window.jspdf && window.jspdf.jsPDF) ? window.jspdf.jsPDF : window.jsPDF;
+            if (!jsPDFClass) {
+                throw new Error('PDF generator library not loaded.');
+            }
+
+            const doc = new jsPDFClass({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4',
+                compress: true
+            });
+
+            // 1. Header (y = 10 to 30) - Pure white background, black text
+            let logoObj = null;
+            try {
+                logoObj = await loadImageAsDataUrl('asses/logo-main.png');
+            } catch (e) { }
+
+            if (logoObj && logoObj.dataUrl) {
+                const logoFit = calculateFitDimensions(logoObj.width, logoObj.height, 46, 16);
+                doc.addImage(logoObj.dataUrl, logoObj.format, 14 + logoFit.offsetX, 10 + logoFit.offsetY, logoFit.w, logoFit.h);
+            } else {
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(16);
+                doc.setTextColor(0, 0, 0);
+                doc.text('DOT JEANS COMPANY', 14, 18);
+            }
+
+            // Company Header (Right)
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(13);
+            doc.setTextColor(0, 0, 0);
+            doc.text('DOT JEANS COMPANY', 196, 13, { align: 'right' });
+
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8.5);
+            doc.setTextColor(60, 60, 60);
+            doc.text('Premium B2B Wholesale Denim & Apparel', 196, 18, { align: 'right' });
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(8);
+            doc.setTextColor(0, 0, 0);
+            doc.text('Direct Sales Desk: +91 9995926080  |  https://wa.me/919995926080', 196, 23, { align: 'right' });
+
+            // Divider Line
+            doc.setDrawColor(0, 0, 0);
+            doc.setLineWidth(0.4);
+            doc.line(14, 28, 196, 28);
+
+            // 2. Title & Metadata Bar (y = 32 to 44)
+            doc.setFillColor(255, 255, 255);
+            doc.setDrawColor(220, 220, 220);
+            doc.setLineWidth(0.3);
+            doc.roundedRect(14, 32, 182, 12, 1, 1, 'FD');
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            doc.text('OFFICIAL B2B PRODUCT ENQUIRY SPECIFICATION', 18, 39.5);
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(8);
+            doc.setTextColor(0, 0, 0);
+            doc.text(`DATE: ${data.dateTime}`, 192, 37.5, { align: 'right' });
+
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(7.5);
+            doc.setTextColor(70, 70, 70);
+            doc.text(`REF: ${data.enquiryRef}`, 192, 41.5, { align: 'right' });
+
+            // 3. Product & Order Specifications + Selected Product Image (y = 48 to 142)
+            const upperY = 48;
+            const upperH = 94;
+
+            doc.setFillColor(255, 255, 255);
+            doc.setDrawColor(220, 220, 220);
+            doc.setLineWidth(0.3);
+            doc.roundedRect(14, upperY, 182, upperH, 1.5, 1.5, 'FD');
+
+            // Header bar
+            doc.setFillColor(248, 248, 248);
+            doc.roundedRect(14, upperY, 182, 8, 1.5, 1.5, 'F');
+            doc.setDrawColor(220, 220, 220);
+            doc.line(14, upperY + 8, 196, upperY + 8);
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(8.5);
+            doc.setTextColor(0, 0, 0);
+            doc.text('1. SELECTED PRODUCT & ORDER SPECIFICATIONS', 18, upperY + 5.5);
+
+            // Left Sub-column: Specs Table (x = 18 to 116)
+            let rowY = upperY + 16;
+            const drawSpecRow = (label, value, isBold) => {
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(8.5);
+                doc.setTextColor(0, 0, 0);
+                doc.text(label, 18, rowY);
+
+                doc.setFont('helvetica', isBold ? 'bold' : 'normal');
+                doc.setFontSize(8.5);
+                doc.setTextColor(0, 0, 0);
+                const safeVal = String(value || 'N/A');
+                const clippedVal = safeVal.length > 38 ? safeVal.substring(0, 36) + '...' : safeVal;
+                doc.text(clippedVal, 56, rowY);
+
+                doc.setDrawColor(240, 240, 240);
+                doc.line(18, rowY + 2.5, 114, rowY + 2.5);
+                rowY += 10;
+            };
+
+            drawSpecRow('Product Name:', data.productName, true);
+            drawSpecRow('Brand:', data.brand, false);
+            drawSpecRow('Product Code:', data.code, true);
+            drawSpecRow('Fit / Type:', data.fit, false);
+            drawSpecRow('Colour:', data.colour, true);
+            drawSpecRow('Available Sizes:', data.availableSizes, false);
+            drawSpecRow('Quantity / PCS:', data.quantity, true);
+
+            // Right Sub-column: Selected Product Image (x = 118, y = upperY + 11, w = 74, h = 80)
+            const imgBoxX = 118;
+            const imgBoxY = upperY + 11;
+            const imgBoxW = 74;
+            const imgBoxH = 80;
+
+            doc.setFillColor(255, 255, 255);
+            doc.setDrawColor(220, 220, 220);
+            doc.roundedRect(imgBoxX, imgBoxY, imgBoxW, imgBoxH, 1, 1, 'FD');
+
+            doc.setFillColor(248, 248, 248);
+            doc.rect(imgBoxX, imgBoxY, imgBoxW, 6.5, 'F');
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(7.5);
+            doc.setTextColor(0, 0, 0);
+            doc.text('SELECTED PRODUCT IMAGE', imgBoxX + imgBoxW / 2, imgBoxY + 4.5, { align: 'center' });
+
+            let prodImgObj = null;
+            if (data.productImage) {
+                try {
+                    prodImgObj = await loadImageAsDataUrl(data.productImage);
+                } catch (e) { }
+            }
+            if (prodImgObj && prodImgObj.dataUrl) {
+                const fit = calculateFitDimensions(prodImgObj.width, prodImgObj.height, imgBoxW - 4, imgBoxH - 10);
+                doc.addImage(prodImgObj.dataUrl, prodImgObj.format, imgBoxX + 2 + fit.offsetX, imgBoxY + 8 + fit.offsetY, fit.w, fit.h);
+            } else {
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(8);
+                doc.setTextColor(120, 120, 120);
+                doc.text('Product Image Preview', imgBoxX + imgBoxW / 2, imgBoxY + imgBoxH / 2, { align: 'center' });
+            }
+
+            // 4. Buyer & Shop Information (y = 146 to 226)
+            const buyerY = 146;
+            const buyerH = 80;
+
+            doc.setFillColor(255, 255, 255);
+            doc.setDrawColor(220, 220, 220);
+            doc.roundedRect(14, buyerY, 182, buyerH, 1.5, 1.5, 'FD');
+
+            doc.setFillColor(248, 248, 248);
+            doc.roundedRect(14, buyerY, 182, 8, 1.5, 1.5, 'F');
+            doc.line(14, buyerY + 8, 196, buyerY + 8);
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(8.5);
+            doc.setTextColor(0, 0, 0);
+            doc.text('2. BUYER & SHOP INFORMATION', 18, buyerY + 5.5);
+
+            // Left Sub-column: Buyer Details (x = 18 to 108)
+            let bRowY = buyerY + 18;
+            const drawBuyerRow = (label, value) => {
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(8.5);
+                doc.setTextColor(0, 0, 0);
+                doc.text(label, 18, bRowY);
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(9);
+                doc.setTextColor(0, 0, 0);
+                doc.text(String(value || 'N/A'), 54, bRowY);
+
+                doc.setDrawColor(240, 240, 240);
+                doc.line(18, bRowY + 3, 108, bRowY + 3);
+                bRowY += 13;
+            };
+
+            drawBuyerRow('Shop Name:', data.shopName);
+            drawBuyerRow('Customer Name:', data.name);
+            drawBuyerRow('Mobile Number:', data.mobile);
+            drawBuyerRow('WhatsApp Number:', data.whatsapp);
+
+            // Right Sub-column: Customer Message / Requirements Box
+            const noteBoxX = 112;
+            const noteBoxY = buyerY + 11;
+            const noteBoxW = 80;
+            const noteBoxH = 65;
+
+            doc.setFillColor(255, 255, 255);
+            doc.setDrawColor(220, 220, 220);
+            doc.roundedRect(noteBoxX, noteBoxY, noteBoxW, noteBoxH, 1, 1, 'FD');
+
+            doc.setFillColor(248, 248, 248);
+            doc.rect(noteBoxX, noteBoxY, noteBoxW, 6.5, 'F');
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(7.5);
+            doc.setTextColor(0, 0, 0);
+            doc.text('CUSTOMER MESSAGE / SPECIAL REQUIREMENTS', noteBoxX + 4, noteBoxY + 4.5);
+
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8);
+            doc.setTextColor(0, 0, 0);
+            const rawMsg = data.message ? data.message.trim() : 'No additional requirements noted. Standard commercial pack requested.';
+            const splitMsg = doc.splitTextToSize(rawMsg, noteBoxW - 8);
+            doc.text(splitMsg.slice(0, 6), noteBoxX + 4, noteBoxY + 13);
+
+            doc.setFont('helvetica', 'italic');
+            doc.setFontSize(7.5);
+            doc.setTextColor(80, 80, 80);
+            doc.text(`Enquiry Date & Time: ${data.dateTime}`, noteBoxX + 4, noteBoxY + noteBoxH - 3);
+
+            // 5. Direct WhatsApp Support Action Banner (y = 230 to 258)
+            const waBannerY = 230;
+            doc.setFillColor(255, 255, 255);
+            doc.setDrawColor(22, 163, 74);
+            doc.setLineWidth(0.5);
+            doc.roundedRect(14, waBannerY, 182, 28, 1.5, 1.5, 'FD');
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(10.5);
+            doc.setTextColor(0, 0, 0);
+            doc.text('DIRECT WHATSAPP DESK: +91 9995926080', 105, waBannerY + 8, { align: 'center' });
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(9);
+            doc.setTextColor(22, 101, 52);
+            doc.text('https://wa.me/919995926080', 105, waBannerY + 14.5, { align: 'center' });
+
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8);
+            doc.setTextColor(0, 0, 0);
+            doc.text('Please attach this generated PDF enquiry in the WhatsApp chat for rapid confirmation and dispatch.', 105, waBannerY + 21.5, { align: 'center' });
+
+            // 6. Footer (y = 264 to 280)
+            doc.setDrawColor(220, 220, 220);
+            doc.setLineWidth(0.3);
+            doc.line(14, 264, 196, 264);
+
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(7.5);
+            doc.setTextColor(90, 90, 90);
+            doc.text('DOT Jeans Company \u00A9 2026 \u2022 Official B2B Wholesale Platform \u2022 No retail or wholesale prices displayed on enquiry', 105, 270, { align: 'center' });
+            doc.text(`Direct Wholesale Desk: +91 9995926080 \u2022 Document generated on ${data.dateTime}`, 105, 275, { align: 'center' });
+
+            return doc.output('blob');
+        }
+
+        /* --------------------------------------------------------------
+           ENQUIRY FORM SUBMISSION & WORKFLOW
+           -------------------------------------------------------------- */
+        let isSubmittingEnquiry = false;
+
+        function showEnquiryAlert(message, type = 'error') {
+            const alertEl = document.getElementById('enquiryAlert');
+            if (!alertEl) return;
+            alertEl.textContent = message;
+            alertEl.className = `dot-enquiry-alert ${type}`;
+            alertEl.style.display = 'block';
+            alertEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function clearEnquiryAlert() {
+            const alertEl = document.getElementById('enquiryAlert');
+            if (!alertEl) return;
+            alertEl.textContent = '';
+            alertEl.style.display = 'none';
+            alertEl.className = 'dot-enquiry-alert';
         }
 
         document.getElementById('enquiryForm').addEventListener('submit', async function (e) {
             e.preventDefault();
+
+            if (isSubmittingEnquiry) {
+                return;
+            }
+
+            clearEnquiryAlert();
+
+            const formEl = document.getElementById('enquiryForm');
+            if (formEl && !formEl.checkValidity()) {
+                formEl.reportValidity();
+                return;
+            }
 
             const shopName = document.getElementById('enquiryShopName').value.trim();
             const name = document.getElementById('enquiryName').value.trim();
@@ -2127,75 +2997,400 @@
             const whatsapp = document.getElementById('enquiryWhatsApp').value.trim();
             const message = document.getElementById('enquiryMessage') ? document.getElementById('enquiryMessage').value.trim() : '';
 
-            if (!shopName || !name || !mobile || !whatsapp) {
-                alert('Please fill all required fields: Shop Name, Name, Mobile Number, and WhatsApp Number.');
+            // 1. Validate Shop Name
+            if (!shopName) {
+                showEnquiryAlert('Please enter your Shop / Business Name.');
+                document.getElementById('enquiryShopName').focus();
                 return;
             }
 
-            const colour = PRODUCT.colours[selectedColourIndex] || PRODUCT.colours[0];
-            const perPack = PRODUCT.pack.piecesPerPack || 12;
-            const totalPieces = perPack * packQty;
-            const sizeList = (PRODUCT.pack.sizeBreakdown || []).map(s => s.size).join(', ');
-            const fitType = PRODUCT.subcategory ? `${PRODUCT.subcategory} — ${PRODUCT.fit}` : PRODUCT.fit;
-            const qtyText = `${packQty} Pack${packQty > 1 ? 's' : ''} (${totalPieces} pcs)`;
+            // 2. Validate Customer Name
+            if (!name) {
+                showEnquiryAlert('Please enter Customer Name / Contact Person.');
+                document.getElementById('enquiryName').focus();
+                return;
+            }
 
-            const enquiryData = {
-                shop_name: shopName,
-                name: name,
-                mobile: mobile,
-                whatsapp: whatsapp,
-                product_name: PRODUCT.name,
-                brand: PRODUCT.brand,
-                colour: colour.name,
-                size: sizeList,
-                quantity: qtyText,
-                fit: fitType,
-                product_id: PRODUCT.id,
-                message: message
-            };
+            // 3. Validate Mobile Number (min 10 digits)
+            const cleanMobile = mobile.replace(/\D/g, '');
+            if (cleanMobile.length < 10) {
+                showEnquiryAlert('Please enter a valid 10-digit Mobile Number.');
+                document.getElementById('enquiryMobile').focus();
+                return;
+            }
 
+            // 4. Validate WhatsApp Number (min 10 digits)
+            const cleanWhatsApp = whatsapp.replace(/\D/g, '');
+            if (cleanWhatsApp.length < 10) {
+                showEnquiryAlert('Please enter a valid 10-digit WhatsApp Number.');
+                document.getElementById('enquiryWhatsApp').focus();
+                return;
+            }
+
+            isSubmittingEnquiry = true;
             const submitBtn = document.getElementById('btnSubmitEnquiry');
             if (submitBtn) {
                 submitBtn.disabled = true;
-                submitBtn.textContent = 'Sending...';
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>&nbsp; Preparing WhatsApp...';
             }
 
             try {
-                await submitEnquiryToSupabase(enquiryData);
-            } catch (err) {
-                console.error('Enquiry submission error:', err);
-            }
+                // Save updated customer details to local storage cache & user profile metadata if authenticated
+                try {
+                    await saveCustomerProfileUpdates({
+                        name: name,
+                        shopName: shopName,
+                        whatsapp: cleanWhatsApp,
+                        mobile: cleanMobile
+                    });
+                } catch (profErr) {
+                    console.warn('Customer profile update notice:', profErr);
+                }
 
-            closeEnquiryModal();
-            showToast('Thanks! Your wholesale enquiry has been sent. We\'ll respond within 24 hours.');
+                // Fetch exact product details from Supabase if available
+                let targetProduct = PRODUCT;
+                try {
+                    const dbProd = await fetchProductFromSupabase(PRODUCT.id, PRODUCT.name, PRODUCT.brand, PRODUCT.fit);
+                    if (dbProd) targetProduct = dbProd;
+                } catch (ex) {
+                    console.warn('Supabase product query notice:', ex);
+                }
 
-            // Clear customer input fields
-            document.getElementById('enquiryShopName').value = '';
-            document.getElementById('enquiryName').value = '';
-            document.getElementById('enquiryMobile').value = '';
-            document.getElementById('enquiryWhatsApp').value = '';
-            if (document.getElementById('enquiryMessage')) document.getElementById('enquiryMessage').value = '';
+                const perPack = (targetProduct.pack && targetProduct.pack.piecesPerPack) || 12;
+                const totalPieces = perPack * packQty;
+                const sizeList = (targetProduct.pack && targetProduct.pack.sizeBreakdown) 
+                    ? targetProduct.pack.sizeBreakdown.map(s => s.size).join(', ') 
+                    : (document.getElementById('modalSizeInput') ? document.getElementById('modalSizeInput').value.trim() : '28, 30, 32, 34, 36');
+                const fitType = targetProduct.subcategory 
+                    ? `${targetProduct.subcategory} - ${targetProduct.fit}` 
+                    : (targetProduct.fit || 'Regular Fit');
+                const qtyText = `${packQty} Pack${packQty > 1 ? 's' : ''} (${totalPieces} pcs)`;
+                const prodCode = targetProduct.code || targetProduct.product_code || (document.getElementById('modalProductCode') ? document.getElementById('modalProductCode').textContent.trim() : 'APM');
+                const colourObj = (targetProduct.colours && targetProduct.colours[selectedColourIndex]) || (targetProduct.colours && targetProduct.colours[0]);
+                const colourName = colourObj ? (colourObj.name || colourObj) : (document.getElementById('modalColourInput') ? document.getElementById('modalColourInput').value.trim() : 'Standard');
 
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '&#10148;&nbsp; Send Enquiry';
+                // Identify the exact product image from the website
+                const selectedProductImg = (colourObj && colourObj.images && colourObj.images[0])
+                    || (targetProduct.images && targetProduct.images[0])
+                    || (document.getElementById('modalProductImg') ? document.getElementById('modalProductImg').src : '')
+                    || (document.getElementById('dpMainImg') ? document.getElementById('dpMainImg').src : '')
+                    || 'asses/wideleg.jpg';
+
+                const productImageUrl = getPublicImageUrl(selectedProductImg);
+                const productPageUrl = getProductPageUrl(targetProduct.id, colourName);
+
+                // Check for optional uploaded reference photo
+                const uploadedPhotoInput = document.getElementById('enquiryPhotoUpload');
+                const uploadedFile = (uploadedPhotoInput && uploadedPhotoInput.files && uploadedPhotoInput.files[0]) ? uploadedPhotoInput.files[0] : null;
+
+                const cleanBrand = (targetProduct.brand || 'DOT').replace(/[^\w]/g, '_');
+                const cleanProdName = (targetProduct.name || 'Product').replace(/[^\w]/g, '_');
+                const cleanColour = (colourName || 'Standard').replace(/[^\w]/g, '_');
+                const photoFilename = `DOT_${cleanBrand}_${cleanProdName}_${cleanColour}.jpg`;
+
+                // Convert identified product image to Blob & File object
+                let productPhotoBlob = null;
+                let productPhotoFile = null;
+                let productPhotoDataUrl = null;
+                try {
+                    productPhotoBlob = await getPhotoBlobFromSrc(selectedProductImg);
+                    if (productPhotoBlob) {
+                        productPhotoFile = new File([productPhotoBlob], photoFilename, { type: productPhotoBlob.type || 'image/jpeg' });
+                        productPhotoDataUrl = URL.createObjectURL(productPhotoBlob);
+                    }
+                } catch(imgErr) {
+                    console.warn('Product image conversion notice:', imgErr);
+                }
+
+                const now = new Date();
+                const dateTimeStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) + ', ' +
+                                    now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
+
+                // Build WhatsApp prefilled message
+                const waMessage = buildEnquiryWhatsAppMessage({
+                    product_name: targetProduct.name,
+                    brand: targetProduct.brand,
+                    code: prodCode,
+                    fit: fitType,
+                    colour: colourName,
+                    available_sizes: sizeList,
+                    selected_size_qty: `${sizeList} | ${qtyText}`,
+                    quantity: qtyText,
+                    product_image_url: productImageUrl,
+                    product_page_url: productPageUrl,
+                    uploaded_photo_note: uploadedFile ? `Custom sample attached (${uploadedFile.name})` : '',
+                    shop_name: shopName,
+                    name: name,
+                    mobile: cleanMobile,
+                    whatsapp: cleanWhatsApp,
+                    message: message,
+                    date_time: dateTimeStr
+                });
+
+                const waUrl = `https://wa.me/${ENQUIRY_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`;
+
+                // Generate optional PDF copy
+                let pdfFile = null;
+                let pdfUrl = null;
+                try {
+                    const pdfData = {
+                        productName: targetProduct.name,
+                        brand: targetProduct.brand,
+                        code: prodCode,
+                        fit: fitType,
+                        colour: colourName,
+                        availableSizes: sizeList,
+                        quantity: qtyText,
+                        productImage: selectedProductImg,
+                        shopName: shopName,
+                        name: name,
+                        mobile: cleanMobile,
+                        whatsapp: cleanWhatsApp,
+                        message: message,
+                        dateTime: dateTimeStr,
+                        enquiryRef: 'DOT-' + Math.random().toString(36).substring(2, 8).toUpperCase()
+                    };
+                    const pdfFilename = `DOT_Jeans_Enquiry_${cleanProdName}.pdf`;
+                    const pdfBlob = await generateProductEnquiryPDF(pdfData);
+                    pdfFile = new File([pdfBlob], pdfFilename, { type: 'application/pdf' });
+                    pdfUrl = URL.createObjectURL(pdfBlob);
+                    window.currentEnquiryPdfFile = pdfFile;
+                    window.currentEnquiryPdfUrl = pdfUrl;
+                    window.currentEnquiryPdfName = pdfFilename;
+                } catch(pdfErr) {
+                    console.warn('PDF generation notice:', pdfErr);
+                }
+
+                // Store state for action buttons
+                window.currentEnquiryPhotoFile = productPhotoFile;
+                window.currentEnquiryPhotoBlob = productPhotoBlob;
+                window.currentEnquiryPhotoUrl = productPhotoDataUrl || selectedProductImg;
+                window.currentEnquiryPhotoName = photoFilename;
+                window.currentEnquiryUploadedFile = uploadedFile;
+                window.currentEnquiryWaText = waMessage;
+                window.currentEnquiryWaUrl = waUrl;
+
+                // Share product photo via Web Share API when supported, otherwise open WhatsApp click-to-chat + auto-download photo
+                const filesToShare = [];
+                if (productPhotoFile) filesToShare.push(productPhotoFile);
+                if (uploadedFile) filesToShare.push(uploadedFile);
+
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                let sharedViaNativeSheet = false;
+
+                if (isMobile && navigator.canShare && filesToShare.length > 0 && navigator.canShare({ files: filesToShare })) {
+                    try {
+                        await navigator.share({
+                            title: `DOT Jeans Wholesale Enquiry - ${targetProduct.name}`,
+                            text: waMessage,
+                            files: filesToShare
+                        });
+                        sharedViaNativeSheet = true;
+                    } catch (shErr) {
+                        if (shErr.name !== 'AbortError') {
+                            console.warn('Native share sheet notice, falling back:', shErr);
+                        }
+                    }
+                }
+
+                if (!sharedViaNativeSheet) {
+                    // Fallback: download product photo to device so customer can attach it
+                    downloadPhotoDirect(productPhotoBlob || selectedProductImg, photoFilename);
+
+                    // Open WhatsApp click-to-chat URL
+                    if (isMobile) {
+                        window.open(waUrl, '_blank');
+                    } else {
+                        const waWin = window.open(waUrl, '_blank', 'noopener,noreferrer');
+                        if (!waWin || waWin.closed || typeof waWin.closed === 'undefined') {
+                            window.location.href = waUrl;
+                        }
+                    }
+                }
+
+                // Transition Modal UI to Success View with clear image display & status
+                formEl.style.display = 'none';
+                const summaryEl = document.getElementById('modalProductSummary');
+                if (summaryEl) summaryEl.style.display = 'none';
+                const introEl = document.querySelector('.modal-card .intro');
+                if (introEl) introEl.style.display = 'none';
+                const noteEl = document.getElementById('modalNote');
+                if (noteEl) noteEl.style.display = 'none';
+
+                // Display selected product photo & details
+                const photoImg = document.getElementById('esProductPhotoImg');
+                if (photoImg) photoImg.src = productPhotoDataUrl || selectedProductImg;
+                const photoTitle = document.getElementById('esProductPhotoTitle');
+                if (photoTitle) photoTitle.textContent = `${targetProduct.brand} • ${targetProduct.name}`;
+                const photoMeta = document.getElementById('esProductPhotoMeta');
+                if (photoMeta) photoMeta.textContent = `Colour: ${colourName} | Qty: ${qtyText}`;
+                const uploadBadge = document.getElementById('esUploadedPhotoBadge');
+                if (uploadBadge) uploadBadge.style.display = uploadedFile ? 'block' : 'none';
+
+                const esTitleEl = document.getElementById('esTitle');
+                const esDescEl = document.getElementById('esDesc');
+                const tipTextEl = document.getElementById('esHelpTipText');
+
+                if (sharedViaNativeSheet) {
+                    if (esTitleEl) esTitleEl.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--dp-green, #16a34a);"></i>&nbsp; Enquiry & Photo Shared!';
+                    if (esDescEl) esDescEl.textContent = 'Your enquiry details and selected product photo were shared directly to your chosen app.';
+                    if (tipTextEl) tipTextEl.innerHTML = '<strong>Next step:</strong> In your WhatsApp chat, check the message text and product photo preview, then tap <strong>Send</strong>.';
+                } else {
+                    if (esTitleEl) esTitleEl.innerHTML = '<i class="fa-brands fa-whatsapp" style="color:#25D366;"></i>&nbsp; Enquiry Opened in WhatsApp';
+                    if (esDescEl) esDescEl.textContent = 'WhatsApp has opened with your pre-filled enquiry text.';
+                    if (tipTextEl) tipTextEl.innerHTML = '<strong>Important:</strong> WhatsApp click-to-chat links cannot automatically attach image files. The selected product photo has been downloaded to your device (or you can save it below) — please tap the <strong>attachment icon (📎)</strong> in your WhatsApp chat and attach the photo to complete your enquiry.';
+                }
+
+                const successView = document.getElementById('enquirySuccessView');
+                if (successView) successView.style.display = 'block';
+
+                if (typeof showToast === 'function') {
+                    showToast('✓ Wholesale enquiry prepared for WhatsApp!');
+                }
+
+            } catch (error) {
+                console.error('Error preparing WhatsApp enquiry:', error);
+                showEnquiryAlert('Failed to prepare enquiry: ' + (error.message || 'Please check your connection and try again.'));
+            } finally {
+                isSubmittingEnquiry = false;
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>&nbsp; Submit Enquiry';
+                }
             }
         });
 
-        /* ──────────────────────────────────────────────────────────────
-           WHATSAPP (No price displayed)
-           ────────────────────────────────────────────────────────────── */
-        function buildWhatsappMsg() {
-            const colour = PRODUCT.colours[selectedColourIndex] || PRODUCT.colours[0];
-            const totalPieces = (PRODUCT.pack.piecesPerPack || 12) * packQty;
-            const fitType = PRODUCT.subcategory ? `${PRODUCT.subcategory} — ${PRODUCT.fit}` : PRODUCT.fit;
-            const sizeList = (PRODUCT.pack.sizeBreakdown || []).map(s => s.size).join(', ');
-            const msg = `Hello, I am interested in wholesale order for:\n\n*${PRODUCT.name}*\nBrand: ${PRODUCT.brand}\nFit / Type: ${fitType}\nColour: ${colour.name}\nQuantity: ${packQty} Pack${packQty > 1 ? 's' : ''} (${totalPieces} Pieces)\nSizes: ${sizeList}\n\nPlease share wholesale details and catalog.`;
-            return `https://wa.me/919747710360?text=${encodeURIComponent(msg)}`;
+        // WhatsApp Share button
+        const btnShareWa = document.getElementById('btnShareEnquiryWhatsApp');
+        if (btnShareWa) {
+            btnShareWa.addEventListener('click', async function () {
+                const filesToShare = [];
+                if (window.currentEnquiryPhotoFile) filesToShare.push(window.currentEnquiryPhotoFile);
+                if (window.currentEnquiryUploadedFile) filesToShare.push(window.currentEnquiryUploadedFile);
+                const text = window.currentEnquiryWaText || '';
+                const waUrl = window.currentEnquiryWaUrl || `https://wa.me/${ENQUIRY_WA_NUMBER}`;
+
+                if (navigator.canShare && filesToShare.length > 0 && navigator.canShare({ files: filesToShare })) {
+                    try {
+                        await navigator.share({
+                            title: 'DOT Jeans Wholesale Enquiry',
+                            text: text,
+                            files: filesToShare
+                        });
+                        return;
+                    } catch (err) {
+                        if (err.name === 'AbortError') return;
+                        console.warn('Native share notice:', err);
+                    }
+                }
+
+                // Fallback: download photo & open WhatsApp directly
+                if (window.currentEnquiryPhotoBlob || window.currentEnquiryPhotoUrl) {
+                    downloadPhotoDirect(window.currentEnquiryPhotoBlob || window.currentEnquiryPhotoUrl, window.currentEnquiryPhotoName);
+                }
+                window.open(waUrl, '_blank', 'noopener,noreferrer');
+            });
         }
 
-        document.getElementById('dpWhatsappBtn').addEventListener('click', () => window.open(buildWhatsappMsg(), '_blank'));
-        document.getElementById('dpCardWA').addEventListener('click', () => window.open(buildWhatsappMsg(), '_blank'));
+        // Download Product Photo button
+        const btnDownloadPhoto = document.getElementById('btnDownloadProductPhoto');
+        if (btnDownloadPhoto) {
+            btnDownloadPhoto.addEventListener('click', function () {
+                if (window.currentEnquiryPhotoBlob || window.currentEnquiryPhotoUrl) {
+                    downloadPhotoDirect(window.currentEnquiryPhotoBlob || window.currentEnquiryPhotoUrl, window.currentEnquiryPhotoName);
+                    if (typeof showToast === 'function') showToast('✓ Product photo downloaded');
+                }
+            });
+        }
+
+        // View Full Photo button
+        const btnViewPhoto = document.getElementById('btnViewProductPhoto');
+        if (btnViewPhoto) {
+            btnViewPhoto.addEventListener('click', function () {
+                const url = window.currentEnquiryPhotoUrl;
+                if (url) window.open(url, '_blank');
+            });
+        }
+
+        // Download PDF button
+        const btnDownloadPdf = document.getElementById('btnDownloadEnquiryPdf');
+        if (btnDownloadPdf) {
+            btnDownloadPdf.addEventListener('click', function () {
+                if (window.currentEnquiryPdfUrl) {
+                    const a = document.createElement('a');
+                    a.href = window.currentEnquiryPdfUrl;
+                    a.download = window.currentEnquiryPdfName || 'DOT_Jeans_Enquiry.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                }
+            });
+        }
+
+        // Done / Close button
+        const btnDone = document.getElementById('btnDoneEnquiry');
+        if (btnDone) {
+            btnDone.addEventListener('click', function () {
+                closeEnquiryModal();
+            });
+        }
+
+        // Photo Upload input listeners
+        const photoUploadInput = document.getElementById('enquiryPhotoUpload');
+        const uploadPreviewWrap = document.getElementById('enquiryUploadPreviewWrap');
+        const uploadPreviewImg = document.getElementById('enquiryUploadPreview');
+        const uploadFilename = document.getElementById('enquiryUploadFilename');
+        const btnClearUpload = document.getElementById('btnClearUploadedPhoto');
+
+        if (photoUploadInput) {
+            photoUploadInput.addEventListener('change', function () {
+                const file = this.files && this.files[0];
+                if (file) {
+                    if (uploadFilename) uploadFilename.textContent = file.name;
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        if (uploadPreviewImg) uploadPreviewImg.src = e.target.result;
+                        if (uploadPreviewWrap) uploadPreviewWrap.style.display = 'flex';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    if (uploadPreviewWrap) uploadPreviewWrap.style.display = 'none';
+                }
+            });
+        }
+
+        if (btnClearUpload) {
+            btnClearUpload.addEventListener('click', function () {
+                if (photoUploadInput) photoUploadInput.value = '';
+                if (uploadPreviewWrap) uploadPreviewWrap.style.display = 'none';
+                if (uploadPreviewImg) uploadPreviewImg.src = '';
+            });
+        }
+
+        /* ──────────────────────────────────────────────────────────────
+           WHATSAPP (Direct Click-to-Chat)
+           ────────────────────────────────────────────────────────────── */
+        function buildWhatsappMsg() {
+            return `https://wa.me/${ENQUIRY_WA_NUMBER}?text=${encodeURIComponent(buildProductWhatsAppMessage())}`;
+        }
+
+        const copyCodeBtn = document.getElementById('dpCopyCodeBtn');
+        if (copyCodeBtn) {
+            copyCodeBtn.addEventListener('click', () => {
+                const codeVal = document.getElementById('dpProductCode')?.textContent || 'APM';
+                navigator.clipboard.writeText(codeVal).then(() => {
+                    copyCodeBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
+                    copyCodeBtn.classList.add('copied');
+                    setTimeout(() => {
+                        copyCodeBtn.innerHTML = '<i class="fa-regular fa-copy"></i>';
+                        copyCodeBtn.classList.remove('copied');
+                    }, 1800);
+                }).catch(() => {});
+            });
+        }
+
+        document.getElementById('dpWhatsappBtn').addEventListener('click', openProductWhatsAppEnquiry);
+        document.getElementById('dpCardWA').addEventListener('click', openProductWhatsAppEnquiry);
 
         /* ──────────────────────────────────────────────────────────────
            GALLERY NAV + LIGHTBOX

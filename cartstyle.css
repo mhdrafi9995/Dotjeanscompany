@@ -62,9 +62,26 @@ select { font-family: inherit; }
 
 /* Logo */
 .ct-logo {
-    display: flex;
-    flex-direction: column;
+    display: inline-flex;
+    align-items: center;
     line-height: 1;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+.ct-logo-img {
+    height: 38px;
+    width: auto;
+    object-fit: contain;
+    background: #ffffff;
+    padding: 3px 8px;
+    border-radius: 7px;
+    display: block;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.ct-logo:hover .ct-logo-img {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
 }
 .ct-logo-dot {
     font-size: 22px;

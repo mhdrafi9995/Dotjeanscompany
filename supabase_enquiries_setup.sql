@@ -6,6 +6,8 @@
 -- 1. Create table if not exists with all required customer and product fields
 CREATE TABLE IF NOT EXISTS public.enquiries (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    customer_id UUID,
+    user_id UUID,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     shop_name TEXT,
     business_name TEXT,
@@ -33,6 +35,14 @@ CREATE TABLE IF NOT EXISTS public.enquiries (
 -- 2. Alter existing table to add any missing columns safely
 DO $$
 BEGIN
+    -- Customer ID columns
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'enquiries' AND column_name = 'customer_id') THEN
+        ALTER TABLE public.enquiries ADD COLUMN customer_id UUID;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'enquiries' AND column_name = 'user_id') THEN
+        ALTER TABLE public.enquiries ADD COLUMN user_id UUID;
+    END IF;
+
     -- Customer columns
     IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'enquiries' AND column_name = 'shop_name') THEN
         ALTER TABLE public.enquiries ADD COLUMN shop_name TEXT;
