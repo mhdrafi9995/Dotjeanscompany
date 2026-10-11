@@ -142,11 +142,9 @@
         <section class="hero full-hero">
             <!-- Background Slider -->
             <div class="hero-bg-slider">
-                <div class="hero-slide active" style="background-image: url('asses/banner1.jpeg');"></div>
-                <div class="hero-slide" style="background-image: url('asses/banner2.jpeg');"></div>
-
-
-                <div class="hero-slide" style="background-image: url('asses/banner3.png');"></div>
+                <a href="category-jeans.html" class="hero-slide active" style="background-image: url('asses/banner1.jpeg');" aria-label="Explore Jeans Collection"></a>
+                <a href="category-jeans.html" class="hero-slide" style="background-image: url('asses/banner2.jpeg');" aria-label="Explore Jeans Collection"></a>
+                <a href="category-shorts.html" class="hero-slide" style="background-image: url('asses/banner3.png');" aria-label="Explore Shorts Collection"></a>
             </div>
 
             <div class="hero-content new-hero-content">
@@ -357,7 +355,7 @@
                     <p class="banner-brand">DOT JEANS CO.</p>
                     <h2>Bulk Orders. Better Rates.</h2>
                     <p class="banner-subtext">Get the best wholesale prices for your store or business.</p>
-                    <a href="#" class="btn-banner">Get Wholesale Quote &rarr;</a>
+                    <a href="https://wa.me/919995926080?text=Hi%2C%20I%20would%20like%20to%20get%20a%20wholesale%20quote%20for%20DOT%20Jeans." target="_blank" rel="noopener noreferrer" class="btn-banner">Get Wholesale Quote &rarr;</a>
                 </div>
                 <div class="banner-right">
                     <div class="banner-feature">
@@ -607,17 +605,29 @@
 
             let currentSlide = 0;
 
-            function nextSlide() {
+            function goToSlide(index) {
                 slides[currentSlide].classList.remove('active');
-                indicators[currentSlide].classList.remove('active');
+                if (indicators[currentSlide]) indicators[currentSlide].classList.remove('active');
 
-                currentSlide = (currentSlide + 1) % slides.length;
+                currentSlide = index;
 
                 slides[currentSlide].classList.add('active');
-                indicators[currentSlide].classList.add('active');
+                if (indicators[currentSlide]) indicators[currentSlide].classList.add('active');
             }
 
-            setInterval(nextSlide, 5000); // Change image every 5 seconds
+            function nextSlide() {
+                goToSlide((currentSlide + 1) % slides.length);
+            }
+
+            let slideInterval = setInterval(nextSlide, 5000); // Change image every 5 seconds
+
+            indicators.forEach((indicator, idx) => {
+                indicator.addEventListener('click', function () {
+                    clearInterval(slideInterval);
+                    goToSlide(idx);
+                    slideInterval = setInterval(nextSlide, 5000);
+                });
+            });
         });
 
     </script>
