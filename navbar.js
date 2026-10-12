@@ -7,10 +7,10 @@ const navbarCSS = `
     top: 0;
     left: 0;
     z-index: 1000;
-    background: transparent;
+    background: #0f1d2f;
     transition: all 0.3s ease;
     width: 100%;
-    border-bottom: 1px solid transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 .ct-header.scrolled {
     background: rgba(15, 29, 47, 0.7);
@@ -18,6 +18,16 @@ const navbarCSS = `
     -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+}
+.ct-header-spacer {
+    height: 64px;
+    width: 100%;
+    display: block;
+}
+@media (max-width: 768px) {
+    .ct-header-spacer {
+        height: 56px;
+    }
 }
 .ct-header-inner {
     max-width: 1400px;
@@ -173,19 +183,15 @@ const navbarCSS = `
     flex-shrink: 0;
 }
 .ct-logo-img {
-    height: 38px;
+    height: 36px;
     width: auto;
     object-fit: contain;
-    background: #ffffff;
-    padding: 3px 8px;
-    border-radius: 7px;
     display: block;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
 .ct-logo:hover .ct-logo-img {
     transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
 }
 .ct-logo-dot {
     font-size: 22px;
@@ -684,6 +690,7 @@ const navbarCSS = `
     .ct-hamburger { display: flex; }
     .ct-search-wrap { display: none; }
     .ct-header-inner { height: 56px; padding: 0 16px; }
+    .ct-logo-img { height: 28px; }
     .ct-profile-btn { width: 30px; height: 30px; }
     .ct-profile-btn i { font-size: 15px; }
     .ct-header-icons { gap: 14px; }
@@ -969,7 +976,7 @@ const navbarHTML = `
 <header class="ct-header" id="ct-header">
     <div class="ct-header-inner">
         <a href="index.html" class="ct-logo" aria-label="DOT Jeans Company">
-            <img src="asses/logo-main.png" alt="DOT Jeans Company" class="ct-logo-img">
+            <img src="asses/logo-navbar.png" alt="DOT Jeans Company" class="ct-logo-img">
         </a>
         <nav class="ct-nav" id="ct-nav">
             <ul>
@@ -1324,12 +1331,15 @@ class DotNavbar extends HTMLElement {
 
             // Header scroll effect and hero detection
             const header = this.querySelector('#ct-header');
-            const isHeroPage = document.querySelector('.full-hero') || document.querySelector('.cat-hero') || document.querySelector('.about-hero');
+            const isHeroPage = document.querySelector('.cat-hero') || document.querySelector('.about-hero');
             
-            if (!isHeroPage) {
-                // Add spacer so content doesn't hide under fixed header
+            if (isHeroPage) {
+                header.style.background = 'transparent';
+                header.style.borderBottomColor = 'transparent';
+            } else {
+                // Add responsive spacer so content doesn't hide under fixed header
                 const spacer = document.createElement('div');
-                spacer.style.height = '64px';
+                spacer.className = 'ct-header-spacer';
                 this.insertBefore(spacer, header);
                 header.style.background = '#0f1d2f'; // Solid dark for readability
             }
@@ -1339,12 +1349,15 @@ class DotNavbar extends HTMLElement {
                     if (window.scrollY > 20) {
                         header.classList.add('scrolled');
                         header.style.background = ''; // Let CSS class handle the glassmorphism
+                        header.style.borderBottomColor = '';
                     } else {
                         header.classList.remove('scrolled');
                         if (!isHeroPage) {
                             header.style.background = '#0f1d2f';
+                            header.style.borderBottomColor = 'rgba(255, 255, 255, 0.08)';
                         } else {
                             header.style.background = 'transparent';
+                            header.style.borderBottomColor = 'transparent';
                         }
                     }
                 }

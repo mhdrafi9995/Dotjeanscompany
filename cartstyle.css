@@ -69,19 +69,15 @@ select { font-family: inherit; }
     flex-shrink: 0;
 }
 .ct-logo-img {
-    height: 38px;
+    height: 36px;
     width: auto;
     object-fit: contain;
-    background: #ffffff;
-    padding: 3px 8px;
-    border-radius: 7px;
     display: block;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
 .ct-logo:hover .ct-logo-img {
     transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
 }
 .ct-logo-dot {
     font-size: 22px;
@@ -1090,6 +1086,7 @@ select { font-family: inherit; }
     .ct-search-wrap { display: none; }
 
     .ct-header-inner { height: 56px; padding: 0 16px; }
+    .ct-logo-img { height: 28px; }
     .ct-main { padding: 16px 14px 40px; }
 
     .ct-cart-heading { flex-direction: column; gap: 12px; }

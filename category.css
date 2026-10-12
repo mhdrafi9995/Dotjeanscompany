@@ -595,6 +595,12 @@ body {
     color: var(--ink);
 }
 
+/* Category listing pages — hide price display */
+.cat-layout .pcard-price,
+.cat-products-area .pcard-price {
+    display: none !important;
+}
+
 .pcard-price .per {
     font-size: 11px;
     font-weight: 400;

@@ -142,6 +142,9 @@ function productCardHTML(p) {
     const outOfStockStyle = stockStatus.isOut ? 'opacity: 0.6;' : '';
     const safeDetailsUrl = (p.detailsUrl && !p.detailsUrl.includes('linen-product-details')) ? p.detailsUrl : 'productDetails.html';
     
+    const isCategoryPage = typeof CATEGORY_PRODUCTS !== 'undefined' || window.location.pathname.includes('category-');
+    const priceHTML = isCategoryPage ? '' : `<div class="pcard-price">₹${p.price.toLocaleString('en-IN')}<span class="per"> / piece</span></div>`;
+    
     return `
       <div class="pcard" data-href="${safeDetailsUrl}" data-product-id="${p.id}" data-product-name="${encodeURIComponent(p.name || '')}" data-product-category="${encodeURIComponent(p.category || '')}" data-product-fit="${encodeURIComponent(p.fit || '')}">
         <div class="pcard-img-wrap" style="${outOfStockStyle}">
@@ -153,7 +156,7 @@ function productCardHTML(p) {
         </div>
         <div class="pcard-info">
           <div class="pcard-name">${p.name}</div>
-          <div class="pcard-price">₹${p.price.toLocaleString('en-IN')}<span class="per"> / piece</span></div>
+          ${priceHTML}
           <div class="pcard-sizes">Sizes: ${p.sizes.join(', ')}</div>
           <div class="pcard-colors">${swatches}</div>
           ${stockStatus.isOut ? `<button class="pcard-out-btn" disabled>Out of Stock</button>` : ''}
