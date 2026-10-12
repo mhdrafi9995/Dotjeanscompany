@@ -1072,7 +1072,7 @@ const navbarHTML = `
 </div>
 
 <div class="ct-whatsapp-widget" id="ctWhatsAppWidget">
-    <a href="https://wa.me/919995926080?text=Hello%20DOT%20Jeans%20Co.%2C%20I%20have%20an%20enquiry" class="ct-support-popup" id="ctWhatsAppPopup" target="_blank" rel="noopener noreferrer" aria-label="Chat With Us on WhatsApp">
+    <a href="https://wa.me/919747710360?text=Hello%20DOT%20Jeans%20Co.%2C%20I%20have%20an%20enquiry" class="ct-support-popup" id="ctWhatsAppPopup" target="_blank" rel="noopener noreferrer" aria-label="Chat With Us on WhatsApp">
         <div class="ct-support-popup-body">
             <div class="ct-support-popup-header">
                 <span class="ct-support-live-indicator">
@@ -1085,7 +1085,7 @@ const navbarHTML = `
         </div>
         <div class="ct-support-popup-tail"></div>
     </a>
-    <a href="https://wa.me/919995926080?text=Hello%20DOT%20Jeans%20Co.%2C%20I%20have%20an%20enquiry" class="ct-support-avatar-btn" id="ctWhatsAppBtn" target="_blank" rel="noopener noreferrer" aria-label="Chat With Customer Support">
+    <a href="https://wa.me/919747710360?text=Hello%20DOT%20Jeans%20Co.%2C%20I%20have%20an%20enquiry" class="ct-support-avatar-btn" id="ctWhatsAppBtn" target="_blank" rel="noopener noreferrer" aria-label="Chat With Customer Support">
         <svg class="ct-support-vector" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <!-- Broad Male Shoulders / Blazer -->
             <path d="M12 64C12 50 19 44 26 43L38 43C45 44 52 50 52 64Z" fill="#0F1D2F"/>
