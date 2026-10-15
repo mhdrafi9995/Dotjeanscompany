@@ -19,7 +19,7 @@
         <a class="brand" href="#"><strong>DOT<sup>®</sup></strong><span>JEANS CO.</span></a>
         <nav><a href="#">Home</a><a href="#">Shop</a><a href="#">About</a><a href="#">Gallery</a><a href="#">Contact</a>
         </nav>
-        <div class="header-actions"><button aria-label="Search">⌕</button><button aria-label="Account">♙</button><button
+        <div class="header-actions"><button aria-label="Search">⌕</button><!-- Account button temporarily disabled: <button aria-label="Account">♙</button> --><button
                 class="cart" aria-label="Cart">🛒<i>0</i></button></div>
     </header>
 
@@ -179,6 +179,15 @@
     const modal = document.querySelector('#modal');
 
     const openModal = () => {
+        const form = document.querySelector('#enquiryForm');
+        if (form) {
+            if (form.elements['business']) form.elements['business'].value = '';
+            if (form.elements['person']) form.elements['person'].value = '';
+            if (form.elements['phone']) form.elements['phone'].value = '';
+            if (form.elements['email']) form.elements['email'].value = '';
+            if (form.elements['location']) form.elements['location'].value = '';
+            if (form.elements['message']) form.elements['message'].value = '';
+        }
         modal.classList.add('active');
     };
 

@@ -2,6 +2,32 @@
    DOT JEANS CO. — WHOLESALE ACCOUNT CREATION (SUPABASE AUTH)
    ================================================================ */
 
+// ================================================================
+// FEATURE TOGGLE: PROFILE & AUTHENTICATION
+// Set to false to temporarily disable the entire Profile feature:
+// - Disables login, signup, and OTP authentication
+// - Disables session persistence and session checking
+// - Disables protected routes and authentication redirects
+// Set to true to re-enable the Profile and Authentication feature.
+// ================================================================
+const ENABLE_PROFILE = typeof window.ENABLE_PROFILE !== 'undefined' ? window.ENABLE_PROFILE : false;
+window.ENABLE_PROFILE = ENABLE_PROFILE;
+
+if (!ENABLE_PROFILE) {
+    // Safe stubs to prevent broken references while auth & profile are temporarily disabled
+    window.isUserAuthenticated = function () { return false; };
+    window.isUserLoggedIn = function () { return false; };
+    window.checkUserAuthStatus = async function () { return false; };
+    window.openAuthModal = function () { /* Authentication temporarily disabled */ };
+    window.closeAuthModal = function () { /* Authentication temporarily disabled */ };
+    window.showAuthPhoneStep = function () { };
+    window.showAuthOtpStep = function () { };
+    window.handleSendOtp = async function () { };
+    window.handleVerifyOtp = async function () { };
+    window.handleGoogleSignIn = async function () { };
+    window.BYPASS_AUTH_FOR_ENQUIRY = true;
+} else {
+
 const authCSS = `
 /* ================================================================
    CREATE ACCOUNT MODAL STYLES (MATCHES REFERENCE EXACTLY)
@@ -1242,3 +1268,5 @@ document.addEventListener('click', async function (e) {
         window.openAuthModal();
     }
 }, true);
+
+} // end if (ENABLE_PROFILE)

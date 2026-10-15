@@ -1,3 +1,15 @@
+// ================================================================
+// FEATURE TOGGLE: PROFILE & AUTHENTICATION
+// Set to false to temporarily disable the entire Profile feature:
+// - Hides Profile icon / button from navbar (desktop & mobile)
+// - Hides Profile page navigation links
+// - Disables session persistence and session checking
+// - Disables login, signup, and OTP authentication
+// Set to true to re-enable the Profile feature in the future.
+// ================================================================
+const ENABLE_PROFILE = false;
+window.ENABLE_PROFILE = ENABLE_PROFILE;
+
 const navbarCSS = `
 /* ================================================================
    DOT JEANS CO. — SHARED NAVBAR CSS (From cartstyle.css)
@@ -403,6 +415,21 @@ const navbarCSS = `
 }
 
 /* Profile Dropdown & Profile Button */
+${!ENABLE_PROFILE ? `
+/* Profile Feature: Temporarily disabled (hidden on desktop and mobile) */
+.ct-profile-dropdown,
+.ct-profile-btn,
+#navAccountWrap,
+#navAccountBtn,
+.ct-profile-chevron,
+.ct-profile-menu,
+.ct-nav-item-profile,
+.ct-nav-profile,
+.ct-nav a[href*="profile.html"],
+#ctMobileNav a[href*="profile.html"] {
+    display: none !important;
+}
+` : ''}
 .ct-profile-dropdown {
     position: relative;
     display: inline-flex;
@@ -1004,7 +1031,7 @@ const navbarHTML = `
                     </div>
                 </li>
                 <li><a href="about.html">About Us</a></li>
-                <li><a href="profile.html">Profile</a></li>
+                ${ENABLE_PROFILE ? '<li class="ct-nav-item-profile"><a href="profile.html">Profile</a></li>' : ''}
                 <li><a href="#">Contact</a></li>
             </ul>
         </nav>
@@ -1014,6 +1041,7 @@ const navbarHTML = `
                 <i class="fa-solid fa-magnifying-glass ct-search-icon" id="ctSearchIcon"></i>
                 <div class="ct-search-results" id="ctSearchResults"></div>
             </div>
+            ${ENABLE_PROFILE ? `
             <div class="ct-profile-dropdown" id="navAccountWrap">
                 <a href="javascript:void(0)" aria-label="Account" class="ct-profile-btn" id="navAccountBtn" role="button" aria-haspopup="true" aria-expanded="false" title="Login / Register">
                     <i class="fa-regular fa-user" id="ctNavFallbackIcon"></i>
@@ -1048,6 +1076,7 @@ const navbarHTML = `
                     </div>
                 </div>
             </div>
+            ` : ''}
             <a href="cart.html" class="ct-cart-link" aria-label="Cart" id="cartIconLink">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span class="ct-cart-badge" id="cartBadge">0</span>
@@ -1066,7 +1095,7 @@ const navbarHTML = `
     <a href="brand.html?brand=CROSS+COUNTRY">CROSS COUNTRY</a>
     <a href="category-jeans.html">Jeans</a>
     <a href="about.html">About</a>
-    <a href="profile.html">Profile</a>
+    ${ENABLE_PROFILE ? '<a href="profile.html">Profile</a>' : ''}
     <a href="#">Gallery</a>
     <a href="#">Contact</a>
 </div>
@@ -1148,6 +1177,10 @@ document.head.appendChild(style);
 
 // Inject Supabase CDN & Config (if not already loaded by the page)
 (function initSupabaseAuthFlow() {
+    if (!ENABLE_PROFILE) {
+        // Authentication & profile sync disabled while ENABLE_PROFILE is false
+        return;
+    }
     function injectAuthModal() {
         if (!document.querySelector('script[src*="auth-modal.js"]')) {
             const authScript = document.createElement('script');
@@ -1515,6 +1548,14 @@ class DotNavbar extends HTMLElement {
             }
 
             // --- PROFILE & ACCOUNT AVATAR SYSTEM ---
+            if (!ENABLE_PROFILE) {
+                // Entire Profile feature is temporarily disabled.
+                // Session checking, session persistence, and profile UI are disabled.
+                window.isUserLoggedIn = () => false;
+                window.dotUpdateNavbarProfile = () => {};
+                return;
+            }
+
             const accountBtn = this.querySelector('#navAccountBtn');
             const accountChevron = this.querySelector('#navAccountChevron');
             const profileMenu = this.querySelector('#navProfileMenu');

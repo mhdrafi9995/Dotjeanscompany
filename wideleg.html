@@ -621,6 +621,18 @@
                 document.getElementById("enquiryProductImage").src = image;
             }
 
+            // Customer Details — Always Empty
+            const compEl = document.getElementById("companyName");
+            if (compEl) compEl.value = "";
+            const yourNameEl = document.getElementById("yourName");
+            if (yourNameEl) yourNameEl.value = "";
+            const phoneEl = document.getElementById("phoneNumber");
+            if (phoneEl) phoneEl.value = "";
+            const emailEl = document.getElementById("emailAddress");
+            if (emailEl) emailEl.value = "";
+            const msgEl = document.getElementById("message");
+            if (msgEl) msgEl.value = "";
+
             document.getElementById("enquiryPopup").style.display = "flex";
             document.body.style.overflow = "hidden";
         }

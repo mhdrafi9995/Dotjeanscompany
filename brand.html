@@ -1205,48 +1205,21 @@
             const uploadPreviewImg = document.getElementById('eqUploadPreviewImg');
             if (uploadPreviewImg) uploadPreviewImg.src = '';
 
-            // Auto-fill customer profile details from Supabase & storage without dummy values
-            try {
-                let userObj = JSON.parse(localStorage.getItem('dot_user') || '{}');
-                let rawName = userObj.name || userObj.full_name || localStorage.getItem('dot_user_name') || '';
-                if (/^wholesale buyer$/i.test(rawName.trim())) rawName = '';
+            // 1. Customer Details — Always Empty (Users must enter their own information manually)
+            const bizEl = document.getElementById('eqBusiness');
+            if (bizEl) bizEl.value = '';
 
-                let rawShop = userObj.shopName || userObj.shop_name || localStorage.getItem('dot_shop_name') || '';
-                if (/^wholesale buyer$/i.test(rawShop.trim())) rawShop = '';
+            const nameEl = document.getElementById('eqPerson');
+            if (nameEl) nameEl.value = '';
 
-                let rawPhone = userObj.phone || userObj.mobile || '';
-                let rawWhatsApp = userObj.whatsapp || userObj.phone || userObj.mobile || '';
-                let rawEmail = userObj.email || '';
+            const waEl = document.getElementById('eqWhatsApp');
+            if (waEl) waEl.value = '';
 
-                if (window.supabase && window.supabase.auth) {
-                    const { data: { session } } = await window.supabase.auth.getSession();
-                    if (session && session.user) {
-                        const meta = session.user.user_metadata || {};
-                        if (!rawEmail) rawEmail = session.user.email || '';
-                        if (!rawPhone) rawPhone = session.user.phone || meta.phone || meta.mobile || '';
-                        if (!rawWhatsApp) rawWhatsApp = meta.whatsapp || session.user.phone || meta.phone || '';
-                        if (!rawName) rawName = meta.full_name || meta.name || '';
-                        if (!rawShop) rawShop = meta.shop_name || '';
-                    }
-                }
+            const phoneEl = document.getElementById('eqPhone');
+            if (phoneEl) phoneEl.value = '';
 
-                const bizEl = document.getElementById('eqBusiness');
-                if (bizEl) bizEl.value = rawShop;
-
-                const nameEl = document.getElementById('eqPerson');
-                if (nameEl) nameEl.value = rawName;
-
-                const waEl = document.getElementById('eqWhatsApp');
-                if (waEl) waEl.value = rawWhatsApp;
-
-                const phoneEl = document.getElementById('eqPhone');
-                if (phoneEl) phoneEl.value = rawPhone;
-
-                const emailEl = document.getElementById('eqEmail');
-                if (emailEl) emailEl.value = rawEmail;
-            } catch (e) {
-                console.warn('Profile prefill notice:', e);
-            }
+            const emailEl = document.getElementById('eqEmail');
+            if (emailEl) emailEl.value = '';
 
             document.getElementById('modalProdThumb').src = product.image;
             document.getElementById('modalProdBrand').textContent = product.brand;
@@ -1352,17 +1325,7 @@
                 const dateTimeStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) + ', ' +
                                     now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
 
-                // Save updated customer details to local storage and profiles cache
-                try {
-                    let localUser = JSON.parse(localStorage.getItem('dot_user') || '{}');
-                    localUser.name = contactPerson;
-                    localUser.shopName = shopName;
-                    localUser.whatsapp = cleanWhatsApp;
-                    localUser.phone = cleanPhone;
-                    if (email) localUser.email = email;
-                    localStorage.setItem('dot_user', JSON.stringify(localUser));
-                    localStorage.setItem('dot_user_name', contactPerson);
-                    localStorage.setItem('dot_shop_name', shopName);
+
 
                     if (window.supabase && userId && typeof window.supabase.from === 'function') {
                         await window.supabase.from('profiles').upsert({

@@ -4357,6 +4357,11 @@
                 if (PRODUCT.fit && !itemName.toLowerCase().includes(PRODUCT.fit.toLowerCase())) {
                     itemName += ` – ${PRODUCT.fit}`;
                 }
+                const selectedColoursList = getSelectedColours();
+                const selectedColourName = (selectedColoursList[0]?.name && selectedColoursList[0].name !== 'Multiple Colours Available' && selectedColoursList[0].name !== 'Standard') ? selectedColoursList[0].name : '';
+                if (selectedColourName && !itemName.toLowerCase().includes(selectedColourName.toLowerCase())) {
+                    itemName += ` – ${selectedColourName}`;
+                }
                 itemInput.value = itemName;
             }
 
@@ -4370,32 +4375,18 @@
                 setQtyInput.value = packQty || 1;
             }
 
-            // 2. Fetch and auto-fill Customer Details from saved profile / localStorage wherever available
-            try {
-                const profile = await fetchCustomerProfile();
+            // 2. Customer Details — Always Empty (Users must enter their own information manually)
+            const nameInput = document.getElementById('enquiryCustomerName');
+            if (nameInput) nameInput.value = '';
 
-                const nameInput = document.getElementById('enquiryCustomerName');
-                if (nameInput && profile.name) {
-                    nameInput.value = profile.name;
-                }
+            const shopEl = document.getElementById('enquiryShopName');
+            if (shopEl) shopEl.value = '';
 
-                const shopEl = document.getElementById('enquiryShopName');
-                if (shopEl && profile.shopName) {
-                    shopEl.value = profile.shopName;
-                }
+            const waInput = document.getElementById('enquiryWhatsAppNumber');
+            if (waInput) waInput.value = '';
 
-                const waInput = document.getElementById('enquiryWhatsAppNumber');
-                if (waInput && profile.whatsapp) {
-                    waInput.value = profile.whatsapp;
-                }
-
-                const mobInput = document.getElementById('enquiryMobileNumber');
-                if (mobInput && profile.mobile) {
-                    mobInput.value = profile.mobile;
-                }
-            } catch (err) {
-                console.warn('Profile fetch notice:', err);
-            }
+            const mobInput = document.getElementById('enquiryMobileNumber');
+            if (mobInput) mobInput.value = '';
 
             // Reset submit button state
             const submitBtn = document.getElementById('btnSubmitEnquiry');
@@ -4957,19 +4948,15 @@
             }
 
             try {
-                // Save customer details to local storage cache for pre-filling next time
-                try {
-                    await saveCustomerProfileUpdates({
-                        name: customerName,
-                        shopName: shopName,
-                        whatsapp: cleanWhatsApp,
-                        mobile: cleanMobile
-                    });
-                } catch (profErr) {
-                    console.warn('Customer profile update notice:', profErr);
-                }
-
                 // Format WhatsApp message with exact enquiry details
+                const selectedColoursList = getSelectedColours();
+                const coloursStr = selectedColoursList.map(c => c.name).filter(n => n && n !== 'Multiple Colours Available').join(', ') || 'Standard / All Available';
+                const sizeList = (PRODUCT.pack && PRODUCT.pack.sizeBreakdown && PRODUCT.pack.sizeBreakdown.length > 0)
+                    ? PRODUCT.pack.sizeBreakdown.map(s => s.size).join(', ')
+                    : '28, 30, 32, 34, 36';
+                const perPack = (PRODUCT.pack && PRODUCT.pack.piecesPerPack) || 12;
+                const totalPieces = perPack * setQuantity;
+
                 const waMessage = [
                     `*DOT JEANS COMPANY*`,
                     `*B2B WHOLESALE ENQUIRY*`,
@@ -4984,7 +4971,9 @@
                     `• Product Brand Name: ${productBrandName}`,
                     `• Product Item: ${productItem}`,
                     `• Product Code: ${productCode}`,
-                    `• Set Quantity: ${setQuantity}`
+                    `• Selected Colour: ${coloursStr}`,
+                    `• Selected Size(s): ${sizeList}`,
+                    `• Set Quantity: ${setQuantity} (${totalPieces} pcs)`
                 ].join('\n');
 
                 const waUrl = `https://wa.me/${ENQUIRY_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`;

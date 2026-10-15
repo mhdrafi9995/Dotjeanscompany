@@ -4,11 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile — DOT Jeans Co.</title>
+    <script>
+        // ================================================================
+        // FEATURE TOGGLE: PROFILE FEATURE
+        // Set to false to temporarily disable the entire Profile feature.
+        // Set to true to re-enable the Profile page.
+        // ================================================================
+        const ENABLE_PROFILE = false;
+        window.ENABLE_PROFILE = ENABLE_PROFILE;
+
+        if (!ENABLE_PROFILE) {
+            // Profile page is temporarily disabled. Redirect immediately to Home page.
+            document.documentElement.style.display = 'none';
+            window.location.replace('index.html');
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
         :root { --orange:#ff750b; --ink:#101218; --muted:#686d75; --line:#e9e9eb; --wash:#fafafa; }
         body { margin:0; background:var(--wash); color:var(--ink); font-family:"DM Sans",Arial,sans-serif; }
+        body.profile-disabled, body.profile-disabled * { display: none !important; }
         button,input { font:inherit; }
 
         .layout { max-width:1405px; margin:120px auto 40px; padding:0 22px; display:grid; grid-template-columns:350px 1fr; gap:28px; }
@@ -200,6 +216,10 @@
     <script>
         // Authentication & Profile Logic
         document.addEventListener('DOMContentLoaded', async () => {
+            if (!ENABLE_PROFILE) {
+                // Profile feature is disabled: prevent profile script execution and session checking
+                return;
+            }
             let userSession = null;
             let userId = null;
             
