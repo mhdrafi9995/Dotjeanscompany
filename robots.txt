@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Private admin and auth areas
+Disallow: /admin/
+Disallow: /admin/*
+
+# Non-indexable utility & user account pages
+Disallow: /cart.html
+Disallow: /cart%20page
+Disallow: /profile.html
+Disallow: /enquary_btn.html
+Disallow: /search.html
+
+# Sitemap declaration
+Sitemap: https://www.dotjeansco.com/sitemap.xml
