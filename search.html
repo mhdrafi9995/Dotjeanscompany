@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Results | DOT Jeans Co. — Wholesale Fashion</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="asses/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="asses/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="asses/apple-touch-icon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="manifest" href="site.webmanifest">
     <meta name="description" content="Search for premium wholesale fashion at DOT Jeans Co.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -311,7 +317,7 @@
                 const subEl = document.getElementById('searchSubtitle');
                 const breadEl = document.getElementById('breadcrumbCurrent');
                 
-                let results = window.DOT_DATA.products || [];
+                let results = (window.DOT_DATA.products || []).filter(p => p.stock === undefined || Number(p.stock) > 0);
                 
                 if (query) {
                     titleEl.textContent = 'Search Results for "' + query + '"';
@@ -395,6 +401,7 @@
                 window.filterProducts = function(list) {
                     const baseFiltered = origFilter(list);
                     return baseFiltered.filter(p => {
+                        if (p.stock !== undefined && p.stock !== null && Number(p.stock) <= 0) return false;
                         const catOk = activeFilters.cats.length === 0 || activeFilters.cats.includes(p.category);
                         const brandOk = activeFilters.brands.length === 0 || activeFilters.brands.includes(p.brand);
                         const lycraOk = activeFilters.lycra === '' || (activeFilters.lycra === 'true' && p.isLycra) || (activeFilters.lycra === 'false' && !p.isLycra);

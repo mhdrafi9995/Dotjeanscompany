@@ -21,11 +21,26 @@ let currentSort   = 'newest';
 let activeFilters = { sizes: [], colours: [], maxPrice: Infinity, fit: '' };
 let wishlist      = new Set(JSON.parse(localStorage.getItem('dot_wishlist') || '[]'));
 
+function isProductInStock(p) {
+    if (!p) return false;
+    if (p.stock !== undefined && p.stock !== null) {
+        return Number(p.stock) > 0;
+    }
+    if (p.stockStatus) {
+        return p.stockStatus.toUpperCase() !== 'OUT OF STOCK';
+    }
+    if (p.badge) {
+        return p.badge.toUpperCase() !== 'OUT OF STOCK';
+    }
+    return true;
+}
+window.isProductInStock = isProductInStock;
+
 /* ─── Init ────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
     initUrlFilters();
     if (typeof CATEGORY_PRODUCTS !== 'undefined') {
-        allProducts = CATEGORY_PRODUCTS;
+        allProducts = CATEGORY_PRODUCTS.filter(isProductInStock);
         applyAndRender();
     }
     initFilters();
@@ -53,6 +68,7 @@ function applyAndRender() {
 
 function filterProducts(list) {
     return list.filter(p => {
+        if (!isProductInStock(p)) return false;
         const sizeOk   = activeFilters.sizes.length === 0 || p.sizes.some(s => activeFilters.sizes.includes(s));
         const colourOk = activeFilters.colours.length === 0 || p.colours.some(c => activeFilters.colours.includes(c));
         const priceOk  = p.price <= activeFilters.maxPrice;
@@ -375,7 +391,17 @@ async function loadFromSupabase(category) {
 
     if (error) { console.error(error); return; }
 
-    allProducts = data.map(p => ({
+    allProducts = data
+        .filter(p => {
+            if (p.stock !== undefined && p.stock !== null) return Number(p.stock) > 0;
+            if (p.stock_quantity !== undefined && p.stock_quantity !== null) return Number(p.stock_quantity) > 0;
+            if (p.product_sizes && p.product_sizes.length > 0) {
+                const totalStock = p.product_sizes.reduce((sum, s) => sum + (Number(s.stock_quantity) || 0), 0);
+                return totalStock > 0;
+            }
+            return true;
+        })
+        .map(p => ({
         id:         p.id,
         name:       p.name,
         price:      p.price,
@@ -384,6 +410,7 @@ async function loadFromSupabase(category) {
         colours:    p.product_colours.map(c => c.colour_name),
         colourHex:  p.product_colours.map(c => c.hex_code),
         fit:        p.fit || '',
+        stock:      p.stock || p.stock_quantity || 20,
         detailsUrl: 'productDetails.html?id=' + p.id,
     }));
 

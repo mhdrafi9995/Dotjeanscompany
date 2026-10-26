@@ -1466,8 +1466,9 @@ class DotNavbar extends HTMLElement {
                 const catMatch = window.DOT_DATA.categories.filter(c => c.name.toLowerCase().includes(query));
                 const brandMatch = window.DOT_DATA.brands.filter(b => b.name.toLowerCase().includes(query));
                 
-                // Advanced product matching
+                // Advanced product matching (only currently in-stock products)
                 const prodMatch = window.DOT_DATA.products.filter(p => {
+                    if (p.stock !== undefined && p.stock !== null && Number(p.stock) <= 0) return false;
                     const sizeStr = p.sizes ? p.sizes.map(s => 'size ' + s).join(' ') : '';
                     const lycraStr = p.isLycra ? 'lycra stretch' : 'non-lycra non lycra rigid';
                     const matchText = (p.name + ' ' + p.keywords + ' ' + p.brand + ' ' + p.category + ' ' + p.colours.join(' ') + ' ' + sizeStr + ' ' + lycraStr).toLowerCase();
@@ -1493,18 +1494,11 @@ class DotNavbar extends HTMLElement {
                 if (prodMatch.length > 0) {
                     html += '<div class="ct-search-group-title">Products</div>';
                     prodMatch.forEach(p => {
-                        let outOfStockBadge = '';
-                        let opacityStyle = '';
-                        if (p.stock === 0) {
-                            outOfStockBadge = '<span style="color:#dc2626;font-size:10px;font-weight:700;margin-left:8px;background:#fee2e2;padding:2px 6px;border-radius:4px;">OUT OF STOCK</span>';
-                            opacityStyle = 'opacity: 0.6;';
-                        }
-                        
                         html += `
-                        <a href="${p.link}" class="ct-search-item" style="${opacityStyle}">
+                        <a href="${p.link}" class="ct-search-item">
                             <img src="${p.image}" alt="${p.name}" class="ct-search-img" onerror="this.src='asses/wideleg.jpg'">
                             <div class="ct-search-info">
-                                <span class="ct-search-title">${p.name}${outOfStockBadge}</span>
+                                <span class="ct-search-title">${p.name}</span>
                                 <span class="ct-search-price">₹${p.price.toLocaleString('en-IN')}</span>
                             </div>
                         </a>`;

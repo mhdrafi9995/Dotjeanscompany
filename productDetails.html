@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pg-title">Wide Leg Jeans — DOT Jeans Co. | B2B Wholesale</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="asses/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="asses/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="asses/apple-touch-icon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="manifest" href="site.webmanifest">
     <meta name="description"
         content="Shop premium wholesale Wide Leg Jeans at DOT Jeans Co. Fixed size packs, wholesale pricing, and bulk order support.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
@@ -46,8 +52,26 @@
             <span class="dp-bc-current" id="bc-current">Cross Country Wide Leg Jeans</span>
         </nav>
 
+        <!-- ===== OUT OF STOCK NOTICE ===== -->
+        <div class="dp-out-of-stock-notice" id="dpOutOfStockNotice" style="display:none; text-align:center; padding:70px 24px; max-width:680px; margin:40px auto 60px; background:#ffffff; border-radius:18px; border:1px solid #e2e8f0; box-shadow:0 12px 35px rgba(0,0,0,0.06);">
+            <div style="width:76px; height:76px; margin:0 auto 22px; background:#fef2f2; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#dc2626; font-size:32px;">
+                <i class="fa-solid fa-box-open"></i>
+            </div>
+            <span style="display:inline-block; font-size:12px; font-weight:700; color:#dc2626; background:#fee2e2; padding:4px 12px; border-radius:20px; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:14px;">Out of Stock</span>
+            <h2 id="dpOutOfStockTitle" style="font-size:26px; font-weight:700; color:#0f1d2f; margin-bottom:12px;">This Product is Currently Out of Stock</h2>
+            <p style="font-size:15px; color:#64748b; line-height:1.6; margin-bottom:30px;">This item is currently out of stock. DOT Jeans Co. only displays products that are currently in stock and ready for wholesale delivery.</p>
+            <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+                <a href="category-jeans.html" style="background:#0f1d2f; color:#ffffff; padding:12px 26px; border-radius:8px; font-weight:600; text-decoration:none; display:inline-flex; align-items:center; gap:8px;">
+                    <i class="fa-solid fa-arrow-left"></i> Browse In-Stock Products
+                </a>
+                <a href="index.html" style="background:#f1f5f9; color:#0f1d2f; padding:12px 26px; border-radius:8px; font-weight:600; text-decoration:none; display:inline-flex; align-items:center; gap:8px;">
+                    Return to Home
+                </a>
+            </div>
+        </div>
+
         <!-- ===== 3-COLUMN PRODUCT WRAP ===== -->
-        <div class="dp-product-wrap">
+        <div class="dp-product-wrap" id="dpProductWrap">
 
             <!-- ── LEFT: Gallery ── -->
             <section class="dp-gallery" aria-label="Product gallery">
@@ -278,7 +302,7 @@
         </div><!-- /.dp-product-wrap -->
 
         <!-- ===== TABS ===== -->
-        <div class="dp-tabs-section">
+        <div class="dp-tabs-section" id="dpTabsSection">
             <div class="dp-tabs-header">
                 <button class="dp-tab dp-tab-active" data-tab="description">Product Details</button>
                 <button class="dp-tab" data-tab="specifications">Specifications</button>
@@ -3232,7 +3256,8 @@
         }
 
         function resolveInitialProduct(rawId, queryName, queryBrand, queryColour, queryCategory, queryFit) {
-            if (!rawId && !queryName) return PRODUCTS[0];
+            const firstInStock = PRODUCTS.find(p => p.stock === undefined || Number(p.stock) > 0) || PRODUCTS[0];
+            if (!rawId && !queryName) return firstInStock;
             const sId = String(rawId || '').toLowerCase().trim();
             const sName = String(queryName || '').toLowerCase().trim();
             const sSlug = toSlug(queryName || rawId || '');
@@ -3284,7 +3309,7 @@
                 return synthesizeProduct(rawId, queryName, queryBrand, queryColour, queryCategory, queryFit);
             }
 
-            return PRODUCTS[0];
+            return firstInStock;
         }
 
         /* ── URL Parameter Extraction ──────────────────────────────── */
@@ -3503,33 +3528,50 @@
             const stockBadge = document.getElementById('dpStockStatusBadge');
             const addToCartBtn = document.getElementById('dpAddToCart');
             const enquiryBtn = document.getElementById('dpEnquiryBtn');
+            const outOfStockNotice = document.getElementById('dpOutOfStockNotice');
+            const productWrap = document.getElementById('dpProductWrap');
+            const tabsSection = document.getElementById('dpTabsSection');
+            const mobileActions = document.getElementById('dpMobileActions');
 
             let isOutOfStock = false;
-            if (p.stock === undefined || p.stock > 10) {
-                stockBadge.textContent = 'IN STOCK';
-                stockBadge.style.background = '#16a34a';
-            } else if (p.stock === 0) {
-                stockBadge.textContent = 'OUT OF STOCK';
-                stockBadge.style.background = '#dc2626';
+            if (p.stock !== undefined && p.stock !== null && Number(p.stock) <= 0) {
                 isOutOfStock = true;
-            } else if (p.stock > 0 && p.stock <= 10) {
-                stockBadge.textContent = 'LOW STOCK';
-                stockBadge.style.background = '#ea580c';
-            } else {
-                stockBadge.textContent = 'COMING SOON';
-                stockBadge.style.background = '#6b7280';
+            } else if (p.stockStatus && p.stockStatus.toUpperCase() === 'OUT OF STOCK') {
+                isOutOfStock = true;
+            } else if (p.badge && p.badge.toUpperCase() === 'OUT OF STOCK') {
                 isOutOfStock = true;
             }
 
             if (isOutOfStock) {
-                addToCartBtn.disabled = true;
-                addToCartBtn.innerHTML = '<i class="fa-solid fa-ban"></i> Out of Stock';
-                addToCartBtn.style.background = '#f3f4f6';
-                addToCartBtn.style.color = '#9ca3af';
-                addToCartBtn.style.cursor = 'not-allowed';
+                if (outOfStockNotice) {
+                    outOfStockNotice.style.display = 'block';
+                    const oosTitle = document.getElementById('dpOutOfStockTitle');
+                    if (oosTitle && p.name) {
+                        oosTitle.textContent = `${p.name} is Out of Stock`;
+                    }
+                }
+                if (productWrap) productWrap.style.display = 'none';
+                if (tabsSection) tabsSection.style.display = 'none';
+                if (mobileActions) mobileActions.style.display = 'none';
 
-                enquiryBtn.innerHTML = '<i class="fa-regular fa-envelope"></i> Enquire About Availability';
+                const relHeader = document.querySelector('#dpRelatedSection .dp-related-header h2');
+                if (relHeader) relHeader.textContent = 'Explore In-Stock Alternatives';
+                renderRelated();
+                return;
             } else {
+                if (outOfStockNotice) outOfStockNotice.style.display = 'none';
+                if (productWrap) productWrap.style.display = '';
+                if (tabsSection) tabsSection.style.display = '';
+                if (mobileActions) mobileActions.style.display = '';
+
+                if (p.stock === undefined || p.stock > 10) {
+                    stockBadge.textContent = 'IN STOCK';
+                    stockBadge.style.background = '#16a34a';
+                } else {
+                    stockBadge.textContent = 'LOW STOCK';
+                    stockBadge.style.background = '#ea580c';
+                }
+
                 addToCartBtn.disabled = false;
                 addToCartBtn.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> Add to Cart';
                 addToCartBtn.style.background = '';
@@ -3817,11 +3859,25 @@
            ────────────────────────────────────────────────────────────── */
         function renderRelated() {
             const grid = document.getElementById('dpRelatedGrid');
+            if (!grid) return;
             const relatedIds = PRODUCT.related || [];
             const badgeMap = { 'WLJ-001': 'dp-badge-new', 'CP-001': 'dp-badge-new', 'LP-001': 'dp-badge-bestseller', 'KW-001': 'dp-badge-new', 'SH-001': 'dp-badge-sale' };
             const badgeLabelMap = { 'WLJ-001': 'New', 'CP-001': 'New', 'LP-001': 'Best Seller', 'KW-001': 'New', 'SH-001': 'Sale' };
 
-            const related = relatedIds.map(id => PRODUCTS.find(p => p.id === id)).filter(Boolean);
+            let related = relatedIds
+                .map(id => PRODUCTS.find(p => String(p.id).toLowerCase() === String(id).toLowerCase() || (p.code && String(p.code).toLowerCase() === String(id).toLowerCase())))
+                .filter(p => p && (p.stock === undefined || Number(p.stock) > 0) && p.badge !== 'OUT OF STOCK');
+
+            if (related.length === 0) {
+                related = PRODUCTS.filter(p => p && String(p.id).toLowerCase() !== String(PRODUCT.id).toLowerCase() && (p.stock === undefined || Number(p.stock) > 0) && p.badge !== 'OUT OF STOCK').slice(0, 4);
+            }
+
+            const relatedSection = document.getElementById('dpRelatedSection');
+            if (related.length === 0) {
+                if (relatedSection) relatedSection.style.display = 'none';
+                return;
+            }
+            if (relatedSection) relatedSection.style.display = '';
 
             grid.innerHTML = related.map(p => {
                 return `
