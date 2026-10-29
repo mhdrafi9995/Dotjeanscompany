@@ -46,6 +46,7 @@ select { font-family: inherit; }
     z-index: 100;
     background: var(--ct-dark);
     transition: box-shadow 0.3s;
+    padding-top: 14px;
 }
 .ct-header.scrolled {
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
@@ -1085,6 +1086,7 @@ select { font-family: inherit; }
     .ct-hamburger { display: flex; }
     .ct-search-wrap { display: none; }
 
+    .ct-header { padding-top: 12px; }
     .ct-header-inner { height: 56px; padding: 0 16px; }
     .ct-logo-img { height: 28px; }
     .ct-main { padding: 16px 14px 40px; }

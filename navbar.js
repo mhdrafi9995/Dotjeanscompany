@@ -23,6 +23,7 @@ const navbarCSS = `
     transition: all 0.3s ease;
     width: 100%;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 14px;
 }
 .ct-header.scrolled {
     background: rgba(15, 29, 47, 0.7);
@@ -32,13 +33,16 @@ const navbarCSS = `
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
 }
 .ct-header-spacer {
-    height: 64px;
+    height: 78px;
     width: 100%;
     display: block;
 }
 @media (max-width: 768px) {
+    .ct-header {
+        padding-top: 12px;
+    }
     .ct-header-spacer {
-        height: 56px;
+        height: 68px;
     }
 }
 .ct-header-inner {
@@ -178,7 +182,7 @@ const navbarCSS = `
     .ct-search-input:focus, .ct-search-input.active { width: 180px; }
     .ct-search-results {
         position: fixed;
-        top: 70px;
+        top: 82px;
         left: 16px;
         right: 16px;
         width: auto;
